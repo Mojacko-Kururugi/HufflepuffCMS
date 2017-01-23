@@ -12,7 +12,7 @@
       <div class="col s12 m12 l6">
         <div class="col s12 m12 l10">
 
-            <button class="modal-trigger waves-effect waves-light btn btn-small center-text" href="#newprod">ADD NEW PATIENT</button>
+            <a class="waves-effect waves-light btn btn-small center-text" href="/add-patient">ADD NEW PATIENT</a>
             <button class="modal-trigger waves-effect waves-light btn btn-small center-text" href="#viewprod">DELETE ALL PATIENTS</button>
         </div>
       </div>

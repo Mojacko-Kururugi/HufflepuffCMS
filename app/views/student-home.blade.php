@@ -62,9 +62,9 @@
             header: {
                 left: 'today prev,next',
                 center: 'title',
-                right: 'agendaWeek,month,listWeek'
+                right: 'agendaWeek'
             },
-            defaultView: 'month',
+            defaultView: 'agendaWeek',
             resourceLabelText: 'Activity',
             resources: [
                 { id: 'a', title: 'Reserved Check Ups', eventColor: 'red' },
@@ -76,11 +76,11 @@
                 ] },
             ],
             events: [
-                { id: '1', resourceId: 'b', start: '2017-01-07T10:30:00', end: '2017-01-07T11:00:00', title: 'Patient Meeting' },
+                { id: '1', resourceId: 'b', start: '2017-01-07T10:30:00', end: '2017-01-07T11:00:00', title: 'Unavailable' },
                 { id: '2', resourceId: 'c', start: '2017-01-07T12:00:00', end: '2017-01-07T13:30:00', title: 'Lunch Break' },
-                { id: '3', resourceId: 'd2', start: '2017-01-07T16:00:00', end: '2017-01-07T16:30:00', title: 'Repair Ongoing' },
-                { id: '4', resourceId: 'a', start: '2017-01-07T09:00:00', end: '2017-01-07T10:00:00', title: 'Patient Meeting' },
-                { id: '5', resourceId: 'a', start: '2017-01-07T11:00:00', end: '2017-01-07T12:00:00', title: 'Patient Meeting' },
+                { id: '3', resourceId: 'd2', start: '2017-01-07T16:00:00', end: '2017-01-07T16:30:00', title: 'Unavailable' },
+                { id: '4', resourceId: 'a', start: '2017-01-07T09:00:00', end: '2017-01-07T10:00:00', title: 'Unavailable' },
+                { id: '5', resourceId: 'a', start: '2017-01-07T11:00:00', end: '2017-01-07T12:00:00', title: 'Unavailable' },
                 { id: '6', resourceId: 'a', start: '2017-01-11T16:30:00', end: '2017-01-11T18:00:00', title: 'Your Meeting Approved' },
                 { id: '7', resourceId: 'c', start: '2017-01-09', end: '2017-01-09', title: 'Holiday' }
             ]

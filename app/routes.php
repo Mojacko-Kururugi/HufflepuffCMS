@@ -21,6 +21,37 @@ Route::get('/account', function()
 	return View::make('login');
 });
 
+Route::get('/admin', function()
+{
+	return View::make('layouts/admin-master');
+//	return View::make('test');
+});
+
+Route::get('/doctors', function()
+{
+	return View::make('admin-doctors');
+});
+
+Route::get('/add-doctor', function()
+{
+	return View::make('add-doctor');
+});
+
+Route::get('/branches', function()
+{
+	return View::make('admin-branches');
+});
+
+Route::get('/add-branch', function()
+{
+	return View::make('add-branch');
+});
+
+Route::get('/add-patient', function()
+{
+	return View::make('add-patient');
+});
+
 Route::get('/patient-home', function()
 {
 	return View::make('student-home');
