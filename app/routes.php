@@ -101,3 +101,15 @@ Route::get('/sales', function()
 {
 	return View::make('sales');
 });
+
+
+Route::get('/add-sched', function()
+{
+	return View::make('add-sched');
+});
+
+Route::get('/add-payment', function()
+{
+	return View::make('add-payment');
+});
+
