@@ -11,8 +11,9 @@
           <div class="row">
       <div class="col s12 m12 l6">
         <div class="col s12 m12 l10">
-        <button class="modal-trigger waves-effect waves-light btn btn-small center-text" href="#newprod">ADD NEW PAYMENT</button>
-            <a class="modal-trigger waves-effect waves-light btn btn-small center-text" href="{{ URL::to('/reports') }}">GENERATE SALES REPORT</a>
+            <!--<button class="modal-trigger waves-effect waves-light btn btn-small center-text" href="/add-payment">ADD NEW PAYMENT</button>-->
+            <a class="modal-trigger waves-effect waves-light btn btn-small center-text" href="/add-payment">ADD NEW PAYMENT</a>
+			<a class="modal-trigger waves-effect waves-light btn btn-small center-text" href="{{ URL::to('/reports') }}">GENERATE SALES REPORT</a>
         </div>
       </div>
      </div>

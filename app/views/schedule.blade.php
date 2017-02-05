@@ -17,7 +17,8 @@
       <div class="col s12 m12 l6">
         <div class="col s12 m12 l10">
 
-            <button class="modal-trigger waves-effect waves-light btn btn-small center-text" href="#newprod">ADD NEW EVENT/APPOINTMENT</button>
+           <!-- <button class="modal-trigger waves-effect waves-light btn btn-small center-text" href="#newprod">ADD NEW EVENT/APPOINTMENT</button> -->
+		   <a class="modal-trigger waves-effect waves-light btn btn-small center-text" href="/add-sched">ADD NEW EVENT/APPOINTMENT</a>
           <!--  <button class="modal-trigger waves-effect waves-light btn btn-small center-text" href="#viewprod">DELETE ALL</button> --> 
         </div>
       </div>
