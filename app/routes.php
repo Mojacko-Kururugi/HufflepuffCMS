@@ -21,6 +21,12 @@ Route::get('/account', function()
 	return View::make('login');
 });
 
+Route::get('/sec-home', function()
+{
+	return View::make('layouts/secretary-master');
+//	return View::make('test');
+});
+
 Route::get('/admin', function()
 {
 	return View::make('layouts/admin-master');
