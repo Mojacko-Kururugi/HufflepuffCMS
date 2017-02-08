@@ -10,6 +10,7 @@
 | and give it the Closure to execute when that URI is requested.
 |
 */
+Route::post('/save-branch', 'HomeController@addBranch');
 
 Route::get('/', function()
 {
@@ -43,10 +44,7 @@ Route::get('/add-doctor', function()
 	return View::make('add-doctor');
 });
 
-Route::get('/branches', function()
-{
-	return View::make('admin-branches');
-});
+Route::get('/branches', 'HomeController@showBranches');
 
 Route::get('/add-branch', function()
 {

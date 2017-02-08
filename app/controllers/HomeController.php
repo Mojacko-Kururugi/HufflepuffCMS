@@ -20,4 +20,25 @@ class HomeController extends BaseController {
 		return View::make('hello');
 	}
 
+	public function addBranch() {
+
+		DB::table('tblBranch')
+		->insert([
+			'strBranchCode' 	=> Request::input('user_id'),
+			'strBranchAddress' 		=> Request::input('adress'),
+			'strContactNumb' 	=> Request::input('stud_id_no'),
+			'strBanchName'	=> Request::input('number')
+		]);
+
+		return Redirect::to('/branches');
+	}
+
+		public function showBranches() {
+
+		$branches = DB::table('tblBranch')
+			->get();
+
+		return View::make('admin-branches')->with('branches',$branches);
+		
+		}
 }

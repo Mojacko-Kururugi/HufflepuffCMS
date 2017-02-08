@@ -43,9 +43,10 @@
                       </thead>
 
                       <tbody>
+                      @foreach($branches as $branch)
                         <tr>
-                          <td>BRNCH001</td>
-                          <td>Brngy Sangandaan Branch</td>
+                          <td>{{ $branch->strBranchCode }}</td>
+                          <td>{{ $branch->strBanchName }}</td>
                           <td>01/10/2001</td>
                           <td>
                               <div class="center-btn">
@@ -54,6 +55,7 @@
                               </div>
                           </td>
                         </tr>
+                        @endforeach
                       </tbody>
                     </table>
                   </div>

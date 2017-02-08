@@ -11,10 +11,10 @@
 
   <div class="contents z-depth-1">
     <div class="container">
-      <form action="{{ URL::to('teacher/save-profile-edit') }}" method="POST" id="signup_validate" enctype="multipart/form-data"><br><br>
+      <form action="{{ URL::to('/save-branch') }}" method="POST" id="signup_validate" enctype="multipart/form-data"><br><br>
         <div class="row">
           <div class="input-field col l6 m6 s12">
-            <input id="user_id" name="user_id" type="text" class="validate" data-error=".id_error" value="" readonly/>
+            <input id="user_id" name="user_id" type="text" class="validate" data-error=".id_error" value=""/>
             <label for="user_id">Branch ID:</label>
             <div class="id_error"></div>
           </div>
