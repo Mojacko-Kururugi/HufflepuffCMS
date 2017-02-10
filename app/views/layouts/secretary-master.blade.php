@@ -32,7 +32,7 @@
               </div>
               <li class="bold {{ strpos(Request::url(), 'index') !== false ? 'active' : '' }}"><a href="/index">Dashboard</a></li>
               <li class="bold {{ strpos(Request::url(), 'sec-doctors') !== false ? 'active' : '' }}"><a href="/sec-doctors">Inventory</a></li>
-              <li class="bold {{ strpos(Request::url(), 'employees') !== false ? 'active' : '' }}"><a href="/employees">Employees</a></li>
+              <li class="bold {{ strpos(Request::url(), 'employeessched') !== false ? 'active' : '' }}"><a href="/employeessched">Employee Schedules</a></li>
               <li class="bold"><a href="/logout">Log out</a></li>
             </ul>
             <a href="#" data-activates="slide-out" class="button-collapse"><i class="mdi-navigation-menu"></i></a>

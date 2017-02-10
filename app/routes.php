@@ -10,8 +10,8 @@
 | and give it the Closure to execute when that URI is requested.
 |
 */
-Route::post('/save-branch', 'HomeController@addBranch');
 
+//general
 Route::get('/', function()
 {
 	return View::make('welcome');
@@ -22,10 +22,31 @@ Route::get('/account', function()
 	return View::make('login');
 });
 
-Route::get('/sec-home', function()
+Route::post('/login', function()
 {
-	return View::make('layouts/secretary-master');
-//	return View::make('test');
+	return Redirect::to('/index');
+});
+
+
+Route::get('/logout', function()
+{
+	return Redirect::to('/account');
+});
+
+Route::get('/index', function()
+{
+	return View::make('index');
+});
+
+
+
+//for Admin Module
+Route::get('/branches', 'HomeController@showBranches');
+Route::post('/save-branch', 'HomeController@addBranch');
+
+Route::get('/add-branch', function()
+{
+	return View::make('add-branch');
 });
 
 Route::get('/admin', function()
@@ -44,46 +65,12 @@ Route::get('/add-doctor', function()
 	return View::make('add-doctor');
 });
 
-Route::get('/branches', 'HomeController@showBranches');
 
-Route::get('/add-branch', function()
-{
-	return View::make('add-branch');
-});
 
+//for Doctor
 Route::get('/add-patient', function()
 {
 	return View::make('add-patient');
-});
-
-Route::get('/patient-home', function()
-{
-	return View::make('student-home');
-});
-
-Route::get('/patient-schedules', function()
-{
-	return View::make('patient-sched');
-});
-
-Route::get('/patient-records', function()
-{
-	return View::make('patient-record');
-});
-
-Route::post('/login', function()
-{
-	return Redirect::to('/index');
-});
-
-Route::get('/logout', function()
-{
-	return Redirect::to('/account');
-});
-
-Route::get('/index', function()
-{
-	return View::make('index');
 });
 
 Route::get('/schedules', function()
@@ -116,4 +103,56 @@ Route::get('/add-payment', function()
 {
 	return View::make('add-payment');
 });
+
+
+
+
+//for sceretary
+Route::get('/sec-home', function()
+{
+	return View::make('layouts/secretary-master');
+//	return View::make('test');
+});
+
+
+
+//for patient
+Route::get('/patient-home', function()
+{
+	return View::make('student-home');
+});
+
+Route::get('/patient-schedules', function()
+{
+	return View::make('patient-sched');
+});
+
+Route::get('/patient-records', function()
+{
+	return View::make('patient-record');
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
