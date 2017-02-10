@@ -108,11 +108,14 @@ body{
 .clearfix {
   clear: both;
 }
+
 /*bago kong dagdag tong .row .col*/
+/*why would you do this!????*/
 /*.row .col{
     
 		line-height: 10px;
 }*/
+
 nav {
   padding: 0 15px 0 15px;
 }

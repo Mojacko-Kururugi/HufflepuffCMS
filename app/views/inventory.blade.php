@@ -1,32 +1,29 @@
 @extends('layouts.master')
 
 @section('content')
-      <div class="main-wrapper">
-        <!-- ACTUAL PAGE CONTENT GOES HERE -->
-        <div class="row">
-          <div class="col s12 m12 l12">
-            <span class="page-title">Inventory</span>
-          </div>
 
-          <div class="row">
-      <div class="col s12 m12 l6">
-        <div class="col s12 m12 l10">
+<div class="row page-title">
+  <div class="col s12 m12 l12">
+    <h5>Inventory</h5>
+  </div>
+</div>
 
-            <button class="modal-trigger waves-effect waves-light btn btn-small center-text" href="#newprod">ADD NEW ITEMS</button>
-            <button class="modal-trigger waves-effect waves-light btn btn-small center-text" href="#viewprod">VIEW ALL ITEMS</button>
-            <a class="modal-trigger waves-effect waves-light btn btn-small center-text" href="{{ URL::to('/reports') }}">Generate Report</a>
+<div class="main-wrapper">
+  <!-- ACTUAL PAGE CONTENT GOES HERE -->
+  <div class="container-fluid">
+    <div class="row">
+        <div class="col s12 m12 l12">
+            <button class="modal-trigger waves-effect waves-light btn blue darken-1 btn-small center-text" href="#newprod">ADD NEW ITEMS</button>
+            <button class="modal-trigger waves-effect waves-light btn btn-small purple lighten-1 center-text" href="#viewprod">VIEW ALL ITEMS</button>
+            <a class="modal-trigger waves-effect waves-light btn btn-flat right btn-small center-text" href="{{ URL::to('/reports') }}">Generate Report</a>
         </div>
-      </div>
      </div>
 
-  
-
-
-          <div class="row">
+      <div class="row">
             <div class="col s12 m12 l12">
               <div class="card-panel">
                 <span class="card-title">Items on Brgy Sangandaan branch</span>
-                <div class="divider"></div>
+                <hr>
                 <div class="card-content">
                   
                   </div>
@@ -98,7 +95,8 @@
                 </div>
               </div>
             </div>
-          </div>
+  </div>
+</div>
 
 @stop
 

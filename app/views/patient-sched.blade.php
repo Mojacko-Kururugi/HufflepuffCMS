@@ -14,11 +14,7 @@
 
     <div class="row">
       <div class="col s12 m12 l6">
-        <div class="col s12 m12 l10">
-
-            <button class="modal-trigger waves-effect waves-light btn btn-small center-text" href="#newprod">REQUEST AN APPOINTMENT</button>
-
-        </div>
+        <button class="modal-trigger waves-effect waves-light btn btn-small center-text" href="#newprod">REQUEST AN APPOINTMENT</button>
       </div>
     </div>
 

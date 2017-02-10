@@ -1,20 +1,21 @@
 @extends('layouts.master')
 
 @section('content')
+
+<div class="row page-title">
+  <div class="col s12 m12 l12">
+    <h5>Dashboard</h5>
+  </div>
+</div>
+
 <div class="main-wrapper">
   <!-- ACTUAL PAGE CONTENT GOES HERE -->
  
   <div class="row">
-    <div class="col s12 m12 l12">
-      <span class="page-title">Dashboard</span>
-    </div>
-
-
-
-    <div class="col s12 m12 l8">
+    <div class="col s12 m12 l7">
       <div class="card-panel">
         <span class="card-title">Inventory status</span>
-        <div class="divider"></div>
+        <hr>
         <div class="card-content">
           <p>
             These items are in <span class="red-text bold">low</span> stocks.
@@ -65,7 +66,7 @@
 
       <div class="card-panel">
         <span class="card-title">Incoming schedules/appointments</span>
-        <div class="divider"></div>
+        <hr>
         <div class="card-content">
           <p>
             You have 1 notification.
@@ -96,10 +97,10 @@
 
 
     </div>
-    <div class="col s12 m12 l4">
+    <div class="col s12 m12 l5">
       <div class="card-panel">
         <span class="card-title">Pending appointments</span>
-        <div class="divider"></div>
+        <hr>
         <div class="card-content">
           <p>
             You have pending appointments.
