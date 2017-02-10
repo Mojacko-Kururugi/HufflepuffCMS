@@ -26,9 +26,6 @@
                   </div>
                   <div class="col l7 m6 s12">
                     <!-- Logged in as: <span class="bold blue-text text-accent-4">System Admin </span> -->
-                    <br/>
-                    <br/>
-                    <br/>
                     <span class="bold blue-text text-accent-4">System Admin </span>
                   </div>
                 </div>

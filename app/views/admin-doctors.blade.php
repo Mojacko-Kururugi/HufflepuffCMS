@@ -5,7 +5,7 @@
 <!-- header -->
 <div class="row page-title">
   <div class="col s12 m12 l12">
-    <h4>Doctor Records</h4>
+    <h5>Doctor Records</h5>
   </div>
 </div>
 

@@ -1,3 +1,27 @@
+body{
+  line-height: initial !important;
+}
+
+/*overwrite nav start*/
+.side-nav li.active {
+    background-color: rgba(77, 171, 245, 0.79);
+    color: white;
+    font-weight: bolder;
+}
+
+.side-nav a:hover {
+    background-color: rgba(114, 188, 247, 0.26);
+}
+
+.side-nav .active a {
+    color: white;
+}
+
+.side-nav a {
+    font-weight: bold;
+}
+/*overwrite nav end*/
+
 
 /* LOGIN SPECIFIC */
 .login-panel {
@@ -30,7 +54,8 @@
 }
 
 .logo img {
-  width: 80px;
+  width: 65px;
+  height: 65px;
 }
 
 .account-pane {
@@ -59,6 +84,7 @@
 
 .card-title {
   font-size: 1.3em;
+  color: darkblue;
 }
 
 .overflow-x {
@@ -83,10 +109,10 @@
   clear: both;
 }
 /*bago kong dagdag tong .row .col*/
-.row .col{
+/*.row .col{
     
 		line-height: 10px;
-}
+}*/
 nav {
   padding: 0 15px 0 15px;
 }
@@ -96,7 +122,7 @@ body {
 }
 
 header, main, footer {
-  padding-left: 240px;
+  padding-left: 300px;
 }
 
 
@@ -125,4 +151,19 @@ header, main, footer {
 .container-fluid{
   width: 95%;
   margin: 0 auto;
+}
+
+.small{
+  color: darkgray;
+  font-size: 12px;
+}
+
+.logo p {
+  margin: 0px;
+  line-height: initial;
+  text-align: center;
+}
+
+hr{
+  border: 1px solid lightblue;
 }

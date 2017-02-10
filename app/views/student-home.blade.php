@@ -6,34 +6,39 @@
   <link href="css/fullcalendar.print.css" type="text/css" rel="stylesheet" media="print"/>
     <link href='css/scheduler.min.css' rel='stylesheet' />
     
-      <div class="main-wrapper">
-        <!-- ACTUAL PAGE CONTENT GOES HERE -->
-        <div class="row">
-          <div class="col s12 m12 l12">
-            <span class="page-title">Schedules and Apppointments</span>
-          </div>
-
-          <div class="row">
-      <div class="col s12 m12 l6">
-        <div class="col s12 m12 l10">
-
-            <button class="modal-trigger waves-effect waves-light btn btn-small center-text" href="#newprod">REQUEST AN APPOINTMENT</button>
-
-        </div>
-      </div>
-     </div>
- <div class="nav-wrapper">
-    <div class="container">
-        <div id='calendar'></div>
-        <br>
-        <br>
-        <br>
-        <br>
-    </div>
-    <!-- dito naman yung mga susunod na shits kung may idadagdag pa ^_^ -->
-
+<div class="row page-title">
+  <div class="col s12 m12 l12">
+    <h5>Schedules and Appointments</h5>
   </div>
+</div>
+
+<div class="main-wrapper">
+        <!-- ACTUAL PAGE CONTENT GOES HERE -->
+  <div class="container-fluid">
+    <div class="card">
+      <div class="card-content">
+
+        <div class="row">
+          <div class="col s12 m12 l6">
+            <div class="col s12 m12 l10">
+
+                <button class="modal-trigger waves-effect waves-light btn btn-small center-text" href="#newprod">REQUEST AN APPOINTMENT</button>
+
+            </div>
           </div>
+        </div>
+        <div class="nav-wrapper">
+          <div class="container-fluid">
+              <div id='calendar'></div>
+              <br>
+          </div>
+        <!-- dito naman yung mga susunod na shits kung may idadagdag pa ^_^ -->
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
 
 @stop
 
