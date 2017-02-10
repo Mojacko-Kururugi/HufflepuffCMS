@@ -2,66 +2,72 @@
 
 @section('content')
 
-  <div class="row"><br>
-    <div class="center col l12 m12 s12">
-      <h4>Add New Schedule</h4>
+<div class="row page-title">
+  <div class="col s12 m12 l12">
+    <h5>Add New Schedule</h5>
+  </div>
+</div>
 
+<div class="container-fluid">
+  <div class="card">
+    <div class="card-content">
+
+      <div class="contents">
+        <div class="container-fluid">
+          <form action="{{ URL::to('teacher/save-profile-edit') }}" method="POST" id="signup_validate" enctype="multipart/form-data"><br><br>
+             <!-- Date & Time -->
+            <div class="row">
+                  <div class="col s12 m8 l6">
+                       <label for="a_time">Time:</label>
+                       <input type="datetime-local" name="a_time" style="height:39px" value="">
+                  </div>
+            </div>
+            <div class="row">
+              <div class="col s12"><br>
+                <div class="row" style="padding:0px; margin:0px;">
+                  <p style="padding:0px; margin:0px;">Patient Name:</p>
+                </div>
+                <div class="row">
+                  <div class="input-field col s12 m4 l4">
+                    <input id="last_name_sa" name="last_name_sa" type="text" class="validate" value="" pattern="[A-Za-z]+" onkeydown="return alphaOnly(event);">
+                    <label for="last_name_sa">Last Name</label>
+                  </div>
+                  <div class="input-field col s12 m4 l4">
+                    <input id="first_name_sa" name="first_name_sa" type="text" class="validate" value="" pattern="[A-Za-z]+" onkeydown="return alphaOnly(event);">
+                    <label for="first_name_sa">First Name</label>
+                  </div>
+                  <div class="input-field col s12 m4 l4">
+                    <input id="middle_name_sa" name="middle_name_sa" type="text" class="validate" value="" pattern="[A-Za-z]+" onkeydown="return alphaOnly(event);">
+                    <label for="middle_name_sa">Middle Name</label>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col s12">
+                    <label for="time_frequency">Time Frequency of Reminder</label>
+                    <select name="time_frequency">
+    				     <option value="" selected disabled>- Choose Option -</option>
+    				     <option value="every_30mins">Every 30 mins</option>
+    					 <option value="every_1hr">Every 1 hour</option>
+    					 <option value="every_4hrs">Every 4 hours</option>
+    					 <option value="day_before">Day before</option>
+    					 <option value="week_before">Week before</option>
+    				</select
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="input-field col s12 center">
+                    <button type="submit" class="waves-effect waves-light btn blue darken-1 modal-btn">Save</button>
+                    <a href="{{ URL::to('/record') }}" class="waves-effect waves-light btn btn-green modal-btn" style="margin-right:20px;">Cancel</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div> 
+      </div>
     </div>
   </div>
-
-  <div class="contents z-depth-1">
-    <div class="container">
-      <form action="{{ URL::to('teacher/save-profile-edit') }}" method="POST" id="signup_validate" enctype="multipart/form-data"><br><br>
-         <!-- Date & Time -->
-        <div class="row">
-              <div class="col s12 m8 l6">
-                   <label for="a_time">Time:</label>
-                   <input type="datetime-local" name="a_time" style="height:39px" value="">
-              </div>
-        </div>
-        <div class="row">
-          <div class="col s12"><br>
-            <div class="row" style="padding:0px; margin:0px;">
-              <p style="padding:0px; margin:0px;">Patient Name:</p>
-            </div>
-            <div class="row">
-              <div class="input-field col s12 m4 l4">
-                <input id="last_name_sa" name="last_name_sa" type="text" class="validate" value="" pattern="[A-Za-z]+" onkeydown="return alphaOnly(event);">
-                <label for="last_name_sa">Last Name</label>
-              </div>
-              <div class="input-field col s12 m4 l4">
-                <input id="first_name_sa" name="first_name_sa" type="text" class="validate" value="" pattern="[A-Za-z]+" onkeydown="return alphaOnly(event);">
-                <label for="first_name_sa">First Name</label>
-              </div>
-              <div class="input-field col s12 m4 l4">
-                <input id="middle_name_sa" name="middle_name_sa" type="text" class="validate" value="" pattern="[A-Za-z]+" onkeydown="return alphaOnly(event);">
-                <label for="middle_name_sa">Middle Name</label>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col s12">
-                <label for="time_frequency">Time Frequency of Reminder</label>
-                <select name="time_frequency">
-				     <option value="" selected disabled>- Choose Option -</option>
-				     <option value="every_30mins">Every 30 mins</option>
-					 <option value="every_1hr">Every 1 hour</option>
-					 <option value="every_4hrs">Every 4 hours</option>
-					 <option value="day_before">Day before</option>
-					 <option value="week_before">Week before</option>
-				</select
-              </div>
-            </div>
-            <div class="row">
-              <div class="input-field col s12 center">
-                <button type="submit" class="waves-effect waves-light btn btn-green modal-btn">Save</button>
-                <a href="{{ URL::to('/record') }}" class="waves-effect waves-light btn btn-green modal-btn" style="margin-right:20px;">Cancel</a>
-              </div>
-            </div>
-          </div>
-        </div>
-    </form>
-  </div> 
-</div><br><br>
+</div>
 
 {{-- Scripts START --}}
 <script type="text/javascript">

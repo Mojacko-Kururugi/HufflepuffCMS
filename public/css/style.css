@@ -1,3 +1,27 @@
+body{
+  line-height: initial !important;
+}
+
+/*overwrite nav start*/
+.side-nav li.active {
+    background-color: rgba(77, 171, 245, 0.79);
+    color: white;
+    font-weight: bolder;
+}
+
+.side-nav a:hover {
+    background-color: rgba(114, 188, 247, 0.26);
+}
+
+.side-nav .active a {
+    color: white;
+}
+
+.side-nav a {
+    font-weight: bold;
+}
+/*overwrite nav end*/
+
 
 /* LOGIN SPECIFIC */
 .login-panel {
@@ -21,10 +45,17 @@
 }
 
 .logo {
-  width: 60%;
-  margin: auto;
+  /*width: 60%;*/
+  width: 90%;
+  margin: 5% 2%;
+  /*margin: auto;
   margin-top: 15px;
-  margin-bottom: 15px;
+  margin-bottom: 15px;*/
+}
+
+.logo img {
+  width: 65px;
+  height: 65px;
 }
 
 .account-pane {
@@ -37,17 +68,23 @@
 }
 
 .main-wrapper {
-  padding-top: 1.25em;
+  padding-top: 0em;
   padding-left: 0.5em;
   padding-right: 0.5em;
 }
 
-.page-title {
-  font-size: 1.5em;
+.page-title h3{
+  /*font-size: 1.5em;*/
+  margin-top: 10px;
+}
+
+.page-title{
+  background-color: #efecec;
 }
 
 .card-title {
   font-size: 1.3em;
+  color: darkblue;
 }
 
 .overflow-x {
@@ -71,11 +108,14 @@
 .clearfix {
   clear: both;
 }
+
 /*bago kong dagdag tong .row .col*/
-.row .col{
+/*why would you do this!????*/
+/*.row .col{
     
 		line-height: 10px;
-}
+}*/
+
 nav {
   padding: 0 15px 0 15px;
 }
@@ -85,7 +125,7 @@ body {
 }
 
 header, main, footer {
-  padding-left: 240px;
+  padding-left: 300px;
 }
 
 
@@ -109,4 +149,24 @@ header, main, footer {
 
 .input-field .prefix.active {
   color: #1E88E5 !important;
+}
+
+.container-fluid{
+  width: 95%;
+  margin: 0 auto;
+}
+
+.small{
+  color: darkgray;
+  font-size: 12px;
+}
+
+.logo p {
+  margin: 0px;
+  line-height: initial;
+  text-align: center;
+}
+
+hr{
+  border: 1px solid lightblue;
 }
