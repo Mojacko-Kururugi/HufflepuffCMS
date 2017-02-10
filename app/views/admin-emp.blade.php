@@ -5,7 +5,7 @@
 <!-- header -->
 <div class="row page-title">
   <div class="col s12 m12 l12">
-    <h5>Doctor Records</h5>
+    <h5>Employee Records</h5>
   </div>
 </div>
 
@@ -16,8 +16,8 @@
       <div class="card-content">
         <div class="row">
           <div class="col s12 m12 l6">
-                <a class="waves-effect waves-light btn blue darken-1 btn-small center-text" href="/add-doctor">ADD NEW DOCTOR</a>
-                <button class="modal-trigger waves-effect waves-light btn red lighten-1 btn-small center-text" href="#viewprod">DELETE ALL DOCTORS</button>
+                <a class="waves-effect waves-light btn blue darken-1 btn-small center-text" href="/add-emp">ADD NEW EMPLOYEE</a>
+                <button class="modal-trigger waves-effect waves-light btn red lighten-1 btn-small center-text" href="#viewprod">DELETE ALL EMPLOYEES</button>
           </div>
         </div>
 

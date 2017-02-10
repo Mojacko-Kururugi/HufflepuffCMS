@@ -4,7 +4,7 @@
 
 <div class="row page-title">
   <div class="col s12 m12 l12">
-    <h5>Add New Doctor</h5>
+    <h5>Add New Employee</h5>
   </div>
 </div>
 
@@ -13,17 +13,17 @@
     <div class="card-content">
         <div class="contents">
           <div class="container-fluid">
-            <form action="{{ URL::to('/save-doctor') }}" method="POST" id="signup_validate" enctype="multipart/form-data">
+            <form action="{{ URL::to('/save-emp') }}" method="POST" id="signup_validate" enctype="multipart/form-data">
               <div class="row">
                 <div class="input-field col l6 m6 s12">
                   <input id="user_id" name="user_id" type="text" class="validate" data-error=".id_error" value=""/>
-                  <label for="user_id">License ID:</label>
+                  <label for="user_id">Employee ID:</label>
                   <div class="id_error"></div>
                 </div>
               </div>
               <div class="row">
                     <div class="input-field col s12 m6 l6">
-                      <input id="role" type="text" class="validate" value="Doctor" readonly>
+                      <input id="role" type="text" class="validate" value="Employee" readonly>
                       <label for="role">User Type</label>
                     </div>
               </div>
@@ -92,7 +92,7 @@
                   <div class="row">
                     <div class="input-field col s12 center">
                       <button type="submit" class="waves-effect waves-light btn blue darken-1 modal-btn">Save</button>
-                      <a href="{{ URL::to('/doctors') }}" class="waves-effect waves-light btn btn-green modal-btn" style="margin-right:20px;">Cancel</a>
+                      <a href="{{ URL::to('/employees') }}" class="waves-effect waves-light btn btn-green modal-btn" style="margin-right:20px;">Cancel</a>
                     </div>
                   </div>
                 </div>

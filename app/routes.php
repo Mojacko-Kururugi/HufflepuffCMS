@@ -47,6 +47,11 @@ Route::get('/add-branch', 'HomeController@addBranchForm');
 Route::post('/save-branch', 'HomeController@addBranch');
 Route::get('/doctors', 'HomeController@showDoctors');
 Route::get('/add-doctor', 'HomeController@addDoctorForm');
+Route::post('/save-doctor', 'HomeController@addDoctor');
+Route::get('/employees', 'HomeController@showEmployees');
+Route::get('/add-emp', 'HomeController@addEmpForm');
+Route::post('/save-emp', 'HomeController@addEmp');
+
 
 
 
