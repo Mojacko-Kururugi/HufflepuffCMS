@@ -16,18 +16,27 @@
       <div class="navbar-fixed">
         <nav class="blue darken-1">
           <div class="nav-wrapper">
-            <span class="app-name">CLINIC MANAGEMENT</span>
+            <span class="app-name">Clinic Management</span>
             <ul id="slide-out" class="side-nav fixed">
               <!-- might be horrible to put div inside ul but it works -->
               <div class="logo">
-                {{ HTML::image('img/logo_2.jpg', 'logo', array('class' => 'responsive-img circle')) }}
+                <div class="row">
+                  <div class="col l5 m6 s12">
+                    {{ HTML::image('img/logo_2.jpg', 'logo', array('class' => 'responsive-img circle')) }}
+                  </div>
+                  <div class="col l7 m6 s12">
+                    <!-- Logged in as: <span class="bold blue-text text-accent-4">System Admin </span> -->
+                    <br/>
+                    <br/>
+                    <br/>
+                    <span class="bold blue-text text-accent-4">System Admin </span>
+                  </div>
+                </div>
 
                 {{-- <img class="responsive-img circle" src="img/logo_1.jpg"/> --}}
               </div>
               <div class="account-pane center-align">
                 <!-- use amber for admin, blue for employee, ?? for manager -->
-                Logged in as: <span class="bold blue-text text-accent-4">System Admin </span>
-                <br/>
                 <!-- Branch: <span class="bold">Brgy. Sangandaan Branch</span> -->
               </div>
               <li class="bold {{ strpos(Request::url(), 'index') !== false ? 'active' : '' }}"><a href="/index">Dashboard</a></li>

@@ -2,15 +2,17 @@
 
 @section('content')
 
-  <div class="row"><br>
-    <div class="center col l12 m12 s12">
-      <h3>Add New Doctor</h3>
-
+  <div class="row page-title">
+    <div class="col s12 m12 l12">
+      <h4>Doctor Records</h4>
     </div>
   </div>
 
-  <div class="contents z-depth-1">
-    <div class="container">
+<div class="container-fluid">
+  <div class="card">
+    <div class="card-content">
+        <div class="contents">
+    <div class="container-fluid">
       <form action="{{ URL::to('teacher/save-profile-edit') }}" method="POST" id="signup_validate" enctype="multipart/form-data"><br><br>
         <div class="row">
           <div class="input-field col l6 m6 s12">
@@ -91,7 +93,12 @@
         </div>
     </form>
   </div> 
-</div><br><br>
+  </div><br><br>
+    </div>
+  </div>
+</div>
+
+
 
 {{-- Scripts START --}}
 <script type="text/javascript">
