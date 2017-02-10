@@ -2,11 +2,11 @@
 
 @section('content')
 
-  <div class="row page-title">
-    <div class="col s12 m12 l12">
-      <h4>Add New Doctor</h4>
-    </div>
+<div class="row page-title">
+  <div class="col s12 m12 l12">
+    <h4>Add New Doctor</h4>
   </div>
+</div>
 
 <div class="container-fluid">
   <div class="card">
