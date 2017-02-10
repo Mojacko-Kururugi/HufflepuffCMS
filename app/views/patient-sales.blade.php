@@ -3,10 +3,11 @@
 @section('content')
       <div class="main-wrapper">
         <!-- ACTUAL PAGE CONTENT GOES HERE -->
-        <div class="row">
-          <div class="col s12 m12 l12">
-            <span class="page-title">Statement of Account</span>
-          </div>  
+          <div class="row page-title">
+            <div class="col s12 m12 l12">
+              <h5>Statement of Account</h5>
+            </div>
+          </div> 
 
 
           <div class="row">

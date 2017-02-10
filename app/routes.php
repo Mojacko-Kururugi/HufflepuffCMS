@@ -41,29 +41,12 @@ Route::get('/index', function()
 
 
 //for Admin Module
+Route::get('/admin', 'HomeController@openAdmin');
 Route::get('/branches', 'HomeController@showBranches');
+Route::get('/add-branch', 'HomeController@addBranchForm');
 Route::post('/save-branch', 'HomeController@addBranch');
-
-Route::get('/add-branch', function()
-{
-	return View::make('add-branch');
-});
-
-Route::get('/admin', function()
-{
-	return View::make('layouts/admin-master');
-//	return View::make('test');
-});
-
-Route::get('/doctors', function()
-{
-	return View::make('admin-doctors');
-});
-
-Route::get('/add-doctor', function()
-{
-	return View::make('add-doctor');
-});
+Route::get('/doctors', 'HomeController@showDoctors');
+Route::get('/add-doctor', 'HomeController@addDoctorForm');
 
 
 
@@ -108,29 +91,15 @@ Route::get('/add-payment', function()
 
 
 //for sceretary
-Route::get('/sec-home', function()
-{
-	return View::make('layouts/secretary-master');
-//	return View::make('test');
-});
+Route::get('/sec-home', 'HomeController@openSec');
 
 
 
 //for patient
-Route::get('/patient-home', function()
-{
-	return View::make('student-home');
-});
-
-Route::get('/patient-schedules', function()
-{
-	return View::make('patient-sched');
-});
-
-Route::get('/patient-records', function()
-{
-	return View::make('patient-record');
-});
+Route::get('/patient-home', 'HomeController@openPat');
+Route::get('/patient-schedules', 'HomeController@showSched');
+Route::get('/patient-records', 'HomeController@showRec');
+Route::get('/patient-sales', 'HomeController@showAcc');
 
 
 

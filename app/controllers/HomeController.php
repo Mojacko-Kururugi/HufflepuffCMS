@@ -20,6 +20,11 @@ class HomeController extends BaseController {
 		return View::make('hello');
 	}
 
+	public function openAdmin() {
+		
+		return View::make('layouts/admin-master');
+	}
+
 	public function addBranch() {
 
 		DB::table('tblBranch')
@@ -27,18 +32,58 @@ class HomeController extends BaseController {
 			'strBranchCode' 	=> Request::input('user_id'),
 			'strBranchAddress' 		=> Request::input('adress'),
 			'strContactNumb' 	=> Request::input('stud_id_no'),
-			'strBanchName'	=> Request::input('number')
+			'strBranchName'	=> Request::input('number')
 		]);
 
 		return Redirect::to('/branches');
 	}
 
-		public function showBranches() {
+	public function showBranches() {
 
-		$branches = DB::table('tblBranch')
+		$data = DB::table('tblBranch')
 			->get();
 
-		return View::make('admin-branches')->with('branches',$branches);
+		return View::make('admin-branches')->with('data',$data);
 		
 		}
+
+	public function addBranchForm() {
+
+		return View::make('add-branch');
+	}
+
+	public function showDoctors() {
+
+			return View::make('admin-doctors');
+	}
+
+	public function addDoctorForm() {
+
+		return View::make('add-doctor');
+	}
+
+	public function openSec() {
+		
+			return View::make('layouts/secretary-master');
+	}
+
+	public function openPat() {
+		
+			return View::make('patient-home');
+	}
+
+	public function showSched() {
+		
+			return View::make('patient-sched');
+	}
+
+	public function showRec() {
+		
+			return View::make('patient-record');
+	}
+
+	public function showAcc() {
+		
+			return View::make('patient-sales');
+	}		
 }

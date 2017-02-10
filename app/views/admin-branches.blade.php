@@ -19,14 +19,14 @@
         <div class="row">
           <div class="col s12 m12 l6">
             <a class="waves-effect waves-light btn blue darken-1 btn-small center-text" href="/add-branch">ADD NEW BRANCH</a>
-            <button class="modal-trigger waves-effect waves-light btn blue darken-4 btn-small center-text" href="#viewprod">VIEW ALL BRANCHES</button>
+            <button class="modal-trigger waves-effect waves-light btn blue darken-4 btn-small center-text" href="#viewprod">DEACTIVATE ALL BRANCHES</button>
           </div>
         </div>
         <div class="row">
           <div class="col s12 m12 l12">
             <div>
                 <div class="col s12 m12 l12 overflow-x">
-                  <table class="centered">
+                <table class="centered">
                     <thead>
                       <tr>
                         <th>Branch ID</th>
@@ -38,10 +38,10 @@
                     </thead>
 
                     <tbody>
-                    @foreach($branches as $branch)
+                    @foreach($data as $branch)
                       <tr>
                         <td>{{ $branch->strBranchCode }}</td>
-                        <td>{{ $branch->strBanchName }}</td>
+                        <td>{{ $branch->strBranchName }}</td>
                         <td>01/10/2001</td>
                         <td>
                             <div class="center-btn">
@@ -73,6 +73,7 @@
 @stop
 
 @section('scripts')
+
 <!--{{ HTML::script('js/new-order.js') }}-->
 <script type="text/javascript" src="js/jquery.js"></script>
 <script src="js/materialize.js"></script>
