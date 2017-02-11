@@ -31,9 +31,8 @@
                       <tr>
                         <th>Branch ID</th>
                         <th>Branch Name</th>
-                       <!--  <th>Brand</th>
-                        <th>Model</th> -->
-                        <th>Date Added</th>
+                        <th>Address</th>
+                        <th>Contact</th>
                       </tr>
                     </thead>
 
@@ -42,7 +41,8 @@
                       <tr>
                         <td>{{ $branch->strBranchCode }}</td>
                         <td>{{ $branch->strBranchName }}</td>
-                        <td>01/10/2001</td>
+                        <td>{{ $branch->strBranchAddress }}</td>
+                        <td>{{ $branch->strContactNumb }}</td>
                         <td>
                             <div class="center-btn">
                              <a class="waves-effect waves-light btn green darken-1 btn-small center-text" href="test/{{$branch->strBranchCode}}">UPDATE</a>

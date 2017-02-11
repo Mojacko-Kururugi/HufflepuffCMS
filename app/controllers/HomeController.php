@@ -30,7 +30,7 @@ class HomeController extends BaseController {
 		DB::table('tblBranch')
 		->insert([
 			'strBranchCode' 	=> Request::input('user_id'),
-			'strBranchAddress' 		=> Request::input('adress'),
+			'strBranchAddress' 		=> Request::input('address'),
 			'strContactNumb' 	=> Request::input('stud_id_no'),
 			'strBranchName'	=> Request::input('number'),
 			'intBStatus' => 1

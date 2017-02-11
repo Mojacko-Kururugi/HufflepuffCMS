@@ -61,7 +61,7 @@
                   </div>
                   <div class="row">
                     <div class="input-field col s12 m12 l12">
-                      <input id="age" name="address" type="number" class="validate" value="{{ $data->intUAge }}">
+                      <input id="age" name="age" type="text" class="validate" value="{{ $data->intUAge}}">
                       <label for="age">Age</label>
                     </div>
                   </div>
