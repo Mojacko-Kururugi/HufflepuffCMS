@@ -13,12 +13,11 @@
   <div class="card">
     <div class="card-content">
 
-	<!--<form action="{{ URL::to('teacher/save-profile-edit') }}" method="POST" id="signup_validate" enctype="multipart/form-data">-->
-		<form class="col s12">
+	<form action="{{ URL::to('/save-pat') }}" method="POST" id="signup_validate" enctype="multipart/form-data">
 			<div class="row" >
 				<div class="input-field col s4 m4 l4">
 					<!--<input id="user_id" name="user_id" type="text" class="validate" data-error=".id_error" value="" readonly/>-->
-					<input  id="disabled user_id" type="text" class="validate" data-error=".id_error" value="Patient ID no." readonly/>
+					<input  id="user_id" type="text" class="validate" data-error=".id_error" value="Patient ID no."/>
 					<label for="user_id">Patient ID:</label>
 					<div class="id_error"></div>
 				</div>
@@ -55,9 +54,9 @@
 				 <div class="col s4 m6 l6">
 					<label for="gender_select">Gender</label>
 						<p>
-							<input name="gender" type="radio" id="male" value="Male" checked/>
+							<input name="gender" type="radio" id="male" value="1" checked/>
 							<label for="male">Male</label>
-							<input name="gender" type="radio" id="female" value="Female">
+							<input name="gender" type="radio" id="female" value="2">
 							<label for="female">Female</label>
 						</p>                         
 				</div>
@@ -203,7 +202,7 @@
 						<div class="row">
 								<div class="input-field col s12 center">
 										<button type="submit" class="waves-effect waves-light blue darken-1 btn btn-green modal-btn">Save</button>
-										<a href="{{ URL::to('/record') }}" class="waves-effect waves-light btn btn-green modal-btn" style="margin-right:20px;">Cancel</a>
+										<a href="{{ URL::to('/records') }}" class="waves-effect waves-light btn btn-green modal-btn" style="margin-right:20px;">Cancel</a>
 								</div>
 						</div>
 		</form>

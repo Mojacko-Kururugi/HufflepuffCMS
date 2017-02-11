@@ -32,7 +32,8 @@ class HomeController extends BaseController {
 			'strBranchCode' 	=> Request::input('user_id'),
 			'strBranchAddress' 		=> Request::input('adress'),
 			'strContactNumb' 	=> Request::input('stud_id_no'),
-			'strBranchName'	=> Request::input('number')
+			'strBranchName'	=> Request::input('number'),
+			'intBStatus' => 1
 		]);
 
 		return Redirect::to('/branches');
@@ -41,6 +42,7 @@ class HomeController extends BaseController {
 	public function showBranches() {
 
 		$data = DB::table('tblBranch')
+			->where('tblBranch.intBStatus', '=', 1)
 			->get();
 
 		return View::make('admin-branches')->with('data',$data);
@@ -142,6 +144,39 @@ class HomeController extends BaseController {
 	public function showAcc() {
 		
 			return View::make('patient-sales');
+	}
+
+	public function showPat() {
+		$data = DB::table('tblUserInfo')
+			->where('tblUserInfo.intUType', '=', 4)
+			->get();
+		
+				return View::make('record')->with('data',$data);
+	}	
+
+	public function addPatForm() {
+
+		return View::make('test');
+	}
+
+	public function addPat() {
+
+		DB::table('tblUserInfo')
+		->insert([
+			'strUCode' 	=> Request::input('user_id'),
+			'strULast' 	=> Request::input('last_name_sa'),
+			'strUFirst' => Request::input('first_name_sa'),
+			'strUMiddle' => Request::input('middle_name_sa'),
+			'intUAge' => Request::input('age'),
+			'strUAddress' => Request::input('address'),
+			'strUContactNumb' => Request::input('stud_id_no'),
+			'strUBranch' => NULL,
+			'strUImagePath' => "",
+			'intUType' => 4,
+			'intUStatus' => 1
+		]);
+
+		return Redirect::to('/records');
 	}
 		
 }

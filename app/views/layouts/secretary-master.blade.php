@@ -39,6 +39,7 @@
                 <!-- Branch: <span class="bold">Brgy. Sangandaan Branch</span> -->
               </div>
               <li class="bold {{ strpos(Request::url(), 'index') !== false ? 'active' : '' }}"><a href="/index">Dashboard</a></li>
+              <li class="bold {{ strpos(Request::url(), 'products') !== false ? 'active' : '' }}"><a href="/products">Products</a></li>
               <li class="bold {{ strpos(Request::url(), 'sec-doctors') !== false ? 'active' : '' }}"><a href="/sec-doctors">Inventory</a></li>
               <li class="bold {{ strpos(Request::url(), 'employeessched') !== false ? 'active' : '' }}"><a href="/employeessched">Employee Schedules</a></li>
               <li class="bold"><a href="/logout">Log out</a></li>

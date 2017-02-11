@@ -4,7 +4,7 @@
 
 <div class="row page-title">
   <div class="col s12 m12 l12">
-    <h5>Add New Patient</h5>
+    <h5>Update Patient</h5>
   </div>
 </div>
 
@@ -13,10 +13,10 @@
     <div class="card-content">
         <div class="contents">
           <div class="container-fluid">
-            <form action="{{ URL::to('/save-pat') }}" method="POST" id="signup_validate" enctype="multipart/form-data">
+            <form action="{{ URL::to('/update-pat') }}" method="POST" id="signup_validate" enctype="multipart/form-data">
               <div class="row">
                 <div class="input-field col l6 m6 s12">
-                  <input id="user_id" name="user_id" type="text" class="validate" data-error=".id_error" value=""/>
+                  <input id="user_id" name="user_id" type="text" class="validate" data-error=".id_error" value="{{ $data->strUCode }}" readonly/>
                   <label for="user_id">Patient ID:</label>
                   <div class="id_error"></div>
                 </div>
@@ -34,15 +34,15 @@
                   </div>
                   <div class="row">
                     <div class="input-field col s12 m4 l4">
-                      <input id="last_name_sa" name="last_name_sa" type="text" class="validate" value="" pattern="[A-Za-z]+" onkeydown="return alphaOnly(event);">
+                      <input id="last_name_sa" name="last_name_sa" type="text" class="validate" value="{{ $data->strULast }}" pattern="[A-Za-z]+" onkeydown="return alphaOnly(event);">
                       <label for="last_name_sa">Last Name</label>
                     </div>
                     <div class="input-field col s12 m4 l4">
-                      <input id="first_name_sa" name="first_name_sa" type="text" class="validate" value="" pattern="[A-Za-z]+" onkeydown="return alphaOnly(event);">
+                      <input id="first_name_sa" name="first_name_sa" type="text" class="validate" value="{{ $data->strUFirst }}" pattern="[A-Za-z]+" onkeydown="return alphaOnly(event);">
                       <label for="first_name_sa">First Name</label>
                     </div>
                     <div class="input-field col s12 m4 l4">
-                      <input id="middle_name_sa" name="middle_name_sa" type="text" class="validate" value="" pattern="[A-Za-z]+" onkeydown="return alphaOnly(event);">
+                      <input id="middle_name_sa" name="middle_name_sa" type="text" class="validate" value="{{ $data->strUMiddle }}" pattern="[A-Za-z]+" onkeydown="return alphaOnly(event);">
                       <label for="middle_name_sa">Middle Name</label>
                     </div>
                   </div>
@@ -61,18 +61,18 @@
                   </div>
                   <div class="row">
                     <div class="input-field col s12 m12 l12">
-                      <input id="age" name="address" type="number" class="validate" value="">
+                      <input id="age" name="address" type="number" class="validate" value="{{ $data->intUAge }}">
                       <label for="age">Age</label>
                     </div>
                   </div>
                   <div class="row">
                     <div class="input-field col s12 m12 l12">
-                      <input id="address" name="address" type="text" class="validate" value="">
+                      <input id="address" name="address" type="text" class="validate" value="{{ $data->strUAddress }}">
                       <label for="address">Address</label>
                     </div>
                   </div>
                     <div class="input-field col s12 m8 l6">
-                      <input id="stud_id_no" name="stud_id_no" type="text" class="validate" value="">
+                      <input id="stud_id_no" name="stud_id_no" type="text" class="validate" value="{{ $data->strUContactNumb }}">
                       <label for="stud_id_no">Contact Number</label>
                     </div>
                   </div>

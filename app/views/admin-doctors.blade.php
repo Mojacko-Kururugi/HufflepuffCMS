@@ -56,8 +56,8 @@
                         <td>{{ $data->strUBranch }}</td>
                         <td>
                             <div class="center-btn">
-                             <a class="waves-effect waves-light btn green darken-1 btn-small center-text" href="">UPDATE</a>
-                             <a class="waves-effect waves-light btn red lighten-1 btn-small center-text" href="">DELETE</a>
+                             <a class="waves-effect waves-light btn green darken-1 btn-small center-text" href="doctor/{{$data->strUCode}}">UPDATE</a>
+                             <a class="waves-effect waves-light btn red lighten-1 btn-small center-text" href="delete-doc/{{$data->strUCode}}">DELETE</a>
                             </div>
                         </td>
                     </tr>

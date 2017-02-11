@@ -130,6 +130,22 @@
                                         </div>
                                     </td>
                                 </tr>
+                                 @foreach($data as $data)
+                                <tr>
+                                    <td>{{ $data->strULast }}</td>
+                                    <td>{{ $data->strUFirst }}</td>
+                                    <td>{{ $data->strUMiddle }}</td>
+                                    <td>{{ $data->intUAge }}</td>
+                                    <td>{{ $data->created_at }}</td>
+                                    <td>{{ $data->strUBranch }}</td>
+                                    <td>
+                                        <div class="center-btn">
+                                         <a class="waves-effect waves-light btn green darken-1 btn-small center-text" href="patient/{{$data->strUCode}}">UPDATE</a>
+                                         <a class="waves-effect waves-light btn red lighten-1 btn-small center-text" href="delete-pat/{{$data->strUCode}}">DELETE</a>
+                                        </div>
+                                    </td>
+                                </tr>
+                                @endforeach
                             </tbody>
                         </table>
                     </div>

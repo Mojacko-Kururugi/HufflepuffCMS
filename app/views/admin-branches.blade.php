@@ -45,8 +45,8 @@
                         <td>01/10/2001</td>
                         <td>
                             <div class="center-btn">
-                             <a class="waves-effect waves-light btn green darken-1 btn-small center-text" href="">UPDATE</a>
-                             <a class="waves-effect waves-light btn red lighten-1 btn-small center-text" href="">DEACTIVATE</a>
+                             <a class="waves-effect waves-light btn green darken-1 btn-small center-text" href="test/{{$branch->strBranchCode}}">UPDATE</a>
+                             <a class="waves-effect waves-light btn red lighten-1 btn-small center-text" href="test2/{{$branch->strBranchCode}}">DEACTIVATE</a>
                             </div>
                         </td>
                       </tr>

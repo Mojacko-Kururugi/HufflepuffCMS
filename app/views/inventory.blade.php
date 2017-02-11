@@ -13,8 +13,8 @@
   <div class="container-fluid">
     <div class="row">
         <div class="col s12 m12 l12">
-            <button class="modal-trigger waves-effect waves-light btn blue darken-1 btn-small center-text" href="#newprod">ADD NEW ITEMS</button>
-            <button class="modal-trigger waves-effect waves-light btn btn-small purple lighten-1 center-text" href="#viewprod">VIEW ALL ITEMS</button>
+            <button class="modal-trigger waves-effect waves-light btn blue darken-1 btn-small center-text" href="#newprod">ORDER NEW ITEMS</button>
+            <!--<button class="modal-trigger waves-effect waves-light btn btn-small purple lighten-1 center-text" href="#viewprod">VIEW ALL ITEMS</button>-->
             <a class="modal-trigger waves-effect waves-light btn btn-flat right btn-small center-text" href="{{ URL::to('/reports') }}">Generate Report</a>
         </div>
      </div>
