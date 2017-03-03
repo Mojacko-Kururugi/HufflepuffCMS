@@ -122,8 +122,8 @@
                 <td>01/23/2016 10:30am</td>
                 <td>
                   <div class="center-btn">
-                    <a class="waves-effect waves-light btn btn-small green center-text"><i class="mdi-navigation-check"></i></a>
-                    <a class="waves-effect waves-light btn btn-small red center-text"><i class="mdi-navigation-close"></i></a>
+                    <a class="waves-effect waves-light btn btn-small green center-text">Accept</a>
+                    <a class="waves-effect waves-light btn btn-small red center-text">Decline</a>
                   </div>
                 </td>
               </tr>

@@ -75,7 +75,7 @@
                 center: 'title',
                 right: 'timelineDay,agendaWeek,month,listWeek'
             },
-            defaultView: 'timelineDay',
+            defaultView: 'agendaWeek',
             resourceLabelText: 'Activity',
             resources: [
                 { id: 'a', title: 'Reserved Check Ups', eventColor: 'green' },

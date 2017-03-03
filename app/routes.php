@@ -174,7 +174,32 @@ Route::get('/account', function()
 
 Route::post('/login', function()
 {
-	return Redirect::to('/index');
+	$user = Request::input('username');
+	$pass = Request::input('password');
+	/*$data = DB::table('tblUserInfo')
+			->where('tblUserInfo.intUType', '=', 2)
+			->get();*/
+	if($user == 'Doctor')
+	{
+		return Redirect::to('/index');
+	}
+	else if($user == 'Admin')
+	{
+		return Redirect::to('/admin');
+	}
+	else if($user == 'Secretary')
+	{
+		return Redirect::to('/sec-home');
+	}
+	else if($user == 'Patient')
+	{
+		return Redirect::to('/patient-home');
+	}
+	else
+	{
+		return Redirect::to('/account');
+	}
+
 });
 
 
@@ -191,16 +216,16 @@ Route::get('/index', function()
 
 
 //for Admin Module
-Route::get('/admin', 'HomeController@openAdmin');
-Route::get('/branches', 'HomeController@showBranches');
-Route::get('/add-branch', 'HomeController@addBranchForm');
-Route::post('/save-branch', 'HomeController@addBranch');
-Route::get('/doctors', 'HomeController@showDoctors');
-Route::get('/add-doctor', 'HomeController@addDoctorForm');
-Route::post('/save-doctor', 'HomeController@addDoctor');
-Route::get('/employees', 'HomeController@showEmployees');
-Route::get('/add-emp', 'HomeController@addEmpForm');
-Route::post('/save-emp', 'HomeController@addEmp');
+Route::get('/admin', 'AdminController@openAdmin');
+Route::get('/branches', 'AdminController@showBranches');
+Route::get('/add-branch', 'AdminController@addBranchForm');
+Route::post('/save-branch', 'AdminController@addBranch');
+Route::get('/doctors', 'AdminController@showDoctors');
+Route::get('/add-doctor', 'AdminController@addDoctorForm');
+Route::post('/save-doctor', 'AdminController@addDoctor');
+Route::get('/employees', 'AdminController@showEmployees');
+Route::get('/add-emp', 'AdminController@addEmpForm');
+Route::post('/save-emp', 'AdminController@addEmp');
 
 
 
