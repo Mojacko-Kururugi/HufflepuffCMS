@@ -15,13 +15,6 @@
           <div class="container-fluid">
             <form action="{{ URL::to('/save-emp') }}" method="POST" id="signup_validate" enctype="multipart/form-data">
               <div class="row">
-                <div class="input-field col l6 m6 s12">
-                  <input id="user_id" name="user_id" type="text" class="validate" data-error=".id_error" value=""/>
-                  <label for="user_id">Employee ID:</label>
-                  <div class="id_error"></div>
-                </div>
-              </div>
-              <div class="row">
                     <div class="input-field col s12 m6 l6">
                       <input id="role" type="text" class="validate" value="Employee" readonly>
                       <label for="role">User Type</label>
@@ -47,46 +40,14 @@
                     </div>
                   </div>
                   <div class="row">
-                    <div class="col s12">
-                      <label for="gender_select">Gender</label>
-                      <p>
-                        <input name="gender" type="radio" id="male" value="1"/>
-                        <label for="male">Male</label>
-                      </p>                         
-                      <p>
-                        <input name="gender" type="radio" id="female" value="2" checked/>
-                        <label for="female">Female</label>
-                      </p>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="input-field col s12 m12 l12">
-                      <input id="age" name="age" type="text" class="validate" value="">
-                      <label for="age">Age</label>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="input-field col s12 m12 l12">
-                      <input id="address" name="address" type="text" class="validate" value="">
-                      <label for="address">Address</label>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="col s12 m8 l6">
-                      <label for="b_day" >Date Hired</label>
-                      <input id="b_day" name="b_day" type="date" class="datepicker" style="height:39px" value="">
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="input-field col s12 m8 l6">
-                      <input id="stud_id_no" name="stud_id_no" type="text" class="validate" value="">
-                      <label for="stud_id_no">Contact Number</label>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="input-field col l6 m8 s12">
-                      <label for="email">Branch</label>
-                      <input id="number" name="number" type="text" class="validate" value="" />
+                    <div class="input-field col l6 m6 s12">
+                        <select class="initialized browser-default" name="branch" id="branch" data-error=".school_error">
+                          <option value="" disabled selected>Branch</option>
+                          @foreach($branch as $branch)
+                            <option value="{{ $branch->strBranchCode}}" @if(Input::old('branch') == $branch->strBranchCode) selected="selected" @endif>{{ $branch->strBranchName}}</option>
+                          @endforeach
+                        </select>
+                       <div class="school_error"></div>
                     </div>
                   </div>
                   <div class="row">

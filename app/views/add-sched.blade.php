@@ -19,41 +19,51 @@
             <div class="row">
                   <div class="col s12 m8 l6">
                        <label for="a_time">Time:</label>
-                       <input type="datetime-local" name="a_time" style="height:39px" value="">
+                        <select name="time_frequency">
+                          <option value="" selected disabled>- Choose Time -</option>
+                          <option value="1">9:00am</option>
+                          <option value="2">10:00am</option>
+                          <option value="3">11:00am</option>
+                          <option value="4">12:00am</option>
+                          <option value="5">1:00pm</option>
+                          <option value="6">2:00pm</option>
+                          <option value="7">3:00pm</option>
+                          <option value="8">4:00pm</option>
+                          <option value="9">5:00pm</option>
+                          <option value="10">6:00pm</option>
+                          <option value="11">7:00pm</option>
+                          <option value="12">8:00pm</option>
+                        </select>
                   </div>
             </div>
             <div class="row">
-              <div class="col s12"><br>
-                <div class="row" style="padding:0px; margin:0px;">
-                  <p style="padding:0px; margin:0px;">Patient Name:</p>
-                </div>
-                <div class="row">
-                  <div class="input-field col s12 m4 l4">
-                    <input id="last_name_sa" name="last_name_sa" type="text" class="validate" value="" pattern="[A-Za-z]+" onkeydown="return alphaOnly(event);">
-                    <label for="last_name_sa">Last Name</label>
+                   <div class="row">
+                    <div class="input-field col l6 m6 s12">
+                        <select class="initialized browser-default" name="patient" id="patient" data-error=".school_error">
+                          <option value="" disabled selected>Patient Name</option>
+                          @foreach($data as $data)
+                            <option value="{{ $data->strPatCode}}" @if(Input::old('patient') == $data->strPatCode) selected="selected" @endif>{{ $data->strPatLast . ',' . $data->strPatFirst }}</option>
+                          @endforeach
+                        </select>
+                       <div class="school_error"></div>
+                    </div>
                   </div>
-                  <div class="input-field col s12 m4 l4">
-                    <input id="first_name_sa" name="first_name_sa" type="text" class="validate" value="" pattern="[A-Za-z]+" onkeydown="return alphaOnly(event);">
-                    <label for="first_name_sa">First Name</label>
-                  </div>
-                  <div class="input-field col s12 m4 l4">
-                    <input id="middle_name_sa" name="middle_name_sa" type="text" class="validate" value="" pattern="[A-Za-z]+" onkeydown="return alphaOnly(event);">
-                    <label for="middle_name_sa">Middle Name</label>
-                  </div>
-                </div>
+              </div>
                 <div class="row">
                   <div class="col s12">
                     <label for="time_frequency">Time Frequency of Reminder</label>
                     <select name="time_frequency">
     				     <option value="" selected disabled>- Choose Option -</option>
-    				     <option value="every_30mins">Every 30 mins</option>
-    					 <option value="every_1hr">Every 1 hour</option>
-    					 <option value="every_4hrs">Every 4 hours</option>
-    					 <option value="day_before">Day before</option>
-    					 <option value="week_before">Week before</option>
-    				</select
+    				     <option value="1">Every 30 mins</option>
+    					 <option value="2">Every 1 hour</option>
+    					 <option value="3">Every 4 hours</option>
+    					 <option value="4">Day before</option>
+    					 <option value="5">Week before</option>
+    				       </select>
                   </div>
                 </div>
+                </div>
+
                 <div class="row">
                   <div class="input-field col s12 center">
                     <button type="submit" class="waves-effect waves-light btn blue darken-1 modal-btn">Save</button>

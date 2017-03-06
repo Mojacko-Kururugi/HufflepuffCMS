@@ -1,45 +1,41 @@
-@extends('layouts.admin-master')
+@extends('layouts.secretary-master')
 
 @section('content')
 
-  <?php Session::put('upId', $id); ?>             
-
   <div class="row"><br>
     <div class="center col l12 m12 s12">
-      <h3>Update Branch</h3>
-
+      <h3>Add New Order</h3>
     </div>
   </div>
 
   <div class="contents z-depth-1">
     <div class="container">
-      <form action="{{ URL::to('/update-branch') }}" method="POST" id="signup_validate" enctype="multipart/form-data"><br><br>
+      <form action="{{ URL::to('/sec-inv/add-order') }}" method="POST" id="signup_validate" enctype="multipart/form-data"><br><br>
+                  <div class="row">
+                    <div class="input-field col l6 m6 s12">
+                        <select class="initialized browser-default" name="name" id="name" data-error=".school_error">
+                          <option value="" disabled selected>Product Name</option>
+                          @foreach($data as $data)
+                            <option value="{{ $data->strProdCode}}" @if(Input::old('product') == $data->strProdCode) selected="selected" @endif>{{ $data->strProdName . ' - ' . $data->strProdModel}}</option>
+                          @endforeach
+                        </select>
+                       <div class="school_error"></div>
+                    </div>
+                  </div>
         <div class="row">
               <div class="input-field col l12 m8 s12">
-                <label for="email">Branch Name</label>
-                <input id="number" name="number" type="text" class="validate" value="{{ $data->strBranchName }}" />
+                <label for="qty">Quantity</label>
+                <input id="qty" name="qty" type="text" class="validate" value="" />
               </div>
         </div>
             <div class="row">
-              <div class="input-field col s12 m12 l12">
-                <input id="address" name="address" type="text" class="validate" value="{{ $data->strBranchAddress }}">
-                <label for="address">Address</label>
-              </div>
-            </div>
-            <div class="row">
-              <div class="input-field col s12 m8 l6">
-                <input id="stud_id_no" name="stud_id_no" type="text" class="validate" value="{{ $data->strBContactNumb }}">
-                <label for="stud_id_no">Contact Number</label>
-              </div>
-            </div>
-            <div class="row">
               <div class="input-field col l12 s12 center">
                 <button type="submit" class="waves-effect waves-light btn btn-green modal-btn">Save</button>
-                <a href="{{ URL::to('/branches') }}" class="waves-effect waves-light btn btn-green modal-btn" style="margin-right:20px;">Cancel</a>
-                </div>
+                <a href="{{ URL::to('/sec-inv') }}" class="waves-effect waves-light btn btn-green modal-btn" style="margin-right:20px;">Cancel</a>
+              </div>
             </div>
-             <br><br>
-             </form>
+            <br><br>
+            </form>
           </div>
         </div>
 

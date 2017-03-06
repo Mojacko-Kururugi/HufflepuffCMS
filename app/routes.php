@@ -12,152 +12,27 @@
 */
 
 //tests
-Route::get('test/{id}', function($id)
+
+Route::get('/add-patient2', function()
 {
-	$data = DB::table('tblBranch')
-		->where('tblBranch.strBranchCode', '=', $id)
-		->first();
-
-    return View::make('update-branch')->with('data',$data);
-});
-
-Route::post('/update-branch', function()
-{
-		DB::table('tblBranch')
-			->where('tblBranch.strBranchCode', '=', Request::input('user_id'))
-			->update([
-			'strBranchAddress' 		=> Request::input('adress'),
-			'strContactNumb' 	=> Request::input('stud_id_no'),
-			'strBranchName'	=> Request::input('number')
-			]);
-
-	return Redirect::to('/branches');
+	return View::make('add-patient');
 });
 
 
-Route::get('test2/{id}', function($id)
-{
-	DB::table('tblBranch')
-			->where('tblBranch.strBranchCode', '=', $id)
-			->update([
-				'intBStatus' => 0,
-			]);
 
-    return Redirect::to('/branches');
-});
 
-Route::get('doctor/{id}', function($id)
-{
-	$data = DB::table('tblUserInfo')
-		->where('tblUserInfo.strUCode', '=', $id)
-		->first();
 
-    return View::make('update-doctor')->with('data',$data);
-});
 
-Route::get('emp/{id}', function($id)
-{
-	$data = DB::table('tblUserInfo')
-		->where('tblUserInfo.strUCode', '=', $id)
-		->first();
 
-    return View::make('update-employee')->with('data',$data);
-});
 
-Route::get('patient/{id}', function($id)
-{
-	$data = DB::table('tblUserInfo')
-		->where('tblUserInfo.strUCode', '=', $id)
-		->first();
 
-    return View::make('update-patient')->with('data',$data);
-});
 
-Route::post('/update-doc', function()
-{
-		DB::table('tblUserInfo')
-			->where('tblUserInfo.strUCode', '=', Request::input('user_id'))
-			->update([
-			'strUCode' 	=> Request::input('user_id'),
-			'strULast' 	=> Request::input('last_name_sa'),
-			'strUFirst' => Request::input('first_name_sa'),
-			'strUMiddle' => Request::input('middle_name_sa'),
-			'intUAge' => Request::input('age'),
-			'strUAddress' => Request::input('address'),
-			'strUContactNumb' => Request::input('stud_id_no'),
-			'strUBranch' => Request::input('number')
-			]);
 
-	return Redirect::to('/doctors');
-});
 
-Route::post('/update-emp', function()
-{
-		DB::table('tblUserInfo')
-			->where('tblUserInfo.strUCode', '=', Request::input('user_id'))
-			->update([
-			'strUCode' 	=> Request::input('user_id'),
-			'strULast' 	=> Request::input('last_name_sa'),
-			'strUFirst' => Request::input('first_name_sa'),
-			'strUMiddle' => Request::input('middle_name_sa'),
-			'intUAge' => Request::input('age'),
-			'strUAddress' => Request::input('address'),
-			'strUContactNumb' => Request::input('stud_id_no'),
-			'strUBranch' => Request::input('number')
-			]);
 
-	return Redirect::to('/employees');
-});
 
-Route::post('/update-pat', function()
-{
-		DB::table('tblUserInfo')
-			->where('tblUserInfo.strUCode', '=', Request::input('user_id'))
-			->update([
-			'strUCode' 	=> Request::input('user_id'),
-			'strULast' 	=> Request::input('last_name_sa'),
-			'strUFirst' => Request::input('first_name_sa'),
-			'strUMiddle' => Request::input('middle_name_sa'),
-			'intUAge' => Request::input('age'),
-			'strUAddress' => Request::input('address'),
-			'strUContactNumb' => Request::input('stud_id_no')
-			]);
 
-	return Redirect::to('/records');
-});
 
-Route::get('delete-doc/{id}', function($id)
-{
-	DB::table('tblUserInfo')
-			->where('tblUserInfo.strUCode', '=', $id)
-			->update([
-				'intBUtatus' => 0,
-			]);
-
-    return Redirect::to('/doctors');
-});
-
-Route::get('delete-emp/{id}', function($id)
-{
-	DB::table('tblUserInfo')
-			->where('tblUserInfo.strUCode', '=', $id)
-			->update([
-				'intBUtatus' => 0,
-			]);
-
-    return Redirect::to('/employees');
-});
-
-Route::get('delete-pat/{id}', function($id)
-{
-	DB::table('tblUserInfo')
-			->where('tblUserInfo.strUCode', '=', $id)
-			->update([
-				'intBUtatus' => 0,
-			]);
-
-    return Redirect::to('/records');
-});
 
 
 
@@ -208,11 +83,6 @@ Route::get('/logout', function()
 	return Redirect::to('/account');
 });
 
-Route::get('/index', function()
-{
-	return View::make('index');
-});
-
 
 
 //for Admin Module
@@ -220,67 +90,59 @@ Route::get('/admin', 'AdminController@openAdmin');
 Route::get('/branches', 'AdminController@showBranches');
 Route::get('/add-branch', 'AdminController@addBranchForm');
 Route::post('/save-branch', 'AdminController@addBranch');
+Route::get('branch/{id}', 'AdminController@openUpBranch');
+Route::post('/update-branch','AdminController@updateBranch');
+Route::get('d-branch/{id}', 'AdminController@deactBranch');
 Route::get('/doctors', 'AdminController@showDoctors');
 Route::get('/add-doctor', 'AdminController@addDoctorForm');
 Route::post('/save-doctor', 'AdminController@addDoctor');
+Route::post('/update-doc', 'AdminController@updateDoctor');
+Route::get('delete-doc/{id}', 'AdminController@deactDoctor');
+Route::get('doctor/{id}','AdminController@openUpDoctor' );
 Route::get('/employees', 'AdminController@showEmployees');
 Route::get('/add-emp', 'AdminController@addEmpForm');
 Route::post('/save-emp', 'AdminController@addEmp');
+Route::get('emp/{id}','AdminController@showUpEmp' );
+Route::post('/update-emp','AdminController@updateEmp' );
+Route::get('delete-emp/{id}','AdminController@deactEmp');
 
 
 
 
 //for Doctor
-Route::get('/records', 'HomeController@showPat');
-Route::get('/add-patient', 'HomeController@addPatForm');
-
-Route::get('/add-patient2', function()
-{
-	return View::make('add-patient');
-});
-
-Route::post('/save-pat', 'HomeController@addPat');
-
-
-Route::get('/schedules', function()
-{
-	return View::make('schedule');
-});
-
-Route::get('/inventory', function()
-{
-	return View::make('inventory');
-});
-
-Route::get('/sales', function()
-{
-	return View::make('sales');
-});
-
-
-Route::get('/add-sched', function()
-{
-	return View::make('add-sched');
-});
-
-Route::get('/add-payment', function()
-{
-	return View::make('add-payment');
-});
+Route::get('/index', 'DoctorController@index');
+Route::get('/records', 'DoctorController@showPat');
+Route::get('/add-patient', 'DoctorController@addPatForm');
+Route::post('/save-pat', 'DoctorController@addPat');
+Route::get('patient/{id}', 'DoctorController@openUpPat');
+Route::post('/update-pat', 'DoctorController@updatePat');
+Route::get('delete-pat/{id}', 'DoctorController@deactPat');
+Route::get('/schedules', 'DoctorController@showSched');
+Route::get('/inventory', 'DoctorController@showInv');
+Route::get('/sales', 'DoctorController@showSales');
+Route::get('/add-sched', 'DoctorController@addSched');
+Route::get('/add-payment', 'DoctorController@showPayment');
 
 
 
 
 //for sceretary
-Route::get('/sec-home', 'HomeController@openSec');
+Route::get('/sec-home', 'SecController@openSec');
+Route::get('/sec-inv', 'SecController@openSecInv');
+Route::get('/sec-inv/ord', 'SecController@openAddOrd');
+Route::get('/sec-inv/order-list', 'SecController@openOrdList');
+Route::post('/sec-inv/add-order', 'SecController@addOrd');
+Route::get('/sec-prod', 'SecController@openSecProd');
+Route::get('/sec-prod/add', 'SecController@openAddProd');
+Route::post('/sec-prod/add-prod', 'SecController@addProd');
 
 
 
 //for patient
-Route::get('/patient-home', 'HomeController@openPat');
-Route::get('/patient-schedules', 'HomeController@showSched');
-Route::get('/patient-records', 'HomeController@showRec');
-Route::get('/patient-sales', 'HomeController@showAcc');
+Route::get('/patient-home', 'PatientController@openPat');
+Route::get('/patient-schedules', 'PatientController@showSched');
+Route::get('/patient-records', 'PatientController@showRec');
+Route::get('/patient-sales', 'PatientController@showAcc');
 
 
 

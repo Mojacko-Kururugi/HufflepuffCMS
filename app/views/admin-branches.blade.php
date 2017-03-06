@@ -29,24 +29,24 @@
                 <table class="centered">
                     <thead>
                       <tr>
-                        <th>Branch ID</th>
                         <th>Branch Name</th>
                         <th>Address</th>
                         <th>Contact</th>
+                        <th>Date Created</th>
                       </tr>
                     </thead>
 
                     <tbody>
                     @foreach($data as $branch)
                       <tr>
-                        <td>{{ $branch->strBranchCode }}</td>
                         <td>{{ $branch->strBranchName }}</td>
                         <td>{{ $branch->strBranchAddress }}</td>
-                        <td>{{ $branch->strContactNumb }}</td>
+                        <td>{{ $branch->strBContactNumb }}</td>
+                        <td>{{ $branch->created_at }}</td>
                         <td>
                             <div class="center-btn">
-                             <a class="waves-effect waves-light btn green darken-1 btn-small center-text" href="test/{{$branch->strBranchCode}}">UPDATE</a>
-                             <a class="waves-effect waves-light btn red lighten-1 btn-small center-text" href="test2/{{$branch->strBranchCode}}">DEACTIVATE</a>
+                             <a class="waves-effect waves-light btn green darken-1 btn-small center-text" href="branch/{{$branch->strBranchCode}}">UPDATE</a>
+                             <a class="waves-effect waves-light btn red lighten-1 btn-small center-text" href="d-branch/{{$branch->strBranchCode}}">DEACTIVATE</a>
                             </div>
                         </td>
                       </tr>

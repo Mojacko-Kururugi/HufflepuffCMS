@@ -38,10 +38,10 @@
                 <!-- use amber for admin, blue for employee, ?? for manager -->
                 <!-- Branch: <span class="bold">Brgy. Sangandaan Branch</span> -->
               </div>
-              <li class="bold {{ strpos(Request::url(), 'index') !== false ? 'active' : '' }}"><a href="/index">Dashboard</a></li>
-              <li class="bold {{ strpos(Request::url(), 'products') !== false ? 'active' : '' }}"><a href="/products">Products</a></li>
-              <li class="bold {{ strpos(Request::url(), 'sec-doctors') !== false ? 'active' : '' }}"><a href="/sec-doctors">Inventory</a></li>
-              <li class="bold {{ strpos(Request::url(), 'employeessched') !== false ? 'active' : '' }}"><a href="/employeessched">Employee Schedules</a></li>
+              <li class="bold {{ strpos(Request::url(), 'sec-home') !== false ? 'active' : '' }}"><a href="/sec-home">Dashboard</a></li>
+              <li class="bold {{ strpos(Request::url(), 'sec-prod') !== false ? 'active' : '' }}"><a href="/sec-prod">Products</a></li>
+              <li class="bold {{ strpos(Request::url(), 'sec-inv') !== false ? 'active' : '' }}"><a href="/sec-inv">Inventory</a></li>
+              <li class="bold {{ strpos(Request::url(), 'sec-sched') !== false ? 'active' : '' }}"><a href="/sec-sched">Employee Schedules</a></li>
               <li class="bold"><a href="/logout">Log out</a></li>
             </ul>
             <a href="#" data-activates="slide-out" class="button-collapse"><i class="mdi-navigation-menu"></i></a>

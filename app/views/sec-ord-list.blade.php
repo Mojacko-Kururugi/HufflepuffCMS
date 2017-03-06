@@ -1,11 +1,11 @@
-@extends('layouts.admin-master')
+@extends('layouts.secretary-master')
 
 @section('content')
 
 <!-- header -->
 <div class="row page-title">
   <div class="col s12 m12 l12">
-    <h5>Employee Records</h5>
+    <h5>Orders</h5>
   </div>
 </div>
 
@@ -14,12 +14,6 @@
   <div class="container-fluid">
     <div class="card">
       <div class="card-content">
-        <div class="row">
-          <div class="col s12 m12 l6">
-                <a class="waves-effect waves-light btn blue darken-1 btn-small center-text" href="/add-emp">ADD NEW EMPLOYEE</a>
-                <button class="modal-trigger waves-effect waves-light btn red lighten-1 btn-small center-text" href="#viewprod">DELETE ALL EMPLOYEES</button>
-          </div>
-        </div>
 
         <div class="row">
           <div class="nav-wrapper">
@@ -27,26 +21,26 @@
               <table id="example" class="mdl-data-table" cellspacing="0" width="100%">
                 <thead>
                     <tr>
-                        <th>Last Name</th>
-                        <th>First Name</th>
-                        <th>Middle Name</th>
-                        <th>Branch</th>
-                        <th>Date Created</th>
-                        <th>Actions</th>
+                        <th>Ordered Product Name and Model</th>
+                        <th>Ordered Quantity</th>
+                        <th>Date Ordered</th>
+                        <th>Status</th>
+                        <th>Action</th>
                     </tr>
                 </thead>
+                <tbody>
                 @foreach($data as $data)
                       <tr>
-                        <td>{{ $data->strEmpLast }}</td>
-                        <td>{{ $data->strEmpFirst }}</td>
-                        <td>{{ $data->strEmpMiddle }}</td>
-                        <td>{{ $data->strBranchName }}</td>
+                        <td>{{ $data->strProdName .' - ' . $data->strProdModel }}</td>
+                        <td>{{ $data->intOQty }}</td>
                         <td>{{ $data->created_at }}</td>
+                        <td>{{ $data->intStatus }}</td>
                         <td>
+                        @if($data->intStatus == 2)
                             <div class="center-btn">
-                             <a class="waves-effect waves-light btn green darken-1 btn-small center-text" href="emp/{{$data->strEmpCode}}">UPDATE</a>
-                             <a class="waves-effect waves-light btn red lighten-1 btn-small center-text" href="delete-emp/{{$data->strEmpCode}}">DELETE</a>
+                             <a class="waves-effect waves-light btn green darken-1 btn-small center-text" href="sec-inv/ord/{{$data->strOCode}}">RECEIVE</a>
                             </div>
+                        @endif
                         </td>
                     </tr>
                    @endforeach 

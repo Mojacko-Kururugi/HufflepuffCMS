@@ -15,13 +15,6 @@
           <div class="container-fluid">
             <form action="{{ URL::to('/save-pat') }}" method="POST" id="signup_validate" enctype="multipart/form-data">
               <div class="row">
-                <div class="input-field col l6 m6 s12">
-                  <input id="user_id" name="user_id" type="text" class="validate" data-error=".id_error" value=""/>
-                  <label for="user_id">Patient ID:</label>
-                  <div class="id_error"></div>
-                </div>
-              </div>
-              <div class="row">
                     <div class="input-field col s12 m6 l6">
                       <input id="role" type="text" class="validate" value="Patient" readonly>
                       <label for="role">User Type</label>
@@ -57,23 +50,6 @@
                         <input name="gender" type="radio" id="female" value="2" checked/>
                         <label for="female">Female</label>
                       </p>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="input-field col s12 m12 l12">
-                      <input id="age" name="age" type="text" class="validate" value="">
-                      <label for="age">Age</label>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="input-field col s12 m12 l12">
-                      <input id="address" name="address" type="text" class="validate" value="">
-                      <label for="address">Address</label>
-                    </div>
-                  </div>
-                    <div class="input-field col s12 m8 l6">
-                      <input id="stud_id_no" name="stud_id_no" type="text" class="validate" value="">
-                      <label for="stud_id_no">Contact Number</label>
                     </div>
                   </div>
                   <div class="row">

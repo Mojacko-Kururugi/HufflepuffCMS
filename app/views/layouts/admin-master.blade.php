@@ -36,7 +36,7 @@
                 <!-- use amber for admin, blue for employee, ?? for manager -->
                 <!-- Branch: <span class="bold">Brgy. Sangandaan Branch</span> -->
               </div>
-              <li class="bold {{ strpos(Request::url(), 'index') !== false ? 'active' : '' }}"><a href="/index">Dashboard</a></li>
+              <li class="bold {{ strpos(Request::url(), 'admin') !== false ? 'active' : '' }}"><a href="/admin">Dashboard</a></li>
               <li class="bold {{ strpos(Request::url(), 'branches') !== false ? 'active' : '' }}"><a href="/branches">Branches</a></li>
               <li class="bold {{ strpos(Request::url(), 'doctors') !== false ? 'active' : '' }}"><a href="/doctors">Doctors</a></li>
               <li class="bold {{ strpos(Request::url(), 'employees') !== false ? 'active' : '' }}"><a href="/employees">Employees</a></li>

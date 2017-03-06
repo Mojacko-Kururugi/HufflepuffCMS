@@ -2,6 +2,8 @@
 
 @section('content')
 
+  <?php Session::put('upId', $id); ?> 
+
 <div class="row page-title">
   <div class="col s12 m12 l12">
     <h5>Update Doctor</h5>
@@ -16,7 +18,7 @@
             <form action="{{ URL::to('/update-doc') }}" method="POST" id="signup_validate" enctype="multipart/form-data">
               <div class="row">
                 <div class="input-field col l6 m6 s12">
-                  <input id="user_id" name="user_id" type="text" class="validate" data-error=".id_error" value="{{ $data->strUCode }}" readonly/>
+                  <input id="user_id" name="user_id" type="text" class="validate" data-error=".id_error" value="{{ $data->strDocLicNumb }}" readonly/>
                   <label for="user_id">License ID:</label>
                   <div class="id_error"></div>
                 </div>
@@ -34,15 +36,15 @@
                   </div>
                   <div class="row">
                     <div class="input-field col s12 m4 l4">
-                      <input id="last_name_sa" name="last_name_sa" type="text" class="validate" value="{{ $data->strUFirst }}" pattern="[A-Za-z]+" onkeydown="return alphaOnly(event);">
+                      <input id="last_name_sa" name="last_name_sa" type="text" class="validate" value="{{ $data->strDocFirst }}" pattern="[A-Za-z]+" onkeydown="return alphaOnly(event);">
                       <label for="last_name_sa">Last Name</label>
                     </div>
                     <div class="input-field col s12 m4 l4">
-                      <input id="first_name_sa" name="first_name_sa" type="text" class="validate" value="{{ $data->strULast }}" pattern="[A-Za-z]+" onkeydown="return alphaOnly(event);">
+                      <input id="first_name_sa" name="first_name_sa" type="text" class="validate" value="{{ $data->strDocLast }}" pattern="[A-Za-z]+" onkeydown="return alphaOnly(event);">
                       <label for="first_name_sa">First Name</label>
                     </div>
                     <div class="input-field col s12 m4 l4">
-                      <input id="middle_name_sa" name="middle_name_sa" type="text" class="validate" value="{{ $data->strUMiddle }}" pattern="[A-Za-z]+" onkeydown="return alphaOnly(event);">
+                      <input id="middle_name_sa" name="middle_name_sa" type="text" class="validate" value="{{ $data->strDocMiddle }}" pattern="[A-Za-z]+" onkeydown="return alphaOnly(event);">
                       <label for="middle_name_sa">Middle Name</label>
                     </div>
                   </div>
@@ -60,33 +62,20 @@
                     </div>
                   </div>
                   <div class="row">
-                    <div class="input-field col s12 m12 l12">
-                      <input id="age" name="age" type="text" class="validate" value="{{ $data->intUAge}}">
-                      <label for="age">Age</label>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="input-field col s12 m12 l12">
-                      <input id="address" name="address" type="text" class="validate" value="{{ $data->strUAddress }}">
-                      <label for="address">Address</label>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="col s12 m8 l6">
-                      <label for="b_day" >Date Hired</label>
-                      <input id="b_day" name="b_day" type="date" class="datepicker" style="height:39px" value="{{ $data->created_at }}" readonly>
-                    </div>
-                  </div>
-                  <div class="row">
                     <div class="input-field col s12 m8 l6">
-                      <input id="stud_id_no" name="stud_id_no" type="text" class="validate" value="{{ $data->strUContactNumb }}">
+                      <input id="stud_id_no" name="stud_id_no" type="text" class="validate" value="{{ $data->strDocContactNumb }}">
                       <label for="stud_id_no">Contact Number</label>
                     </div>
                   </div>
                   <div class="row">
-                    <div class="input-field col l6 m8 s12">
-                      <label for="email">Branch</label>
-                      <input id="number" name="number" type="text" class="validate" value="{{ $data->strUBranch }}" />
+                    <div class="input-field col l6 m6 s12">
+                        <select class="initialized browser-default" name="branch" id="branch" data-error=".school_error">
+                          <option value="" disabled selected>Branch</option>
+                          @foreach($branch as $branch)
+                            <option value="{{ $branch->strBranchCode}}" @if(Input::old('branch') == $branch->strBranchCode) selected="selected" @endif>{{ $branch->strBranchName}}</option>
+                          @endforeach
+                        </select>
+                       <div class="school_error"></div>
                     </div>
                   </div>
                   <div class="row">

@@ -1,11 +1,11 @@
-@extends('layouts.admin-master')
+@extends('layouts.secretary-master')
 
 @section('content')
 
 <!-- header -->
 <div class="row page-title">
   <div class="col s12 m12 l12">
-    <h5>Employee Records</h5>
+    <h5>Inventory</h5>
   </div>
 </div>
 
@@ -16,8 +16,8 @@
       <div class="card-content">
         <div class="row">
           <div class="col s12 m12 l6">
-                <a class="waves-effect waves-light btn blue darken-1 btn-small center-text" href="/add-emp">ADD NEW EMPLOYEE</a>
-                <button class="modal-trigger waves-effect waves-light btn red lighten-1 btn-small center-text" href="#viewprod">DELETE ALL EMPLOYEES</button>
+                <a class="waves-effect waves-light btn blue darken-1 btn-small center-text" href="/sec-inv/ord">ADD NEW ORDER</a>
+                <a class="waves-effect waves-light btn green darken-1 btn-small center-text" href="/sec-inv/order-list">RECEIVE ORDER</a>
           </div>
         </div>
 
@@ -27,11 +27,11 @@
               <table id="example" class="mdl-data-table" cellspacing="0" width="100%">
                 <thead>
                     <tr>
-                        <th>Last Name</th>
-                        <th>First Name</th>
-                        <th>Middle Name</th>
-                        <th>Branch</th>
-                        <th>Date Created</th>
+                        <th>Product Name</th>
+                        <th>Product Model</th>
+                        <th>Product type</th>
+                        <th>Quantity</th>
+                        <th>Status</th>
                         <th>Actions</th>
                     </tr>
                 </thead>

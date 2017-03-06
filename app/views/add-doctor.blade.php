@@ -61,20 +61,8 @@
                   </div>
                   <div class="row">
                     <div class="input-field col s12 m12 l12">
-                      <input id="age" name="age" type="text" class="validate" value="">
-                      <label for="age">Age</label>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="input-field col s12 m12 l12">
                       <input id="address" name="address" type="text" class="validate" value="">
                       <label for="address">Address</label>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="col s12 m8 l6">
-                      <label for="b_day" >Date Hired</label>
-                      <input id="b_day" name="b_day" type="date" class="datepicker" style="height:39px" value="">
                     </div>
                   </div>
                   <div class="row">
@@ -84,11 +72,43 @@
                     </div>
                   </div>
                   <div class="row">
-                    <div class="input-field col l6 m8 s12">
-                      <label for="email">Branch</label>
-                      <input id="number" name="number" type="text" class="validate" value="" />
+                    <div class="input-field col l6 m6 s12">
+                        <select class="initialized browser-default" name="branch" id="branch" data-error=".school_error">
+                          <option value="" disabled selected>Branch</option>
+                          @foreach($branch as $branch)
+                            <option value="{{ $branch->strBranchCode}}" @if(Input::old('branch') == $branch->strBranchCode) selected="selected" @endif>{{ $branch->strBranchName}}</option>
+                          @endforeach
+                        </select>
+                       <div class="school_error"></div>
                     </div>
                   </div>
+
+        <div class="row">
+            <div class="input-field col l6 m8 s12">
+                  <label for="email">Email</label>
+                  <input id="email" name="email" type="email" class="validate" data-error=".email_error" value="" />
+                  <div class="email_error">
+                  </div>
+              </div>
+              <div class="input-field col l6 m8 s12">
+                  <label for="con-email">Confirm Email</label>
+                  <input id="con_email" name="con_email" type="email" class="validate" data-error=".confirm_email_error" />
+                  <div class="confirm_email_error"></div>
+              </div>
+        </div>
+        <div class="row">
+              <div class="input-field col l6 m8 s12">
+                      <label for="password">Password</label>
+                      <input id="password" name="password" type="password" class="validate" data-error=".password_error" />
+                      <div class="password_error"></div>
+                  </div>
+                <div class="input-field col l6 m8 s12">
+                  <label for="con_pass">Confirm Password</label>
+                  <input id="con_pass" name="con_pass" type="password" class="validate" data-error=".confirm_password_error" />
+                  <div class="confirm_password_error"></div>
+              </div>
+        </div>
+
                   <div class="row">
                     <div class="input-field col s12 center">
                       <button type="submit" class="waves-effect waves-light btn blue darken-1 modal-btn">Save</button>

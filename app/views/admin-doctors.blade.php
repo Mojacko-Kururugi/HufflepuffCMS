@@ -30,9 +30,9 @@
                         <th>Last Name</th>
                         <th>First Name</th>
                         <th>Middle Name</th>
-                        <th>Age</th>
-                        <th>Date Hired</th>
+                        <th>License Number</th>
                         <th>Branch</th>
+                        <th>Date Created</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -48,16 +48,16 @@
                 </tfoot> -->
                 @foreach($data as $data)
                       <tr>
-                        <td>{{ $data->strULast }}</td>
-                        <td>{{ $data->strUFirst }}</td>
-                        <td>{{ $data->strUMiddle }}</td>
-                        <td>{{ $data->intUAge }}</td>
+                        <td>{{ $data->strDocLast }}</td>
+                        <td>{{ $data->strDocFirst }}</td>
+                        <td>{{ $data->strDocMiddle }}</td>
+                        <td>{{ $data->strDocLicNumb }}</td>
+                        <td>{{ $data->strBranchName }}</td>
                         <td>{{ $data->created_at }}</td>
-                        <td>{{ $data->strUBranch }}</td>
                         <td>
                             <div class="center-btn">
-                             <a class="waves-effect waves-light btn green darken-1 btn-small center-text" href="doctor/{{$data->strUCode}}">UPDATE</a>
-                             <a class="waves-effect waves-light btn red lighten-1 btn-small center-text" href="delete-doc/{{$data->strUCode}}">DELETE</a>
+                             <a class="waves-effect waves-light btn green darken-1 btn-small center-text" href="doctor/{{$data->strDocCode}}">UPDATE</a>
+                             <a class="waves-effect waves-light btn red lighten-1 btn-small center-text" href="delete-doc/{{$data->strDocCode}}">DELETE</a>
                             </div>
                         </td>
                     </tr>

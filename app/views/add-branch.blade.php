@@ -13,13 +13,6 @@
     <div class="container">
       <form action="{{ URL::to('/save-branch') }}" method="POST" id="signup_validate" enctype="multipart/form-data"><br><br>
         <div class="row">
-          <div class="input-field col l6 m6 s12">
-            <input id="user_id" name="user_id" type="text" class="validate" data-error=".id_error" value=""/>
-            <label for="user_id">Branch ID:</label>
-            <div class="id_error"></div>
-          </div>
-        </div>
-        <div class="row">
               <div class="input-field col l12 m8 s12">
                 <label for="email">Branch Name</label>
                 <input id="number" name="number" type="text" class="validate" value="" />
@@ -43,11 +36,11 @@
                 <a href="{{ URL::to('/branches') }}" class="waves-effect waves-light btn btn-green modal-btn" style="margin-right:20px;">Cancel</a>
               </div>
             </div>
+            <br><br>
+            </form>
           </div>
         </div>
-    </form>
-  </div> 
-</div><br><br>
+
 
 {{-- Scripts START --}}
 <script type="text/javascript">
