@@ -24,17 +24,15 @@
                 <input id="model" name="model" type="text" class="validate" value="" />
               </div>
         </div>
-        <div class="row">
-            <div class="col s12">
-              <label for="type">Product Type</label>
-              <select name="type">
-                <option value="" selected disabled>- Choose Option -</option>
-                 <option value="1">Frame</option>
-                 <option value="2">Lens</option>
-                 <option value="3">Contact Lens</option>
-              </select>
-            </div>
-        </div>
+                    <div class="input-field col l6 m6 s12">
+                        <select class="initialized browser-default" name="type" id="type" data-error=".school_error">
+                          <option value="" disabled selected>Type</option>
+                          @foreach($data as $data)
+                            <option value="{{ $data->strPTCode}}" @if(Input::old('type') == $data->strPTCode) selected="selected" @endif>{{ $data->strPTDesc}}</option>
+                          @endforeach
+                        </select>
+                       <div class="school_error"></div>
+                    </div>
             <div class="row">
               <div class="input-field col l12 s12 center">
                 <button type="submit" class="waves-effect waves-light btn btn-green modal-btn">Save</button>

@@ -88,3 +88,20 @@ Route::filter('csrf', function()
 		throw new Illuminate\Session\TokenMismatchException;
 	}
 });
+
+
+Route::filter('checkSession', function() {
+	$userType = Session::get('user_type');	
+
+	if($userType) {
+		if($userType == 1) {
+			return Redirect::to('admin');
+		} else if($userType == 2) {
+			return Redirect::to('index');
+		} else if($userType == 3) {
+			return Redirect::to('sec-home');
+		} else {
+			return Redirect::to('patient-home'); // Student
+		}
+	}
+});

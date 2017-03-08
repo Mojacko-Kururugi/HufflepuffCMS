@@ -19,69 +19,11 @@ Route::get('/add-patient2', function()
 });
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 //general
-Route::get('/', function()
-{
-	return View::make('welcome');
-});
-
-Route::get('/account', function()
-{
-	return View::make('login');
-});
-
-Route::post('/login', function()
-{
-	$user = Request::input('username');
-	$pass = Request::input('password');
-	/*$data = DB::table('tblUserInfo')
-			->where('tblUserInfo.intUType', '=', 2)
-			->get();*/
-	if($user == 'Doctor')
-	{
-		return Redirect::to('/index');
-	}
-	else if($user == 'Admin')
-	{
-		return Redirect::to('/admin');
-	}
-	else if($user == 'Secretary')
-	{
-		return Redirect::to('/sec-home');
-	}
-	else if($user == 'Patient')
-	{
-		return Redirect::to('/patient-home');
-	}
-	else
-	{
-		return Redirect::to('/account');
-	}
-
-});
-
-
-Route::get('/logout', function()
-{
-	return Redirect::to('/account');
-});
+Route::get('/', ['before' => 'checkSession', 'uses' => 'HomeController@showFirst']);
+Route::get('/account', ['before' => 'checkSession', 'uses' => 'HomeController@showLogin']);
+Route::post('/login','HomeController@doLogin');
+Route::get('/logout', 'HomeController@doLogout');
 
 
 
@@ -130,8 +72,9 @@ Route::get('/add-payment', 'DoctorController@showPayment');
 Route::get('/sec-home', 'SecController@openSec');
 Route::get('/sec-inv', 'SecController@openSecInv');
 Route::get('/sec-inv/ord', 'SecController@openAddOrd');
-Route::get('/sec-inv/order-list', 'SecController@openOrdList');
+Route::get('/sec-order', 'SecController@openOrdList');
 Route::post('/sec-inv/add-order', 'SecController@addOrd');
+Route::get('/sec-inv/ord/{id}', 'SecController@receiveOrd');
 Route::get('/sec-prod', 'SecController@openSecProd');
 Route::get('/sec-prod/add', 'SecController@openAddProd');
 Route::post('/sec-prod/add-prod', 'SecController@addProd');

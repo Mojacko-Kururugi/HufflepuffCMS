@@ -18,44 +18,32 @@
         <hr>
         <div class="card-content">
           <p>
-            These items are in <span class="red-text bold">low</span> stocks.
+            These items are branch's <span class="green-text bold">current</span> stocks.
           </p>
 
           <table class="centered">
             <thead>
               <tr>
-                <th>Batch ID</th>
-                <th>Item</th>
+                <th>Name</th>
+                <th>Model</th>
                 <th>Qty</th>
                 <th>Actions</th>
               </tr>
             </thead>
 
             <tbody>
-
+            @foreach($inv as $inv)
              <tr>
-                <td>INV002</td>
-                <td>Lens 2923</td>
-                <td>0</td>
+                <td>{{ $inv->strProdName }}</td>
+                <td>{{ $inv->strProdModel }}</td>
+                <td>{{ $inv->sum }}</td>
                 <td>
                   <div class="center-btn">
-                    <a class="waves-effect waves-light btn btn-small center-text" href="/neworder">Replenish</a>
-                    <!-- <a class="waves-effect waves-light btn btn-small center-text">Request</a> -->
+                    <a class="waves-effect waves-light btn btn-small center-text" href="/neworder">Order</a>
                   </div>
                 </td>
               </tr>
-              
-              <tr>
-                <td>INV003</td>
-                <td>Model 0734</td>
-                <td>2</td>
-                <td>
-                  <div class="center-btn">
-                    <a class="waves-effect waves-light btn btn-small center-text" href="/neworder">Replenish</a>
-                    <!-- <a class="waves-effect waves-light btn btn-small center-text">Request</a> -->
-                  </div>
-                </td>
-              </tr>
+              @endforeach
             </tbody>
           </table>
         

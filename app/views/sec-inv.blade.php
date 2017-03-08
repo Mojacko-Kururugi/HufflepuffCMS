@@ -15,9 +15,9 @@
     <div class="card">
       <div class="card-content">
         <div class="row">
-          <div class="col s12 m12 l6">
+          <div class="col s12 m12 l12">
                 <a class="waves-effect waves-light btn blue darken-1 btn-small center-text" href="/sec-inv/ord">ADD NEW ORDER</a>
-                <a class="waves-effect waves-light btn green darken-1 btn-small center-text" href="/sec-inv/order-list">RECEIVE ORDER</a>
+                <a class="modal-trigger waves-effect waves-light btn btn-flat right btn-small center-text" href="{{ URL::to('/reports') }}">Generate Report</a>
           </div>
         </div>
 
@@ -29,25 +29,24 @@
                     <tr>
                         <th>Product Name</th>
                         <th>Product Model</th>
-                        <th>Product type</th>
+                        <th>Product Type</th>
+                        <th>Price</th>
                         <th>Quantity</th>
                         <th>Status</th>
-                        <th>Actions</th>
                     </tr>
                 </thead>
                 @foreach($data as $data)
                       <tr>
-                        <td>{{ $data->strEmpLast }}</td>
-                        <td>{{ $data->strEmpFirst }}</td>
-                        <td>{{ $data->strEmpMiddle }}</td>
-                        <td>{{ $data->strBranchName }}</td>
-                        <td>{{ $data->created_at }}</td>
-                        <td>
-                            <div class="center-btn">
-                             <a class="waves-effect waves-light btn green darken-1 btn-small center-text" href="emp/{{$data->strEmpCode}}">UPDATE</a>
-                             <a class="waves-effect waves-light btn red lighten-1 btn-small center-text" href="delete-emp/{{$data->strEmpCode}}">DELETE</a>
-                            </div>
-                        </td>
+                        <td>{{ $data->strProdName }}</td>
+                        <td>{{ $data->strProdModel }}</td>
+                        <td>{{ $data->strPTDesc }}</td>
+                        <td>{{ $data->dcInvPPrice }}</td>
+                        <td>{{ $data->intInvQty }}</td>
+                        @if($data->intInvQty > 0)
+                        <td class="green-text bold">GOOD</td>
+                        @else
+                        <td class="red-text bold">DEPLETED</td>
+                        @endif
                     </tr>
                    @endforeach 
                 </tbody>

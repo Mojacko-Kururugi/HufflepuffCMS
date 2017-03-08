@@ -23,12 +23,12 @@
               <div class="logo">
                 <div class="row">
                     <div class="col l4 m6 s12">
-                      {{ HTML::image('img/user1.jpg', 'logo', array('class' => 'responsive-img circle')) }}
+                      {{ HTML::image('img/logo_2.jpg', 'logo', array('class' => 'responsive-img circle')) }}
                     </div>
                     <div class="col l8 m6 s12">
-                      <p class="bold blue-text text-accent-4">Dra. Joselle Lopez </p>
+                      <p class="bold blue-text text-accent-4">{{ Session::get('user_name') }}</p>
                       <hr>
-                      <p class="small">Branch: <b>Brgy. Sangandaan Branch</b></p>
+                      <p class="small">Branch: <b>{{ Session::get('user_b') }}</b></p>
                     </div>
                   </div>
 

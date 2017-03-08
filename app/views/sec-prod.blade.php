@@ -29,7 +29,6 @@
                         <th>Product Name</th>
                         <th>Product Model</th>
                         <th>Product Type</th>
-                        <th>Price</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -37,8 +36,7 @@
                       <tr>
                         <td>{{ $data->strProdName }}</td>
                         <td>{{ $data->strProdModel }}</td>
-                        <td>{{ $data->intProdType }}</td>
-                        <td></td>
+                        <td>{{ $data->strPTDesc }}</td>
                         <td>
                             <div class="center-btn">
                              <a class="waves-effect waves-light btn green darken-1 btn-small center-text" href="emp/{{$data->strProdCode}}">UPDATE</a>

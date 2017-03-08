@@ -95,6 +95,7 @@ class AdminController extends BaseController {
 			'strDocContactNumb' => Request::input('stud_id_no'),
 			'strDocBranch' => Request::input('branch'),
 			'strDocImagePath' => "",
+			'strDocEmail' 	=> Request::input('email'),
 			'intDocStatus' => 1
 		]);
 
@@ -174,7 +175,15 @@ class AdminController extends BaseController {
 			'strEmpMiddle' => Request::input('middle_name_sa'),
 			'strEmpBranch' => Request::input('branch'),
 			'strEmpImagePath' => "",
+			'strEmpEmail' 	=> Request::input('email'),
 			'intEmpStatus' => 1
+		]);
+
+		DB::table('tblUserAccounts')
+		->insert([
+			'strUEmail' 	=> Request::input('email'),
+			'strUPassword' 	=> Request::input('password'),
+			'intUType' => 3
 		]);
 
 		return Redirect::to('/employees');

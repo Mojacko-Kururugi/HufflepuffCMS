@@ -5,7 +5,7 @@
 <!-- header -->
 <div class="row page-title">
   <div class="col s12 m12 l12">
-    <h5>Orders</h5>
+    <h5>Inventory</h5>
   </div>
 </div>
 
@@ -14,6 +14,12 @@
   <div class="container-fluid">
     <div class="card">
       <div class="card-content">
+        <div class="row">
+          <div class="col s12 m12 l12">
+                <a class="waves-effect waves-light btn blue darken-1 btn-small center-text" href="/sec-inv/ord">ADD NEW ORDER</a>
+                <a class="modal-trigger waves-effect waves-light btn btn-flat right btn-small center-text" href="{{ URL::to('/reports') }}">Generate Report</a>
+          </div>
+        </div>
 
         <div class="row">
           <div class="nav-wrapper">
@@ -34,12 +40,14 @@
                         <td>{{ $data->strProdName .' - ' . $data->strProdModel }}</td>
                         <td>{{ $data->intOQty }}</td>
                         <td>{{ $data->created_at }}</td>
-                        <td>{{ $data->intStatus }}</td>
+                        <td @if($data->intStatus == 1) class="green-text bold" @else class="yellow-text bold" @endif>{{ $data->strOSDesc }}</td>
                         <td>
                         @if($data->intStatus == 2)
                             <div class="center-btn">
-                             <a class="waves-effect waves-light btn green darken-1 btn-small center-text" href="sec-inv/ord/{{$data->strOCode}}">RECEIVE</a>
+                             <a class="waves-effect waves-light btn green darken-1 btn-small center-text" href="/sec-inv/ord/{{$data->strOCode}}">RECEIVE</a>
                             </div>
+                        @elseif($data->intStatus == 1)
+                        <a class="green-text bold"> Received at {{ $data->dtOReceived }} </a>
                         @endif
                         </td>
                     </tr>

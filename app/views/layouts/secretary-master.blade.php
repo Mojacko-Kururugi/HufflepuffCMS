@@ -22,12 +22,12 @@
               <div class="logo">
                 <div class="row">
                   <div class="col l4 m6 s12">
-                    {{ HTML::image('img/user3.jpg', 'logo', array('class' => 'responsive-img circle')) }}
+                    {{ HTML::image('img/logo_2.jpg', 'logo', array('class' => 'responsive-img circle')) }}
                   </div>
                   <div class="col l8 m6 s12">
-                    <p class="bold blue-text text-accent-4">Maria Antoinette </p>
+                    <p class="bold blue-text text-accent-4">{{ Session::get('user_name') }}</p>
                     <hr>
-                    <p class="small">Branch: <b> Brgy. Sangandaan Branch</b></p>
+                    <p class="small">Branch: <b>{{ Session::get('user_b') }}</b></p>
                   </div>
                 </div>
 
@@ -41,7 +41,8 @@
               <li class="bold {{ strpos(Request::url(), 'sec-home') !== false ? 'active' : '' }}"><a href="/sec-home">Dashboard</a></li>
               <li class="bold {{ strpos(Request::url(), 'sec-prod') !== false ? 'active' : '' }}"><a href="/sec-prod">Products</a></li>
               <li class="bold {{ strpos(Request::url(), 'sec-inv') !== false ? 'active' : '' }}"><a href="/sec-inv">Inventory</a></li>
-              <li class="bold {{ strpos(Request::url(), 'sec-sched') !== false ? 'active' : '' }}"><a href="/sec-sched">Employee Schedules</a></li>
+             <!-- <li class="bold {{ strpos(Request::url(), 'sec-sched') !== false ? 'active' : '' }}"><a href="/sec-sched">Employee Schedules</a></li> -->
+              <li class="bold {{ strpos(Request::url(), 'sec-order') !== false ? 'active' : '' }}"><a href="/sec-order">Orders</a></li>
               <li class="bold"><a href="/logout">Log out</a></li>
             </ul>
             <a href="#" data-activates="slide-out" class="button-collapse"><i class="mdi-navigation-menu"></i></a>

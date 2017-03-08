@@ -19,5 +19,62 @@ class HomeController extends BaseController {
 	{
 		return View::make('hello');
 	}
+
+	public function showFirst()
+	{
+		return View::make('welcome');
+	}
+
+	public function showLogin()
+	{
+		return View::make('login');
+	}
+
+	public function doLogin() {
+		$user = Request::input('username');
+		$pass = Request::input('password');
+		$data = DB::table('tblUserAccounts')
+				->where('tblUserAccounts.strUEmail', '=', $user)
+				->where('tblUserAccounts.strUPassword', '=', $pass)
+				->first();
+		try
+		{
+			if($data->intUType == 2)
+			{
+				Session::put('user_type',$data->strUEmail);
+				return Redirect::to('/index');
+			}
+			else if($data->intUType == 1)
+			{
+				Session::put('user_type',$data->strUEmail);
+				return Redirect::to('/admin');
+			}
+			else if($data->intUType == 3)
+			{
+				Session::put('user_type',$data->strUEmail);
+				return Redirect::to('/sec-home');
+			}
+			else if($data->intUType == 4)
+			{
+				Session::put('user_type',$data->strUEmail);
+				return Redirect::to('/patient-home');
+			}
+			else
+			{
+				return Redirect::to('/account');
+			}
+
+		}
+		catch (Exception $e)
+		{
+			return Redirect::to('/account');
+		}
+	}
+
+	public function doLogout()
+	{
+		Session::flush();
+		return Redirect::to('/account');
+	}
 		
 }

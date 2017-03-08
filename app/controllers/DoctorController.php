@@ -4,7 +4,23 @@ class DoctorController extends BaseController {
 		
 	public function index(){
 
-		return View::make('index');
+		$data = DB::table('tblDocInfo')
+			->join('tblBranch', 'tblDocInfo.strDocBranch', '=', 'tblBranch.strBranchCode')
+			->where('tblDocInfo.strDocEmail', '=', Session::get('user_type'))
+			->first();
+
+		Session::put('user_name',$data->strDocLast . ', ' . $data->strDocFirst);
+		Session::put('user_b',$data->strBranchName);
+		Session::put('user_bc',$data->strBranchCode);
+
+		$inv = DB::table('tblInventory')
+			->join('tblProducts', 'tblInventory.strInvPCode', '=', 'tblProducts.strProdCode')
+			->where('tblInventory.strInvBranch', '=', Session::get('user_bc'))
+			->groupby('tblInventory.strInvPCode')
+			->selectRaw('*, sum(intInvQty) as sum')
+			->get();
+
+		return View::make('index')->with('inv',$inv);
 
 	}
 
@@ -23,19 +39,30 @@ class DoctorController extends BaseController {
 	}
 
 	public function addPat() {
+		$history = Request::input('diabetes') . Request::input('glaucoma') . Request::input('asthma') . Request::input('highblood') . Request::input('goiter') . Request::input('kidneyprob'); 	
+		$complaints = Request::input('BOVfar') . Request::input('BOVnear') . Request::input('headache') . Request::input('dizziness') . Request::input('glare') . Request::input('vomitting'); 	
+		$oldrx = Request::input('OD') . '-' . Request::input('ODAdd') . ',' . Request::input('OS') . '-' . Request::input('OSAdd') . '/' . Request::input('CLOD') . '-' . Request::input('CLOS');
 
 		DB::table('tblPatientInfo')
 		->insert([
 			'strPatLast' 	=> Request::input('last_name_sa'),
 			'strPatFirst' => Request::input('first_name_sa'),
-			'strPatMiddle' => Request::input('middle_name_sa'),
+			'strPatMiddle' => Request::input('middle_name_sa') ,
 			'intPatGender' => Request::input('gender'),
 			'dPatBirthdate' => null,
-			'strPatHistory' => null,
-			'strPatComplaints' => NULL,
-			'strPatOldRX' => NULL,
+			'strPatHistory' => $history,
+			'strPatComplaints' => $complaints,
+			'strPatOldRX' => $oldrx,
 			'strPatImagePath' => "",
+			'strPatEmail' 	=> Request::input('email'),
 			'intPatStatus' => 1
+		]);
+
+		DB::table('tblUserAccounts')
+		->insert([
+			'strUEmail' 	=> Request::input('email'),
+			'strUPassword' 	=> Request::input('password'),
+			'intUType' => 4
 		]);
 
 		return Redirect::to('/records');
@@ -73,7 +100,15 @@ class DoctorController extends BaseController {
 	}
 
 	public function showInv() {
-		return View::make('inventory');
+		$data = DB::table('tblInventory')
+			->join('tblInvStatus', 'tblInventory.intInvStatus', '=', 'tblInvStatus.strISCode')
+			->join('tblProducts', 'tblInventory.strInvPCode', '=', 'tblProducts.strProdCode')
+			->join('tblProdType', 'tblProducts.intProdType', '=', 'tblProdType.strPTCode')
+			->where('tblInventory.strInvBranch', '=', Session::get('user_bc'))
+			->get();
+		
+
+		return View::make('inventory')->with('data',$data);
 	}
 
 	public function showSales() {
