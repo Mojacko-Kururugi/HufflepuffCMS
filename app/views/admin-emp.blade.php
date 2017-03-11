@@ -44,8 +44,8 @@
                         <td>{{ $data->created_at }}</td>
                         <td>
                             <div class="center-btn">
-                             <a class="waves-effect waves-light btn green darken-1 btn-small center-text" href="emp/{{$data->strEmpCode}}">UPDATE</a>
-                             <a class="waves-effect waves-light btn red lighten-1 btn-small center-text" href="delete-emp/{{$data->strEmpCode}}">DELETE</a>
+                             <a class="waves-effect waves-light btn green darken-1 btn-small center-text" href="emp/{{$data->intEmpID}}">UPDATE</a>
+                             <a class="waves-effect waves-light btn red lighten-1 btn-small center-text" href="delete-emp/{{$data->intEmpID}}">DELETE</a>
                             </div>
                         </td>
                     </tr>

@@ -4,178 +4,352 @@ CREATE DATABASE CMS;
 
 USE CMS;
 
+
 CREATE TABLE tblBranch(
-	strBranchCode VARCHAR(15),
-    strBranchAddress TEXT,
-    strContactNumb VARCHAR(15),
-    strBanchName VARCHAR(100),
+	intBranchID int NOT NULL AUTO_INCREMENT,
+	strBranchName VARCHAR(100),
+    strBranchAddress VARCHAR(150),
+    strBContactNumb VARCHAR(15),
+    intBStatus INT(2),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     
-    PRIMARY KEY(strBranchCode)
+    PRIMARY KEY(intBranchID)
 )Engine=InnoDb;
-/*
-CREATE TABLE tblUser(
-	strUCode VARCHAR(25),
+
+CREATE TABLE tblUserType(
+	intUTID INT(3),
+    strUTDesc VARCHAR(20),
+    
+    PRIMARY KEY(intUTID)
+)Engine=InnoDb;
+
+CREATE TABLE tblProdType(
+	intPTID INT(3),
+    strPTDesc VARCHAR(20),
+    
+    PRIMARY KEY(intPTID)
+)Engine=InnoDb;
+
+CREATE TABLE tblInvStatus(
+	intISID INT(3),
+    strISDesc VARCHAR(20),
+    
+    PRIMARY KEY(intISID)
+)Engine=InnoDb;
+
+CREATE TABLE tblOrdStatus(
+	intOSID INT(3),
+    strOSDesc VARCHAR(20),
+    
+    PRIMARY KEY(intOSID)
+)Engine=InnoDb;
+
+CREATE TABLE tblSchedStatus(
+	intSSID INT(3),
+    strSSDesc VARCHAR(20),
+    
+    PRIMARY KEY(intSSID)
+)Engine=InnoDb;
+
+CREATE TABLE tblSalesStatus(
+	intSaleSID INT(3),
+    strSaleSDesc VARCHAR(20),
+    
+    PRIMARY KEY(intSaleSID)
+)Engine=InnoDb;
+
+CREATE TABLE tblServiceStatus(
+	intServStatID INT(3),
+    strServStatDesc VARCHAR(20),
+    
+    PRIMARY KEY(intServStatID)
+)Engine=InnoDb;
+
+CREATE TABLE tblPayType(
+	intPayTID INT(3),
+    strPayTDesc VARCHAR(50),
+    
+    PRIMARY KEY(intPayTID)
+)Engine=InnoDb;
+
+CREATE TABLE tblWarranty(
+	intWID INT(3),
+    strWDesc VARCHAR(20),
+    
+    PRIMARY KEY(intWID)
+)Engine=InnoDb;
+
+CREATE TABLE tblUserAccounts(
+	intUID int NOT NULL AUTO_INCREMENT,
+    strUEmail VARCHAR(25),
     strUPassword VARCHAR(20),
+    intUType INT(3),
     
-    PRIMARY KEY(strUCode)
-)Engine=InnoDb;
-*/
-CREATE TABLE tblUserInfo(
-	strUCode VARCHAR(15),
-    strULast VARCHAR(20),
-    strUFirst VARCHAR(20),
-    strUMiddle VARCHAR(20),
-    strUAddress TEXT,
-    strUContactNumb VARCHAR(15),
-    strUBranch VARCHAR(15),
-    strUImagePath TEXT,
-    intUType INT(4),
-    intUStatus INT(2),
-    
-    PRIMARY KEY(strUCode),
-    FOREIGN KEY(strUBranch)
-    REFERENCES tblBranch(strBranchCode)
+    PRIMARY KEY(intUID,strUEmail),
+	FOREIGN KEY(intUType)
+    REFERENCES tblUserType(intUTID)
 )Engine=InnoDb;
 
-CREATE TABLE tblPatientRecord(
-	strPCode VARCHAR(15),
-    strPHistory TEXT,
-    strPEtcetera TEXT,
+CREATE TABLE tblDocInfo(
+	intDocID int NOT NULL AUTO_INCREMENT,
+    strDocLicNumb VARCHAR(20),
+    strDocLast VARCHAR(20),
+    strDocFirst VARCHAR(20),
+    strDocMiddle VARCHAR(20),
+    intDocGender INT(2), 	
+    strDocContactNumb VARCHAR(15),
+    intDocBranch INT,
+    strDocImagePath VARCHAR(200),
+	strDocEmail VARCHAR(25),
+    intDocStatus INT(2),
+	created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     
-    FOREIGN KEY(strPCode)
-    REFERENCES tblUserInfo(strPCode)
+    PRIMARY KEY(intDocID,strDocLicNumb),
+    FOREIGN KEY(intDocBranch)
+    REFERENCES tblBranch(intBranchID)
 )Engine=InnoDb;
-/*
+
 CREATE TABLE tblPatientInfo(
-	strPCode VARCHAR(15),
-	strPLast VARCHAR(20),
-    strPFirst VARCHAR(20),
-    strPMiddle VARCHAR(20),
-    strContactNumb VARCHAR(15),
-    strPImagePath TEXT,
-    intPStatus INT(2),
+	intPatID int NOT NULL AUTO_INCREMENT,
+	strPatLast VARCHAR(20),
+    strPatFirst VARCHAR(20),
+    strPatMiddle VARCHAR(20),
+    intPatGender INT(2),
+	strPatAddress VARCHAR(250),
+	strPatContactNumb VARCHAR(15),
+	strPatCompany VARCHAR(50),
+    dPatBirthdate	DATE,
+    strPatHistory VARCHAR(7),
+    strPatComplaints VARCHAR(7),
+    strPatOldRX VARCHAR(200),
+	strPatImagePath VARCHAR(200),
+	strPatEmail VARCHAR(25),
+    intPatStatus INT(2),
+	created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     
-    FOREIGN KEY(strPCode)
-    REFERENCES tblUser(strUCode)
-)Engine=InnoDb;
-*/
-
-CREATE TABLE tblAppointment(
-	strACode VARCHAR(15),
-    dtADate DATE,
-    tmATime TIME,
-    strAHeader TEXT,
-    strADetails TEXT,
-    strAPatient VARCHAR(15),
-    strADoctor VARCHAR(15),
-    intFrequencyType INT(4),
-    intAType INT(3),
-    intAStatus INT(3),
-    
-    PRIMARY KEY(strACode),
-	FOREIGN KEY(strAPatient)
-    REFERENCES tblUserInfo(strUCode),
-    FOREIGN KEY(strADoctor)
-    REFERENCES tblUserInfo(strUCode)
+    PRIMARY KEY(intPatID)
 )Engine=InnoDb;
 
-/*
-CREATE TABLE tblEvents(
-	strECode VARCHAR(15),
-    strEDoctor VARCHAR(15),
-    strEName TEXT,
-    dtEDate DATE,
-    tmETime TIME,
-    intEStatus INT(3),
+
+CREATE TABLE tblEmployeeInfo(
+	intEmpID int NOT NULL AUTO_INCREMENT,
+	strEmpLast VARCHAR(20),
+    strEmpFirst VARCHAR(20),
+    strEmpMiddle VARCHAR(20),
+    intEmpBranch INT,
+    strEmpImagePath VARCHAR(200),
+	strEmpEmail VARCHAR(25),
+    intEmpStatus INT(2),
+	created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     
-    PRIMARY KEY(strECode),
-    FOREIGN KEY(strEDoctor)
-    REFERENCES tblDoctorInfo(strDCode)
+    PRIMARY KEY(intEmpID),
+	FOREIGN KEY(intEmpBranch)
+    REFERENCES tblBranch(intBranchID)
 )Engine=InnoDb;
-*/
-CREATE TABLE tblServiceDetails(
-	strCUCode VARCHAR(15),
-    strCUPatient VARCHAR(15),
-    strCUDoctor VARCHAR(15),
-    strCUDetails TEXT,
-    dtmCUDateTime DATETIME,
-    intCUType INT(3),
-    intCUStatus INT(2),
+
+CREATE TABLE tblServices(
+	intServID int NOT NULL AUTO_INCREMENT,
+    strServDesc VARCHAR(50),
+    intServStatus INT(2),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     
-    PRIMARY KEY(strCUCode),
-    FOREIGN KEY(strCUPatient)
-    REFERENCES tblUserInfo(strUCode),
-    FOREIGN KEY(strCUDoctor)
-    REFERENCES tblUserInfo(strUCode)
+    PRIMARY KEY(intServID)
 )Engine=InnoDb;
 
 CREATE TABLE tblProducts(
-	strPCode VARCHAR(15),
-    strPName VARCHAR(50),
-    strPModel VARCHAR(50),
-    dcmPPrice DECIMAL(18,4),
+	intProdID int NOT NULL AUTO_INCREMENT,
+    strProdName VARCHAR(50),
+    strProdModel VARCHAR(50),
+    intProdType INT(3),
+    intProdStatus INT(2),
+	intProdBranch INT,
     
-    PRIMARY KEY (strPCode)
+    PRIMARY KEY (intProdID),
+	FOREIGN KEY(intProdBranch)
+    REFERENCES tblBranch(intBranchID),
+	FOREIGN KEY(intProdType)
+    REFERENCES tblProdType(intPTID)
 )Engine=InnoDb;
 
 CREATE TABLE tblInventory(
-	strIPCode VARCHAR(15),
-    intIQty INT(100),
-    intIStatus INT(3),
+	intInvID int NOT NULL AUTO_INCREMENT,
+	intInvPID INT,
+    dcInvPPrice DECIMAL(18,2),
+    intInvQty INT(100),
+    intInvStatus INT(3),
+	intInvBranch INT,
     
-    PRIMARY KEY (strIPCode),
-    FOREIGN KEY(strIPCode)
-    REFERENCES tblProducts(strPCode)
+    PRIMARY KEY(intInvID),
+    FOREIGN KEY(intInvPID)
+    REFERENCES tblProducts(intProdID),
+	FOREIGN KEY(intInvBranch)
+    REFERENCES tblBranch(intBranchID),
+    FOREIGN KEY(intInvStatus)
+    REFERENCES tblInvStatus(intISID)
+)Engine=InnoDb;
+
+CREATE TABLE tblDiscount(
+	intDisID int NOT NULL AUTO_INCREMENT,
+    intDisInvID INT,
+    dcmDiscount DECIMAL(18,4),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    
+    PRIMARY KEY (intDisID),
+    FOREIGN KEY(intDisInvID)
+    REFERENCES tblInventory(intInvPID)
 )Engine=InnoDb;
 
 CREATE TABLE tblOrders(
-	strOCode VARCHAR(15),
-    strOPName VARCHAR(15),
+	intOID int NOT NULL AUTO_INCREMENT,
+    intOProdID INT,
     intOQty INT(100),
     dtOReceived DATE,
-    strReceivedBy VARCHAR(15),
+	intOBranch INT,
+	created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    intStatus INT,
     
-    PRIMARY KEY (strOCode),
-    FOREIGN KEY(strOPName)
-    REFERENCES tblProducts(strPCode),
-	FOREIGN KEY(strReceivedBy)
-    REFERENCES tblUserInfo(strUCode)
+    PRIMARY KEY (intOID),
+    FOREIGN KEY(intOProdID)
+    REFERENCES tblProducts(intProdID),
+	FOREIGN KEY(intOBranch)
+    REFERENCES tblBranch(intBranchID),
+    FOREIGN KEY(intStatus)
+    REFERENCES tblOrdStatus(intOSID)
 )Engine=InnoDb;
 
+CREATE TABLE tblServiceHeader(
+	intSHID int NOT NULL AUTO_INCREMENT,
+    intSHPatID INT,
+    intSHDocID INT,
+    intSHServiceID INT,
+    intSHPaymentType INT,
+    intSHStatus INT,
+	intSHDateTime TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 
-CREATE TABLE tblDiscount(
-	strDisPCode VARCHAR(15),
-    dcmDiscount DECIMAL(18,4),
-    
-    PRIMARY KEY (strDisPCode),
-    FOREIGN KEY(strDisPCode)
-    REFERENCES tblProducts(strPCode)
+    PRIMARY KEY(intSHID),
+	FOREIGN KEY(intSHPatID)
+    REFERENCES tblPatientInfo(intPatID),
+    FOREIGN KEY(intSHDocID)
+    REFERENCES tblDocInfo(intDocID),
+    FOREIGN KEY(intSHServiceID)
+    REFERENCES tblServices(intServID),
+    FOREIGN KEY(intSHPaymentType)
+    REFERENCES tblPayType(intPayTID),
+    FOREIGN KEY(intSHStatus)
+    REFERENCES tblServiceStatus(intServStatID)
+)Engine=InnoDb;
+
+CREATE TABLE tblServiceDetails(
+	intHeaderID INT,
+    intHProdID INT,
+    intQty INT,
+    intHWarranty INT,
+
+    FOREIGN KEY(intHeaderID)
+    REFERENCES tblServiceHeader(intSHID),
+	FOREIGN KEY(intHProdID)
+    REFERENCES tblServices(intServID),
+    FOREIGN KEY(intHWarranty)
+    REFERENCES tblWarranty(intWID)
 )Engine=InnoDb;
 
 CREATE TABLE tblSales(
-	strSCode VARCHAR(15),
-    strSCUDetails VARCHAR(15),
-    strSInventory VARCHAR(15),
-    intSQty INT,
+	intSaleID int NOT NULL AUTO_INCREMENT,
+    intSServID INT,
     dcmSBalance DECIMAL(18,4),
-    intSPaymentType INT(4),
     intSStatus INT(3),
     
-    PRIMARY KEY(strSCode),
-    FOREIGN KEY(strSCUDetails)
-    REFERENCES tblServiceDetails(strCUCode),
-    FOREIGN KEY(strSInventory)
-    REFERENCES tblInventory(strIPCode)
+    PRIMARY KEY(intSaleID),
+	FOREIGN KEY(intSServID)
+    REFERENCES tblServiceHeader(intSHID),
+    FOREIGN KEY(intSStatus)
+    REFERENCES tblSalesStatus(intSaleSID)
 )Engine=InnoDb;
 
 CREATE TABLE tblPayment(
-	strPymCode VARCHAR(15),
-    strPymSDetails VARCHAR(15),
+	intPymID int NOT NULL AUTO_INCREMENT,
+    intPymServID INT,
     dcmPymPayment DECIMAL(18,4),
-    dtmPymDateRec DATETIME,
+    dtmPymDateRec TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     
-    PRIMARY KEY(strPymCode),
-    FOREIGN KEY(strPymSDetails)
-    REFERENCES tblSales(strSCode)
+    PRIMARY KEY(intPymID),
+    FOREIGN KEY(intPymServID)
+    REFERENCES tblSales(intSaleID)
 )Engine=InnoDb;
 
+CREATE TABLE tblFrequencyType(
+	intFID INT(3),
+    strFDesc VARCHAR(20),
+    
+    PRIMARY KEY(intFID)
+)Engine=InnoDb;
+
+CREATE TABLE tblSchedules(
+	intSchedID int NOT NULL AUTO_INCREMENT,
+    dtSchedDate DATE,
+    tmSchedTime TIME,
+    strSchedHeader TEXT,
+    strSchedDetails TEXT,
+    intSchedPatient INT,
+    intSchedDoctor INT,
+    intSchedFrequencyType INT,
+    intSchedType INT,
+    intSchedStatus INT,
+    
+    PRIMARY KEY(intSchedID),
+	FOREIGN KEY(intSchedPatient)
+    REFERENCES tblPatientInfo(intPatID),
+    FOREIGN KEY(intSchedDoctor)
+    REFERENCES tblDocInfo(intDocID),
+    FOREIGN KEY(intSchedFrequencyType)
+    REFERENCES tblFrequencyType(intFID),
+    FOREIGN KEY(intSchedStatus)
+    REFERENCES tblSchedStatus(intSSID)
+)Engine=InnoDb;
+
+INSERT INTO tblFrequencyType(intFID,strFDesc) VALUES ('1','Very 30 mins');
+INSERT INTO tblFrequencyType(intFID,strFDesc) VALUES ('2','Every 1 hour');
+INSERT INTO tblFrequencyType(intFID,strFDesc) VALUES ('3','Every 4 hours');
+INSERT INTO tblFrequencyType(intFID,strFDesc) VALUES ('4','Day before');
+INSERT INTO tblFrequencyType(intFID,strFDesc) VALUES ('5','Week before');
+
+INSERT INTO tblWarranty(intWID,strWDesc) VALUES ('1','Active');
+INSERT INTO tblWarranty(intWID,strWDesc) VALUES ('2','Inactive');
+INSERT INTO tblWarranty(intWID,strWDesc) VALUES ('3','Replaced');
+
+INSERT INTO tblPayType(intPayTID,strPayTDesc) VALUES ('1','Full Payment');
+INSERT INTO tblPayType(intPayTID,strPayTDesc) VALUES ('2','2 Gives - every 15 days');
+INSERT INTO tblPayType(intPayTID,strPayTDesc) VALUES ('3','Quarterly - every 7 days');
+
+INSERT INTO tblServiceStatus(intServStatID,strServStatDesc) VALUES ('1','DONE');
+INSERT INTO tblServiceStatus(intServStatID,strServStatDesc) VALUES ('2','WITH FOLLOW UP');
+
+INSERT INTO tblSalesStatus(intSaleSID,strSaleSDesc) VALUES ('1','PAID');
+INSERT INTO tblSalesStatus(intSaleSID,strSaleSDesc) VALUES	 ('2','ONGOING');
+INSERT INTO tblSalesStatus(intSaleSID,strSaleSDesc) VALUES ('3','OVERDUE');
+
+INSERT INTO tblSchedStatus(intSSID,strSSDesc) VALUES ('1','CONFIRMED');
+INSERT INTO tblSchedStatus(intSSID,strSSDesc) VALUES ('2','PENDING');
+INSERT INTO tblSchedStatus(intSSID,strSSDesc) VALUES ('3','CANCELLED');
+
+INSERT INTO tblOrdStatus(intOSID,strOSDesc) VALUES ('1','RECEIVED');
+INSERT INTO tblOrdStatus(intOSID,strOSDesc) VALUES ('2','PENDING');
+INSERT INTO tblOrdStatus(intOSID,strOSDesc) VALUES ('3','CANCELLED');
+
+INSERT INTO tblInvStatus(intISID,strISDesc) VALUES ('1','GOOD');
+INSERT INTO tblInvStatus(intISID,strISDesc) VALUES ('2','DISCOUNTED');
+
+INSERT INTO tblProdType(intPTID,strPTDesc) VALUES ('1','Glasses');
+INSERT INTO tblProdType(intPTID,strPTDesc) VALUES ('2','Contact Lens');
+INSERT INTO tblProdType(intPTID,strPTDesc) VALUES ('3','Solution');
+
+INSERT INTO tblUserType(intUTID,strUTDesc) VALUES ('1','Admin');
+INSERT INTO tblUserType(intUTID,strUTDesc) VALUES ('2','Doctor');
+INSERT INTO tblUserType(intUTID,strUTDesc) VALUES ('3','Secretary');
+INSERT INTO tblUserType(intUTID,strUTDesc) VALUES ('4','Patient');
+
+INSERT INTO tblServices(strServDesc,intServStatus) VALUES ('Eye Refraction','1');
+INSERT INTO tblServices(strServDesc,intServStatus) VALUES ('Eye Check Up','1');
+INSERT INTO tblServices(strServDesc,intServStatus) VALUES ('Glass/Lens Assign','1');
+
+INSERT INTO tblUserAccounts (strUEmail,strUPassword,intUID,intUType) VALUES ('admin@hufflepuff','admin123','0','1');

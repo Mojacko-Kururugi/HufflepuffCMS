@@ -41,6 +41,7 @@
               <li class="bold {{ strpos(Request::url(), 'index') !== false ? 'active' : '' }}"><a href="/index">Dashboard</a></li>
               <li class="bold {{ strpos(Request::url(), 'schedules') !== false ? 'active' : '' }}"><a href="/schedules">Schedules</a></li>
               <li class="bold {{ strpos(Request::url(), 'records') !== false ? 'active' : '' }}"><a href="/records">Patient Records</a></li>
+              <li class="bold {{ strpos(Request::url(), 'service') !== false ? 'active' : '' }}"><a href="/service">Service</a></li>
               <li class="bold {{ strpos(Request::url(), 'inventory') !== false ? 'active' : '' }}"><a href="/inventory">Inventory</a></li>
               <li class="bold {{ strpos(Request::url(), 'sales') !== false ? 'active' : '' }}"><a href="/sales">Sales</a></li>
               <li class="bold"><a href="/logout">Log out</a></li>

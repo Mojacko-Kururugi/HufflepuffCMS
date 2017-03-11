@@ -37,7 +37,7 @@ class AdminController extends BaseController {
 
 	public function openUpBranch($id) {
 		$data = DB::table('tblBranch')
-			->where('tblBranch.strBranchCode', '=', $id)
+			->where('tblBranch.intBranchID', '=', $id)
 			->first();
 
 	    return View::make('update-branch')->with('data',$data)->with('id',$id);
@@ -45,7 +45,7 @@ class AdminController extends BaseController {
 
 	public function updateBranch()	{
 			DB::table('tblBranch')
-				->where('tblBranch.strBranchCode', '=', Session::get('upId'))
+				->where('tblBranch.intBranchID', '=', Session::get('upId'))
 				->update([
 				'strBranchAddress' 		=> Request::input('address'),
 				'strBContactNumb' 	=> Request::input('stud_id_no'),
@@ -57,7 +57,7 @@ class AdminController extends BaseController {
 
 	public function deactBranch($id) {
 		DB::table('tblBranch')
-				->where('tblBranch.strBranchCode', '=', $id)
+				->where('tblBranch.intBranchID', '=', $id)
 				->update([
 					'intBStatus' => 0,
 				]);
@@ -67,7 +67,7 @@ class AdminController extends BaseController {
 
 	public function showDoctors() {
 		$data = DB::table('tblDocInfo')
-			->join('tblBranch', 'tblDocInfo.strDocBranch', '=', 'tblBranch.strBranchCode')
+			->join('tblBranch', 'tblDocInfo.intDocBranch', '=', 'tblBranch.intBranchID')
 			->where('tblDocInfo.intDocStatus', '=', 1)
 			->get();
 
@@ -93,7 +93,7 @@ class AdminController extends BaseController {
 			'strDocMiddle' => Request::input('middle_name_sa'),
 			'intDocGender' => Request::input('gender'),
 			'strDocContactNumb' => Request::input('stud_id_no'),
-			'strDocBranch' => Request::input('branch'),
+			'intDocBranch' => Request::input('branch'),
 			'strDocImagePath' => "",
 			'strDocEmail' 	=> Request::input('email'),
 			'intDocStatus' => 1
@@ -111,8 +111,8 @@ class AdminController extends BaseController {
 
 	public function openUpDoctor($id) {
 		$data = DB::table('tblDocInfo')
-			->join('tblBranch', 'tblDocInfo.strDocBranch', '=', 'tblBranch.strBranchCode')
-			->where('tblDocInfo.strDocCode', '=', $id)
+			->join('tblBranch', 'tblDocInfo.intDocBranch', '=', 'tblBranch.intBranchID')
+			->where('tblDocInfo.intDocID', '=', $id)
 			->first();
 
 		$branch = DB::table('tblBranch')
@@ -124,7 +124,7 @@ class AdminController extends BaseController {
 
 	public function updateDoctor(){
 			DB::table('tblDocInfo')
-				->where('tblDocInfo.strDocCode', '=', Session::get('upId'))
+				->where('tblDocInfo.intDocID', '=', Session::get('upId'))
 				->update([
 					'strDocLicNumb' 	=> Request::input('user_id'),
 					'strDocLast' 	=> Request::input('last_name_sa'),
@@ -132,7 +132,7 @@ class AdminController extends BaseController {
 					'strDocMiddle' => Request::input('middle_name_sa'),
 					'intDocGender' => Request::input('gender'),
 					'strDocContactNumb' => Request::input('stud_id_no'),
-					'strDocBranch' => Request::input('branch')
+					'intDocBranch' => Request::input('branch')
 				]);
 
 		return Redirect::to('/doctors');
@@ -140,7 +140,7 @@ class AdminController extends BaseController {
 
 	public function deactDoctor($id) {
 		DB::table('tblDocInfo')
-				->where('tblDocInfo.strDocCode', '=', $id)
+				->where('tblDocInfo.intDocID', '=', $id)
 				->update([
 					'intDocStatus' => 0,
 				]);
@@ -150,7 +150,7 @@ class AdminController extends BaseController {
 
 	public function showEmployees() {
 		$data = DB::table('tblEmployeeInfo')
-			->join('tblBranch', 'tblEmployeeInfo.strEmpBranch', '=', 'tblBranch.strBranchCode')
+			->join('tblBranch', 'tblEmployeeInfo.intEmpBranch', '=', 'tblBranch.intBranchID')
 			->where('tblEmployeeInfo.intEmpStatus', '=', 1)
 			->get();
 		
@@ -173,7 +173,7 @@ class AdminController extends BaseController {
 			'strEmpLast' 	=> Request::input('last_name_sa'),
 			'strEmpFirst' => Request::input('first_name_sa'),
 			'strEmpMiddle' => Request::input('middle_name_sa'),
-			'strEmpBranch' => Request::input('branch'),
+			'intEmpBranch' => Request::input('branch'),
 			'strEmpImagePath' => "",
 			'strEmpEmail' 	=> Request::input('email'),
 			'intEmpStatus' => 1
@@ -191,7 +191,7 @@ class AdminController extends BaseController {
 
 	public function showUpEmp($id) {
 		$data = DB::table('tblEmployeeInfo')
-			->where('tblEmployeeInfo.strEmpCode', '=', $id)
+			->where('tblEmployeeInfo.intEmpID', '=', $id)
 			->first();
 
 
@@ -204,12 +204,12 @@ class AdminController extends BaseController {
 
 	public function updateEmp() {
 			DB::table('tblEmployeeInfo')
-				->where('tblEmployeeInfo.strEmpCode', '=', Session::get('upId'))
+				->where('tblEmployeeInfo.intEmpID', '=', Session::get('upId'))
 				->update([
 				'strEmpLast' 	=> Request::input('last_name_sa'),
 				'strEmpFirst' => Request::input('first_name_sa'),
 				'strEmpMiddle' => Request::input('middle_name_sa'),
-				'strEmpBranch' => Request::input('branch'),
+				'intEmpBranch' => Request::input('branch'),
 				]);
 
 		return Redirect::to('/employees');
@@ -217,7 +217,7 @@ class AdminController extends BaseController {
 
 	public function deactEmp($id) {
 		DB::table('tblEmployeeInfo')
-				->where('tblEmployeeInfo.strEmpCode', '=', $id)
+				->where('tblEmployeeInfo.intEmpID', '=', $id)
 				->update([
 					'intEmpStatus' => 0,
 				]);

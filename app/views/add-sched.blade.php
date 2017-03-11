@@ -42,7 +42,7 @@
                         <select class="initialized browser-default" name="patient" id="patient" data-error=".school_error">
                           <option value="" disabled selected>Patient Name</option>
                           @foreach($data as $data)
-                            <option value="{{ $data->strPatCode}}" @if(Input::old('patient') == $data->strPatCode) selected="selected" @endif>{{ $data->strPatLast . ',' . $data->strPatFirst }}</option>
+                            <option value="{{ $data->intPatID}}" @if(Input::old('patient') == $data->intPatID) selected="selected" @endif>{{ $data->strPatLast . ',' . $data->strPatFirst }}</option>
                           @endforeach
                         </select>
                        <div class="school_error"></div>
@@ -67,7 +67,7 @@
                 <div class="row">
                   <div class="input-field col s12 center">
                     <button type="submit" class="waves-effect waves-light btn blue darken-1 modal-btn">Save</button>
-                    <a href="{{ URL::to('/record') }}" class="waves-effect waves-light btn btn-green modal-btn" style="margin-right:20px;">Cancel</a>
+                    <a href="{{ URL::to('/schedules') }}" class="waves-effect waves-light btn btn-green modal-btn" style="margin-right:20px;">Cancel</a>
                   </div>
                 </div>
               </div>

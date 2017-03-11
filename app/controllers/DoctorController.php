@@ -5,18 +5,19 @@ class DoctorController extends BaseController {
 	public function index(){
 
 		$data = DB::table('tblDocInfo')
-			->join('tblBranch', 'tblDocInfo.strDocBranch', '=', 'tblBranch.strBranchCode')
+			->join('tblBranch', 'tblDocInfo.intDocBranch', '=', 'tblBranch.intBranchID')
 			->where('tblDocInfo.strDocEmail', '=', Session::get('user_type'))
 			->first();
 
+		Session::put('user_code',$data->intDocID);
 		Session::put('user_name',$data->strDocLast . ', ' . $data->strDocFirst);
 		Session::put('user_b',$data->strBranchName);
-		Session::put('user_bc',$data->strBranchCode);
+		Session::put('user_bc',$data->intBranchID);
 
 		$inv = DB::table('tblInventory')
-			->join('tblProducts', 'tblInventory.strInvPCode', '=', 'tblProducts.strProdCode')
-			->where('tblInventory.strInvBranch', '=', Session::get('user_bc'))
-			->groupby('tblInventory.strInvPCode')
+			->join('tblProducts', 'tblInventory.intInvPID', '=', 'tblProducts.intProdID')
+			->where('tblInventory.intInvBranch', '=', Session::get('user_bc'))
+			->groupby('tblInventory.intInvPID')
 			->selectRaw('*, sum(intInvQty) as sum')
 			->get();
 
@@ -49,6 +50,9 @@ class DoctorController extends BaseController {
 			'strPatFirst' => Request::input('first_name_sa'),
 			'strPatMiddle' => Request::input('middle_name_sa') ,
 			'intPatGender' => Request::input('gender'),
+			'strPatAddress' => Request::input('address'),
+			'strPatContactNumb' =>Request::input('number'),
+			'strPatCompany' =>Request::input('company'),
 			'dPatBirthdate' => null,
 			'strPatHistory' => $history,
 			'strPatComplaints' => $complaints,
@@ -70,7 +74,7 @@ class DoctorController extends BaseController {
 
 	public function openUpPat($id) {
 		$data = DB::table('tblPatientInfo')
-			->where('tblPatientInfo.strPatCode', '=', $id)
+			->where('tblPatientInfo.intPatID', '=', $id)
 			->first();
 
 	    return View::make('update-patient')->with('data',$data)->with('id',$id);
@@ -78,7 +82,7 @@ class DoctorController extends BaseController {
 
 	public function updatePat() {
 			DB::table('tblPatientInfo')
-				->where('tblPatientInfo.strPatCode', '=', Session::get('upId'))
+				->where('tblPatientInfo.intPatID', '=', Session::get('upId'))
 				->update([
 					'strPatLast' 	=> Request::input('last_name_sa'),
 					'strPatFirst' => Request::input('first_name_sa'),
@@ -91,7 +95,7 @@ class DoctorController extends BaseController {
 
 	public function deactPat($id){
 		DB::table('tblPatientInfo')
-				->where('tblPatientInfo.strPatCode', '=', $id)
+				->where('tblPatientInfo.intPatID', '=', $id)
 				->update([
 					'intPatStatus' => 0,
 				]);
@@ -99,12 +103,57 @@ class DoctorController extends BaseController {
 	    return Redirect::to('/records');
 	}
 
+	public function showServ() {
+		$data = DB::table('tblServiceHeader')
+			->join('tblPatientInfo', 'tblServiceHeader.intSHPatID','=','tblPatientInfo.intPatID')
+			->join('tblDocInfo', 'tblServiceHeader.intSHDocID','=','tblDocInfo.intDocID')
+			->join('tblServices', 'tblServiceHeader.intSHServiceID','=','tblServices.intServID')
+			->join('tblPayType', 'tblServiceHeader.intSHPaymentType','=','tblPayType.intPayTID')
+			->join('tblServiceStatus', 'tblServiceHeader.intSHServiceID','=','tblServiceStatus.intServStatID')
+			->get();
+		
+				return View::make('services')->with('data',$data);
+	}
+
+	public function showAddServ() {
+
+		$patient = DB::table('tblPatientInfo')
+			->where('tblPatientInfo.intPatStatus', '=', 1)
+			->get();
+
+		$service = DB::table('tblServices')
+			->where('tblServices.intServStatus', '=', 1)
+			->get();
+
+		$type = DB::table('tblPayType')
+			->get();
+
+		$status = DB::table('tblServiceStatus')
+			->get();
+		
+				return View::make('add-service')->with('patient',$patient)->with('service',$service)->with('type',$type)->with('status',$status);
+	}	
+
+	public function saveServ() {
+		
+		DB::table('tblServiceHeader')
+		->insert([
+			'intSHPatID' 	=> Request::input('patient'),
+			'intSHDocID' 	=> Session::get('user_code'),
+			'intSHServiceID' => Request::input('service'),
+			'intSHPaymentType' => Request::input('type'),
+			'intSHStatus' => Request::input('status')
+		]);
+
+		return Redirect::to('/service');
+	}
+
 	public function showInv() {
 		$data = DB::table('tblInventory')
-			->join('tblInvStatus', 'tblInventory.intInvStatus', '=', 'tblInvStatus.strISCode')
-			->join('tblProducts', 'tblInventory.strInvPCode', '=', 'tblProducts.strProdCode')
-			->join('tblProdType', 'tblProducts.intProdType', '=', 'tblProdType.strPTCode')
-			->where('tblInventory.strInvBranch', '=', Session::get('user_bc'))
+			->join('tblInvStatus', 'tblInventory.intInvStatus', '=', 'tblInvStatus.intISID')
+			->join('tblProducts', 'tblInventory.intInvPID', '=', 'tblProducts.intProdID')
+			->join('tblProdType', 'tblProducts.intProdType', '=', 'tblProdType.intPTID')
+			->where('tblInventory.intInvBranch', '=', Session::get('user_bc'))
 			->get();
 		
 

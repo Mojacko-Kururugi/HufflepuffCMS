@@ -54,6 +54,9 @@ Route::get('delete-emp/{id}','AdminController@deactEmp');
 //for Doctor
 Route::get('/index', 'DoctorController@index');
 Route::get('/records', 'DoctorController@showPat');
+Route::get('/service', 'DoctorController@showServ');
+Route::get('/service/add-service', 'DoctorController@showAddServ');
+Route::post('/save-service', 'DoctorController@saveServ');
 Route::get('/add-patient', 'DoctorController@addPatForm');
 Route::post('/save-pat', 'DoctorController@addPat');
 Route::get('patient/{id}', 'DoctorController@openUpPat');
@@ -71,10 +74,10 @@ Route::get('/add-payment', 'DoctorController@showPayment');
 //for sceretary
 Route::get('/sec-home', 'SecController@openSec');
 Route::get('/sec-inv', 'SecController@openSecInv');
-Route::get('/sec-inv/ord', 'SecController@openAddOrd');
+Route::get('/sec-order/ord', 'SecController@openAddOrd');
 Route::get('/sec-order', 'SecController@openOrdList');
 Route::post('/sec-inv/add-order', 'SecController@addOrd');
-Route::get('/sec-inv/ord/{id}', 'SecController@receiveOrd');
+Route::post('/sec-inv/ord/{id}', 'SecController@receiveOrd');
 Route::get('/sec-prod', 'SecController@openSecProd');
 Route::get('/sec-prod/add', 'SecController@openAddProd');
 Route::post('/sec-prod/add-prod', 'SecController@addProd');

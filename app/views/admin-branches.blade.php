@@ -45,8 +45,8 @@
                         <td>{{ $branch->created_at }}</td>
                         <td>
                             <div class="center-btn">
-                             <a class="waves-effect waves-light btn green darken-1 btn-small center-text" href="branch/{{$branch->strBranchCode}}">UPDATE</a>
-                             <a class="waves-effect waves-light btn red lighten-1 btn-small center-text" href="d-branch/{{$branch->strBranchCode}}">DEACTIVATE</a>
+                             <a class="waves-effect waves-light btn green darken-1 btn-small center-text" href="branch/{{$branch->intBranchID}}">UPDATE</a>
+                             <a class="waves-effect waves-light btn red lighten-1 btn-small center-text" href="d-branch/{{$branch->intBranchID}}">DEACTIVATE</a>
                             </div>
                         </td>
                       </tr>

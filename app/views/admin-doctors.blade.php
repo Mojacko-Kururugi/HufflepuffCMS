@@ -56,8 +56,8 @@
                         <td>{{ $data->created_at }}</td>
                         <td>
                             <div class="center-btn">
-                             <a class="waves-effect waves-light btn green darken-1 btn-small center-text" href="doctor/{{$data->strDocCode}}">UPDATE</a>
-                             <a class="waves-effect waves-light btn red lighten-1 btn-small center-text" href="delete-doc/{{$data->strDocCode}}">DELETE</a>
+                             <a class="waves-effect waves-light btn green darken-1 btn-small center-text" href="doctor/{{$data->intDocID}}">UPDATE</a>
+                             <a class="waves-effect waves-light btn red lighten-1 btn-small center-text" href="delete-doc/{{$data->intDocID}}">DELETE</a>
                             </div>
                         </td>
                     </tr>

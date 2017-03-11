@@ -5,23 +5,23 @@ class SecController extends BaseController {
 	public function openSec() {
 		
 		$data = DB::table('tblEmployeeInfo')
-			->join('tblBranch', 'tblEmployeeInfo.strEmpBranch', '=', 'tblBranch.strBranchCode')
+			->join('tblBranch', 'tblEmployeeInfo.intEmpBranch', '=', 'tblBranch.intBranchID')
 			->where('tblEmployeeInfo.strEmpEmail', '=', Session::get('user_type'))
 			->first();
 
 		Session::put('user_name',$data->strEmpLast . ', ' . $data->strEmpFirst);
 		Session::put('user_b',$data->strBranchName);
-		Session::put('user_bc',$data->strBranchCode);
+		Session::put('user_bc',$data->intBranchID);
 
 			return View::make('layouts/secretary-master');
 	}
 
 	public function openSecInv() {
 		$data = DB::table('tblInventory')
-			->join('tblInvStatus', 'tblInventory.intInvStatus', '=', 'tblInvStatus.strISCode')
-			->join('tblProducts', 'tblInventory.strInvPCode', '=', 'tblProducts.strProdCode')
-			->join('tblProdType', 'tblProducts.intProdType', '=', 'tblProdType.strPTCode')
-			->where('tblInventory.strInvBranch', '=', Session::get('user_bc'))
+			->join('tblInvStatus', 'tblInventory.intInvStatus', '=', 'tblInvStatus.intISID')
+			->join('tblProducts', 'tblInventory.intInvPID', '=', 'tblProducts.intProdID')
+			->join('tblProdType', 'tblProducts.intProdType', '=', 'tblProdType.intPTID')
+			->where('tblInventory.intInvBranch', '=', Session::get('user_bc'))
 			->get();
 		
 			return View::make('sec-inv')->with('data',$data);
@@ -30,6 +30,7 @@ class SecController extends BaseController {
 	public function openAddOrd() {
 		$data = DB::table('tblProducts')
 			->where('tblProducts.intProdStatus', '=', 1)
+			->where('tblProducts.intProdBranch', '=', Session::get('user_bc'))	
 			->get();
 		
 			return View::make('sec-ord')->with('data',$data);
@@ -37,9 +38,9 @@ class SecController extends BaseController {
 
 	public function openOrdList() {
 		$data = DB::table('tblOrders')
-			->join('tblProducts', 'tblOrders.strOProdCode', '=', 'tblProducts.strProdCode')
-			->join('tblOrdStatus', 'tblOrders.intStatus', '=', 'tblOrdStatus.strOSCode')
-			->where('tblOrders.strOBranch', '=', Session::get('user_bc'))
+			->join('tblProducts', 'tblOrders.intOProdID', '=', 'tblProducts.intProdID')
+			->join('tblOrdStatus', 'tblOrders.intStatus', '=', 'tblOrdStatus.intOSID')
+			->where('tblOrders.intOBranch', '=', Session::get('user_bc'))		
 			->get();
 		
 			return View::make('sec-order')->with('data',$data);
@@ -49,10 +50,10 @@ class SecController extends BaseController {
 
 		DB::table('tblOrders')
 		->insert([
-			'strOProdCode' 		=> Request::input('name'),
+			'intOProdID' 		=> Request::input('name'),
 			'intOQty' 	=> Request::input('qty'),
 			'dtOReceived'	=> null,
-			'strOBranch'	=> Session::get('user_bc'),			
+			'intOBranch'	=> Session::get('user_bc'),			
 			'intStatus' => 2
 		]);
 
@@ -64,24 +65,24 @@ class SecController extends BaseController {
 		$ldate = date('Y-m-d H:i:s');
 
 		DB::table('tblOrders')
-				->where('tblOrders.strOCode', '=', $id)
+				->where('tblOrders.intOID', '=', $id)
 				->update([
 					'dtOReceived' => $ldate,
 					'intStatus' => 1,
 				]);
 
 		$data = DB::table('tblOrders')
-			->join('tblProducts', 'tblOrders.strOProdCode', '=', 'tblProducts.strProdCode')
-			->where('tblOrders.strOCode', '=', $id)
+			->join('tblProducts', 'tblOrders.intOProdID', '=', 'tblProducts.intProdID')
+			->where('tblOrders.intOID', '=', $id)
 			->first();
 
 		DB::table('tblInventory')
 			->insert([
-				'strInvPCode' => $data->strOProdCode,
-			    'dcInvPPrice' => 0.50,
+				'intInvPID' => $data->intOProdID,
+			    'dcInvPPrice' => Request::input('price'),
 			    'intInvQty' => $data->intOQty,
 			    'intInvStatus' => 1,
-				'strInvBranch' => Session::get('user_bc')
+				'intInvBranch' => Session::get('user_bc')
 			]);
 
 		return Redirect::to('/sec-inv');
@@ -90,7 +91,8 @@ class SecController extends BaseController {
 
 	public function openSecProd() {
 		$data = DB::table('tblProducts')
-			->join('tblProdType', 'tblProducts.intProdType', '=', 'tblProdType.strPTCode')
+			->join('tblProdType', 'tblProducts.intProdType', '=', 'tblProdType.intPTID')
+			->where('tblProducts.intProdBranch', '=', Session::get('user_bc'))
 			->where('tblProducts.intProdStatus', '=', 1)
 			->get();
 		
@@ -99,9 +101,8 @@ class SecController extends BaseController {
 
 	public function openAddProd() {
 		
-			$data = DB::table('tblProdType')
-				->get();
-
+		$data = DB::table('tblProdType')
+			->get();
 
 			return View::make('add-product')->with('data',$data);
 	}
@@ -113,7 +114,8 @@ class SecController extends BaseController {
 			'strProdName' 		=> Request::input('name'),
 			'strProdModel' 	=> Request::input('model'),
 			'intProdType'	=> Request::input('type'),
-			'intProdStatus' => 1
+			'intProdStatus' => 1,
+			'intProdBranch' => Session::get('user_bc')
 		]);
 
 		return Redirect::to('/sec-prod');

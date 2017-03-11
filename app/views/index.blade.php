@@ -17,10 +17,10 @@
         <span class="card-title">Inventory status</span>
         <hr>
         <div class="card-content">
+          @if($inv != null)
           <p>
             These items are branch's <span class="green-text bold">current</span> stocks.
           </p>
-
           <table class="centered">
             <thead>
               <tr>
@@ -46,9 +46,9 @@
               @endforeach
             </tbody>
           </table>
-        
-         <!-- <p> All of your items are in <span class="green-text bold">good</span> stocks.</p> -->
-        
+        @else
+         <p> You have <span class="red-text bold">no inventory</span> on your branch.</p>
+        @endif
         </div>
       </div>
 

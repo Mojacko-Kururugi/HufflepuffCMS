@@ -75,7 +75,7 @@
 
 			<div class="row">
 				<div class="input-field col l6 m6 s12">
-						<label for="email">Contact Number</label>
+						<label for="number">Contact Number</label>
 						<input id="number" name="number" type="text" class="validate" value="" />
 				</div>
 				<div class="input-field col s12 m6 l6">

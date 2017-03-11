@@ -76,7 +76,7 @@
                         <select class="initialized browser-default" name="branch" id="branch" data-error=".school_error">
                           <option value="" disabled selected>Branch</option>
                           @foreach($branch as $branch)
-                            <option value="{{ $branch->strBranchCode}}" @if(Input::old('branch') == $branch->strBranchCode) selected="selected" @endif>{{ $branch->strBranchName}}</option>
+                            <option value="{{ $branch->intBranchID}}" @if(Input::old('branch') == $branch->intBranchID) selected="selected" @endif>{{ $branch->strBranchName}}</option>
                           @endforeach
                         </select>
                        <div class="school_error"></div>

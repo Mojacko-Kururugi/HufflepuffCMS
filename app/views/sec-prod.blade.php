@@ -39,8 +39,8 @@
                         <td>{{ $data->strPTDesc }}</td>
                         <td>
                             <div class="center-btn">
-                             <a class="waves-effect waves-light btn green darken-1 btn-small center-text" href="emp/{{$data->strProdCode}}">UPDATE</a>
-                             <a class="waves-effect waves-light btn red lighten-1 btn-small center-text" href="delete-emp/{{$data->strProdCode}}">DELETE</a>
+                             <a class="waves-effect waves-light btn green darken-1 btn-small center-text" href="emp/{{$data->intProdID}}">UPDATE</a>
+                             <a class="waves-effect waves-light btn red lighten-1 btn-small center-text" href="delete-emp/{{$data->intProdID}}">DELETE</a>
                             </div>
                         </td>
                     </tr>
