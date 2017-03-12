@@ -64,6 +64,8 @@ Route::post('/update-pat', 'DoctorController@updatePat');
 Route::get('delete-pat/{id}', 'DoctorController@deactPat');
 Route::get('/schedules', 'DoctorController@showSched');
 Route::get('/inventory', 'DoctorController@showInv');
+Route::get('/inventory/order', 'DoctorController@openOrdList');
+Route::post('/inventory/add-order', 'DoctorController@addOrd');
 Route::get('/sales', 'DoctorController@showSales');
 Route::get('/add-sched', 'DoctorController@addSched');
 Route::get('/add-payment', 'DoctorController@showPayment');

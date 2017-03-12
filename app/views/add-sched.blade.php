@@ -36,6 +36,15 @@
                         </select>
                   </div>
             </div>
+
+            <div class="row">
+              <div class="col s12 m8 l6">
+                <label for="b_day">Choose Date</label>
+                <input id="b_day" name="b_day" type="date" class="datepicker" style="height:39px" value="">
+              </div>
+            </div>  
+
+
             <div class="row">
                    <div class="row">
                     <div class="input-field col l6 m6 s12">
@@ -80,13 +89,14 @@
 </div>
 
 {{-- Scripts START --}}
-<script type="text/javascript">
+<script src="js/materialize.js"></script>
+<script type="text/javascript" src="js/jquery.js">
   var date = new Date();
   var nameRegex = /^([ \u00c0-\u01ffa-zA-Z'\-])+$/;
   var contactRegex = /((\+63)|0)\d{10}/;
 
   $(document).ready(function() {
-    $('#a_date').pickadate({
+    $('#b_day').pickadate({
       format: "yyyy-mm-dd",
       selectYears: true,
       selectMonths: true,
@@ -94,6 +104,7 @@
       min: new Date(1929,12,31),
       max: new Date(2009,12,01)
     });
+
 
     $('#user_image_input').on('change', function() {
       var reader = new FileReader();

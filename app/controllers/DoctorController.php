@@ -131,7 +131,12 @@ class DoctorController extends BaseController {
 		$status = DB::table('tblServiceStatus')
 			->get();
 		
-				return View::make('add-service')->with('patient',$patient)->with('service',$service)->with('type',$type)->with('status',$status);
+		$product = DB::table('tblInventory')
+			->join('tblProducts', 'tblInventory.intInvPID', '=', 'tblProducts.intProdID')
+			->where('tblInventory.intInvBranch', '=', Session::get('user_bc'))
+			->get();
+
+				return View::make('add-service')->with('patient',$patient)->with('service',$service)->with('type',$type)->with('status',$status)->with('product',$product);
 	}	
 
 	public function saveServ() {
@@ -158,6 +163,30 @@ class DoctorController extends BaseController {
 		
 
 		return View::make('inventory')->with('data',$data);
+	}
+
+	public function openOrdList() {
+		$data = DB::table('tblOrders')
+			->join('tblProducts', 'tblOrders.intOProdID', '=', 'tblProducts.intProdID')
+			->join('tblOrdStatus', 'tblOrders.intStatus', '=', 'tblOrdStatus.intOSID')
+			->where('tblOrders.intOBranch', '=', Session::get('user_bc'))		
+			->get();
+		
+			return View::make('order')->with('data',$data);
+	}
+
+	public function addOrd() {
+
+		DB::table('tblOrders')
+		->insert([
+			'intOProdID' 		=> Request::input('name'),
+			'intOQty' 	=> Request::input('qty'),
+			'dtOReceived'	=> null,
+			'intOBranch'	=> Session::get('user_bc'),			
+			'intStatus' => 2
+		]);
+
+		return Redirect::to('/inventory');
 	}
 
 	public function showSales() {

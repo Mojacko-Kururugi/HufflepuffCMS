@@ -128,11 +128,9 @@
                       <input type="checkbox" id="kidneyprob" name="kidneyprob" value="6"/>
                       <label for="kidneyprob">Kidney Problem</label>
                     </p>
-                  </form>
                 </div>
                  <div class="col s12 m6 l4">
                   <h5>Complaints:</h5>
-                    <form action="#" style="font-color: black;">
                       <p>
                         <input type="checkbox" id="BOVfar" name="BOVfar" value="1"/>
                         <label for="BOVfar">BOV Far</label>

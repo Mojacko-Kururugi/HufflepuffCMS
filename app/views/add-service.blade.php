@@ -38,6 +38,18 @@
 
                   <div class="row">
                     <div class="input-field col l6 m6 s12">
+                        <select class="initialized browser-default" name="product" id="product" data-error=".school_error">
+                          <option value="" disabled selected>Product</option>
+                          @foreach($product as $product)
+                            <option value="{{ $product->intInvID}}" @if(Input::old('product') == $product->intInvID) selected="selected" @endif>{{ $product->strProdName . ' - ' . $product->dcInvPPrice . ' php' }}</option>
+                          @endforeach
+                        </select>
+                       <div class="school_error"></div>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="input-field col l6 m6 s12">
                         <select class="initialized browser-default" name="type" id="type" data-error=".school_error">
                           <option value="" disabled selected>Payment Type</option>
                           @foreach($type as $type)
