@@ -13,6 +13,19 @@ class SecController extends BaseController {
 		Session::put('user_b',$data->strBranchName);
 		Session::put('user_bc',$data->intBranchID);
 
+		$exp = DB::table('tblInventory')
+				->where('tblInventory.dtInvExpiry', '<', Carbon\Carbon::now())
+				->get();
+
+		foreach($exp as $exp)
+		{
+			DB::table('tblInventory')
+						->where('tblInventory.intInvID', '=', $exp->intInvID)
+						->update([
+							'intInvStatus' => 3,
+						]);
+		}
+
 			return View::make('layouts/secretary-master');
 	}
 
@@ -22,6 +35,7 @@ class SecController extends BaseController {
 			->join('tblProducts', 'tblInventory.intInvPID', '=', 'tblProducts.intProdID')
 			->join('tblProdType', 'tblProducts.intProdType', '=', 'tblProdType.intPTID')
 			->where('tblInventory.intInvBranch', '=', Session::get('user_bc'))
+			->where('tblInvStatus.intISID','!=',3)
 			->get();
 		
 			return View::make('sec-inv')->with('data',$data);
@@ -50,6 +64,7 @@ class SecController extends BaseController {
 		DB::table('tblOrders')
 		->insert([
 			'intOProdID' 		=> Request::input('name'),
+			'strOCode'			=> Request::input('user_id'),
 			'intOQty' 	=> Request::input('qty'),
 			'dtOReceived'	=> null,
 			'intOBranch'	=> Session::get('user_bc'),			
@@ -75,17 +90,112 @@ class SecController extends BaseController {
 			->where('tblOrders.intOID', '=', $id)
 			->first();
 
+		if($data->intProdType == 1)
+		{
 		DB::table('tblInventory')
 			->insert([
 				'intInvPID' => $data->intOProdID,
+				'strInvCode' => $data->strOCode,
 			    'dcInvPPrice' => Request::input('price'),
 			    'intInvQty' => $data->intOQty,
+			    'dtInvExpiry' => NULL,
 			    'intInvStatus' => 1,
 				'intInvBranch' => Session::get('user_bc')
 			]);
+		}
+		else
+		{
+			DB::table('tblInventory')
+			->insert([
+				'intInvPID' => $data->intOProdID,
+				'strInvCode' => $data->strOCode,
+			    'dcInvPPrice' => Request::input('price'),
+			    'intInvQty' => $data->intOQty,
+			    'dtInvExpiry' => Request::input('date'),
+			    'intInvStatus' => 1,
+				'intInvBranch' => Session::get('user_bc')
+			]);
+		}
 
 		return Redirect::to('/sec-inv');
 	}
 	
+	public function openSecAdj() {
+		$data = DB::table('tblInventory')
+			->join('tblInvStatus', 'tblInventory.intInvStatus', '=', 'tblInvStatus.intISID')
+			->join('tblProducts', 'tblInventory.intInvPID', '=', 'tblProducts.intProdID')
+			->join('tblAdjustments', 'tblInventory.intInvID', '=', 'tblAdjustments.intAdjInvID')
+			->where('tblInventory.intInvBranch', '=', Session::get('user_bc'))
+			->get();
+		
+			return View::make('sec-adj')->with('data',$data);
+	}
+
+
+	public function adjInv($id) {
+		$data = DB::table('tblInventory')
+				->where('tblInventory.intInvID', '=', $id)
+				->first();
+
+		$new_qty = Request::input('qty');
+		$curr_qty =  $data->intInvQty;
+		$total;
+
+		if(Request::input('type') == 2)
+		{
+			if($new_qty <= $curr_qty)
+				{
+				$total = $curr_qty - $new_qty;
+				DB::table('tblAdjustments')
+					->insert([
+						'intAdjInvID' => $id,
+					    'intAdjQty' => Request::input('qty'),
+					    'strAdjReason' => Request::input('desc'),
+					    'intAdjStatus' => Request::input('type'),
+					    'intAdjBranch' => Session::get('user_bc')
+					]);		
+
+				DB::table('tblInventory')
+						->where('tblInventory.intInvID', '=', $id)
+						->update([
+							'intInvQty' => $total,
+						]);
+					return Redirect::to('/adjustments');
+				}
+		}
+		else if (Request::input('type') == 1)
+		{
+			$total = $curr_qty + $new_qty;
+				DB::table('tblAdjustments')
+					->insert([
+						'intAdjInvID' => $id,
+					    'intAdjQty' => Request::input('qty'),
+					    'strAdjReason' => Request::input('desc'),
+					    'intAdjStatus' => Request::input('type'),
+					    'intAdjBranch' => Session::get('user_bc')
+					]);		
+
+				DB::table('tblInventory')
+						->where('tblInventory.intInvID', '=', $id)
+						->update([
+							'intInvQty' => $total,
+						]);
+					return Redirect::to('/adjustments');
+		}
+		else
+			return Redirect::to('/sec-inv');
+	}
+
+	public function openExp() {
+		$data = DB::table('tblInventory')
+			->join('tblInvStatus', 'tblInventory.intInvStatus', '=', 'tblInvStatus.intISID')
+			->join('tblProducts', 'tblInventory.intInvPID', '=', 'tblProducts.intProdID')
+			->join('tblProdType', 'tblProducts.intProdType', '=', 'tblProdType.intPTID')
+			->where('tblInventory.intInvBranch', '=', Session::get('user_bc'))
+			->where('tblInvStatus.intISID','=',3)
+			->get();
+		
+			return View::make('sec-exp')->with('data',$data);
+	}
 
 }

@@ -5,7 +5,7 @@
 <!-- header -->
 <div class="row page-title">
   <div class="col s12 m12 l12">
-    <h5>Inventory</h5>
+    <h5>Orders</h5>
   </div>
 </div>
 
@@ -27,6 +27,7 @@
               <table id="example" class="mdl-data-table" cellspacing="0" width="100%">
                 <thead>
                     <tr>
+                        <th>Ordered Code</th>
                         <th>Ordered Product Name and Model</th>
                         <th>Ordered Quantity</th>
                         <th>Date Ordered</th>
@@ -37,6 +38,7 @@
                 <tbody>
                 @foreach($data as $data)
                       <tr>
+                        <td>{{ $data->strOCode }}</td>
                         <td>{{ $data->strProdName .' - ' . $data->strProdModel }}</td>
                         <td>{{ $data->intOQty }}</td>
                         <td>{{ $data->created_at }}</td>
@@ -57,6 +59,17 @@
                                           <label for="price">Price</label>
                                           <input type="number" class="form-control" name="price" id="price" value="1">
                                           </div>
+                                          @if($data->intProdType == 1)
+                                          <br>
+                                          @else
+                                          <br>
+                                          <div class="row">
+                                            <div class="col s12 m8 l6">
+                                              <label for="date">Choose Expiry Date</label>
+                                              <input id="date" name="date" type="date" class="datepicker" style="height:39px" value="">
+                                            </div>
+                                          </div>
+                                          @endif  
                                   </p>
                                 </div>
                                 <div class="modal-footer col 6">

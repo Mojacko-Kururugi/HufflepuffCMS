@@ -27,26 +27,75 @@
               <table id="example" class="mdl-data-table" cellspacing="0" width="100%">
                 <thead>
                     <tr>
+                        <th>Serial Code</th>
                         <th>Product Name</th>
                         <th>Product Model</th>
                         <th>Product Type</th>
                         <th>Price</th>
-                        <th>Quantity</th>
+                        <th>Available Stock</th>
+                        <th>Expiry Date</th>
                         <th>Status</th>
+                        <th>Actions</th>
                     </tr>
                 </thead>
                 @foreach($data as $data)
                       <tr>
+                        <td>{{ $data->strInvCode }}</td>
                         <td>{{ $data->strProdName }}</td>
                         <td>{{ $data->strProdModel }}</td>
                         <td>{{ $data->strPTDesc }}</td>
                         <td>{{ $data->dcInvPPrice }}</td>
                         <td>{{ $data->intInvQty }}</td>
-                        @if($data->intInvQty > 0)
-                        <td class="green-text bold">GOOD</td>
-                        @else
-                        <td class="red-text bold">DEPLETED</td>
+                        <td>{{ $data->dtInvExpiry }}</td>
+                        @if($data->intISID == 1)
+                        <td class="green-text bold">{{ $data->strISDesc }}</td>
+                        @elseif($data->intISID == 2)
+                        <td class="yellow-text bold">{{ $data->strISDesc }}</td>
+                        @elseif($data->intISID == 3)
+                        <td class="red-text bold">{{ $data->strISDesc }}</td>
                         @endif
+                        <td>
+                            <a class="modal-trigger waves-effect waves-light btn yellow darken-1 btn-small center-text" href="#{{$data->intInvID}}">ADJUST</a>
+                        </td>
+
+
+                              <!-- Modal Structure -->
+                              <div id="{{$data->intInvID}}" class="modal modal-fixed-footer">
+                                <div class="modal-content col 6">
+                                  <h4>Adjustments for {{$data->strProdName}} - {{$data->strInvCode}}</h4>
+                                  <p>
+                                  <form action="/adjust/{{$data->intInvID}}" method="POST">
+                                          <div class="col l6 ">
+                                          <label for="qty">Quantity</label>
+                                          <input type="number" class="form-control" name="qty" id="qty" value="0">
+                                          </div> 
+
+                                          <div class="row">
+                                            <div class="input-field col l6 m6 s12">
+                                                <select class="initialized browser-default" name="type" id="type">
+                                                  <option value="" disabled selected>Adjustment Type</option>
+                                                  <option value="1">Increase By</option>
+                                                  <option value="2">Decrease By</option>
+                                                </select>
+                                            </div>
+                                          </div>
+
+                                          <br>
+                                         <div class="row">
+                                            <div class="col s12">
+                                              <label for="desc">Description:</label>
+                                              <textarea id="desc" name="desc" class="materialize-textarea"></textarea>
+                                            </div>
+                                          </div>  
+                                  </p>
+                                </div>
+                                <div class="modal-footer col 6">
+                                  <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat ">CANCEL</a>
+                                  <button type="submit" class="waves-effect waves-green btn-flat ">SUBMIT</button>
+                                </div>
+                                </form>
+                              </div>
+
                     </tr>
                    @endforeach 
                 </tbody>
@@ -91,5 +140,12 @@ $(document).ready(function() {
     } );
 } );
   </script>
+
+    <script>
+    $(document).ready(function(){
+    // the "href" attribute of .modal-trigger must specify the modal ID that wants to be triggered
+    $('.modal').modal();
+  });
+    </script>
 @stop
 

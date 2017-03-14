@@ -91,6 +91,9 @@ Route::get('/sec-order/ord', 'SecController@openAddOrd');
 Route::get('/sec-order', 'SecController@openOrdList');
 Route::post('/sec-inv/add-order', 'SecController@addOrd');
 Route::post('/sec-inv/ord/{id}', 'SecController@receiveOrd');
+Route::get('/adjustments', 'SecController@openSecAdj');
+Route::post('/adjust/{id}', 'SecController@adjInv');
+Route::get('/expired', 'SecController@openExp');
 
 
 

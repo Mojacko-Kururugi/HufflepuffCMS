@@ -4,7 +4,7 @@
 
 <div class="row page-title">
   <div class="col s12 m12 l12">
-    <h5>Add New Doctor</h5>
+    <h5>Add New Optometrist</h5>
   </div>
 </div>
 

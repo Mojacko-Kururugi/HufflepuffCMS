@@ -17,6 +17,7 @@ class DoctorController extends BaseController {
 		$inv = DB::table('tblInventory')
 			->join('tblProducts', 'tblInventory.intInvPID', '=', 'tblProducts.intProdID')
 			->where('tblInventory.intInvBranch', '=', Session::get('user_bc'))
+			->where('tblInventory.intInvStatus','!=',3)
 			->groupby('tblInventory.intInvPID')
 			->selectRaw('*, sum(intInvQty) as sum')
 			->get();
@@ -180,6 +181,7 @@ class DoctorController extends BaseController {
 		DB::table('tblOrders')
 		->insert([
 			'intOProdID' 		=> Request::input('name'),
+			'strOCode'			=> Request::input('user_id'),
 			'intOQty' 	=> Request::input('qty'),
 			'dtOReceived'	=> null,
 			'intOBranch'	=> Session::get('user_bc'),			

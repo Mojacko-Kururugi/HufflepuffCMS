@@ -162,20 +162,19 @@ CREATE TABLE tblProducts(
     strProdModel VARCHAR(50),
     intProdType INT(3),
     intProdStatus INT(2),
-	intProdBranch INT,
     
     PRIMARY KEY (intProdID),
-	FOREIGN KEY(intProdBranch)
-    REFERENCES tblBranch(intBranchID),
 	FOREIGN KEY(intProdType)
     REFERENCES tblProdType(intPTID)
 )Engine=InnoDb;
 
 CREATE TABLE tblInventory(
 	intInvID int NOT NULL AUTO_INCREMENT,
+    strInvCode VARCHAR(25),
 	intInvPID INT,
     dcInvPPrice DECIMAL(18,2),
     intInvQty INT(100),
+    dtInvExpiry DATE,
     intInvStatus INT(3),
 	intInvBranch INT,
     
@@ -186,6 +185,22 @@ CREATE TABLE tblInventory(
     REFERENCES tblBranch(intBranchID),
     FOREIGN KEY(intInvStatus)
     REFERENCES tblInvStatus(intISID)
+)Engine=InnoDb;
+
+CREATE TABLE tblAdjustments(
+	intAdjID int NOT NULL AUTO_INCREMENT,
+    intAdjInvID INT,
+    intAdjQty INT,
+    strAdjReason TEXT,
+    intAdjStatus INT,
+    dtAdjDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    intAdjBranch INT,
+    
+    PRIMARY KEY (intAdjID),
+    FOREIGN KEY(intAdjInvID)
+    REFERENCES tblInventory(intInvPID),
+	FOREIGN KEY(intAdjBranch)
+    REFERENCES tblBranch(intBranchID)
 )Engine=InnoDb;
 
 CREATE TABLE tblDiscount(
@@ -201,6 +216,7 @@ CREATE TABLE tblDiscount(
 
 CREATE TABLE tblOrders(
 	intOID int NOT NULL AUTO_INCREMENT,
+	strOCode VARCHAR(25),
     intOProdID INT,
     intOQty INT(100),
     dtOReceived DATE,
@@ -219,6 +235,7 @@ CREATE TABLE tblOrders(
 
 CREATE TABLE tblServiceHeader(
 	intSHID int NOT NULL AUTO_INCREMENT,
+	strSHCode VARCHAR(25),
     intSHPatID INT,
     intSHDocID INT,
     intSHServiceID INT,
@@ -338,6 +355,7 @@ INSERT INTO tblOrdStatus(intOSID,strOSDesc) VALUES ('3','CANCELLED');
 
 INSERT INTO tblInvStatus(intISID,strISDesc) VALUES ('1','GOOD');
 INSERT INTO tblInvStatus(intISID,strISDesc) VALUES ('2','DISCOUNTED');
+INSERT INTO tblInvStatus(intISID,strISDesc) VALUES ('3','EXPIRED');
 
 INSERT INTO tblProdType(intPTID,strPTDesc) VALUES ('1','Glasses');
 INSERT INTO tblProdType(intPTID,strPTDesc) VALUES ('2','Contact Lens');

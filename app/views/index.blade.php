@@ -19,7 +19,7 @@
         <div class="card-content">
           @if($inv != null)
           <p>
-            These items are branch's <span class="green-text bold">current</span> stocks.
+            These items are branch's <span class="green-text bold">current available</span> stocks.
           </p>
           <table class="centered">
             <thead>
