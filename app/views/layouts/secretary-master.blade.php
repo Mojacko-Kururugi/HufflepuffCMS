@@ -39,10 +39,10 @@
                 <!-- Branch: <span class="bold">Brgy. Sangandaan Branch</span> -->
               </div>
               <li class="bold {{ strpos(Request::url(), 'sec-home') !== false ? 'active' : '' }}"><a href="/sec-home">Dashboard</a></li>
-              <li class="bold {{ strpos(Request::url(), 'sec-prod') !== false ? 'active' : '' }}"><a href="/sec-prod">Products</a></li>
-              <li class="bold {{ strpos(Request::url(), 'sec-inv') !== false ? 'active' : '' }}"><a href="/sec-inv">Inventory</a></li>
-             <!-- <li class="bold {{ strpos(Request::url(), 'sec-sched') !== false ? 'active' : '' }}"><a href="/sec-sched">Employee Schedules</a></li> -->
               <li class="bold {{ strpos(Request::url(), 'sec-order') !== false ? 'active' : '' }}"><a href="/sec-order">Orders</a></li>
+              <li class="bold {{ strpos(Request::url(), 'sec-inv') !== false ? 'active' : '' }}"><a href="/sec-inv">Inventory</a></li>
+              <li class="bold {{ strpos(Request::url(), 'sec-prod') !== false ? 'active' : '' }}"><a href="/sec-prod">Adjustments</a></li>
+             <!-- <li class="bold {{ strpos(Request::url(), 'sec-sched') !== false ? 'active' : '' }}"><a href="/sec-sched">Employee Schedules</a></li> -->
               <li class="bold"><a href="/logout">Log out</a></li>
             </ul>
             <a href="#" data-activates="slide-out" class="button-collapse"><i class="mdi-navigation-menu"></i></a>

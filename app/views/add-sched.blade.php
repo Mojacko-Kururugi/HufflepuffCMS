@@ -18,22 +18,8 @@
              <!-- Date & Time -->
             <div class="row">
                   <div class="col s12 m8 l6">
-                       <label for="a_time">Time:</label>
-                        <select name="time_frequency">
-                          <option value="" selected disabled>- Choose Time -</option>
-                          <option value="1">9:00am</option>
-                          <option value="2">10:00am</option>
-                          <option value="3">11:00am</option>
-                          <option value="4">12:00am</option>
-                          <option value="5">1:00pm</option>
-                          <option value="6">2:00pm</option>
-                          <option value="7">3:00pm</option>
-                          <option value="8">4:00pm</option>
-                          <option value="9">5:00pm</option>
-                          <option value="10">6:00pm</option>
-                          <option value="11">7:00pm</option>
-                          <option value="12">8:00pm</option>
-                        </select>
+                        Select a time:
+                        <input type="time" name="usr_time">
                   </div>
             </div>
 

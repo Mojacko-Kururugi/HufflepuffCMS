@@ -225,13 +225,13 @@ class AdminController extends BaseController {
 	    return Redirect::to('/employees');
 	}
 
-	public function openSecProd() {
+	public function openProd() {
 		$data = DB::table('tblProducts')
 			->join('tblProdType', 'tblProducts.intProdType', '=', 'tblProdType.intPTID')
 			->where('tblProducts.intProdStatus', '=', 1)
 			->get();
 		
-			return View::make('sec-prod')->with('data',$data);
+			return View::make('admin-products')->with('data',$data);
 	}
 
 	public function openAddProd() {
@@ -252,7 +252,92 @@ class AdminController extends BaseController {
 			'intProdStatus' => 1
 		]);
 
-		return Redirect::to('/sec-prod');
+		return Redirect::to('/products');
 	}
 
+	public function showUpProd($id) {
+		$prod = DB::table('tblProducts')
+			->where('tblProducts.intProdID', '=', $id)
+			->first();
+
+		$data = DB::table('tblProdType')
+			->get();
+
+	    return View::make('update-product')->with('data',$data)->with('prod',$prod)->with('id',$id);
+	}
+
+	public function updateProd() {
+			DB::table('tblProducts')
+				->where('tblProducts.intProdID', '=', Session::get('upId'))
+				->update([
+					'strProdName' 		=> Request::input('name'),
+					'strProdModel' 	=> Request::input('model'),
+					'intProdType'	=> Request::input('type')
+				]);
+
+		return Redirect::to('/products');
+	}
+
+	public function deactProd($id) {
+			DB::table('tblProducts')
+				->where('tblProducts.intProdID', '=', $id)
+				->update([
+					'intProdStatus' => 0,
+				]);
+
+	    return Redirect::to('/products');
+	}
+
+	public function openServ() {
+		$data = DB::table('tblServices')
+			->where('tblServices.intServStatus', '=', 1)
+			->get();
+		
+			return View::make('admin-services')->with('data',$data);
+	}
+
+	public function openAddServ() {
+
+			return View::make('add-services');
+	}
+
+	public function addServ() {
+
+		DB::table('tblServices')
+		->insert([
+			'strServDesc' 		=> Request::input('name'),
+			'intServStatus' => 1
+		]);
+
+		return Redirect::to('/services');
+	}
+
+	public function openUpServ($id) {
+		$data = DB::table('tblServices')
+			->where('tblServices.intServID', '=', $id)
+			->first();
+
+			return View::make('update-services')->with('data',$data)->with('id',$id);
+	}
+
+	public function updateServ() {
+
+		DB::table('tblServices')
+		->where('tblServices.intServID', '=', Session::get('upId'))
+				->update([
+					'strServDesc' 		=> Request::input('name')
+				]);
+
+		return Redirect::to('/services');
+	}
+
+	public function deactServ($id) {
+		DB::table('tblServices')
+		->where('tblServices.intServID', '=', $id)
+				->update([
+					'intServStatus' => 0
+				]);
+
+	    return Redirect::to('/services');
+	}
 }

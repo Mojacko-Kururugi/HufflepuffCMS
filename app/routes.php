@@ -47,10 +47,18 @@ Route::post('/save-emp', 'AdminController@addEmp');
 Route::get('emp/{id}','AdminController@showUpEmp' );
 Route::post('/update-emp','AdminController@updateEmp' );
 Route::get('delete-emp/{id}','AdminController@deactEmp');
-Route::get('/products', 'SecController@openSecProd');
-Route::get('/products/add', 'SecController@openAddProd');
-Route::post('/products/add-prod', 'SecController@addProd');
-
+Route::get('/products', 'AdminController@openProd');
+Route::get('/products/add', 'AdminController@openAddProd');
+Route::post('/products/add-prod', 'AdminController@addProd');
+Route::get('/products/{id}', 'AdminController@showUpProd');
+Route::post('/products/update-prod','AdminController@updateProd' );
+Route::get('delete-prod/{id}','AdminController@deactProd');
+Route::get('/services', 'AdminController@openServ');
+Route::get('/services/add-serv', 'AdminController@openAddServ');
+Route::post('/services/save-serv','AdminController@addServ' );
+Route::get('/services/{id}', 'AdminController@openUpServ');
+Route::post('/services/update-serv','AdminController@updateServ' );
+Route::get('delete-serv/{id}','AdminController@deactServ');
 
 
 
