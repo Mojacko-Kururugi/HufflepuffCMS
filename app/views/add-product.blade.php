@@ -1,4 +1,4 @@
-@extends('layouts.secretary-master')
+@extends('layouts.admin-master')
 
 @section('content')
 
@@ -11,7 +11,7 @@
 
   <div class="contents z-depth-1">
     <div class="container">
-      <form action="{{ URL::to('/sec-prod/add-prod') }}" method="POST" id="signup_validate" enctype="multipart/form-data"><br><br>
+      <form action="{{ URL::to('/products/add-prod') }}" method="POST" id="signup_validate" enctype="multipart/form-data"><br><br>
         <div class="row">
               <div class="input-field col l12 m8 s12">
                 <label for="name">Product Name</label>
@@ -36,7 +36,7 @@
             <div class="row">
               <div class="input-field col l12 s12 center">
                 <button type="submit" class="waves-effect waves-light btn btn-green modal-btn">Save</button>
-                <a href="{{ URL::to('/sec-prod') }}" class="waves-effect waves-light btn btn-green modal-btn" style="margin-right:20px;">Cancel</a>
+                <a href="{{ URL::to('/products') }}" class="waves-effect waves-light btn btn-green modal-btn" style="margin-right:20px;">Cancel</a>
               </div>
             </div>
             <br><br>

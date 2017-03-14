@@ -225,4 +225,34 @@ class AdminController extends BaseController {
 	    return Redirect::to('/employees');
 	}
 
+	public function openSecProd() {
+		$data = DB::table('tblProducts')
+			->join('tblProdType', 'tblProducts.intProdType', '=', 'tblProdType.intPTID')
+			->where('tblProducts.intProdStatus', '=', 1)
+			->get();
+		
+			return View::make('sec-prod')->with('data',$data);
+	}
+
+	public function openAddProd() {
+		
+		$data = DB::table('tblProdType')
+			->get();
+
+			return View::make('add-product')->with('data',$data);
+	}
+
+	public function addProd() {
+
+		DB::table('tblProducts')
+		->insert([
+			'strProdName' 		=> Request::input('name'),
+			'strProdModel' 	=> Request::input('model'),
+			'intProdType'	=> Request::input('type'),
+			'intProdStatus' => 1
+		]);
+
+		return Redirect::to('/sec-prod');
+	}
+
 }

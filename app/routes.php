@@ -47,6 +47,9 @@ Route::post('/save-emp', 'AdminController@addEmp');
 Route::get('emp/{id}','AdminController@showUpEmp' );
 Route::post('/update-emp','AdminController@updateEmp' );
 Route::get('delete-emp/{id}','AdminController@deactEmp');
+Route::get('/products', 'SecController@openSecProd');
+Route::get('/products/add', 'SecController@openAddProd');
+Route::post('/products/add-prod', 'SecController@addProd');
 
 
 
@@ -80,9 +83,7 @@ Route::get('/sec-order/ord', 'SecController@openAddOrd');
 Route::get('/sec-order', 'SecController@openOrdList');
 Route::post('/sec-inv/add-order', 'SecController@addOrd');
 Route::post('/sec-inv/ord/{id}', 'SecController@receiveOrd');
-Route::get('/sec-prod', 'SecController@openSecProd');
-Route::get('/sec-prod/add', 'SecController@openAddProd');
-Route::post('/sec-prod/add-prod', 'SecController@addProd');
+
 
 
 

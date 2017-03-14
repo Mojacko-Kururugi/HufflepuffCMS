@@ -1,4 +1,4 @@
-@extends('layouts.secretary-master')
+@extends('layouts.admin-master')
 
 @section('content')
 
@@ -16,7 +16,7 @@
       <div class="card-content">
         <div class="row">
           <div class="col s12 m12 l6">
-                <a class="waves-effect waves-light btn blue darken-1 btn-small center-text" href="/sec-prod/add">ADD NEW PRODUCT</a>
+                <a class="waves-effect waves-light btn blue darken-1 btn-small center-text" href="/products/add">ADD NEW PRODUCT</a>
           </div>
         </div>
 
