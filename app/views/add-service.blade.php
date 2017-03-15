@@ -37,7 +37,7 @@
                         <select class="initialized browser-default" name="service" id="service" data-error=".school_error">
                           <option value="" disabled selected>Service</option>
                           @foreach($service as $service)
-                            <option value="{{ $service->intServID}}" @if(Input::old('service') == $service->intServID) selected="selected" @endif>{{ $service->strServDesc }}</option>
+                            <option value="{{ $service->intServID}}" @if(Input::old('service') == $service->intServID) selected="selected" @endif>{{ $service->strServName }}</option>
                           @endforeach
                         </select>
                        <div class="school_error"></div>

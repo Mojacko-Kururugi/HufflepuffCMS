@@ -22,7 +22,12 @@ class DoctorController extends BaseController {
 			->selectRaw('*, sum(intInvQty) as sum')
 			->get();
 
-		return View::make('index')->with('inv',$inv);
+		$app = DB::table('tblSchedules')
+				->join('tblPatientInfo', 'tblSchedules.intSchedPatient', '=', 'tblPatientInfo.intPatID')
+				->where('tblSchedules.intSchedDoctor', '=',  Session::get('user_code'))
+				->get();
+
+		return View::make('index')->with('inv',$inv)->with('app',$app);
 
 	}
 
@@ -135,6 +140,7 @@ class DoctorController extends BaseController {
 		$product = DB::table('tblInventory')
 			->join('tblProducts', 'tblInventory.intInvPID', '=', 'tblProducts.intProdID')
 			->where('tblInventory.intInvBranch', '=', Session::get('user_bc'))
+			->where('tblInventory.intInvStatus','!=',3)
 			->get();
 
 				return View::make('add-service')->with('patient',$patient)->with('service',$service)->with('type',$type)->with('status',$status)->with('product',$product);
@@ -199,14 +205,38 @@ class DoctorController extends BaseController {
 		$try = DB::table('tblBranch')
 				->where('tblBranch.intBStatus', '=', 1)
 				->get();
-		return View::make('schedule')->with('try',$try);
+
+		$data = DB::table('tblSchedules')
+				->where('tblSchedules.intSchedDoctor', '=',  Session::get('user_code'))
+				->get();
+
+		return View::make('schedule')->with('try',$try)->with('data',$data);
 	}
+
 	public function addSched() {
 		$data = DB::table('tblPatientInfo')
 			->where('tblPatientInfo.intPatStatus', '=', 1)
 			->get();
 
 		return View::make('add-sched')->with('data',$data);
+	}
+
+	public function saveSched() {
+
+	DB::table('tblSchedules')
+		->insert([
+			'dtSchedDate' 		=> Request::input('date'),
+			'tmSchedTime'			=> Request::input('time'),
+			'strSchedHeader' 	=> Request::input('name'),
+			'strSchedDetails'	=> Request::input('desc'),
+			'intSchedPatient'	=> Request::input('patient'),			
+			'intSchedDoctor' => Session::get('user_code'),
+			'intSchedFrequencyType' => Request::input('time_frequency'),
+			'intSchedType' => 2,
+			'intSchedStatus' => 1,
+		]);
+
+		return Redirect::to('/schedules');
 	}
 
 	public function showPayment() {

@@ -2,17 +2,7 @@
 
 class SecController extends BaseController {
 
-	public function openSec() {
-		
-		$data = DB::table('tblEmployeeInfo')
-			->join('tblBranch', 'tblEmployeeInfo.intEmpBranch', '=', 'tblBranch.intBranchID')
-			->where('tblEmployeeInfo.strEmpEmail', '=', Session::get('user_type'))
-			->first();
-
-		Session::put('user_name',$data->strEmpLast . ', ' . $data->strEmpFirst);
-		Session::put('user_b',$data->strBranchName);
-		Session::put('user_bc',$data->intBranchID);
-
+	public function doExpiryCheck() {
 		$exp = DB::table('tblInventory')
 				->where('tblInventory.dtInvExpiry', '<', Carbon\Carbon::now())
 				->get();
@@ -25,11 +15,27 @@ class SecController extends BaseController {
 							'intInvStatus' => 3,
 						]);
 		}
+	}
+
+	public function openSec() {
+		
+		$data = DB::table('tblEmployeeInfo')
+			->join('tblBranch', 'tblEmployeeInfo.intEmpBranch', '=', 'tblBranch.intBranchID')
+			->where('tblEmployeeInfo.strEmpEmail', '=', Session::get('user_type'))
+			->first();
+
+		Session::put('user_name',$data->strEmpLast . ', ' . $data->strEmpFirst);
+		Session::put('user_b',$data->strBranchName);
+		Session::put('user_bc',$data->intBranchID);
+
+		$this->doExpiryCheck();
 
 			return View::make('layouts/secretary-master');
 	}
 
 	public function openSecInv() {
+		$this->doExpiryCheck();
+
 		$data = DB::table('tblInventory')
 			->join('tblInvStatus', 'tblInventory.intInvStatus', '=', 'tblInvStatus.intISID')
 			->join('tblProducts', 'tblInventory.intInvPID', '=', 'tblProducts.intProdID')
@@ -37,7 +43,7 @@ class SecController extends BaseController {
 			->where('tblInventory.intInvBranch', '=', Session::get('user_bc'))
 			->where('tblInvStatus.intISID','!=',3)
 			->get();
-		
+
 			return View::make('sec-inv')->with('data',$data);
 	}
 
@@ -187,6 +193,8 @@ class SecController extends BaseController {
 	}
 
 	public function openExp() {
+		$this->doExpiryCheck();
+
 		$data = DB::table('tblInventory')
 			->join('tblInvStatus', 'tblInventory.intInvStatus', '=', 'tblInvStatus.intISID')
 			->join('tblProducts', 'tblInventory.intInvPID', '=', 'tblProducts.intProdID')

@@ -16,8 +16,8 @@
       <div class="card-content">
         <div class="row">
           <div class="col s12 m12 l6">
-                <a class="waves-effect waves-light btn blue darken-1 btn-small center-text" href="/add-doctor">ADD NEW DOCTOR</a>
-                <button class="modal-trigger waves-effect waves-light btn red lighten-1 btn-small center-text" href="#viewprod">DELETE ALL DOCTORS</button>
+                <a class="waves-effect waves-light btn blue darken-1 btn-small center-text" href="/add-doctor">ADD NEW OPTOMETRIST</a>
+                <button class="modal-trigger waves-effect waves-light btn red lighten-1 btn-small center-text" href="#viewprod">DELETE ALL OPTOMETRIST</button>
           </div>
         </div>
 

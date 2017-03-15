@@ -14,19 +14,19 @@
 
       <div class="contents">
         <div class="container-fluid">
-          <form action="{{ URL::to('teacher/save-profile-edit') }}" method="POST" id="signup_validate" enctype="multipart/form-data"><br><br>
+          <form action="{{ URL::to('schedules/save') }}" method="POST" id="signup_validate" enctype="multipart/form-data"><br><br>
              <!-- Date & Time -->
             <div class="row">
                   <div class="col s12 m8 l6">
                         Select a time:
-                        <input type="time" name="usr_time">
+                        <input type="time" name="time" id="time">
                   </div>
             </div>
 
             <div class="row">
               <div class="col s12 m8 l6">
-                <label for="b_day">Choose Date</label>
-                <input id="b_day" name="b_day" type="date" class="datepicker" style="height:39px" value="">
+                <label for="date">Choose Date</label>
+                <input id="date" name="date" type="date" class="datepicker" style="height:39px" value="">
               </div>
             </div>  
 
@@ -44,10 +44,27 @@
                     </div>
                   </div>
               </div>
+
+        <div class="row">
+              <div class="input-field col l12 m8 s12">
+                <label for="name">Schedule Header</label>
+                <input id="name" name="name" type="text" class="validate" value="" />
+              </div>
+        </div>
+
+      <br>
+        <div class="row">
+              <div class="col s12">
+                  <label for="desc">Details</label>
+                  <textarea id="desc" name="desc" class="materialize-textarea"></textarea>
+              </div>
+        </div> 
+
+
                 <div class="row">
                   <div class="col s12">
                     <label for="time_frequency">Time Frequency of Reminder</label>
-                    <select name="time_frequency">
+                    <select name="time_frequency" id="time_frequency">
     				     <option value="" selected disabled>- Choose Option -</option>
     				     <option value="1">Every 30 mins</option>
     					 <option value="2">Every 1 hour</option>

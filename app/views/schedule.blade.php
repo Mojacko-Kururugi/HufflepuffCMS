@@ -62,7 +62,7 @@
 <script>
 
     $(function() { // document ready
-         var my_variable_name = "<?php echo $try[0]->strBranchName ?>"  ;
+         var my_variable_name = "<?php echo $data[0]->strSchedHeader ?>" ;
 
         $('#calendar').fullCalendar({
             schedulerLicenseKey: 'GPL-My-Project-Is-Open-Source',

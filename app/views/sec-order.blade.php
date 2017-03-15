@@ -56,7 +56,7 @@
                                   <p>
                                   <form action="/sec-inv/ord/{{$data->intOID}}" method="POST">
                                           <div class="form-group col l6 ">
-                                          <label for="price">Price</label>
+                                          <label for="price">Price per piece</label>
                                           <input type="number" class="form-control" name="price" id="price" value="1">
                                           </div>
                                           @if($data->intProdType == 1)

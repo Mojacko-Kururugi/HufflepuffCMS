@@ -62,6 +62,7 @@
           <table class="centered table-fixed">
             <thead>
               <tr>
+                <th>Name</th>
                 <th>Event</th>
                 <th>Date</th>
                 <th>Time</th>
@@ -69,12 +70,15 @@
             </thead>
 
             <tbody>
+              @foreach($app as $app)
               <tr>
-                <td>Appointment with Mr. Gallardo</td>
-                <td>01/11/2016</td>
-                <td>4:30pm</td>
+                <td>{{ $app->strPatLast . ', ' . $app->strPatFirst }}</td>
+                <td>{{ $app->strSchedHeader }}</td>
+                <td>{{ $app->dtSchedDate }}</td>
+                <td>{{ $app->tmSchedTime }}</td>
               </tr>
             </tbody>
+            @endforeach
           </table>
 
           <!-- <p>

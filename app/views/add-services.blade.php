@@ -18,6 +18,15 @@
                 <input id="name" name="name" type="text" class="validate" value="" />
               </div>
         </div>
+
+      <br>
+        <div class="row">
+              <div class="col s12">
+                  <label for="desc">Description:</label>
+                  <textarea id="desc" name="desc" class="materialize-textarea"></textarea>
+              </div>
+        </div> 
+
             <div class="row">
               <div class="input-field col l12 s12 center">
                 <button type="submit" class="waves-effect waves-light btn btn-green modal-btn">Save</button>

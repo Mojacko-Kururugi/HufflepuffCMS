@@ -27,12 +27,14 @@
                 <thead>
                     <tr>
                         <th>Service Name</th>
+                        <th>Description</th>
                         <th>Date Created</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
                 @foreach($data as $data)
                       <tr>
+                        <td>{{ $data->strServName }}</td>
                         <td>{{ $data->strServDesc }}</td>
                         <td>{{ $data->created_at }}</td>
                         <td>

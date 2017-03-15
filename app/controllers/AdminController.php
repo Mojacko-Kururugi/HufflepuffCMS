@@ -305,7 +305,8 @@ class AdminController extends BaseController {
 
 		DB::table('tblServices')
 		->insert([
-			'strServDesc' 		=> Request::input('name'),
+			'strServName'		=> Request::input('name'),
+			'strServDesc' 		=> Request::input('desc'),
 			'intServStatus' => 1
 		]);
 
@@ -325,7 +326,8 @@ class AdminController extends BaseController {
 		DB::table('tblServices')
 		->where('tblServices.intServID', '=', Session::get('upId'))
 				->update([
-					'strServDesc' 		=> Request::input('name')
+					'strServName'		=> Request::input('name'),
+					'strServDesc' 		=> Request::input('desc')
 				]);
 
 		return Redirect::to('/services');

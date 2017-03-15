@@ -17,9 +17,16 @@
         <div class="row">
               <div class="input-field col l12 m8 s12">
                 <label for="name">Service Name</label>
-                <input id="name" name="name" type="text" class="validate" value="{{$data->strServDesc}}" />
+                <input id="name" name="name" type="text" class="validate" value="{{$data->strServName}}" />
               </div>
         </div>
+      <br>
+          <div class="row">
+                <div class="col s12">
+                <label for="desc">Description:</label>
+                <textarea id="desc" name="desc" class="materialize-textarea">{{$data->strServDesc}}</textarea>
+                </div>
+          </div> 
             <div class="row">
               <div class="input-field col l12 s12 center">
                 <button type="submit" class="waves-effect waves-light btn btn-green modal-btn">Save</button>
