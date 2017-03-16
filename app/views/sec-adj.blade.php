@@ -26,6 +26,7 @@
               <table id="example" class="mdl-data-table" cellspacing="0" width="100%">
                 <thead>
                     <tr>
+                        <th>Adjusment Code</th>
                         <th>Serial Code</th>
                         <th>Product Name & Model</th>
                         <th>Qty Adjusted</th>
@@ -37,6 +38,7 @@
                 <tbody>
                 @foreach($data as $data)
                       <tr>
+                        <td>{{ $data->strAdjCode }}</td>
                         <td>{{ $data->strInvCode }}</td>
                         <td>{{ $data->strProdName .' - ' . $data->strProdModel }}</td>
                         <td>{{ $data->intAdjQty }}</td>

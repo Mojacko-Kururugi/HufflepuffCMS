@@ -34,6 +34,7 @@ class HomeController extends BaseController {
 		$user = Request::input('username');
 		$pass = Request::input('password');
 		$data = DB::table('tblUserAccounts')
+				->join('tblUserType', 'tblUserAccounts.intUType', '=', 'tblUserType.intUTID')
 				->where('tblUserAccounts.strUEmail', '=', $user)
 				->where('tblUserAccounts.strUPassword', '=', $pass)
 				->first();
@@ -42,6 +43,7 @@ class HomeController extends BaseController {
 			if($data->intUType == 2)
 			{
 				Session::put('user_type',$data->strUEmail);
+				Session::put('user_desc',$data->strUTDesc);
 				return Redirect::to('/index');
 			}
 			else if($data->intUType == 1)
@@ -52,6 +54,7 @@ class HomeController extends BaseController {
 			else if($data->intUType == 3)
 			{
 				Session::put('user_type',$data->strUEmail);
+				Session::put('user_desc',$data->strUTDesc);
 				return Redirect::to('/sec-home');
 			}
 			else if($data->intUType == 4)

@@ -46,7 +46,11 @@
                         <td>{{ $data->strPTDesc }}</td>
                         <td>{{ $data->dcInvPPrice }}</td>
                         <td>{{ $data->intInvQty }}</td>
+                        @if($data->dtInvExpiry == NULL)
+                        <td>N/A</td>
+                        @else
                         <td>{{ $data->dtInvExpiry }}</td>
+                        @endif 
                         @if($data->intISID == 1)
                         <td class="green-text bold">{{ $data->strISDesc }}</td>
                         @elseif($data->intISID == 2)
@@ -67,7 +71,7 @@
                                   <form action="/adjust/{{$data->intInvID}}" method="POST">
                                             <div class="row">
                                               <div class="input-field col l6 m6 s12">
-                                                <input id="user_id" name="user_id" type="text" class="validate" data-error=".id_error" value=""/>
+                                                <input id="user_id" name="user_id" type="text" class="validate" data-error=".id_error" value="{{ $count }}" readonly/>
                                                 <label for="user_id">Adjustment Serial #:</label>
                                                 <div class="id_error"></div>
                                               </div>

@@ -63,11 +63,21 @@
 
     $(function() { // document ready
         
+        var evt = [
+            <?php foreach ($data as $data): ?>
+                    {
+                        title  : '<?php echo $data->strSchedHeader ?>',
+                        start  : '<?php echo $data->dtSchedDate ?>T<?php echo $data->tmSchedTime ?>'
+                    },
+            <?php endforeach; ?>
+        ];
+
+        var dt = Date.now() + 86400000;
 
         $('#calendar').fullCalendar({
             schedulerLicenseKey: 'GPL-My-Project-Is-Open-Source',
-            now: Date.now(),
-            editable: true, // enable draggable events
+            now: dt,
+            editable: false, // enable draggable events
             aspectRatio: 1.8,
             scrollTime: '00:00', // undo default 6am scrollTime
             minTime: "09:00:00",
@@ -88,15 +98,7 @@
                     { id: 'd2', title: 'Repairs only', eventColor: 'blue' }
                 ] },
             ],
-            events: [
-                { id: '1', resourceId: 'b', start: '2017-01-07T10:30:00', end: '2017-01-07T11:00:00', title: 'De Guzman,N.' },
-                { id: '2', resourceId: 'c', start: '2017-01-07T12:00:00', end: '2017-01-07T13:30:00', title: 'Lunch Break' },
-                { id: '3', resourceId: 'd2', start: '2017-01-07T16:00:00', end: '2017-01-07T16:30:00', title: 'HAHAHHA'},
-                { id: '4', resourceId: 'a', start: '2017-01-07T09:00:00', end: '2017-01-07T10:00:00', title: 'Felix,M.' },
-                { id: '5', resourceId: 'a', start: '2017-01-07T11:00:00', end: '2017-01-07T12:00:00', title: 'Lopez,J.' },
-                { id: '6', resourceId: 'a', start: '2017-01-11T16:30:00', end: '2017-01-11T18:00:00', title: 'Gallardo,J.' },
-                { id: '7', resourceId: 'c', start: '2017-01-09', end: '2017-01-09', title: 'Holiday' }
-            ]
+            events: evt
         });
     
     });

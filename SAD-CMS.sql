@@ -24,8 +24,10 @@ CREATE TABLE tblUserType(
 )Engine=InnoDb;
 
 CREATE TABLE tblProdType(
-	intPTID INT(3),
+	intPTID int NOT NULL AUTO_INCREMENT,
     strPTDesc VARCHAR(20),
+    intPTStatus INT,
+	dtPTDateCreated TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     
     PRIMARY KEY(intPTID)
 )Engine=InnoDb;
@@ -149,7 +151,8 @@ CREATE TABLE tblEmployeeInfo(
 
 CREATE TABLE tblServices(
 	intServID int NOT NULL AUTO_INCREMENT,
-    strServDesc VARCHAR(50),
+    strServName VARCHAR(50),
+    strServDesc VARCHAR(250),
     intServStatus INT(2),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     
@@ -160,6 +163,7 @@ CREATE TABLE tblProducts(
 	intProdID int NOT NULL AUTO_INCREMENT,
     strProdName VARCHAR(50),
     strProdModel VARCHAR(50),
+    strProdBrand VARCHAR(50),
     intProdType INT(3),
     intProdStatus INT(2),
     
@@ -189,12 +193,13 @@ CREATE TABLE tblInventory(
 
 CREATE TABLE tblAdjustments(
 	intAdjID int NOT NULL AUTO_INCREMENT,
+	strAdjCode VARCHAR(25),
     intAdjInvID INT,
     intAdjQty INT,
     strAdjReason TEXT,
     intAdjStatus INT,
     dtAdjDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    intAdjBranch INT,
+    intAdjBranch INT,	
     
     PRIMARY KEY (intAdjID),
     FOREIGN KEY(intAdjInvID)
@@ -206,7 +211,7 @@ CREATE TABLE tblAdjustments(
 CREATE TABLE tblDiscount(
 	intDisID int NOT NULL AUTO_INCREMENT,
     intDisInvID INT,
-    dcmDiscount DECIMAL(18,4),
+    dcmDiscount DECIMAL(18,2),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     
     PRIMARY KEY (intDisID),
@@ -243,7 +248,7 @@ CREATE TABLE tblServiceHeader(
     intSHStatus INT,
 	intSHDateTime TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 
-    PRIMARY KEY(intSHID),
+    PRIMARY KEY(intSHID,strSHCode),
 	FOREIGN KEY(intSHPatID)
     REFERENCES tblPatientInfo(intPatID),
     FOREIGN KEY(intSHDocID)
@@ -257,15 +262,14 @@ CREATE TABLE tblServiceHeader(
 )Engine=InnoDb;
 
 CREATE TABLE tblServiceDetails(
-	intHeaderID INT,
-    intHProdID INT,
+	intHeaderCode VARCHAR(25),
+    intHInvID INT,
     intQty INT,
+    intClaimStatus INT,
     intHWarranty INT,
 
-    FOREIGN KEY(intHeaderID)
-    REFERENCES tblServiceHeader(intSHID),
-	FOREIGN KEY(intHProdID)
-    REFERENCES tblServices(intServID),
+	FOREIGN KEY(intHInvID)
+    REFERENCES tblInventory(intInvPID),
     FOREIGN KEY(intHWarranty)
     REFERENCES tblWarranty(intWID)
 )Engine=InnoDb;
@@ -273,7 +277,7 @@ CREATE TABLE tblServiceDetails(
 CREATE TABLE tblSales(
 	intSaleID int NOT NULL AUTO_INCREMENT,
     intSServID INT,
-    dcmSBalance DECIMAL(18,4),
+    dcmSBalance DECIMAL(18,2),
     intSStatus INT(3),
     
     PRIMARY KEY(intSaleID),
@@ -286,7 +290,7 @@ CREATE TABLE tblSales(
 CREATE TABLE tblPayment(
 	intPymID int NOT NULL AUTO_INCREMENT,
     intPymServID INT,
-    dcmPymPayment DECIMAL(18,4),
+    dcmPymPayment DECIMAL(18,2),
     dtmPymDateRec TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     
     PRIMARY KEY(intPymID),
@@ -324,7 +328,7 @@ CREATE TABLE tblSchedules(
     REFERENCES tblSchedStatus(intSSID)
 )Engine=InnoDb;
 
-INSERT INTO tblFrequencyType(intFID,strFDesc) VALUES ('1','Very 30 mins');
+INSERT INTO tblFrequencyType(intFID,strFDesc) VALUES ('1','Every 30 mins');
 INSERT INTO tblFrequencyType(intFID,strFDesc) VALUES ('2','Every 1 hour');
 INSERT INTO tblFrequencyType(intFID,strFDesc) VALUES ('3','Every 4 hours');
 INSERT INTO tblFrequencyType(intFID,strFDesc) VALUES ('4','Day before');
@@ -357,17 +361,17 @@ INSERT INTO tblInvStatus(intISID,strISDesc) VALUES ('1','GOOD');
 INSERT INTO tblInvStatus(intISID,strISDesc) VALUES ('2','DISCOUNTED');
 INSERT INTO tblInvStatus(intISID,strISDesc) VALUES ('3','EXPIRED');
 
-INSERT INTO tblProdType(intPTID,strPTDesc) VALUES ('1','Glasses');
-INSERT INTO tblProdType(intPTID,strPTDesc) VALUES ('2','Contact Lens');
-INSERT INTO tblProdType(intPTID,strPTDesc) VALUES ('3','Solution');
+INSERT INTO tblProdType(strPTDesc,intPTStatus) VALUES ('Glasses','1');
+INSERT INTO tblProdType(strPTDesc,intPTStatus) VALUES ('Contact Lens','1');
+INSERT INTO tblProdType(strPTDesc,intPTStatus) VALUES ('Solution','1');
 
 INSERT INTO tblUserType(intUTID,strUTDesc) VALUES ('1','Admin');
 INSERT INTO tblUserType(intUTID,strUTDesc) VALUES ('2','Doctor');
 INSERT INTO tblUserType(intUTID,strUTDesc) VALUES ('3','Secretary');
 INSERT INTO tblUserType(intUTID,strUTDesc) VALUES ('4','Patient');
 
-INSERT INTO tblServices(strServDesc,intServStatus) VALUES ('Eye Refraction','1');
-INSERT INTO tblServices(strServDesc,intServStatus) VALUES ('Eye Check Up','1');
-INSERT INTO tblServices(strServDesc,intServStatus) VALUES ('Glass/Lens Assign','1');
+INSERT INTO tblServices(strServName,strServDesc,intServStatus) VALUES ('Eye Refraction','refraction for the eye','1');
+INSERT INTO tblServices(strServName,strServDesc,intServStatus) VALUES ('Eye Check Up','check up for the eye','1');
+INSERT INTO tblServices(strServName,strServDesc,intServStatus) VALUES ('Glass/Lens Assign','assigning of lens or glasses','1');
 
 INSERT INTO tblUserAccounts (strUEmail,strUPassword,intUID,intUType) VALUES ('admin@hufflepuff','admin123','0','1');
