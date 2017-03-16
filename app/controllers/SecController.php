@@ -51,8 +51,18 @@ class SecController extends BaseController {
 		$data = DB::table('tblProducts')
 			->where('tblProducts.intProdStatus', '=', 1)
 			->get();
-		
-			return View::make('sec-ord')->with('data',$data);
+
+		$ct = 1 + DB::table('tblOrders')
+			->count();
+
+		if($ct < 10)
+			$count = "BTH00" + $ct;
+		else if($ct < 100)
+			$count = "BTH0" + $ct;
+		else if($ct < 1000)
+			$count = "BTCH" + $ct;
+
+			return View::make('sec-ord')->with('data',$data)->with('count',$count);
 	}
 
 	public function openOrdList() {

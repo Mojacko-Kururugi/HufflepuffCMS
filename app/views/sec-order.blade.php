@@ -27,7 +27,7 @@
               <table id="example" class="mdl-data-table" cellspacing="0" width="100%">
                 <thead>
                     <tr>
-                        <th>Ordered Code</th>
+                        <th>Serial Code</th>
                         <th>Ordered Product Name and Model</th>
                         <th>Ordered Quantity</th>
                         <th>Date Ordered</th>

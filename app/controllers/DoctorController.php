@@ -202,10 +202,6 @@ class DoctorController extends BaseController {
 	}
 
 	public function showSched() {
-		$try = DB::table('tblBranch')
-				->where('tblBranch.intBStatus', '=', 1)
-				->get();
-
 		$data = DB::table('tblSchedules')
 				->where('tblSchedules.intSchedDoctor', '=',  Session::get('user_code'))
 				->get();

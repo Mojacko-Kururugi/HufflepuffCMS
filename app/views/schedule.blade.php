@@ -62,7 +62,7 @@
 <script>
 
     $(function() { // document ready
-         var my_variable_name = "<?php echo $data[0]->strSchedHeader ?>" ;
+        
 
         $('#calendar').fullCalendar({
             schedulerLicenseKey: 'GPL-My-Project-Is-Open-Source',
@@ -91,7 +91,7 @@
             events: [
                 { id: '1', resourceId: 'b', start: '2017-01-07T10:30:00', end: '2017-01-07T11:00:00', title: 'De Guzman,N.' },
                 { id: '2', resourceId: 'c', start: '2017-01-07T12:00:00', end: '2017-01-07T13:30:00', title: 'Lunch Break' },
-                { id: '3', resourceId: 'd2', start: '2017-01-07T16:00:00', end: '2017-01-07T16:30:00', title: my_variable_name},
+                { id: '3', resourceId: 'd2', start: '2017-01-07T16:00:00', end: '2017-01-07T16:30:00', title: 'HAHAHHA'},
                 { id: '4', resourceId: 'a', start: '2017-01-07T09:00:00', end: '2017-01-07T10:00:00', title: 'Felix,M.' },
                 { id: '5', resourceId: 'a', start: '2017-01-07T11:00:00', end: '2017-01-07T12:00:00', title: 'Lopez,J.' },
                 { id: '6', resourceId: 'a', start: '2017-01-11T16:30:00', end: '2017-01-11T18:00:00', title: 'Gallardo,J.' },

@@ -2,49 +2,27 @@
 
 @section('content')
 
-  <?php Session::put('upId', $id); ?>  
-
   <div class="row"><br>
     <div class="center col l12 m12 s12">
-      <h3>Update Product</h3>
+      <h3>Add New Product Type</h3>
 
     </div>
   </div>
 
   <div class="contents z-depth-1">
     <div class="container">
-      <form action="{{ URL::to('/products/update-prod') }}" method="POST" id="signup_validate" enctype="multipart/form-data"><br><br>
+      <form action="{{ URL::to('/product-type/save') }}" method="POST" id="signup_validate" enctype="multipart/form-data"><br><br>
         <div class="row">
               <div class="input-field col l12 m8 s12">
-                <label for="name">Product Name</label>
-                <input id="name" name="name" type="text" class="validate" value="{{ $prod->strProdName }}" />
+                <label for="name">Product Type Name</label>
+                <input id="name" name="name" type="text" class="validate" value="" />
               </div>
         </div>
-        <div class="row">
-              <div class="input-field col l12 m8 s12">
-                <label for="model">Product Model</label>
-                <input id="model" name="model" type="text" class="validate" value="{{ $prod->strProdModel }}" />
-              </div>
-        </div>
-        <div class="row">
-              <div class="input-field col l12 m8 s12">
-                <label for="brand">Product Brand</label>
-                <input id="brand" name="brand" type="text" class="validate" value="{{ $prod->strProdBrand }}" />
-              </div>
-        </div>
-                    <div class="input-field col l6 m6 s12">
-                        <select class="initialized browser-default" name="type" id="type" data-error=".school_error">
-                          <option value="" disabled selected>Type</option>
-                          @foreach($data as $data)
-                            <option value="{{ $data->intPTID}}" @if(Input::old('type') == $data->intPTID) selected="selected" @endif>{{ $data->strPTDesc}}</option>
-                          @endforeach
-                        </select>
-                       <div class="school_error"></div>
-                    </div>
+
             <div class="row">
               <div class="input-field col l12 s12 center">
                 <button type="submit" class="waves-effect waves-light btn btn-green modal-btn">Save</button>
-                <a href="{{ URL::to('/products') }}" class="waves-effect waves-light btn btn-green modal-btn" style="margin-right:20px;">Cancel</a>
+                <a href="{{ URL::to('/product-type') }}" class="waves-effect waves-light btn btn-green modal-btn" style="margin-right:20px;">Cancel</a>
               </div>
             </div>
             <br><br>

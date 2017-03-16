@@ -65,6 +65,14 @@
                                   <h4>Adjustments for {{$data->strProdName}} - {{$data->strInvCode}}</h4>
                                   <p>
                                   <form action="/adjust/{{$data->intInvID}}" method="POST">
+                                            <div class="row">
+                                              <div class="input-field col l6 m6 s12">
+                                                <input id="user_id" name="user_id" type="text" class="validate" data-error=".id_error" value=""/>
+                                                <label for="user_id">Adjustment Serial #:</label>
+                                                <div class="id_error"></div>
+                                              </div>
+                                            </div>
+
                                           <div class="col l6 ">
                                           <label for="qty">Quantity</label>
                                           <input type="number" class="form-control" name="qty" id="qty" value="0">
