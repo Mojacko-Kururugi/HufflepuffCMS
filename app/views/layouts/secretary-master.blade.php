@@ -40,12 +40,42 @@
                 <!-- use amber for admin, blue for employee, ?? for manager -->
                 <!-- Branch: <span class="bold">Brgy. Sangandaan Branch</span> -->
               </div>
-              <li class="bold {{ strpos(Request::url(), 'sec-home') !== false ? 'active' : '' }}"><a href="/sec-home">Dashboard</a></li>
-              <li class="bold {{ strpos(Request::url(), 'sec-order') !== false ? 'active' : '' }}"><a href="/sec-order">Orders</a></li>
-              <li class="bold {{ strpos(Request::url(), 'sec-inv') !== false ? 'active' : '' }}"><a href="/sec-inv">Inventory</a></li>
-              <li class="bold {{ strpos(Request::url(), 'adjustments') !== false ? 'active' : '' }}"><a href="/adjustments">Adjustments</a></li>
-              <li class="bold {{ strpos(Request::url(), 'expired') !== false ? 'active' : '' }}"><a href="/expired">Expired Products</a></li>
-              <li class="bold"><a href="/logout">Log out</a></li>
+              <li class="bold {{ strpos(Request::url(), 'sec-home') !== false ? 'active' : '' }}">
+			       <a href="/sec-home" class="row">
+				        <span class="col l3 m6 s12">{{ HTML::image('img/dashboard.png', 'dashboard', array('class' => 'responsive-img circle')) }}</span>
+				        <span  class="col l7 m6 s12">Dashboard</span>
+				   </a>
+			  </li>
+              <li class="bold {{ strpos(Request::url(), 'sec-order') !== false ? 'active' : '' }}">
+			       <a href="/sec-order" class="row">
+				        <span class="col l3 m6 s12">{{ HTML::image('img/orders.png', 'orders', array('class' => 'responsive-img circle')) }}</span>
+						<span  class="col l7 m6 s12">Orders</span>
+				   </a>
+			  </li>
+              <li class="bold {{ strpos(Request::url(), 'sec-inv') !== false ? 'active' : '' }}">
+			       <a href="/sec-inv" class="row">
+				        <span class="col l3 m6 s12">{{ HTML::image('img/inventory.png', 'inventory', array('class' => 'responsive-img circle')) }}</span>
+						<span  class="col l7 m6 s12">Inventory</span>
+				   </a>
+			  </li>
+              <li class="bold {{ strpos(Request::url(), 'adjustments') !== false ? 'active' : '' }}">
+			       <a href="/adjustments" class="row">
+				        <span class="col l3 m6 s12">{{ HTML::image('img/adjustments.png', 'adjustments', array('class' => 'responsive-img circle')) }}</span>
+						<span  class="col l7 m6 s12">Adjustments</span>
+				   </a>
+			  </li>
+              <li class="bold {{ strpos(Request::url(), 'expired') !== false ? 'active' : '' }}">
+			       <a href="/expired" class="row">
+				        <span class="col l3 m6 s12">{{ HTML::image('img/expired products.png', 'expired products', array('class' => 'responsive-img circle')) }}</span>
+						<span  class="col l7 m6 s12">Expired Products</span>
+				   </a>
+			  </li>
+              <li class="bold">
+			       <a href="/logout" class="row">
+				        <span class="col l3 m6 s12">{{ HTML::image('img/logout.png', 'logout', array('class' => 'responsive-img circle')) }}</span>
+				        <span  class="col l7 m6 s12">Log out</span>
+				   </a>
+			  </li>
             </ul>
             <a href="#" data-activates="slide-out" class="button-collapse"><i class="mdi-navigation-menu"></i></a>
           </div>

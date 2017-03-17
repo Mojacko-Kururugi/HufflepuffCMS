@@ -61,7 +61,12 @@
 				        <span  class="col l7 m6 s12">Employees</span>
 				   </a>
 			  </li>
-              <li class="bold {{ strpos(Request::url(), 'product-type') !== false ? 'active' : '' }}"><a href="/product-type">Product Types</a></li>
+              <li class="bold {{ strpos(Request::url(), 'product-type') !== false ? 'active' : '' }}">
+			       <a href="/product-type" class="row">
+				        <span class="col l3 m6 s12">{{ HTML::image('img/product type.png', 'product type', array('class' => 'responsive-img circle')) }}</span>
+				        <span  class="col l7 m6 s12">Product Types</span>
+				   </a>
+			  </li>
               <li class="bold {{ strpos(Request::url(), 'products') !== false ? 'active' : '' }}">
 			       <a href="/products" class="row">
 				         <span class="col l3 m6 s12">{{ HTML::image('img/products.png', 'products', array('class' => 'responsive-img circle')) }}</span>
