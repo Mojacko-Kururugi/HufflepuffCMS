@@ -13,7 +13,7 @@
   <body>
     <div class="card-panel login-panel">
       <div class="login-logo">
-        <img src="img/eyeglasses.png" class="responsive-img circle" />
+        <img src="img/logo2.png" class="responsive-img circle" />
       </div>
       <div class="app-name center-align">OPTICAL CLINIC MANAGEMENT</div>
 

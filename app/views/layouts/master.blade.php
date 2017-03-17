@@ -38,13 +38,48 @@
                 <!-- use amber for admin, blue for employee, ?? for manager -->
                 
               </div>
-              <li class="bold {{ strpos(Request::url(), 'index') !== false ? 'active' : '' }}"><a href="/index">Dashboard</a></li>
-              <li class="bold {{ strpos(Request::url(), 'schedules') !== false ? 'active' : '' }}"><a href="/schedules">Schedules</a></li>
-              <li class="bold {{ strpos(Request::url(), 'records') !== false ? 'active' : '' }}"><a href="/records">Patient Records</a></li>
-              <li class="bold {{ strpos(Request::url(), 'service') !== false ? 'active' : '' }}"><a href="/service">Service</a></li>
-              <li class="bold {{ strpos(Request::url(), 'inventory') !== false ? 'active' : '' }}"><a href="/inventory">Inventory</a></li>
-              <li class="bold {{ strpos(Request::url(), 'sales') !== false ? 'active' : '' }}"><a href="/sales">Sales</a></li>
-              <li class="bold"><a href="/logout">Log out</a></li>
+              <li class="bold {{ strpos(Request::url(), 'index') !== false ? 'active' : '' }}">
+			       <a href="/index" class="row">
+				       <span class="col l3 m6 s12">{{ HTML::image('img/dashboard.png', 'dashboard', array('class' => 'responsive-img circle')) }}</span>
+				       <span  class="col l7 m6 s12">Dashboard</span>
+				   </a>
+			  </li>
+              <li class="bold {{ strpos(Request::url(), 'schedules') !== false ? 'active' : '' }}">
+			       <a href="/schedules" class="row">
+				        <span class="col l3 m6 s12">{{ HTML::image('img/sched.png', 'schedule', array('class' => 'responsive-img circle')) }}</span>
+						<span  class="col l7 m6 s12">Schedules</span>
+				   </a>
+			  </li>
+              <li class="bold {{ strpos(Request::url(), 'records') !== false ? 'active' : '' }}">
+			       <a href="/records" class="row">
+				        <span class="col l3 m6 s12">{{ HTML::image('img/patient records.png', 'patient records', array('class' => 'responsive-img circle')) }}</span>
+						<span  class="col l7 m6 s12">Patient Records</span>
+				   </a>
+			  </li>
+              <li class="bold {{ strpos(Request::url(), 'service') !== false ? 'active' : '' }}">
+			       <a href="/service" class="row">
+				        <span class="col l3 m6 s12">{{ HTML::image('img/service.png', 'service', array('class' => 'responsive-img circle')) }}</span>
+						<span  class="col l7 m6 s12">Service</span>
+				   </a>
+			  </li>
+              <li class="bold {{ strpos(Request::url(), 'inventory') !== false ? 'active' : '' }}">
+			       <a href="/inventory" class="row">
+                        <span class="col l3 m6 s12">{{ HTML::image('img/inventory.png', 'inventory', array('class' => 'responsive-img circle')) }}</span>
+				        <span  class="col l7 m6 s12">Inventory</span>
+				   </a>
+			  </li>
+              <li class="bold {{ strpos(Request::url(), 'sales') !== false ? 'active' : '' }}">
+			        <a href="/sales" class="row">
+					     <span class="col l3 m6 s12">{{ HTML::image('img/sales.png', 'sales', array('class' => 'responsive-img circle')) }}</span>
+						 <span  class="col l7 m6 s12">Sales</span>
+					</a>
+			  </li>
+              <li class="bold">
+			       <a href="/logout" class="row">
+				         <span class="col l3 m6 s12">{{ HTML::image('img/logout.png', 'logout', array('class' => 'responsive-img circle')) }}</span>
+				         <span  class="col l7 m6 s12">Log out</span>
+				   </a>
+			  </li>
             </ul>
             <a href="#" data-activates="slide-out" class="button-collapse"><i class="mdi-navigation-menu"></i></a>
           </div>

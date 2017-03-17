@@ -131,6 +131,8 @@
   var date = new Date();
   var nameRegex = /^([ \u00c0-\u01ffa-zA-Z'\-])+$/;
   var contactRegex = /((\+63)|0)\d{10}/;
+  
+  
 
   $(document).ready(function() {
     $('#b_day').pickadate({
@@ -194,7 +196,33 @@
         address: {
           required: true
         },
+		
+		strUserLastName: {
+			required: true,
+			regex: nameRegex
+		},
 
+		strUserEmail: {
+			required: true,
+			email: true
+		}
+		
+		con_email: {
+			email: true,
+			equalTo: "#email",
+			required: true
+		}
+		
+		password: {
+			required: true,
+			minlength: 6
+		}
+		
+		con_pass: {
+			required: true,
+			equalTo: "#password"
+		}
+		
       },
       errorElement: 'div'
     });

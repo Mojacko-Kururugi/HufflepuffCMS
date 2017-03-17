@@ -36,13 +36,49 @@
                 <!-- use amber for admin, blue for employee, ?? for manager -->
                 <!-- Branch: <span class="bold">Brgy. Sangandaan Branch</span> -->
               </div>
-              <li class="bold {{ strpos(Request::url(), 'admin') !== false ? 'active' : '' }}"><a href="/admin">Dashboard</a></li>
-              <li class="bold {{ strpos(Request::url(), 'branches') !== false ? 'active' : '' }}"><a href="/branches">Branches</a></li>
-              <li class="bold {{ strpos(Request::url(), 'doctors') !== false ? 'active' : '' }}"><a href="/doctors">Optometrists</a></li>
-              <li class="bold {{ strpos(Request::url(), 'employees') !== false ? 'active' : '' }}"><a href="/employees">Employees</a></li>
-              <li class="bold {{ strpos(Request::url(), 'products') !== false ? 'active' : '' }}"><a href="/products">Products</a></li>
-              <li class="bold {{ strpos(Request::url(), 'services') !== false ? 'active' : '' }}"><a href="/services">Services</a></li>
-              <li class="bold"><a href="/logout">Log out</a></li>
+              <li class="bold {{ strpos(Request::url(), 'admin') !== false ? 'active' : '' }}">
+			       
+			       <a href="/admin"  class="row">
+				        <span class="col l3 m6 s12">{{ HTML::image('img/dashboard.png', 'dashboard', array('class' => 'responsive-img circle')) }}</span>
+						<span  class="col l7 m6 s12">Dashboard</span>
+				   </a>
+			  </li>
+              <li class="bold {{ strpos(Request::url(), 'branches') !== false ? 'active' : '' }}">
+			       <a href="/branches" class="row">
+				       <span class="col l3 m6 s12">{{ HTML::image('img/branches.png', 'branches', array('class' => 'responsive-img circle')) }}</span>
+				       <span  class="col l7 m6 s12">Branches</span>
+				   </a>
+			  </li>
+              <li class="bold {{ strpos(Request::url(), 'doctors') !== false ? 'active' : '' }}">
+			       <a href="/doctors" class="row">
+				        <span class="col l3 m6 s12">{{ HTML::image('img/doctor.png', 'doctor', array('class' => 'responsive-img circle')) }}</span>
+				         <span  class="col l7 m6 s12">Optometrists</span>
+				   </a>
+			  </li>
+              <li class="bold {{ strpos(Request::url(), 'employees') !== false ? 'active' : '' }}">
+			       <a href="/employees" class ="row">
+				        <span class="col l3 m6 s12">{{ HTML::image('img/employee.png', 'employee', array('class' => 'responsive-img circle')) }}</span>
+				        <span  class="col l7 m6 s12">Employees</span>
+				   </a>
+			  </li>
+              <li class="bold {{ strpos(Request::url(), 'products') !== false ? 'active' : '' }}">
+			       <a href="/products" class="row">
+				         <span class="col l3 m6 s12">{{ HTML::image('img/products.png', 'products', array('class' => 'responsive-img circle')) }}</span>
+				        <span  class="col l7 m6 s12">Products</span>
+				   </a>
+			 </li>
+              <li class="bold {{ strpos(Request::url(), 'services') !== false ? 'active' : '' }}">
+			       <a href="/services" class="row">
+				        <span class="col l3 m6 s12">{{ HTML::image('img/service.png', 'services', array('class' => 'responsive-img circle')) }}</span>
+				        <span  class="col l7 m6 s12">Services</span>
+				   </a>
+			  </li>
+              <li class="bold">
+			       <a href="/logout" class="row">
+				        <span class="col l3 m6 s12">{{ HTML::image('img/logout.png', 'logout', array('class' => 'responsive-img circle')) }}</span>
+						<span  class="col l7 m6 s12">Log out</span>
+				   </a>
+			  </li>
             </ul>
             <a href="#" data-activates="slide-out" class="button-collapse"><i class="mdi-navigation-menu"></i></a>
           </div>
