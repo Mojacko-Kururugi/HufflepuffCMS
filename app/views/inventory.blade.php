@@ -46,7 +46,11 @@
                         <td>{{ $data->strPTDesc }}</td>
                         <td>{{ $data->dcInvPPrice }}</td>
                         <td>{{ $data->intInvQty }}</td>
+                        @if($data->dtInvExpiry == NULL)
+                        <td>N/A</td>
+                        @else
                         <td>{{ $data->dtInvExpiry }}</td>
+                        @endif 
                         @if($data->intISID == 1)
                         <td class="green-text bold">{{ $data->strISDesc }}</td>
                         <td>

@@ -110,6 +110,7 @@ class DoctorController extends BaseController {
 	}
 
 	public function showServ() {
+
 		$data = DB::table('tblServiceHeader')
 			->join('tblPatientInfo', 'tblServiceHeader.intSHPatID','=','tblPatientInfo.intPatID')
 			->join('tblDocInfo', 'tblServiceHeader.intSHDocID','=','tblDocInfo.intDocID')
@@ -143,19 +144,40 @@ class DoctorController extends BaseController {
 			->where('tblInventory.intInvStatus','!=',3)
 			->get();
 
-				return View::make('add-service')->with('patient',$patient)->with('service',$service)->with('type',$type)->with('status',$status)->with('product',$product);
+		$ct = 1 + DB::table('tblServiceHeader')
+			->count();
+
+		if($ct < 10)
+			$count = "SRV00" . $ct;
+		else if($ct < 100)
+			$count = "SRV0" . $ct;
+		else if($ct < 1000)
+			$count = "SRV" . $ct;
+				return View::make('add-service')->with('patient',$patient)->with('service',$service)->with('type',$type)->with('status',$status)->with('product',$product)->with('count',$count);
 	}	
 
 	public function saveServ() {
 		
 		DB::table('tblServiceHeader')
 		->insert([
+			'strSHCode' => Request::input('user_id'),
 			'intSHPatID' 	=> Request::input('patient'),
 			'intSHDocID' 	=> Session::get('user_code'),
 			'intSHServiceID' => Request::input('service'),
 			'intSHPaymentType' => Request::input('type'),
 			'intSHStatus' => Request::input('status')
 		]);
+
+		DB::table('tblServiceDetails')
+		->insert([
+			'intHeaderCode' => Request::input('user_id'),
+    		'intHInvID' => Request::input('product'),
+    		'intQty' => 0,
+    		'intClaimStatus' => 0,
+    		'intHWarranty' => 1
+		]);
+
+
 
 		return Redirect::to('/service');
 	}
@@ -202,15 +224,11 @@ class DoctorController extends BaseController {
 	}
 
 	public function showSched() {
-		$try = DB::table('tblBranch')
-				->where('tblBranch.intBStatus', '=', 1)
-				->get();
-
 		$data = DB::table('tblSchedules')
 				->where('tblSchedules.intSchedDoctor', '=',  Session::get('user_code'))
 				->get();
 
-		return View::make('schedule')->with('try',$try)->with('data',$data);
+		return View::make('schedule')->with('data',$data);
 	}
 
 	public function addSched() {

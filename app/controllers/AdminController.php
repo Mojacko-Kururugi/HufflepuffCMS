@@ -225,6 +225,60 @@ class AdminController extends BaseController {
 	    return Redirect::to('/employees');
 	}
 
+	public function openProdType() {
+		$data = DB::table('tblProdType')
+			->where('tblProdType.intPTStatus', '=', 1)
+			->get();
+
+			return View::make('admin-product-types')->with('data',$data);
+	}
+
+	
+	public function openAddProdType() {
+		
+			return View::make('add-product-type');
+	}
+
+	public function addProdType() {
+
+		DB::table('tblProdType')
+		->insert([
+		    'strPTDesc' => Request::input('name'),
+		    'intPTStatus'  => 1
+		]);
+
+		return Redirect::to('/product-type');
+	}
+
+	public function showUpPT($id) {
+
+		$data = DB::table('tblProdType')
+			->where('tblProdType.intPTID', '=', $id)
+			->first();
+
+	    return View::make('update-product-type')->with('data',$data)->with('id',$id);
+	}
+
+	public function updatePT() {
+			DB::table('tblProdType')
+				->where('tblProdType.intPTID', '=', Session::get('upId'))
+				->update([
+					'strPTDesc' => Request::input('name'),
+				]);
+
+		return Redirect::to('/product-type');
+	}
+
+	public function deactPT($id) {
+			DB::table('tblProdType')
+				->where('tblProdType.intPTID', '=', $id)
+				->update([
+						'intPTStatus'  => 0,
+				]);
+
+		return Redirect::to('/product-type');
+	}
+
 	public function openProd() {
 		$data = DB::table('tblProducts')
 			->join('tblProdType', 'tblProducts.intProdType', '=', 'tblProdType.intPTID')
@@ -234,9 +288,11 @@ class AdminController extends BaseController {
 			return View::make('admin-products')->with('data',$data);
 	}
 
+
 	public function openAddProd() {
 		
 		$data = DB::table('tblProdType')
+			->where('tblProdType.intPTStatus', '=', 1)
 			->get();
 
 			return View::make('add-product')->with('data',$data);
@@ -248,6 +304,7 @@ class AdminController extends BaseController {
 		->insert([
 			'strProdName' 		=> Request::input('name'),
 			'strProdModel' 	=> Request::input('model'),
+			'strProdBrand' =>  Request::input('brand'),
 			'intProdType'	=> Request::input('type'),
 			'intProdStatus' => 1
 		]);
@@ -272,6 +329,7 @@ class AdminController extends BaseController {
 				->update([
 					'strProdName' 		=> Request::input('name'),
 					'strProdModel' 	=> Request::input('model'),
+					'strProdBrand' =>  Request::input('brand'),
 					'intProdType'	=> Request::input('type')
 				]);
 

@@ -29,30 +29,42 @@ Route::get('/logout', 'HomeController@doLogout');
 
 //for Admin Module
 Route::get('/admin', 'AdminController@openAdmin');
+
 Route::get('/branches', 'AdminController@showBranches');
 Route::get('/add-branch', 'AdminController@addBranchForm');
 Route::post('/save-branch', 'AdminController@addBranch');
 Route::get('branch/{id}', 'AdminController@openUpBranch');
 Route::post('/update-branch','AdminController@updateBranch');
 Route::get('d-branch/{id}', 'AdminController@deactBranch');
+
 Route::get('/doctors', 'AdminController@showDoctors');
 Route::get('/add-doctor', 'AdminController@addDoctorForm');
 Route::post('/save-doctor', 'AdminController@addDoctor');
 Route::post('/update-doc', 'AdminController@updateDoctor');
 Route::get('delete-doc/{id}', 'AdminController@deactDoctor');
 Route::get('doctor/{id}','AdminController@openUpDoctor' );
+
 Route::get('/employees', 'AdminController@showEmployees');
 Route::get('/add-emp', 'AdminController@addEmpForm');
 Route::post('/save-emp', 'AdminController@addEmp');
 Route::get('emp/{id}','AdminController@showUpEmp' );
 Route::post('/update-emp','AdminController@updateEmp' );
 Route::get('delete-emp/{id}','AdminController@deactEmp');
+
+Route::get('/product-type', 'AdminController@openProdType');
+Route::get('/product-type/add-pt', 'AdminController@openAddProdType');
+Route::post('/product-type/save', 'AdminController@addProdType');
+Route::get('/product-type/{id}', 'AdminController@showUpPT');
+Route::post('/product-type/update', 'AdminController@updatePT');
+Route::get('delete-pt/{id}','AdminController@deactPT');
+
 Route::get('/products', 'AdminController@openProd');
 Route::get('/products/add', 'AdminController@openAddProd');
 Route::post('/products/add-prod', 'AdminController@addProd');
 Route::get('/products/{id}', 'AdminController@showUpProd');
 Route::post('/products/update-prod','AdminController@updateProd' );
 Route::get('delete-prod/{id}','AdminController@deactProd');
+
 Route::get('/services', 'AdminController@openServ');
 Route::get('/services/add-serv', 'AdminController@openAddServ');
 Route::post('/services/save-serv','AdminController@addServ' );

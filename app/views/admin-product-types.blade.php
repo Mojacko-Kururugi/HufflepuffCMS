@@ -1,11 +1,11 @@
-@extends('layouts.secretary-master')
+@extends('layouts.admin-master')
 
 @section('content')
 
 <!-- header -->
 <div class="row page-title">
   <div class="col s12 m12 l12">
-    <h5>Adjustments</h5>
+    <h5>Product Types</h5>
   </div>
 </div>
 
@@ -15,8 +15,8 @@
     <div class="card">
       <div class="card-content">
         <div class="row">
-          <div class="col s12 m12 l12">
-                <a class="modal-trigger waves-effect waves-light btn btn-flat right btn-small center-text" href="{{ URL::to('/reports') }}">Generate Report</a>
+          <div class="col s12 m12 l6">
+                <a class="waves-effect waves-light btn blue darken-1 btn-small center-text" href="/product-type/add-pt">ADD NEW PRODUCT TYPE</a>
           </div>
         </div>
 
@@ -26,31 +26,23 @@
               <table id="example" class="mdl-data-table" cellspacing="0" width="100%">
                 <thead>
                     <tr>
-                        <th>Adjusment Code</th>
-                        <th>Serial Code</th>
-                        <th>Product Name & Model</th>
-                        <th>Qty Adjusted</th>
-                        <th>Date Adjusted</th>
-                        <th>Adjustment Type</th>
-                        <th>Reason</th>
+                        <th>Product Type Name</th>
+                        <th>Date Created</th>
+                        <th>Actions</th>
                     </tr>
                 </thead>
-                <tbody>
                 @foreach($data as $data)
                       <tr>
-                        <td>{{ $data->strAdjCode }}</td>
-                        <td>{{ $data->strInvCode }}</td>
-                        <td>{{ $data->strProdName .' - ' . $data->strProdModel }}</td>
-                        <td>{{ $data->intAdjQty }}</td>
-                        <td>{{ $data->dtAdjDate }}</td>
-                        @if($data->intAdjStatus == 1)
-                        <td class="green-text bold">INCREASED</td>
-                        @else
-                         <td class="red-text bold">DECREASED</td>
-                        @endif
-                        <td>{{ $data->strAdjReason }}</td>
+                        <td>{{ $data->strPTDesc }}</td>
+                        <td>{{ $data->dtPTDateCreated }}</td>
+                        <td>
+                            <div class="center-btn">
+                             <a class="waves-effect waves-light btn green darken-1 btn-small center-text" href="product-type/{{$data->intPTID}}">UPDATE</a>
+                             <a class="waves-effect waves-light btn red lighten-1 btn-small center-text" href="delete-pt/{{$data->intPTID}}">DELETE</a>
+                            </div>
+                        </td>
                     </tr>
-                  @endforeach 
+                   @endforeach 
                 </tbody>
               </table>
             <br>
@@ -74,6 +66,7 @@
   <script src="js/init.js"></script>
   <script src="js/jquery.dataTables.min.js"></script>
   <script src="js/dataTables.material.min.js"></script>
+
   <script type="text/javascript">
 $(document).ready(function() {
     $('#example').DataTable( {
@@ -92,12 +85,5 @@ $(document).ready(function() {
     } );
 } );
   </script>
-
-  <script>
-    $(document).ready(function(){
-    // the "href" attribute of .modal-trigger must specify the modal ID that wants to be triggered
-    $('.modal').modal();
-  });
-    </script>
 @stop
 

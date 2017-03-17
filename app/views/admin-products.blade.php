@@ -28,6 +28,7 @@
                     <tr>
                         <th>Product Name</th>
                         <th>Product Model</th>
+                        <th>Product Brand</th>
                         <th>Product Type</th>
                         <th>Actions</th>
                     </tr>
@@ -36,6 +37,7 @@
                       <tr>
                         <td>{{ $data->strProdName }}</td>
                         <td>{{ $data->strProdModel }}</td>
+                        <td>{{ $data->strProdBrand }}</td>
                         <td>{{ $data->strPTDesc }}</td>
                         <td>
                             <div class="center-btn">

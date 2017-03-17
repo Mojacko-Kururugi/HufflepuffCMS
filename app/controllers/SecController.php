@@ -36,6 +36,18 @@ class SecController extends BaseController {
 	public function openSecInv() {
 		$this->doExpiryCheck();
 
+
+		$ct = 1 + DB::table('tblAdjustments')
+			->count();
+
+		if($ct < 10)
+			$count = "ADJ00" . $ct;
+		else if($ct < 100)
+			$count = "ADJ0" . $ct;
+		else if($ct < 1000)
+			$count = "ADJ" . $ct;
+
+
 		$data = DB::table('tblInventory')
 			->join('tblInvStatus', 'tblInventory.intInvStatus', '=', 'tblInvStatus.intISID')
 			->join('tblProducts', 'tblInventory.intInvPID', '=', 'tblProducts.intProdID')
@@ -44,15 +56,25 @@ class SecController extends BaseController {
 			->where('tblInvStatus.intISID','!=',3)
 			->get();
 
-			return View::make('sec-inv')->with('data',$data);
+			return View::make('sec-inv')->with('data',$data)->with('count',$count);
 	}
 
 	public function openAddOrd() {
 		$data = DB::table('tblProducts')
 			->where('tblProducts.intProdStatus', '=', 1)
 			->get();
-		
-			return View::make('sec-ord')->with('data',$data);
+
+		$ct = 1 + DB::table('tblOrders')
+			->count();
+
+		if($ct < 10)
+			$count = "BTH00" . $ct;
+		else if($ct < 100)
+			$count = "BTH0" . $ct;
+		else if($ct < 1000)
+			$count = "BTH" . $ct;
+
+			return View::make('sec-ord')->with('data',$data)->with('count',$count);
 	}
 
 	public function openOrdList() {
@@ -154,6 +176,7 @@ class SecController extends BaseController {
 				$total = $curr_qty - $new_qty;
 				DB::table('tblAdjustments')
 					->insert([
+						'strAdjCode'  => Request::input('user_id'),
 						'intAdjInvID' => $id,
 					    'intAdjQty' => Request::input('qty'),
 					    'strAdjReason' => Request::input('desc'),
@@ -174,6 +197,7 @@ class SecController extends BaseController {
 			$total = $curr_qty + $new_qty;
 				DB::table('tblAdjustments')
 					->insert([
+						'strAdjCode'  => Request::input('user_id'),
 						'intAdjInvID' => $id,
 					    'intAdjQty' => Request::input('qty'),
 					    'strAdjReason' => Request::input('desc'),

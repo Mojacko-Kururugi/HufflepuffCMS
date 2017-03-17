@@ -36,6 +36,7 @@
                 <!-- use amber for admin, blue for employee, ?? for manager -->
                 <!-- Branch: <span class="bold">Brgy. Sangandaan Branch</span> -->
               </div>
+<<<<<<< HEAD
               <li class="bold {{ strpos(Request::url(), 'admin') !== false ? 'active' : '' }}">
 			       
 			       <a href="/admin"  class="row">
@@ -79,6 +80,16 @@
 						<span  class="col l7 m6 s12">Log out</span>
 				   </a>
 			  </li>
+=======
+              <li class="bold {{ strpos(Request::url(), 'admin') !== false ? 'active' : '' }}"><a href="/admin">Dashboard</a></li>
+              <li class="bold {{ strpos(Request::url(), 'branches') !== false ? 'active' : '' }}"><a href="/branches">Branches</a></li>
+              <li class="bold {{ strpos(Request::url(), 'doctors') !== false ? 'active' : '' }}"><a href="/doctors">Optometrists</a></li>
+              <li class="bold {{ strpos(Request::url(), 'employees') !== false ? 'active' : '' }}"><a href="/employees">Employees</a></li>
+              <li class="bold {{ strpos(Request::url(), 'product-type') !== false ? 'active' : '' }}"><a href="/product-type">Product Types</a></li>
+              <li class="bold {{ strpos(Request::url(), 'products') !== false ? 'active' : '' }}"><a href="/products">Products</a></li>
+              <li class="bold {{ strpos(Request::url(), 'services') !== false ? 'active' : '' }}"><a href="/services">Services</a></li>
+              <li class="bold"><a href="/logout">Log out</a></li>
+>>>>>>> 2b4bbd565948e72b869d3afbdd118fb336d0d85b
             </ul>
             <a href="#" data-activates="slide-out" class="button-collapse"><i class="mdi-navigation-menu"></i></a>
           </div>

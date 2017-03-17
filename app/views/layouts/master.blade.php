@@ -28,6 +28,8 @@
                     <div class="col l8 m6 s12">
                       <p class="bold blue-text text-accent-4">{{ Session::get('user_name') }}</p>
                       <hr>
+                      <p class="small"><b>{{ Session::get('user_desc') }}</b></p>
+                      <hr>
                       <p class="small">Branch: <b>{{ Session::get('user_b') }}</b></p>
                     </div>
                   </div>
