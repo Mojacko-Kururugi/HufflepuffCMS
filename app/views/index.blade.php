@@ -39,7 +39,7 @@
                 <td>{{ $inv->sum }}</td>
                 <td>
                   <div class="center-btn">
-                    <a class="waves-effect waves-light btn btn-small center-text" href="/neworder">Order</a>
+                    <a class="waves-effect waves-light btn btn-small center-text" href="/inventory/order">Order</a>
                   </div>
                 </td>
               </tr>
@@ -53,11 +53,12 @@
       </div>
 
       <div class="card-panel">
-        <span class="card-title">Incoming schedules/appointments</span>
+        <span class="card-title">Schedules and Appointments</span>
         <hr>
         <div class="card-content">
+        @if($app != null)
           <p>
-            You have 1 notification.
+            You have incoming appointments.
           </p>
           <table class="centered table-fixed">
             <thead>
@@ -77,13 +78,14 @@
                 <td>{{ $app->dtSchedDate }}</td>
                 <td>{{ $app->tmSchedTime }}</td>
               </tr>
+              @endforeach
             </tbody>
-            @endforeach
           </table>
-
-          <!-- <p>
-            You have no incoming requests.
-          </p> -->
+          @else
+          <p>
+            You have no incoming appointments.
+          </p>
+          @endif
         </div>
       </div>
 
@@ -91,9 +93,10 @@
     </div>
     <div class="col s12 m12 l5">
       <div class="card-panel">
-        <span class="card-title">Pending appointments</span>
+        <span class="card-title">Pending Appointments</span>
         <hr>
         <div class="card-content">
+        @if($req != null)
           <p>
             You have pending appointments.
           </p>
@@ -108,10 +111,11 @@
             </thead>
 
             <tbody>
+              @foreach($req as $req)
               <tr>
-              <td>Amac, Pamela</td>
-               <td>Walk in Check up</td>
-                <td>01/23/2016 10:30am</td>
+              <td>{{ $req->strPatLast . ', ' . $req->strPatFirst }}</td>
+               <td>{{ $req->strSchedHeader }}</td>
+                <td>{{ $req->dtSchedDate . ' - ' . $req->tmSchedTime }}</td>
                 <td>
                   <div class="center-btn">
                     <a class="waves-effect waves-light btn btn-small green center-text">Accept</a>
@@ -119,12 +123,14 @@
                   </div>
                 </td>
               </tr>
+              @endforeach
             </tbody>
           </table>
-
-          <!-- <p>
-            You have no pending orders.
-          </p> -->
+          @else
+          <p>
+            You have no pending requests.
+          </p>
+          @endif
         </div>
       </div>
 

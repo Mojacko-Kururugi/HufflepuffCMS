@@ -26,7 +26,7 @@
                   <div class="col s12 m12 l10">
 
                      <!-- <button class="modal-trigger waves-effect waves-light btn btn-small center-text" href="#newprod">ADD NEW EVENT/APPOINTMENT</button> -->
-          		   <a class="modal-trigger waves-effect waves-light btn blue darken-1 btn-small center-text" href="/add-sched">ADD NEW EVENT/ APPOINTMENT</a>
+          		   <a class="waves-effect waves-light btn blue darken-1 btn-small center-text" href="/add-sched">ADD NEW EVENT/ APPOINTMENT</a>
                     <!--  <button class="modal-trigger waves-effect waves-light btn btn-small center-text" href="#viewprod">DELETE ALL</button> --> 
                   </div>
                 </div>
@@ -66,6 +66,11 @@
         var evt = [
             <?php foreach ($data as $data): ?>
                     {
+                      <?php if ($data->intSchedStatus == 1): ?>
+                        resourceId: 'a',
+                       <?php elseif ($data->intSchedStatus == 2): ?>
+                        resourceId: 'b',
+                      <?php endif; ?>
                         title  : '<?php echo $data->strSchedHeader ?>',
                         start  : '<?php echo $data->dtSchedDate ?>T<?php echo $data->tmSchedTime ?>'
                     },
@@ -90,13 +95,13 @@
             defaultView: 'agendaWeek',
             resourceLabelText: 'Activity',
             resources: [
-                { id: 'a', title: 'Reserved Check Ups', eventColor: 'green' },
-                { id: 'b', title: 'Follow-Up Check Ups', eventColor: 'orange' },
-                { id: 'c', title: 'Doctor is Out', eventColor: 'black' },
-                { id: 'd', title: 'Repairs', children: [
-                    { id: 'd1', title: 'Repairs with Check-up', eventColor: 'red' },
-                    { id: 'd2', title: 'Repairs only', eventColor: 'blue' }
-                ] },
+                { id: 'a', title: 'Approved', eventColor: 'green' },
+                { id: 'b', title: 'Pending', eventColor: 'orange' },
+              //  { id: 'c', title: 'Doctor is Out', eventColor: 'black' },
+              //  { id: 'd', title: 'Repairs', children: [
+              //      { id: 'd1', title: 'Repairs with Check-up', eventColor: 'red' },
+              //      { id: 'd2', title: 'Repairs only', eventColor: 'blue' }
+              //  ] },
             ],
             events: evt
         });

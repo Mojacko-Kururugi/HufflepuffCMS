@@ -114,6 +114,8 @@ Route::get('/expired', 'SecController@openExp');
 //for patient
 Route::get('/patient-home', 'PatientController@openPat');
 Route::get('/patient-schedules', 'PatientController@showSched');
+Route::get('/patient-schedules/req', 'PatientController@showReqSched');
+Route::post('/patient-schedules/save', 'PatientController@saveReqSched');
 Route::get('/patient-records', 'PatientController@showRec');
 Route::get('/patient-sales', 'PatientController@showAcc');
 

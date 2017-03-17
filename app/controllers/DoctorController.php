@@ -25,9 +25,16 @@ class DoctorController extends BaseController {
 		$app = DB::table('tblSchedules')
 				->join('tblPatientInfo', 'tblSchedules.intSchedPatient', '=', 'tblPatientInfo.intPatID')
 				->where('tblSchedules.intSchedDoctor', '=',  Session::get('user_code'))
+				->where('tblSchedules.intSchedStatus', '=',  1)
 				->get();
 
-		return View::make('index')->with('inv',$inv)->with('app',$app);
+		$req = DB::table('tblSchedules')
+				->join('tblPatientInfo', 'tblSchedules.intSchedPatient', '=', 'tblPatientInfo.intPatID')
+				->where('tblSchedules.intSchedDoctor', '=',  Session::get('user_code'))
+				->where('tblSchedules.intSchedStatus', '=',  2)
+				->get();;
+
+		return View::make('index')->with('inv',$inv)->with('app',$app)->with('req',$req);
 
 	}
 
