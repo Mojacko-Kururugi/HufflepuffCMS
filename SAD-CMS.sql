@@ -366,7 +366,7 @@ INSERT INTO tblProdType(strPTDesc,intPTStatus) VALUES ('Contact Lens','1');
 INSERT INTO tblProdType(strPTDesc,intPTStatus) VALUES ('Solution','1');
 
 INSERT INTO tblUserType(intUTID,strUTDesc) VALUES ('1','Admin');
-INSERT INTO tblUserType(intUTID,strUTDesc) VALUES ('2','Doctor');
+INSERT INTO tblUserType(intUTID,strUTDesc) VALUES ('2','Optometrist');
 INSERT INTO tblUserType(intUTID,strUTDesc) VALUES ('3','Secretary');
 INSERT INTO tblUserType(intUTID,strUTDesc) VALUES ('4','Patient');
 
