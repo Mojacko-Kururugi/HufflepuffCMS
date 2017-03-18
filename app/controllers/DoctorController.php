@@ -128,6 +128,7 @@ class DoctorController extends BaseController {
 			->join('tblServiceDetails', 'tblServiceHeader.strSHCode','=','tblServiceDetails.strHeaderCode')
 			->join('tblInventory', 'tblServiceDetails.intHInvID','=','tblInventory.intInvID')
 			->join('tblProducts','tblInventory.intInvPID','=','tblProducts.intProdID')
+			->where('tblInventory.intInvBranch', '=', Session::get('user_bc'))
 			->get();
 
 

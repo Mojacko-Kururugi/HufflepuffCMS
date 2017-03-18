@@ -169,6 +169,7 @@ class SecController extends BaseController {
 			->join('tblWarranty', 'tblServiceDetails.intHWarranty','=','tblWarranty.intWID')
 			->join('tblInventory', 'tblServiceDetails.intHInvID','=','tblInventory.intInvID')
 			->join('tblProducts','tblInventory.intInvPID','=','tblProducts.intProdID')
+			->where('tblInventory.intInvBranch', '=', Session::get('user_bc'))
 			->get();
 
 		return View::make('sec-warranty')->with('data',$data);	
@@ -183,6 +184,7 @@ class SecController extends BaseController {
 			->join('tblServiceDetails', 'tblServiceHeader.strSHCode','=','tblServiceDetails.strHeaderCode')
 			->join('tblInventory', 'tblServiceDetails.intHInvID','=','tblInventory.intInvID')
 			->join('tblProducts','tblInventory.intInvPID','=','tblProducts.intProdID')
+			->where('tblInventory.intInvBranch', '=', Session::get('user_bc'))
 			->get();
 
 		return View::make('sec-unc')->with('data',$data);	
