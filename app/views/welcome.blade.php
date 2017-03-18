@@ -4,7 +4,7 @@
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no"/>
   <meta http-equiv="x-ua-compatible" content="ie=edge">
-  <title>Welcome | Connie's Optical Clinic</title>
+  <title>Welcome | Coonie's Optical Clinic</title>
 
   <!-- CSS  -->
  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.0/css/font-awesome.min.css">
@@ -95,7 +95,7 @@
                         <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link">Services</a>
+                        <a class="nav-link" href="#product">Products</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link">Contact Us</a>
@@ -115,7 +115,7 @@
 
 
     <!--Carousel Wrapper-->
-    <div id="carousel-example-3" class="carousel slide carousel-fade white-text" data-ride="carousel" data-interval="false">
+    <div id="carousel-example-3" class="carousel slide row white-text;" data-ride="carousel" data-interval="3000" style="float:none;">
         <!--Indicators-->
         <ol class="carousel-indicators">
             <li data-target="#carousel-example-3" data-slide-to="0" class="active"></li>
@@ -128,7 +128,7 @@
         <div class="carousel-inner" role="listbox">
 
             <!-- First slide -->
-            <div class="carousel-item active view hm-black-light" style="background-image: url('img/bg2.jpg'); background-repeat: no-repeat; background-size: cover;">
+            <div class="carousel-item active view hm-black-light" style="background-image: url('img/bg1.jpg'); background-repeat: no-repeat; background-size: cover;">
 
                 <!-- Caption -->
                 <div class="full-bg-img flex-center white-text">
@@ -138,14 +138,6 @@
                             <li>
                                 <p class="flex-item" style="font-size: 30px">Bright Vision. Bright Future</p>
                             </li>
-                            <!--
-                            <li>
-                                <a target="_blank" href="http://mdbootstrap.com/getting-started/" class="btn btn-primary btn-lg flex-item">Sign up!</a>
-                            </li>
-                            <li>
-                                <a target="_blank" href="http://mdbootstrap.com/material-design-for-bootstrap/" class="btn btn-default btn-lg flex-item">Learn more</a>
-                            </li>
-                            -->
                     </ul>
                 </div>
                 <!-- /.Caption -->
@@ -154,19 +146,19 @@
             <!-- /.First slide -->
 
             <!-- Second slide -->
-            <div class="carousel-item view hm-black-light" style="background-image: url('http://mdbootstrap.com/img/Photos/Horizontal/Nature/full%20page/img%20(22).jpg'); background-repeat: no-repeat; background-size: cover;">
+            <div class="carousel-item view hm-black-light" style="background-image: url('img/Slider4.jpg'); background-repeat: no-repeat; background-size: cover;">
 
                 <!-- Caption -->
                 <div class="full-bg-img flex-center white-text">
-                    <ul class="animated fadeInUp col-md-12">
+                    <ul class="animated fadeInUp col-md-12" style="position: absolute; padding-left: 40%">
                         <li>
-                            <h1 class="h1-responsive">Lots of tutorials at your disposal</h1>
+                            <h1 class="h1-responsive" style="font-size: 50px">Choose an eyewear fit for you </h1>
                         </li>
                         <li>
-                            <p>And all of them are FREE!</p>
+                            <h1 style="font-size: 50px">and your style</h1>
                         </li>
                         <li>
-                            <a target="_blank" href="http://mdbootstrap.com/bootstrap-tutorial/" class="btn btn-primary btn-lg">Start learning</a>
+                            <a target="_blank" href="http://mdbootstrap.com/bootstrap-tutorial/" class="btn btn-primary btn-lg">See eyewears</a>
                         </li>
                     </ul>
                 </div>
@@ -176,15 +168,15 @@
             <!-- /.Second slide -->
 
             <!-- Third slide -->
-            <div class="carousel-item view hm-black-light" style="background-image: url('http://mdbootstrap.com/img/Photos/Horizontal/Nature/full%20page/img%20(24).jpg'); background-repeat: no-repeat; background-size: cover;">
+            <div class="carousel-item view hm-black-light" style="background-image: url('img/checkup2.jpg'); background-repeat: no-repeat; background-size: cover;">
 
                 <!-- Caption -->
                 <div class="full-bg-img flex-center white-text">
-                    <ul class="animated fadeInUp col-md-12">
+                    <ul class="animated fadeInUp col-md-12" style="position: absolute; padding-right: 40%">
                         <li>
-                            <h1 class="h1-responsive">Visit our clinic now!</h1></li>
+                            <h1 class="h1-responsive flex-center" style="font-size: 60px">Visit our clinic now!</h1></li>
                         <li>
-                            <p>We can help you with any question</p>
+                            <h1 class="h1-responsive flex-center" style="font-size: 35px ">We can help you with any question </h1>
                         </li>
                         <li>
                             <a target="_blank" href="http://mdbootstrap.com/forums/forum/support/" class="btn btn-default btn-lg">Support forum</a>
@@ -219,7 +211,7 @@
          <div class ="row">
              <h1>About</h1>
                  <p class="lead" style="font-size: 18px;">
-                 Coonee's Optical Clinic started as small scale clinic that began its full operation back in the year 2014, and being run by Dra. Connie Galgana. Before the clinic was fully accredited, it moved from one place to another. Offering quality service to evrey customer. Eventually, another clinic branches opened which now is co-managed by her husband.                           
+                 Coonie's Optical Clinic started as small scale clinic that began its full operation back in the year 2014, and being run by Dra. Connie Galgana. Before the clinic was fully accredited, it moved from one place to another. Offering quality service to evrey customer. Eventually, another clinic branches opened which now is co-managed by her husband.                           
 
                  Currently CO Optical is considered one of the leading provider of quality eyewear products in the Philippines such as eyeglasses, contact lenses, and sunglasses. They are maintaining their permanent address at Quezon City.                             
 
@@ -229,6 +221,16 @@
                  </p>
             </div>
      </div>
+     <a name= "product"></a>
+        <div class= "container">
+            <div class ="row">
+                <h1>Our products</h1>
+                 <p class="lead" style="font-size: 18px;">
+                 Coonee's Optical Clinic has a wide range of eyewear product you can choose from. From different brands, style to the color that you want, we have it for you!
+                 </p>
+                
+            </div>
+         </div>
 
   <footer class="page-footer light-blue darken-4">
     <div class="container">
@@ -285,11 +287,20 @@
 
 
   <script type="text/javascript">
-    $(document).ready(function(){
-       // $(".button-collapse").sideNav();
+    $(document).ready(function () {
+        // $(".button-collapse").sideNav();
        // $('.collapsible').collapsible();
+    $('.carousel').carousel({
+        interval: 3000
     });
-  </script>
 
+    $('.carousel').carousel('cycle');
+     $('ul.first').bsPhotoGallery({
+    "classes" : "col-lg-2 col-md-4 col-sm-3 col-xs-4 col-xxs-12",
+    "hasModal" : true
+  });
+});
+  </script>
+  
   </body>
 </html>
