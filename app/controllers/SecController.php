@@ -159,6 +159,35 @@ class SecController extends BaseController {
 			return View::make('sec-adj')->with('data',$data);
 	}
 
+	public function openSecWar() {
+
+
+		$data = DB::table('tblServiceHeader')
+			->join('tblPatientInfo', 'tblServiceHeader.intSHPatID','=','tblPatientInfo.intPatID')
+			->join('tblServiceStatus', 'tblServiceHeader.intSHStatus','=','tblServiceStatus.intServStatID')
+			->join('tblServiceDetails', 'tblServiceHeader.strSHCode','=','tblServiceDetails.strHeaderCode')
+			->join('tblWarranty', 'tblServiceDetails.intHWarranty','=','tblWarranty.intWID')
+			->join('tblInventory', 'tblServiceDetails.intHInvID','=','tblInventory.intInvID')
+			->join('tblProducts','tblInventory.intInvPID','=','tblProducts.intProdID')
+			->get();
+
+		return View::make('sec-warranty')->with('data',$data);	
+	}
+
+	public function openSecUnc() {
+
+
+		$data = DB::table('tblServiceHeader')
+			->join('tblPatientInfo', 'tblServiceHeader.intSHPatID','=','tblPatientInfo.intPatID')
+			->join('tblServiceStatus', 'tblServiceHeader.intSHStatus','=','tblServiceStatus.intServStatID')
+			->join('tblServiceDetails', 'tblServiceHeader.strSHCode','=','tblServiceDetails.strHeaderCode')
+			->join('tblInventory', 'tblServiceDetails.intHInvID','=','tblInventory.intInvID')
+			->join('tblProducts','tblInventory.intInvPID','=','tblProducts.intProdID')
+			->get();
+
+		return View::make('sec-unc')->with('data',$data);	
+	}
+
 
 	public function adjInv($id) {
 		$data = DB::table('tblInventory')

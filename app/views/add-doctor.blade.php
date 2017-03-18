@@ -23,7 +23,7 @@
               </div>
               <div class="row">
                     <div class="input-field col s12 m6 l6">
-                      <input id="role" type="text" class="validate" value="Doctor" readonly>
+                      <input id="role" type="text" class="validate" value="Optometrist" readonly>
                       <label for="role">User Type</label>
                     </div>
               </div>
@@ -34,11 +34,11 @@
                   </div>
                   <div class="row">
                     <div class="input-field col s12 m4 l4">
-                      <input id="last_name_sa" name="last_name_sa" type="text" class="validate" value="" pattern="[A-Za-z]+" onkeydown="return alphaOnly(event);">
+                      <input id="last_name_sa" name="last_name_sa" type="text" class="validate">
                       <label for="last_name_sa">Last Name</label>
                     </div>
                     <div class="input-field col s12 m4 l4">
-                      <input id="first_name_sa" name="first_name_sa" type="text" class="validate" value="" pattern="[A-Za-z]+" onkeydown="return alphaOnly(event);">
+                      <input id="first_name_sa" name="first_name_sa" type="text" class="validate">
                       <label for="first_name_sa">First Name</label>
                     </div>
                     <div class="input-field col s12 m4 l4">
@@ -86,7 +86,7 @@
         <div class="row">
             <div class="input-field col l6 m8 s12">
                   <label for="email">Email</label>
-                  <input id="email" name="email" type="email" class="validate" data-error=".email_error" value="" />
+                  <input id="email" name="email" type="email" class="validate" data-error=".email_error" />
                   <div class="email_error">
                   </div>
               </div>
@@ -167,8 +167,7 @@
         user_type: "required",
 
         first_name_sa: {
-          required: true,
-          regex: nameRegex
+          required: true
         },
 
         // middle_name_sa: {
@@ -176,8 +175,7 @@
         // },
 
         last_name_sa: {
-          required: true,
-          regex: nameRegex
+          required: true
         },
 
         school: "required",
@@ -202,7 +200,7 @@
 			regex: nameRegex
 		},
 
-		strUserEmail: {
+		email: {
 			required: true,
 			email: true
 		}

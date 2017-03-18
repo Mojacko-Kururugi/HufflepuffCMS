@@ -125,8 +125,12 @@ class DoctorController extends BaseController {
 			->join('tblPayType', 'tblServiceHeader.intSHPaymentType','=','tblPayType.intPayTID')
 			->join('tblServiceStatus', 'tblServiceHeader.intSHStatus','=','tblServiceStatus.intServStatID')
 			->join('tblConsultationRecords', 'tblServiceHeader.strSHCode','=','tblConsultationRecords.strCRHeaderCode')
+			->join('tblServiceDetails', 'tblServiceHeader.strSHCode','=','tblServiceDetails.strHeaderCode')
+			->join('tblInventory', 'tblServiceDetails.intHInvID','=','tblInventory.intInvID')
+			->join('tblProducts','tblInventory.intInvPID','=','tblProducts.intProdID')
 			->get();
-		
+
+
 				return View::make('services')->with('data',$data);
 	}
 

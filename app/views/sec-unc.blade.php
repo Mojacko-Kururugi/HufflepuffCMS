@@ -1,11 +1,11 @@
-@extends('layouts.admin-master')
+@extends('layouts.secretary-master')
 
 @section('content')
 
 <!-- header -->
 <div class="row page-title">
   <div class="col s12 m12 l12">
-    <h5>Optometrist Records</h5>
+    <h5>Unclaimed Products</h5>
   </div>
 </div>
 
@@ -15,9 +15,8 @@
     <div class="card">
       <div class="card-content">
         <div class="row">
-          <div class="col s12 m12 l6">
-                <a class="waves-effect waves-light btn blue darken-1 btn-small center-text" href="/add-doctor">ADD NEW OPTOMETRIST</a>
-             <!--   <button class="modal-trigger waves-effect waves-light btn red lighten-1 btn-small center-text" href="#viewprod">DELETE ALL OPTOMETRIST</button> -->
+          <div class="col s12 m12 l12">
+                <a class="modal-trigger waves-effect waves-light btn btn-flat right btn-small center-text" href="{{ URL::to('/reports') }}">Generate Report</a>
           </div>
         </div>
 
@@ -27,41 +26,35 @@
               <table id="example" class="mdl-data-table" cellspacing="0" width="100%">
                 <thead>
                     <tr>
-                        <th>Last Name</th>
-                        <th>First Name</th>
-                        <th>Middle Name</th>
-                        <th>License Number</th>
-                        <th>Branch</th>
-                        <th>Date Created</th>
+                        <th>Service Ref #</th>
+                        <th>Patient Name</th>
+                        <th>Product Name & Model</th>
+                        <th>Qty</th>
+                        <th>Status</th>
+                        <th>Date of Service</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
-                <!-- <tfoot>
-                    <tr>
-                        <th>Name</th>
-                        <th>Position</th>
-                        <th>Office</th>
-                        <th>Age</th>
-                        <th>Start date</th>
-                        <th>Salary</th>
-                    </tr>
-                </tfoot> -->
+                <tbody>
                 @foreach($data as $data)
                       <tr>
-                        <td>{{ $data->strDocLast }}</td>
-                        <td>{{ $data->strDocFirst }}</td>
-                        <td>{{ $data->strDocMiddle }}</td>
-                        <td>{{ $data->strDocLicNumb }}</td>
-                        <td>{{ $data->strBranchName }}</td>
-                        <td>{{ $data->created_at }}</td>
+                        <td>{{ $data->strSHCode }}</td>
+                        <td>{{ $data->strPatLast . ', ' . $data->strPatFirst . ' ' . $data->strPatMiddle }}</td>
+                        <td>{{ $data->strProdName .' - ' . $data->strProdModel }}</td>
+                        <td>{{ $data->intQty }}</td>
+                        @if($data->intClaimStatus == 1)
+                        <td class="green-text bold">CLAIMED</td>
+                        @else
+                        <td class="orange-text bold">UNCLAIMED</td>
+                        @endif
+                        <td>{{ $data->intSHDateTime }}</td>
+                        @if($data->intClaimStatus == 2)
                         <td>
-                            <div class="center-btn">
-                             <a class="waves-effect waves-light btn green darken-1 btn-small center-text" href="doctor/{{$data->intDocID}}">UPDATE</a>
-                             <a class="waves-effect waves-light btn red lighten-1 btn-small center-text" href="delete-doc/{{$data->intDocID}}">DELETE</a>
-                            </div>
+                            <a class="waves-effect waves-light btn green darken-1 btn-small center-text" href="{{$data->strSHCode}}">CLAIM</a>
                         </td>
+                        @endif
                     </tr>
-                   @endforeach 
+                  @endforeach 
                 </tbody>
               </table>
             <br>
@@ -85,7 +78,6 @@
   <script src="js/init.js"></script>
   <script src="js/jquery.dataTables.min.js"></script>
   <script src="js/dataTables.material.min.js"></script>
-
   <script type="text/javascript">
 $(document).ready(function() {
     $('#example').DataTable( {
@@ -104,5 +96,12 @@ $(document).ready(function() {
     } );
 } );
   </script>
+
+  <script>
+    $(document).ready(function(){
+    // the "href" attribute of .modal-trigger must specify the modal ID that wants to be triggered
+    $('.modal').modal();
+  });
+    </script>
 @stop
 

@@ -59,6 +59,12 @@
                                           <textarea id="desc" name="desc" class="materialize-textarea" readonly>{{$data->strCRDesc}}</textarea>
                                           </div>
                                     </div> 
+                                    <div class="row"> 
+                                          <div class="col s12 m12 l12">
+                                            <label for="address">Product Availed</label>
+                                            <input id="address" name="address" type="text" class="validate" value="{{ $data->strProdName . ' - ' . $data->strProdModel}}" readonly>
+                                          </div>
+                                    </div>
                                   </p>
                                 </div>
                                 <div class="modal-footer col 6">

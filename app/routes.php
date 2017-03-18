@@ -105,6 +105,8 @@ Route::get('/sec-order', 'SecController@openOrdList');
 Route::post('/sec-inv/add-order', 'SecController@addOrd');
 Route::post('/sec-inv/ord/{id}', 'SecController@receiveOrd');
 Route::get('/adjustments', 'SecController@openSecAdj');
+Route::get('/warranty', 'SecController@openSecWar');
+Route::get('/unclaimed', 'SecController@openSecUnc');
 Route::post('/adjust/{id}', 'SecController@adjInv');
 Route::get('/expired', 'SecController@openExp');
 

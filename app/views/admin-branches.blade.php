@@ -19,7 +19,7 @@
         <div class="row">
           <div class="col s12 m12 l6">
             <a class="waves-effect waves-light btn blue darken-1 btn-small center-text" href="/add-branch">ADD NEW BRANCH</a>
-            <button class="modal-trigger waves-effect waves-light btn blue darken-4 btn-small center-text" href="#viewprod">DEACTIVATE ALL BRANCHES</button>
+           <!-- <button class="modal-trigger waves-effect waves-light btn blue darken-4 btn-small center-text" href="#viewprod">DEACTIVATE ALL BRANCHES</button>-->
           </div>
         </div>
         <div class="row">
