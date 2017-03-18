@@ -45,6 +45,13 @@
                   </div>
 
                   <div class="row">
+                        <div class="col s12">
+                        <label for="desc">Consultation Details:</label>
+                        <textarea id="desc" name="desc" class="materialize-textarea"></textarea>
+                        </div>
+                  </div> 
+
+                  <div class="row">
                     <div class="input-field col l6 m6 s12">
                         <select class="initialized browser-default" name="product" id="product" data-error=".school_error">
                           <option value="" disabled selected>Product</option>
@@ -55,6 +62,25 @@
                        <div class="school_error"></div>
                     </div>
                   </div>
+
+              <div class="row">
+                <div class="input-field col l6 m8 s12">
+                  <label for="qty">Quantity</label>
+                  <input id="qty" name="qty" type="number" class="validate" value="" />
+                </div>
+              </div>
+
+
+               <div class="row">
+                  <div class="col s12">
+                    <label for="claim">Will Claim the Product Today?</label>
+                    <select name="claim" id="claim">
+                 <option value="" selected disabled>- Choose Option -</option>
+                 <option value="1">Yes</option>
+               <option value="2">No</option>
+                   </select>
+                  </div>
+                </div>
 
                   <div class="row">
                     <div class="input-field col l6 m6 s12">

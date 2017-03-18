@@ -203,7 +203,7 @@ CREATE TABLE tblAdjustments(
     
     PRIMARY KEY (intAdjID),
     FOREIGN KEY(intAdjInvID)
-    REFERENCES tblInventory(intInvPID),
+    REFERENCES tblInventory(intInvID),
 	FOREIGN KEY(intAdjBranch)
     REFERENCES tblBranch(intBranchID)
 )Engine=InnoDb;
@@ -262,7 +262,7 @@ CREATE TABLE tblServiceHeader(
 )Engine=InnoDb;
 
 CREATE TABLE tblServiceDetails(
-	intHeaderCode VARCHAR(25),
+	strHeaderCode VARCHAR(25),
     intHInvID INT,
     intQty INT,
     intClaimStatus INT,
@@ -272,6 +272,12 @@ CREATE TABLE tblServiceDetails(
     REFERENCES tblInventory(intInvPID),
     FOREIGN KEY(intHWarranty)
     REFERENCES tblWarranty(intWID)
+)Engine=InnoDb;
+
+CREATE TABLE tblConsultationRecords(
+	strCRHeaderCode VARCHAR(25),
+    strCRDesc TEXT
+
 )Engine=InnoDb;
 
 CREATE TABLE tblSales(
@@ -328,6 +334,7 @@ CREATE TABLE tblSchedules(
     REFERENCES tblSchedStatus(intSSID)
 )Engine=InnoDb;
 
+
 INSERT INTO tblFrequencyType(intFID,strFDesc) VALUES ('1','Every 30 mins');
 INSERT INTO tblFrequencyType(intFID,strFDesc) VALUES ('2','Every 1 hour');
 INSERT INTO tblFrequencyType(intFID,strFDesc) VALUES ('3','Every 4 hours');
@@ -352,6 +359,7 @@ INSERT INTO tblSalesStatus(intSaleSID,strSaleSDesc) VALUES ('3','OVERDUE');
 INSERT INTO tblSchedStatus(intSSID,strSSDesc) VALUES ('1','CONFIRMED');
 INSERT INTO tblSchedStatus(intSSID,strSSDesc) VALUES ('2','PENDING');
 INSERT INTO tblSchedStatus(intSSID,strSSDesc) VALUES ('3','CANCELLED');
+INSERT INTO tblSchedStatus(intSSID,strSSDesc) VALUES ('4','DONE');
 
 INSERT INTO tblOrdStatus(intOSID,strOSDesc) VALUES ('1','RECEIVED');
 INSERT INTO tblOrdStatus(intOSID,strOSDesc) VALUES ('2','PENDING');

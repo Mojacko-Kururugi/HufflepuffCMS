@@ -14,7 +14,7 @@
       <form action="{{ URL::to('/save-branch') }}" method="POST" id="signup_validate" enctype="multipart/form-data"><br><br>
         <div class="row">
               <div class="input-field col l12 m8 s12">
-                <label for="email">Branch Name</label>
+                <label for="number">Branch Name</label>
                 <input id="number" name="number" type="text" class="validate" value="" />
               </div>
         </div>
@@ -76,35 +76,11 @@
       rules: {
         stud_id_no: {
           required: true
+          regex: contactRegex
         },
         
-        user_type: "required",
-
-        first_name_sa: {
-          required: true,
-          regex: nameRegex
-        },
-
-        // middle_name_sa: {
-        //   regex: nameRegex
-        // },
-
-        last_name_sa: {
-          required: true,
-          regex: nameRegex
-        },
-
-        school: "required",
-
-        gender: "required",
-
-        b_day: {
-          required: true
-        },
-
         number: {
           required: true,
-          regex: contactRegex
         },
 
         address: {

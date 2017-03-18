@@ -25,6 +25,7 @@
                         <table id="example" class="mdl-data-table" cellspacing="0" width="100%">
                             <thead>
                                 <tr>
+                                    <th>Service Ref #</th>
                                     <th>Patient Name</th>
                                     <th>Date and Time</th>
                                     <th>Service Done</th>
@@ -35,6 +36,7 @@
                             <tbody>
                                  @foreach($data as $data)
                                 <tr>
+                                    <td>{{ $data->strSHCode }}</td>
                                     <td>{{ $data->strPatLast . ', ' . $data->strPatFirst . ' ' . $data->strPatMiddle }}</td>
                                     <td>{{ $data->intSHDateTime }}</td>
                                     <td>{{ $data->strServDesc}}</td>
@@ -49,12 +51,14 @@
                                  <!-- Modal Structure -->
                               <div id="{{$data->intSHID}}" class="modal modal-fixed-footer">
                                 <div class="modal-content col 6">
-                                  <h4>ENTER PRICE FOR </h4>
+                                  <h4>Service Details</h4>
                                   <p>
-                                          <div class="form-group col l6 ">
-                                          <label for="price">Price</label>
-                                          <input type="number" class="form-control" name="price" id="price" value="1">
+                                     <div class="row">
+                                          <div class="col s12">
+                                          <label for="desc">Consultation Details:</label>
+                                          <textarea id="desc" name="desc" class="materialize-textarea" readonly>{{$data->strCRDesc}}</textarea>
                                           </div>
+                                    </div> 
                                   </p>
                                 </div>
                                 <div class="modal-footer col 6">

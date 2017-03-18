@@ -123,7 +123,8 @@ class DoctorController extends BaseController {
 			->join('tblDocInfo', 'tblServiceHeader.intSHDocID','=','tblDocInfo.intDocID')
 			->join('tblServices', 'tblServiceHeader.intSHServiceID','=','tblServices.intServID')
 			->join('tblPayType', 'tblServiceHeader.intSHPaymentType','=','tblPayType.intPayTID')
-			->join('tblServiceStatus', 'tblServiceHeader.intSHServiceID','=','tblServiceStatus.intServStatID')
+			->join('tblServiceStatus', 'tblServiceHeader.intSHStatus','=','tblServiceStatus.intServStatID')
+			->join('tblConsultationRecords', 'tblServiceHeader.strSHCode','=','tblConsultationRecords.strCRHeaderCode')
 			->get();
 		
 				return View::make('services')->with('data',$data);
@@ -177,14 +178,35 @@ class DoctorController extends BaseController {
 
 		DB::table('tblServiceDetails')
 		->insert([
-			'intHeaderCode' => Request::input('user_id'),
+			'strHeaderCode' => Request::input('user_id'),
     		'intHInvID' => Request::input('product'),
-    		'intQty' => 0,
-    		'intClaimStatus' => 0,
+    		'intQty' => Request::input('qty'),
+    		'intClaimStatus' => Request::input('claim'),
     		'intHWarranty' => 1
 		]);
 
+		DB::table('tblConsultationRecords')
+		->insert([
+			'strCRHeaderCode' => Request::input('user_id'),
+    		'strCRDesc' => Request::input('desc')
+		]);
 
+
+		$data = DB::table('tblInventory')
+				->where('tblInventory.intInvID', '=', Request::input('product'))
+				->first();
+
+		$new_qty = Request::input('qty');
+		$curr_qty =  $data->intInvQty;
+		$total;
+
+		$total = $curr_qty - $new_qty;
+
+		DB::table('tblInventory')
+		->where('tblInventory.intInvID', '=', Request::input('product'))
+		->update([
+			'intInvQty' => $total,
+		]);
 
 		return Redirect::to('/service');
 	}

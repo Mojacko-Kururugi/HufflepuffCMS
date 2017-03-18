@@ -77,8 +77,8 @@
             <?php endforeach; ?>
         ];
 
-        var dt = Date.now() + 86400000;
-
+        var dt = Date.now();
+// + 86400000
         $('#calendar').fullCalendar({
             schedulerLicenseKey: 'GPL-My-Project-Is-Open-Source',
             now: dt,
