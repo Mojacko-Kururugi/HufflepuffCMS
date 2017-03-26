@@ -62,7 +62,14 @@
                                     <div class="row"> 
                                           <div class="col s12 m12 l12">
                                             <label for="address">Product Availed</label>
-                                            <input id="address" name="address" type="text" class="validate" value="{{ $data->strProdName . ' - ' . $data->strProdModel}}" readonly>
+                                            <input id="address" name="address" type="text" class="validate" value="{{ $data->strProdName . ' - ' . $data->strProdModel}} (P {{ $data->dcInvPPrice }} , {{$data->intQty}} pcs)" readonly>
+                                          </div>
+                                    </div>
+                                    <?php $total = $data->dcInvPPrice * $data->intQty ?>
+                                    <div class="row"> 
+                                          <div class="col s12 m12 l12">
+                                            <label for="balance">Total Balance</label>
+                                            <input id="balance" name="balance" type="text" class="validate" value="P {{ $total }}" readonly>
                                           </div>
                                     </div>
                                   </p>

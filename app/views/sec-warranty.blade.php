@@ -46,7 +46,7 @@
                         <td>{{ $data->intSHDateTime }}</td>
                         @if($data->intHWarranty == 1)
                         <td>
-                            <a class="waves-effect waves-light btn green darken-1 btn-small center-text" href="{{$data->strSHCode}}">REPLACE</a>
+                            <a class="waves-effect waves-light btn green darken-1 btn-small center-text" href="replace/{{$data->strSHCode}}">REPLACE</a>
                         </td>
                         @endif
                     </tr>

@@ -73,7 +73,7 @@
               <li class="bold {{ strpos(Request::url(), 'unclaimed') !== false ? 'active' : '' }}">
              <a href="/unclaimed" class="row">
                 <span class="col l3 m6 s12">{{ HTML::image('img/unclaimed.png', 'adjustments', array('class' => 'responsive-img circle')) }}</span>
-            <span  class="col l7 m6 s12">Unclaimed</span>
+            <span  class="col l7 m6 s12">Sold Products</span>
            </a>
         </li>
               <li class="bold {{ strpos(Request::url(), 'expired') !== false ? 'active' : '' }}">

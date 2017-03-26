@@ -175,6 +175,17 @@ class SecController extends BaseController {
 		return View::make('sec-warranty')->with('data',$data);	
 	}
 
+	public function replaceWar($id) {
+		
+		DB::table('tblServiceDetails')
+			->where('tblServiceDetails.strHeaderCode', '=', $id)
+			->update([
+    			'intHWarranty' => 3
+			]);
+
+		return Redirect::to('/warranty');
+	}
+
 	public function openSecUnc() {
 
 
@@ -188,6 +199,17 @@ class SecController extends BaseController {
 			->get();
 
 		return View::make('sec-unc')->with('data',$data);	
+	}
+
+	public function prodClaim($id) {
+		
+		DB::table('tblServiceDetails')
+			->where('tblServiceDetails.strHeaderCode', '=', $id)
+			->update([
+    			'intClaimStatus' => 1
+			]);
+
+		return Redirect::to('/unclaimed');
 	}
 
 

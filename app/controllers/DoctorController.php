@@ -1,4 +1,5 @@
 <?php
+use Barryvdh\DomPDF\Facade as PDF;
 
 class DoctorController extends BaseController {
 		
@@ -196,6 +197,19 @@ class DoctorController extends BaseController {
     		'strCRDesc' => Request::input('desc')
 		]);
 
+		$data = DB::table('tblInventory')
+				->where('tblInventory.intInvID', '=', Request::input('product'))
+				->first();
+
+		$balance = $data->dcInvPPrice * Request::input('qty');
+
+		DB::table('tblSales')
+		->insert([
+    		'strSServCode' => Request::input('user_id'),
+    		'dcmSBalance' => $balance,
+    		'intSStatus' => 2
+		]);
+
 
 		$data = DB::table('tblInventory')
 				->where('tblInventory.intInvID', '=', Request::input('product'))
@@ -254,7 +268,20 @@ class DoctorController extends BaseController {
 	}
 
 	public function showSales() {
-		return View::make('sales');
+		$this->doPayCheck();
+
+		$data = DB::table('tblSales')
+			->join('tblServiceHeader','tblSales.strSServCode','=','tblServiceHeader.strSHCode')
+			->join('tblPatientInfo', 'tblServiceHeader.intSHPatID','=','tblPatientInfo.intPatID')
+			->join('tblPayType', 'tblServiceHeader.intSHPaymentType','=','tblPayType.intPayTID')
+			->join('tblSalesStatus', 'tblSales.intSStatus','=','tblSalesStatus.intSaleSID')
+			->join('tblPayment', 'tblSales.intSaleID','=','tblPayment.intPymServID')
+			->groupby('tblSales.intSaleID')
+			->selectRaw('*, sum(dcmPymPayment) as sum')
+			->get();
+
+
+		return View::make('sales')->with('data',$data);
 	}
 
 	public function showSched() {
@@ -292,7 +319,68 @@ class DoctorController extends BaseController {
 	}
 
 	public function showPayment() {
-		return View::make('add-payment');
+
+		$data = DB::table('tblSales')
+			->where('tblSales.intSStatus','!=',1)
+			->get();
+
+		return View::make('try-payment')->with('data',$data);
+		//return View::make('add-payment');
 	}
 
+	public function addPayment() {
+
+		DB::table('tblPayment')
+		->insert([
+    		'intPymServID' => Request::input('data'),
+    		'dcmPymPayment' => Request::input('number')
+		]);
+		
+
+		return Redirect::to('/sales');
+	}
+
+	public function doPayCheck() {
+		$paid = DB::table('tblSales')
+			->join('tblPayment', 'tblSales.intSaleID','=','tblPayment.intPymServID')
+			->groupby('tblSales.intSaleID')
+			->selectRaw('*, sum(dcmPymPayment) as sum')
+			->get();
+
+		foreach($paid as $paid)
+		{
+			if($paid->dcmSBalance == $paid->sum)
+			{
+				DB::table('tblSales')
+						->where('tblSales.intSaleID', '=', $paid->intSaleID)
+						->update([
+							'intSStatus' => 1,
+						]);
+			}
+		}
+	}
+
+	public function generateReport()
+	{
+		$queryResult = 
+			DB::table('tblSales')
+			->join('tblServiceHeader','tblSales.strSServCode','=','tblServiceHeader.strSHCode')
+			->join('tblPatientInfo', 'tblServiceHeader.intSHPatID','=','tblPatientInfo.intPatID')
+			->join('tblPayType', 'tblServiceHeader.intSHPaymentType','=','tblPayType.intPayTID')
+			->join('tblSalesStatus', 'tblSales.intSStatus','=','tblSalesStatus.intSaleSID')
+			->join('tblPayment', 'tblSales.intSaleID','=','tblPayment.intPymServID')
+			->groupby('tblSales.intSaleID')
+			->selectRaw('*, sum(dcmPymPayment) as sum')
+			->get();
+
+		$total = 0;
+		foreach($queryResult as $data)
+		{
+			$total=$total + $data->sum;
+		}
+		Session::put('sales-total',$total);
+		$pdf = PDF::loadView('reports-test', array('data'=>$queryResult));
+		return $pdf->stream();
+		//return View::make('reports');
+	}
 }

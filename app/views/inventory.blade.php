@@ -55,14 +55,14 @@
                         <td class="green-text bold">{{ $data->strISDesc }}</td>
                         <td>
                           <div class="center-btn">
-                             <a class="modal-trigger waves-effect waves-light btn orange darken-1 btn-small center-text" href="#{{$data->intInvID}}">APPLY DISCOUNT</a>
+                             <a class="modal-trigger waves-effect waves-light btn orange darken-1 btn-small center-text" href="#{{$data->intInvID}}">DISCOUNT</a>
                           </div>
                         </td>
                         @elseif($data->intISID == 2)
                         <td class="yellow-text bold">{{ $data->strISDesc }}</td>
                         <td>
                           <div class="center-btn">
-                             <a class="modal-trigger waves-effect waves-light btn orange darken-1 btn-small center-text" href="#{{$data->intInvID}}">APPLY DISCOUNT AGAIN</a>
+                             <a class="modal-trigger waves-effect waves-light btn orange darken-1 btn-small center-text" href="#{{$data->intInvID}}">DISCOUNT</a>
                           </div>
                         </td>
                         @elseif($data->intISID == 3)

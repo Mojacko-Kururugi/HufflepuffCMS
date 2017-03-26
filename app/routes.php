@@ -93,6 +93,8 @@ Route::post('/inventory/add-order', 'DoctorController@addOrd');
 Route::get('/sales', 'DoctorController@showSales');
 Route::get('/add-sched', 'DoctorController@addSched');
 Route::get('/add-payment', 'DoctorController@showPayment');
+Route::post('/save-payment', 'DoctorController@addPayment');
+Route::get('/reports', 'DoctorController@generateReport');
 
 
 
@@ -106,7 +108,9 @@ Route::post('/sec-inv/add-order', 'SecController@addOrd');
 Route::post('/sec-inv/ord/{id}', 'SecController@receiveOrd');
 Route::get('/adjustments', 'SecController@openSecAdj');
 Route::get('/warranty', 'SecController@openSecWar');
+Route::get('/replace/{id}', 'SecController@replaceWar');
 Route::get('/unclaimed', 'SecController@openSecUnc');
+Route::get('/claim/{id}', 'SecController@prodClaim');
 Route::post('/adjust/{id}', 'SecController@adjInv');
 Route::get('/expired', 'SecController@openExp');
 

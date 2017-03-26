@@ -4,72 +4,119 @@
 
 <div class="row page-title">
   <div class="col s12 m12 l12">
-    <h5>Optical Records</h5>
+    <h5>Your Records</h5>
   </div>
 </div>
 
-      <div class="main-wrapper">
-        <!-- ACTUAL PAGE CONTENT GOES HERE --> 
-        <div class="container-fluid">
-          <div class="row">
-            <div class="col s12 m12 l12">
-              <div class="card-panel">
-                <span class="card-title">Your Records</span>
-                <hr>
-                <br>
-                <div class="card-content">
-                  
-                  </div>
+<div class="main-wrapper">
+        <!-- ACTUAL PAGE CONTENT GOES HERE -->
+    <div class="container-fluid">
+        <div class="card">
+            <div class="card-content">
 
-                  <div class="col s12 m12 l12 overflow-x">
-                    <table class="centered">
-                      <thead>
-                        <tr>
-                          <th>Service ID</th>
-                          <th>Details</th>
-                         <!--  <th>Brand</th>
-                          <th>Model</th> -->
-                          <th>Time</th>
-                          <th>Date</th>
-                          <th>Payment Status</th>
-                        </tr>
-                      </thead>
+                <div class="nav-wrapper">
+                    <div class="container-fluid">
+                        <table id="example" class="mdl-data-table" cellspacing="0" width="100%">
+                            <thead>
+                                <tr>
+                                    <th>Service Ref #</th>
+                                    <th>Date and Time</th>
+                                    <th>Service Done</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                 @foreach($data as $data)
+                                <tr>
+                                    <td>{{ $data->strSHCode }}</td>
+                                    <td>{{ $data->intSHDateTime }}</td>
+                                    <td>{{ $data->strServDesc}}</td>
+                                    <td>{{ $data->strServStatDesc }}</td>
+                                    <td>
+                                        <div class="center-btn">
+                                         <a class="modal-trigger waves-effect waves-light btn blue lighten-1 btn-small center-text" href="#{{$data->intSHID}}">VIEW DETAILS</a>
+                                        </div>
+                                    </td>
+                                </tr>
 
-                      <tbody>
-                        <tr>
-                          <td>SVR6850</td>
-                          <td>Optical Check Up</td>
-                          <td>4:30pm</td>
-                          <td>12/24/2016</td>
-                          <td class="green-text bold">Fully Paid</td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
-                  <!-- <p>
-                    You have no items.
-                  </p> -->
+                                 <!-- Modal Structure -->
+                              <div id="{{$data->intSHID}}" class="modal modal-fixed-footer">
+                                <div class="modal-content col 6">
+                                  <h4>Service Details</h4>
+                                  <p>
+                                     <div class="row">
+                                          <div class="col s12">
+                                          <label for="desc">Consultation Details:</label>
+                                          <textarea id="desc" name="desc" class="materialize-textarea" readonly>{{$data->strCRDesc}}</textarea>
+                                          </div>
+                                    </div> 
+                                    <div class="row"> 
+                                          <div class="col s12 m12 l12">
+                                            <label for="address">Product Availed</label>
+                                            <input id="address" name="address" type="text" class="validate" value="{{ $data->strProdName . ' - ' . $data->strProdModel}} (P {{ $data->dcInvPPrice }} , {{$data->intQty}} pcs)" readonly>
+                                          </div>
+                                    </div>
+                                    <?php $total = $data->dcInvPPrice * $data->intQty ?>
+                                    <div class="row"> 
+                                          <div class="col s12 m12 l12">
+                                            <label for="balance">Total Balance</label>
+                                            <input id="balance" name="balance" type="text" class="validate" value="P {{ $total }}" readonly>
+                                          </div>
+                                    </div>
+                                  </p>
+                                </div>
+                                <div class="modal-footer col 6">
+                                  <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat ">CANCEL</a>
+                                </div>
+                              </div>
 
-                  <div class="clearfix">
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                <!-- dito naman yung mga susunod na shits kung may idadagdag pa ^_^ -->
 
-                  </div>
-                </div>
               </div>
+
             </div>
         </div>
-      </div>
+    </div>
+</div>
 
 @stop
 
 @section('scripts')
-<!--{{ HTML::script('js/new-order.js') }}-->
-<script type="text/javascript" src="js/jquery.js"></script>
-<script src="js/materialize.js"></script>
-<script>   
+ <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+  <!-- <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script> -->
+  <script src="js/materialize.js"></script>
+  <script src="js/init.js"></script>
+  <script src="js/jquery.dataTables.min.js"></script>
+  <script src="js/dataTables.material.min.js"></script>
+
+  <script type="text/javascript">
+$(document).ready(function() {
+    $('#example').DataTable( {
+        columnDefs: [
+            {
+                targets: [ 0, 1, 2 ],
+                className: 'mdl-data-table__cell--non-numeric'
+            }
+        ],
+        "aLengthMenu": [[25, 50, 75, -1], [25, 50, 75, "All"]],
+        "iDisplayLength": 25,
+        "paging":   true,
+        "ordering": true,
+        "info":     true
+
+    } );
+} );
+  </script>
+    <script>
     $(document).ready(function(){
     // the "href" attribute of .modal-trigger must specify the modal ID that wants to be triggered
-    $('.modal-trigger').leanModal();
-  }); 
-</script>
+    $('.modal').modal();
+  });
+    </script>
 @stop
 

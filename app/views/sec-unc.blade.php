@@ -5,7 +5,7 @@
 <!-- header -->
 <div class="row page-title">
   <div class="col s12 m12 l12">
-    <h5>Unclaimed Products</h5>
+    <h5>Unclaimed and Claimed Sold Products</h5>
   </div>
 </div>
 
@@ -50,7 +50,7 @@
                         <td>{{ $data->intSHDateTime }}</td>
                         @if($data->intClaimStatus == 2)
                         <td>
-                            <a class="waves-effect waves-light btn green darken-1 btn-small center-text" href="{{$data->strSHCode}}">CLAIM</a>
+                            <a class="waves-effect waves-light btn green darken-1 btn-small center-text" href="claim/{{$data->strSHCode}}">CLAIM</a>
                         </td>
                         @endif
                     </tr>

@@ -54,13 +54,37 @@ class PatientController extends BaseController {
 
 
 	public function showRec() {
+		$data = DB::table('tblServiceHeader')
+			->join('tblPatientInfo', 'tblServiceHeader.intSHPatID','=','tblPatientInfo.intPatID')
+			->join('tblDocInfo', 'tblServiceHeader.intSHDocID','=','tblDocInfo.intDocID')
+			->join('tblServices', 'tblServiceHeader.intSHServiceID','=','tblServices.intServID')
+			->join('tblPayType', 'tblServiceHeader.intSHPaymentType','=','tblPayType.intPayTID')
+			->join('tblServiceStatus', 'tblServiceHeader.intSHStatus','=','tblServiceStatus.intServStatID')
+			->join('tblConsultationRecords', 'tblServiceHeader.strSHCode','=','tblConsultationRecords.strCRHeaderCode')
+			->join('tblServiceDetails', 'tblServiceHeader.strSHCode','=','tblServiceDetails.strHeaderCode')
+			->join('tblInventory', 'tblServiceDetails.intHInvID','=','tblInventory.intInvID')
+			->join('tblProducts','tblInventory.intInvPID','=','tblProducts.intProdID')
+			->where('tblPatientInfo.intPatID', '=',  Session::get('user_code'))
+			->get();
+
 		
-			return View::make('patient-record');
+			return View::make('patient-record')->with('data',$data);
 	}
 
 	public function showAcc() {
 		
-			return View::make('patient-sales');
+		$data = DB::table('tblSales')
+			->join('tblServiceHeader','tblSales.strSServCode','=','tblServiceHeader.strSHCode')
+			->join('tblPatientInfo', 'tblServiceHeader.intSHPatID','=','tblPatientInfo.intPatID')
+			->join('tblPayType', 'tblServiceHeader.intSHPaymentType','=','tblPayType.intPayTID')
+			->join('tblSalesStatus', 'tblSales.intSStatus','=','tblSalesStatus.intSaleSID')
+			->join('tblPayment', 'tblSales.intSaleID','=','tblPayment.intPymServID')
+			->where('tblPatientInfo.intPatID', '=',  Session::get('user_code'))
+			->groupby('tblSales.intSaleID')
+			->selectRaw('*, sum(dcmPymPayment) as sum')
+			->get();
+
+			return View::make('patient-sales')->with('data',$data);
 	}
 
 }
