@@ -238,6 +238,7 @@ CREATE TABLE tblOrders(
     REFERENCES tblOrdStatus(intOSID)
 )Engine=InnoDb;
 
+
 CREATE TABLE tblServiceHeader(
 	intSHID int NOT NULL AUTO_INCREMENT,
 	strSHCode VARCHAR(25),
@@ -269,7 +270,7 @@ CREATE TABLE tblServiceDetails(
     intHWarranty INT,
 
 	FOREIGN KEY(intHInvID)
-    REFERENCES tblInventory(intInvPID),
+    REFERENCES tblInventory(intInvID),
     FOREIGN KEY(intHWarranty)
     REFERENCES tblWarranty(intWID)
 )Engine=InnoDb;
@@ -282,13 +283,11 @@ CREATE TABLE tblConsultationRecords(
 
 CREATE TABLE tblSales(
 	intSaleID int NOT NULL AUTO_INCREMENT,
-    intSServID INT,
+    strSServCode VARCHAR(25),
     dcmSBalance DECIMAL(18,2),
     intSStatus INT(3),
     
     PRIMARY KEY(intSaleID),
-	FOREIGN KEY(intSServID)
-    REFERENCES tblServiceHeader(intSHID),
     FOREIGN KEY(intSStatus)
     REFERENCES tblSalesStatus(intSaleSID)
 )Engine=InnoDb;

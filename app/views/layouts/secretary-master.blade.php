@@ -46,6 +46,14 @@
 				        <span  class="col l7 m6 s12">Dashboard</span>
 				   </a>
 			  </li>
+
+              <li class="bold {{ strpos(Request::url(), 'records') !== false ? 'active' : '' }}">
+             <a href="/records" class="row">
+                <span class="col l3 m6 s12">{{ HTML::image('img/patient records.png', 'patient records', array('class' => 'responsive-img circle')) }}</span>
+            <span  class="col l7 m6 s12">Patient Records</span>
+           </a>
+        </li>
+
               <li class="bold {{ strpos(Request::url(), 'sec-order') !== false ? 'active' : '' }}">
 			       <a href="/sec-order" class="row">
 				        <span class="col l3 m6 s12">{{ HTML::image('img/orders.png', 'orders', array('class' => 'responsive-img circle')) }}</span>

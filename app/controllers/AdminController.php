@@ -3,8 +3,16 @@
 class AdminController extends BaseController {
 
 	public function openAdmin() {
+
+		$data = DB::table('tblInventory')
+			->join('tblInvStatus', 'tblInventory.intInvStatus', '=', 'tblInvStatus.intISID')
+			->join('tblProducts', 'tblInventory.intInvPID', '=', 'tblProducts.intProdID')
+			->join('tblProdType', 'tblProducts.intProdType', '=', 'tblProdType.intPTID')
+		//	->where('tblInventory.intInvBranch', '=', Session::get('user_bc'))
+			->where('tblInvStatus.intISID','!=',3)
+			->get();
 		
-		return View::make('layouts/admin-master');
+		return View::make('dash-admin')->with('data',$data);
 	}
 
 	public function addBranch() {
