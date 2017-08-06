@@ -5,7 +5,7 @@
 <!-- header -->
 <div class="row page-title">
   <div class="col s12 m12 l12">
-    <h5>Employee Records</h5>
+    <h5>Assistant Records</h5>
   </div>
 </div>
 

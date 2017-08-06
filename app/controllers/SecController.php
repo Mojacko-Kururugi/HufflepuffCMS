@@ -30,7 +30,20 @@ class SecController extends BaseController {
 
 		$this->doExpiryCheck();
 
-			return View::make('layouts/secretary-master');
+		$serv = DB::table('tblServiceHeader')
+			->join('tblPatientInfo', 'tblServiceHeader.intSHPatID','=','tblPatientInfo.intPatID')
+		//	->join('tblDocInfo', 'tblServiceHeader.intSHDocID','=','tblDocInfo.intDocID')
+			->join('tblServices', 'tblServiceHeader.intSHServiceID','=','tblServices.intServID')
+			->join('tblPayType', 'tblServiceHeader.intSHPaymentType','=','tblPayType.intPayTID')
+			->join('tblServiceStatus', 'tblServiceHeader.intSHStatus','=','tblServiceStatus.intServStatID')
+			->join('tblConsultationRecords', 'tblServiceHeader.strSHCode','=','tblConsultationRecords.strCRHeaderCode')
+			->join('tblServiceDetails', 'tblServiceHeader.strSHCode','=','tblServiceDetails.strHeaderCode')
+			->join('tblInventory', 'tblServiceDetails.intHInvID','=','tblInventory.intInvID')
+			->join('tblProducts','tblInventory.intInvPID','=','tblProducts.intProdID')
+			->where('tblInventory.intInvBranch', '=', Session::get('user_bc'))
+			->get();
+
+			return View::make('dash-sec')->with('data',$data)->with('serv',$serv);
 	}
 
 	public function openSecInv() {

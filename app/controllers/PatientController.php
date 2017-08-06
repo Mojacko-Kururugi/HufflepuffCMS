@@ -56,7 +56,7 @@ class PatientController extends BaseController {
 	public function showRec() {
 		$data = DB::table('tblServiceHeader')
 			->join('tblPatientInfo', 'tblServiceHeader.intSHPatID','=','tblPatientInfo.intPatID')
-			->join('tblDocInfo', 'tblServiceHeader.intSHDocID','=','tblDocInfo.intDocID')
+			//->join('tblDocInfo', 'tblServiceHeader.intSHDocID','=','tblDocInfo.intDocID')
 			->join('tblServices', 'tblServiceHeader.intSHServiceID','=','tblServices.intServID')
 			->join('tblPayType', 'tblServiceHeader.intSHPaymentType','=','tblPayType.intPayTID')
 			->join('tblServiceStatus', 'tblServiceHeader.intSHStatus','=','tblServiceStatus.intServStatID')

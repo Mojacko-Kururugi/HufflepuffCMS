@@ -1,10 +1,10 @@
-@extends('layouts.master')
+@extends('layouts.secretary-master')
 
 @section('content')
 
 <div class="row page-title">
   <div class="col s12 m12 l12">
-    <h5>Services</h5>
+    <h5>Logs for Today</h5>
   </div>
 </div>
 
@@ -16,7 +16,8 @@
 
                 <div class="row">
                     <div class="col s12 m12 l10">
-                        <!-- <a class="waves-effect waves-light btn blue darken-1 btn-small center-text" href="/service/add-service">ADD NEW SERVICE</a> -->
+                        <a class="waves-effect waves-light btn blue darken-1 btn-small center-text" href="/service/add-service">ADD NEW SERVICE</a>
+                        <a class="waves-effect waves-light btn blue darken-1 btn-small center-text" href="/add-payment">ADD NEW PAYMENT</a>
                     </div>
                  </div>
 
@@ -34,7 +35,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                 @foreach($data as $data)
+                                 @foreach($serv as $data)
                                 <tr>
                                     <td>{{ $data->strSHCode }}</td>
                                     <td>{{ $data->strPatLast . ', ' . $data->strPatFirst . ' ' . $data->strPatMiddle }}</td>

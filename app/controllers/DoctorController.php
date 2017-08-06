@@ -121,7 +121,7 @@ class DoctorController extends BaseController {
 
 		$data = DB::table('tblServiceHeader')
 			->join('tblPatientInfo', 'tblServiceHeader.intSHPatID','=','tblPatientInfo.intPatID')
-			->join('tblDocInfo', 'tblServiceHeader.intSHDocID','=','tblDocInfo.intDocID')
+			//->join('tblDocInfo', 'tblServiceHeader.intSHDocID','=','tblDocInfo.intDocID')
 			->join('tblServices', 'tblServiceHeader.intSHServiceID','=','tblServices.intServID')
 			->join('tblPayType', 'tblServiceHeader.intSHPaymentType','=','tblPayType.intPayTID')
 			->join('tblServiceStatus', 'tblServiceHeader.intSHStatus','=','tblServiceStatus.intServStatID')
@@ -227,7 +227,7 @@ class DoctorController extends BaseController {
 			'intInvQty' => $total,
 		]);
 
-		return Redirect::to('/service');
+		return Redirect::to('/sec-home');
 	}
 
 	public function showInv() {
@@ -337,7 +337,7 @@ class DoctorController extends BaseController {
 		]);
 		
 
-		return Redirect::to('/sales');
+		return Redirect::to('/sec-home');
 	}
 
 	public function doPayCheck() {

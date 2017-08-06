@@ -16,14 +16,14 @@
             <form action="{{ URL::to('/save-doctor') }}" method="POST" id="signup_validate" enctype="multipart/form-data">
               <div class="row">
                 <div class="input-field col l6 m6 s12">
-                  <input id="user_id" name="user_id" type="text" class="validate" data-error=".id_error" value=""/>
+                  <input id="user_id" name="user_id" type="text" class="" data-error=".id_error" value=""/>
                   <label for="user_id">License ID:</label>
                   <div class="id_error"></div>
                 </div>
               </div>
               <div class="row">
                     <div class="input-field col s12 m6 l6">
-                      <input id="role" type="text" class="validate" value="Optometrist" readonly>
+                      <input id="role" type="text" class="" value="Optometrist" readonly>
                       <label for="role">User Type</label>
                     </div>
               </div>

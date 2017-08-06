@@ -30,6 +30,9 @@ Route::get('/logout', 'HomeController@doLogout');
 //for Admin Module
 Route::get('/admin', 'AdminController@openAdmin');
 
+Route::get('/admin/ord', 'AdminController@openAddItem');
+Route::post('/admin/add-order', 'AdminController@addItem');
+
 Route::get('/branches', 'AdminController@showBranches');
 Route::get('/add-branch', 'AdminController@addBranchForm');
 Route::post('/save-branch', 'AdminController@addBranch');

@@ -4,7 +4,7 @@
 
 <div class="row page-title">
   <div class="col s12 m12 l12">
-    <h5>Add New Employee</h5>
+    <h5>Add New Assistant</h5>
   </div>
 </div>
 
@@ -16,7 +16,7 @@
             <form action="{{ URL::to('/save-emp') }}" method="POST" id="signup_validate" enctype="multipart/form-data">
               <div class="row">
                     <div class="input-field col s12 m6 l6">
-                      <input id="role" type="text" class="validate" value="Employee" readonly>
+                      <input id="role" type="text" class="" value="Assistant" readonly>
                       <label for="role">User Type</label>
                     </div>
               </div>

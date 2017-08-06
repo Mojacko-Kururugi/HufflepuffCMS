@@ -44,10 +44,12 @@
                         <td>{{ $branch->strBContactNumb }}</td>
                         <td>{{ $branch->created_at }}</td>
                         <td>
+                         <!-- if($branch->intBranchID != 1) -->
                             <div class="center-btn">
                              <a class="waves-effect waves-light btn green darken-1 btn-small center-text" href="branch/{{$branch->intBranchID}}">UPDATE</a>
                              <a class="waves-effect waves-light btn red lighten-1 btn-small center-text" href="d-branch/{{$branch->intBranchID}}">DEACTIVATE</a>
                             </div>
+                        <!-- endif -->
                         </td>
                       </tr>
                       @endforeach

@@ -52,16 +52,11 @@
 						<span  class="col l7 m6 s12">Schedules</span>
 				   </a>
 			  </li>
-              <li class="bold {{ strpos(Request::url(), 'records') !== false ? 'active' : '' }}">
-			       <a href="/records" class="row">
-				        <span class="col l3 m6 s12">{{ HTML::image('img/patient records.png', 'patient records', array('class' => 'responsive-img circle')) }}</span>
-						<span  class="col l7 m6 s12">Patient Records</span>
-				   </a>
-			  </li>
+        <!-- cut -->
               <li class="bold {{ strpos(Request::url(), 'service') !== false ? 'active' : '' }}">
 			       <a href="/service" class="row">
 				        <span class="col l3 m6 s12">{{ HTML::image('img/service.png', 'service', array('class' => 'responsive-img circle')) }}</span>
-						<span  class="col l7 m6 s12">Service</span>
+						<span  class="col l7 m6 s12">Service History</span>
 				   </a>
 			  </li>
               <li class="bold {{ strpos(Request::url(), 'inventory') !== false ? 'active' : '' }}">

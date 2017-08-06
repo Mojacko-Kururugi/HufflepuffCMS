@@ -1,38 +1,49 @@
-@extends('layouts.secretary-master')
+@extends('layouts.admin-master')
 
 @section('content')
 
   <div class="row"><br>
     <div class="center col l12 m12 s12">
-      <h3>Add New Payment</h3>
-
+      <h3>Add New Order</h3>
     </div>
   </div>
 
   <div class="contents z-depth-1">
     <div class="container">
-      <form action="{{ URL::to('/save-payment') }}" method="POST" id="signup_validate" enctype="multipart/form-data"><br><br>
-        <div class="row">
+      <form action="{{ URL::to('/admin/add-order') }}" method="POST" id="signup_validate" enctype="multipart/form-data"><br><br>
+              <div class="row">
+                <div class="input-field col l6 m6 s12">
+                  <input id="user_id" name="user_id" type="text" class="validate" data-error=".id_error" value="{{ $count }}" readonly />
+                  <label for="user_id">Serial Code #:</label>
+                  <div class="id_error"></div>
+                </div>
+              </div>
+
+                  <div class="row">
                     <div class="input-field col l6 m6 s12">
-                        <select class="initialized browser-default" name="data" id="data" data-error=".school_error">
-                          <option value="" disabled selected>Service Reference #</option>
+                        <select class="initialized browser-default" name="name" id="name" data-error=".school_error">
+                          <option value="" disabled selected>Product Name</option>
                           @foreach($data as $data)
-                            <option value="{{ $data->intSaleID}}" @if(Input::old('data') == $data->intSaleID) selected="selected" @endif>{{ $data->strSServCode }}</option>
+                            <option value="{{ $data->intProdID}}" @if(Input::old('product') == $data->intProdID) selected="selected" @endif>{{ $data->strProdName . ' - ' . $data->strProdModel}}</option>
                           @endforeach
                         </select>
                        <div class="school_error"></div>
                     </div>
-        </div>
+                  </div>
         <div class="row">
               <div class="input-field col l12 m8 s12">
-                <label for="number">Amount Paid</label>
-                <input id="number" name="number" type="text" class="validate" value="" />
+                <label for="qty">Quantity</label>
+                <input id="qty" name="qty" type="text" class="validate" value="" />
+              </div>
+              <div class="form-group col l6 ">
+                <label for="price">Price per piece</label>
+                <input type="number" class="form-control" name="price" id="price" value="1">
               </div>
         </div>
             <div class="row">
               <div class="input-field col l12 s12 center">
                 <button type="submit" class="waves-effect waves-light btn btn-green modal-btn">Save</button>
-                <a href="{{ URL::to('/sec-home') }}" class="waves-effect waves-light btn btn-green modal-btn" style="margin-right:20px;">Cancel</a>
+                <a href="{{ URL::to('/admin') }}" class="waves-effect waves-light btn btn-green modal-btn" style="margin-right:20px;">Cancel</a>
               </div>
             </div>
             <br><br>
@@ -75,11 +86,35 @@
       rules: {
         stud_id_no: {
           required: true
-          regex: contactRegex
         },
         
+        user_type: "required",
+
+        first_name_sa: {
+          required: true,
+          regex: nameRegex
+        },
+
+        // middle_name_sa: {
+        //   regex: nameRegex
+        // },
+
+        last_name_sa: {
+          required: true,
+          regex: nameRegex
+        },
+
+        school: "required",
+
+        gender: "required",
+
+        b_day: {
+          required: true
+        },
+
         number: {
           required: true,
+          regex: contactRegex
         },
 
         address: {

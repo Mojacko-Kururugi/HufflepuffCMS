@@ -58,7 +58,7 @@
               <li class="bold {{ strpos(Request::url(), 'employees') !== false ? 'active' : '' }}">
 			       <a href="/employees" class ="row">
 				        <span class="col l3 m6 s12">{{ HTML::image('img/employee.png', 'employee', array('class' => 'responsive-img circle')) }}</span>
-				        <span  class="col l7 m6 s12">Employees</span>
+				        <span  class="col l7 m6 s12">Assistants</span>
 				   </a>
 			  </li>
               <li class="bold {{ strpos(Request::url(), 'product-type') !== false ? 'active' : '' }}">
