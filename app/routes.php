@@ -99,6 +99,9 @@ Route::get('/add-payment', 'DoctorController@showPayment');
 Route::post('/save-payment', 'DoctorController@addPayment');
 Route::get('/reports', 'DoctorController@generateReport');
 
+//Dagdag ni tonet
+Route::get('/add-payment-for-existing', 'DoctorController@showPaymentForExisting');
+Route::post('/save-payment-for-existing', 'DoctorController@addPaymentForExisting');
 
 
 

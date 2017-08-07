@@ -51,43 +51,46 @@
         @endif
         </div>
       </div>
-
-      <div class="card-panel">
-        <span class="card-title">Schedules and Appointments</span>
+	  
+	  <div class="card-panel">
+        <span class="card-title">Inventory status</span>
         <hr>
         <div class="card-content">
-        @if($app != null)
+          @if($inv != null)
           <p>
-            You have incoming appointments.
+            These items are branch's <span class="green-text bold">current available</span> stocks.
           </p>
-          <table class="centered table-fixed">
+          <table class="centered">
             <thead>
               <tr>
                 <th>Name</th>
-                <th>Event</th>
-                <th>Date</th>
-                <th>Time</th>
+                <th>Model</th>
+                <th>Qty</th>
+                <th>Actions</th>
               </tr>
             </thead>
 
             <tbody>
-              @foreach($app as $app)
-              <tr>
-                <td>{{ $app->strPatLast . ', ' . $app->strPatFirst }}</td>
-                <td>{{ $app->strSchedHeader }}</td>
-                <td>{{ $app->dtSchedDate }}</td>
-                <td>{{ $app->tmSchedTime }}</td>
+            @foreach($inv as $inv)
+             <tr>
+                <td>{{ $inv->strProdName }}</td>
+                <td>{{ $inv->strProdModel }}</td>
+                <td>{{ $inv->sum }}</td>
+                <td>
+                  <div class="center-btn">
+                    <a class="waves-effect waves-light btn btn-small center-text" href="/inventory/order">Order</a>
+                  </div>
+                </td>
               </tr>
               @endforeach
             </tbody>
           </table>
-          @else
-          <p>
-            You have no incoming appointments.
-          </p>
-          @endif
+        @else
+         <p> You have <span class="red-text bold">no inventory</span> on your branch.</p>
+        @endif
         </div>
       </div>
+    
 
 
     </div>

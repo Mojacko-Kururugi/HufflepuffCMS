@@ -339,6 +339,30 @@ class DoctorController extends BaseController {
 
 		return Redirect::to('/sec-home');
 	}
+	
+	public function showPaymentForExisting() {
+
+		$data = DB::table('tblSales')
+			->where('tblSales.intSStatus','!=',1)
+			->get();
+
+		return View::make('add-payment-for-existing')->with('data',$data);
+		//return View::make('add-payment');
+	}
+
+	public function addPaymentForExisting() {
+
+		DB::table('tblPayment')
+		->insert([
+    		'intPymServID' => Request::input('data'),
+    		'dcmPymPayment' => Request::input('number')
+		]);
+		
+
+		return Redirect::to('/sec-home');
+	}
+	
+	
 
 	public function doPayCheck() {
 		$paid = DB::table('tblSales')
