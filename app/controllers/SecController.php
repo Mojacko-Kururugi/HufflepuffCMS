@@ -43,6 +43,7 @@ class SecController extends BaseController {
 			->where('tblInventory.intInvBranch', '=', Session::get('user_bc'))
 			->get();
 
+
 			return View::make('dash-sec')->with('data',$data)->with('serv',$serv);
 	}
 

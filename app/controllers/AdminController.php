@@ -11,16 +11,6 @@ class AdminController extends BaseController {
 		//	->where('tblInventory.intInvBranch', '=', Session::get('user_bc'))
 			->where('tblInvStatus.intISID','!=',3)
 			->get();
-		
-		$ct = 1 + DB::table('tblAdjustments')
-			->count();
-
-		if($ct < 10)
-			$count = "ADJ00" . $ct;
-		else if($ct < 100)
-			$count = "ADJ0" . $ct;
-		else if($ct < 1000)
-			$count = "ADJ" . $ct;
 
 
 		$ord = DB::table('tblOrders')
@@ -29,41 +19,7 @@ class AdminController extends BaseController {
 			->get();
 
 		return View::make('dash-admin')->with('data',$data)->with('count',$count)->with('ord',$ord);
-	}
-
-	public function openAddItem() {
-		$data = DB::table('tblProducts')
-			->where('tblProducts.intProdStatus', '=', 1)
-			->get();
-
-		$ct = 1 + DB::table('tblOrders')
-			->count();
-
-		if($ct < 10)
-			$count = "BTH00" . $ct;
-		else if($ct < 100)
-			$count = "BTH0" . $ct;
-		else if($ct < 1000)
-			$count = "BTH" . $ct;
-
-			return View::make('add-order')->with('data',$data)->with('count',$count);
-	}
-
-	public function addItem() {
-
-		DB::table('tblInventory')
-			->insert([
-				'intInvPID' => Request::input('name'),
-				'strInvCode' => Request::input('user_id'),
-			    'dcInvPPrice' => Request::input('price'),
-			    'intInvQty' => Request::input('qty'),
-			    'dtInvExpiry' => NULL,
-			    'intInvStatus' => 1,
-				'intInvBranch' => 1
-			]);
-
-		return Redirect::to('/admin');
-	}
+	}	
 
 	public function addBranch() {
 
