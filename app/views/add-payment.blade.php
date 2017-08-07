@@ -1,10 +1,10 @@
-@extends('layouts.secretary-master')
+@extends('layouts.master')
 
 @section('content')
 
 <div class="row page-title">
   <div class="col s12 m12 l12">
-    <h5>Add New Payment</h5>
+    <h1>Add New Payment</h1>
   </div>
 </div>
 
