@@ -13,7 +13,7 @@
       <form action="{{ URL::to('/inventory/add-order') }}" method="POST" id="signup_validate" enctype="multipart/form-data"><br><br>
               <div class="row">
                 <div class="input-field col l6 m6 s12">
-                  <input id="user_id" name="user_id" type="text" class="validate" data-error=".id_error" value=""/>
+                  <input id="user_id" name="user_id" type="text" class="validate" data-error=".id_error" value="{{ $count }}" readonly/>
                   <label for="user_id">Order Code #:</label>
                   <div class="id_error"></div>
                 </div>

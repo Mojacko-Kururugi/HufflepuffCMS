@@ -31,7 +31,14 @@
                 <input id="brand" name="brand" type="text" class="validate" value="" />
               </div>
         </div>
-                    <div class="input-field col l6 m6 s12">
+        <div class="row">
+              <div class="form-group col l6 ">
+                <label for="price">Price per piece</label>
+                <input type="number" class="form-control" name="price" id="price" value="1">
+              </div>
+        </div>
+
+                           <div class="input-field col l6 m6 s12">
                         <select class="initialized browser-default" name="type" id="type" data-error=".school_error">
                           <option value="" disabled selected>Type</option>
                           @foreach($data as $data)
@@ -40,6 +47,7 @@
                         </select>
                        <div class="school_error"></div>
                     </div>
+
             <div class="row">
               <div class="input-field col l12 s12 center">
                 <button type="submit" class="waves-effect waves-light btn btn-green modal-btn">Save</button>

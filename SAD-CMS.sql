@@ -122,8 +122,6 @@ CREATE TABLE tblPatientInfo(
 	strPatCompany VARCHAR(50),
     dPatBirthdate	DATE,
     strPatHistory VARCHAR(7),
-    strPatComplaints VARCHAR(7),
-    strPatOldRX VARCHAR(200),
 	strPatImagePath VARCHAR(200),
 	strPatEmail VARCHAR(25),
     intPatStatus INT(2),
@@ -132,6 +130,18 @@ CREATE TABLE tblPatientInfo(
     PRIMARY KEY(intPatID)
 )Engine=InnoDb;
 
+CREATE TABLE tblPatientRX(
+	intRXID int NOT NULL AUTO_INCREMENT,
+	intRXPatID int,
+    strPatComplaints VARCHAR(7),
+    strPatOldRX VARCHAR(200),
+    intRXPatStatus INT(2),
+	created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    
+    PRIMARY KEY(intRXID),
+	FOREIGN KEY(intRXPatID)
+    REFERENCES tblPatientInfo(intPatID)
+)Engine=InnoDb;
 
 CREATE TABLE tblEmployeeInfo(
 	intEmpID int NOT NULL AUTO_INCREMENT,
@@ -165,6 +175,7 @@ CREATE TABLE tblProducts(
     strProdModel VARCHAR(50),
     strProdBrand VARCHAR(50),
     intProdType INT(3),
+	dcInvPPrice DECIMAL(18,2),
     intProdStatus INT(2),
     
     PRIMARY KEY (intProdID),
@@ -176,7 +187,6 @@ CREATE TABLE tblInventory(
 	intInvID int NOT NULL AUTO_INCREMENT,
     strInvCode VARCHAR(25),
 	intInvPID INT,
-    dcInvPPrice DECIMAL(18,2),
     intInvQty INT(100),
     dtInvExpiry DATE,
     intInvStatus INT(3),
@@ -222,22 +232,29 @@ CREATE TABLE tblDiscount(
 CREATE TABLE tblOrders(
 	intOID int NOT NULL AUTO_INCREMENT,
 	strOCode VARCHAR(25),
-    intOProdID INT,
-    intOQty INT(100),
-    dtOReceived DATE,
 	intOBranch INT,
 	created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    dtOReceived DATE,
     intStatus INT,
     
+    
     PRIMARY KEY (intOID),
-    FOREIGN KEY(intOProdID)
-    REFERENCES tblProducts(intProdID),
 	FOREIGN KEY(intOBranch)
     REFERENCES tblBranch(intBranchID),
     FOREIGN KEY(intStatus)
     REFERENCES tblOrdStatus(intOSID)
 )Engine=InnoDb;
 
+CREATE TABLE tblOrderDetails(
+	intODCode INT,
+    intOProdID INT,
+    intOQty INT(100),
+    
+    FOREIGN KEY(intOProdID)
+    REFERENCES tblProducts(intProdID),
+	FOREIGN KEY(intODCode)
+    REFERENCES tblOrders(intOID)
+)Engine=InnoDb;
 
 CREATE TABLE tblServiceHeader(
 	intSHID int NOT NULL AUTO_INCREMENT,
@@ -382,3 +399,5 @@ INSERT INTO tblServices(strServName,strServDesc,intServStatus) VALUES ('Eye Chec
 INSERT INTO tblServices(strServName,strServDesc,intServStatus) VALUES ('Glass/Lens Assign','assigning of lens or glasses','1');
 
 INSERT INTO tblUserAccounts (strUEmail,strUPassword,intUID,intUType) VALUES ('admin@hufflepuff','admin123','0','1');
+
+INSERT INTO tblBranch(strBranchName,strBranchAddress,strBContactNumb,intBStatus) VALUES ('ARG Main','Quezon City','123-4567','1');

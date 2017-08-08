@@ -35,10 +35,6 @@
                 <label for="qty">Quantity</label>
                 <input id="qty" name="qty" type="text" class="validate" value="" />
               </div>
-              <div class="form-group col l6 ">
-                <label for="price">Price per piece</label>
-                <input type="number" class="form-control" name="price" id="price" value="1">
-              </div>
         </div>
             <div class="row">
               <div class="input-field col l12 s12 center">

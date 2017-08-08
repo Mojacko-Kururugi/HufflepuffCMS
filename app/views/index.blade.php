@@ -51,45 +51,7 @@
         @endif
         </div>
       </div>
-	  
-	  <div class="card-panel">
-        <span class="card-title">Inventory status</span>
-        <hr>
-        <div class="card-content">
-          @if($inv != null)
-          <p>
-            These items are branch's <span class="green-text bold">current available</span> stocks.
-          </p>
-          <table class="centered">
-            <thead>
-              <tr>
-                <th>Name</th>
-                <th>Model</th>
-                <th>Qty</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-
-            <tbody>
-            @foreach($inv as $inv)
-             <tr>
-                <td>{{ $inv->strProdName }}</td>
-                <td>{{ $inv->strProdModel }}</td>
-                <td>{{ $inv->sum }}</td>
-                <td>
-                  <div class="center-btn">
-                    <a class="waves-effect waves-light btn btn-small center-text" href="/inventory/order">Order</a>
-                  </div>
-                </td>
-              </tr>
-              @endforeach
-            </tbody>
-          </table>
-        @else
-         <p> You have <span class="red-text bold">no inventory</span> on your branch.</p>
-        @endif
-        </div>
-      </div>
+	  <!-- dito un next na nawala -->
     
 
 

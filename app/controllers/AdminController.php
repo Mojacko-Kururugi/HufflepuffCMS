@@ -12,14 +12,59 @@ class AdminController extends BaseController {
 			->where('tblInvStatus.intISID','!=',3)
 			->get();
 
+		$ct = 1 + DB::table('tblOrders')
+			->count();
+
+		if($ct < 10)
+			$count = "BTH00" . $ct;
+		else if($ct < 100)
+			$count = "BTH0" . $ct;
+		else if($ct < 1000)
+			$count = "BTH" . $ct;
 
 		$ord = DB::table('tblOrders')
-			->join('tblProducts', 'tblOrders.intOProdID', '=', 'tblProducts.intProdID')
+			->join('tblOrderDetails', 'tblOrderDetails.intODCode', '=', 'tblOrders.intOID')
+			->join('tblProducts', 'tblOrderDetails.intOProdID', '=', 'tblProducts.intProdID')
 			->join('tblOrdStatus', 'tblOrders.intStatus', '=', 'tblOrdStatus.intOSID')		
 			->get();
 
-		return View::make('dash-admin')->with('data',$data)->with('count',$count)->with('ord',$ord);
+		return View::make('dash-admin')->with('data',$data)->with('ord',$ord)->with('count',$count);
 	}	
+
+	public function openAddItem() {
+		$data = DB::table('tblProducts')
+			->where('tblProducts.intProdStatus', '=', 1)
+			->get();
+
+		$ct = 1 + DB::table('tblOrders')
+			->count();
+
+		if($ct < 10)
+			$count = "BTH00" . $ct;
+		else if($ct < 100)
+			$count = "BTH0" . $ct;
+		else if($ct < 1000)
+			$count = "BTH" . $ct;
+
+			return View::make('add-order')->with('data',$data)->with('count',$count);
+	}
+
+	public function addItem() {
+
+		$ldate = date('Y-m-d H:i:s');
+
+		DB::table('tblInventory')
+			->insert([
+				'intInvPID' => Request::input('name'),
+				'strInvCode' => Request::input('user_id'),
+			    'intInvQty' => Request::input('qty'),
+			    'dtInvExpiry' => NULL,
+			    'intInvStatus' => 1,
+				'intInvBranch' => Session::get('user_bc')
+			]);
+
+		return Redirect::to('/admin');
+	}
 
 	public function addBranch() {
 
@@ -322,6 +367,7 @@ class AdminController extends BaseController {
 			'strProdModel' 	=> Request::input('model'),
 			'strProdBrand' =>  Request::input('brand'),
 			'intProdType'	=> Request::input('type'),
+			'dcInvPPrice' => Request::input('price'),
 			'intProdStatus' => 1
 		]);
 
@@ -346,7 +392,8 @@ class AdminController extends BaseController {
 					'strProdName' 		=> Request::input('name'),
 					'strProdModel' 	=> Request::input('model'),
 					'strProdBrand' =>  Request::input('brand'),
-					'intProdType'	=> Request::input('type')
+					'intProdType'	=> Request::input('type'),
+					'dcInvPPrice' => Request::input('price')
 				]);
 
 		return Redirect::to('/products');

@@ -243,13 +243,22 @@ class DoctorController extends BaseController {
 	}
 
 	public function openOrdList() {
-		$data = DB::table('tblOrders')
-			->join('tblProducts', 'tblOrders.intOProdID', '=', 'tblProducts.intProdID')
-			->join('tblOrdStatus', 'tblOrders.intStatus', '=', 'tblOrdStatus.intOSID')
-			->where('tblOrders.intOBranch', '=', Session::get('user_bc'))		
-			->get();
-		
-			return View::make('order')->with('data',$data);
+			$data = DB::table('tblProducts')
+						->where('tblProducts.intProdStatus', '=', 1)
+						->get();
+
+					$ct = 1 + DB::table('tblOrders')
+						->count();
+
+					if($ct < 10)
+						$count = "BTH00" . $ct;
+					else if($ct < 100)
+						$count = "BTH0" . $ct;
+					else if($ct < 1000)
+						$count = "BTH" . $ct;
+
+					
+			return View::make('order')->with('data',$data)->with('count',$count);
 	}
 
 	public function addOrd() {

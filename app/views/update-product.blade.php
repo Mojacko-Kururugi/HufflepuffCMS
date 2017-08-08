@@ -32,6 +32,12 @@
                 <input id="brand" name="brand" type="text" class="validate" value="{{ $prod->strProdBrand }}" />
               </div>
         </div>
+        <div class="row">
+              <div class="form-group col l6 ">
+                <label for="price">Price per piece</label>
+                <input type="number" class="form-control" name="price" id="price" value="{{ $prod->dcInvPPrice }}">
+              </div>
+        </div>
                     <div class="input-field col l6 m6 s12">
                         <select class="initialized browser-default" name="type" id="type" data-error=".school_error">
                           <option value="" disabled selected>Type</option>

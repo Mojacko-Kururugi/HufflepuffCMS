@@ -93,7 +93,8 @@ class SecController extends BaseController {
 
 	public function openOrdList() {
 		$data = DB::table('tblOrders')
-			->join('tblProducts', 'tblOrders.intOProdID', '=', 'tblProducts.intProdID')
+			->join('tblOrderDetails', 'tblOrderDetails.intODCode', '=', 'tblOrders.intOID')
+			->join('tblProducts', 'tblOrderDetails.intOProdID', '=', 'tblProducts.intProdID')
 			->join('tblOrdStatus', 'tblOrders.intStatus', '=', 'tblOrdStatus.intOSID')
 			->where('tblOrders.intOBranch', '=', Session::get('user_bc'))		
 			->get();
@@ -105,12 +106,21 @@ class SecController extends BaseController {
 
 		DB::table('tblOrders')
 		->insert([
-			'intOProdID' 		=> Request::input('name'),
 			'strOCode'			=> Request::input('user_id'),
-			'intOQty' 	=> Request::input('qty'),
 			'dtOReceived'	=> null,
 			'intOBranch'	=> Session::get('user_bc'),			
 			'intStatus' => 2
+		]);
+
+		$data = DB::table('tblOrders')
+			->where('tblOrders.strOCode', '=',Request::input('user_id'))
+			->first();
+
+		DB::table('tblOrderDetails')
+		->insert([
+			'intOProdID' 		=> Request::input('name'),
+			'intODCode'			=> $data->intOID,
+			'intOQty' 	=> Request::input('qty'),
 		]);
 
 		return Redirect::to('/sec-order');
@@ -128,11 +138,12 @@ class SecController extends BaseController {
 				]);
 
 		$data = DB::table('tblOrders')
-			->join('tblProducts', 'tblOrders.intOProdID', '=', 'tblProducts.intProdID')
+			->join('tblOrderDetails', 'tblOrderDetails.intODCode', '=', 'tblOrders.intOID')
+			->join('tblProducts', 'tblOrderDetails.intOProdID', '=', 'tblProducts.intProdID')
 			->where('tblOrders.intOID', '=', $id)
 			->first();
 
-		if($data->intProdType == 1)
+	/*	if($data->intProdType == 1)
 		{
 		DB::table('tblInventory')
 			->insert([
@@ -158,6 +169,17 @@ class SecController extends BaseController {
 				'intInvBranch' => Session::get('user_bc')
 			]);
 		}
+		*/
+
+		DB::table('tblInventory')
+			->insert([
+				'intInvPID' => $data->intOProdID,
+				'strInvCode' => $data->strOCode,
+			    'intInvQty' => $data->intOQty,
+			    'dtInvExpiry' => NULL,
+			    'intInvStatus' => 1,
+				'intInvBranch' => Session::get('user_bc')
+			]);
 
 		return Redirect::to('/sec-inv');
 	}

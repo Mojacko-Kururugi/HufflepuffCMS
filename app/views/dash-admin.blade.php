@@ -105,7 +105,6 @@
         <span class="card-title">Pending Requests</span>
         <hr>
         <div class="card-content">
-<<<<<<< HEAD
          @if($ord != null)
           <p>
             You have pending requests.
@@ -148,11 +147,6 @@
             You have no pending requests.
           </p>
           @endif
-=======
-          <p>
-            You have no pending requests.
-          </p>
->>>>>>> 929f74798f2669644cf64cba346edfdf1e5fa643
         </div>
       </div>
 
