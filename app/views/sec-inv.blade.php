@@ -17,9 +17,65 @@
         <div class="row">
           <div class="col s12 m12 l12">
                 <!--<a class="waves-effect waves-light btn blue darken-1 btn-small center-text" href="/sec-inv/ord">ADD NEW ORDER</a>-->
+                <a class="modal-trigger waves-effect waves-light btn green darken-1 btn-small center-text" href="#allbranch">VIEW ALL BRANCHES</a>
                 <a class="modal-trigger waves-effect waves-light btn btn-flat right btn-small center-text" href="{{ URL::to('/reports') }}">Generate Report</a>
           </div>
         </div>
+
+                  <div id="allbranch" class="modal modal-fixed-footer">
+                                <div class="modal-content col 6">
+                                  <h4>Inventories on other Branches</h4>
+                                  <p>
+                                    @foreach($branch as $branch)
+                                    <h5>{{$branch->strBranchName}}</h5>
+                                                    <table class="centered table-fixed">
+                                                      <thead>
+                                                          <tr>
+                                                              <th>Product Brand</th>
+                                                              <th>Product Name</th>
+                                                              <th>Product Model</th>
+                                                              <th>Product Type</th>
+                                                              <th>Price</th>
+                                                              <th>Available Stock</th>
+                                                              <th>Expiry Date</th>
+                                                              <th>Status</th>
+                                                          </tr>
+                                                      </thead>
+                                                      <tbody>
+                                                      @foreach($alls as $all)
+                                                          @if($branch->intBranchID == $all->intInvBranch)
+                                                         <tr>
+                                                              <td>{{ $all->strProdBrand}}</td>
+                                                              <td>{{ $all->strProdName }}</td>
+                                                              <td>{{ $all->strProdModel }}</td>
+                                                              <td>{{ $all->strPTDesc }}</td>
+                                                              <td>{{ $all->dcInvPPrice }}</td>
+                                                              <td>{{ $all->sum }}</td>
+                                                              @if($all->dtInvExpiry == NULL)
+                                                              <td>N/A</td>
+                                                              @else
+                                                              <td>{{ $all->dtInvExpiry }}</td>
+                                                              @endif 
+                                                              @if($all->intISID == 1)
+                                                              <td class="green-text bold">{{ $all->strISDesc }}</td>
+                                                              @elseif($all->intISID == 2)
+                                                              <td class="yellow-text bold">{{ $all->strISDesc }}</td>
+                                                              @elseif($all->intISID == 3)
+                                                              <td class="red-text bold">{{ $all->strISDesc }}</td>
+                                                              @endif
+                                                          </tr>
+                                                        @elseif($all == NULL)   
+                                                        @endif
+                                                      @endforeach 
+                                                      </tbody>
+                                                    </table>
+                                    @endforeach
+                                  </p>
+                                </div>
+                                <div class="modal-footer col 6">
+                                  <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat ">CLOSE</a>
+                                </div>
+                              </div>
 
         <div class="row">
           <div class="nav-wrapper">

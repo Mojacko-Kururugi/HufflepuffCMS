@@ -5,12 +5,38 @@ class AdminController extends BaseController {
 	public function openAdmin() {
 
 		$data = DB::table('tblInventory')
+			->join('tblProducts', 'tblInventory.intInvPID', '=', 'tblProducts.intProdID')
+			->join('tblInvStatus', 'tblInventory.intInvStatus', '=', 'tblInvStatus.intISID')
+			->join('tblProdType', 'tblProducts.intProdType', '=', 'tblProdType.intPTID')
+			->where('tblInventory.intInvBranch', '=', 1)
+			->where('tblInventory.intInvStatus','!=',3)
+			->groupby('tblInventory.intInvPID')
+			->selectRaw('*, sum(intInvQty) as sum')
+			->get();
+
+		$alls = DB::table('tblInventory')
+			->join('tblProducts', 'tblInventory.intInvPID', '=', 'tblProducts.intProdID')
+			->join('tblInvStatus', 'tblInventory.intInvStatus', '=', 'tblInvStatus.intISID')
+			->join('tblProdType', 'tblProducts.intProdType', '=', 'tblProdType.intPTID')
+			->where('tblInventory.intInvBranch', '!=', 1)
+			->groupby('tblInventory.intInvPID')
+			->selectRaw('*, sum(intInvQty) as sum')
+			->get();
+
+		$branch = DB::table('tblBranch')
+			->where('tblBranch.intBStatus', '=', 1)
+			->where('tblBranch.intBranchID', '!=', 1)
+			->get();
+
+		$stock = DB::table('tblInventory')
 			->join('tblInvStatus', 'tblInventory.intInvStatus', '=', 'tblInvStatus.intISID')
 			->join('tblProducts', 'tblInventory.intInvPID', '=', 'tblProducts.intProdID')
 			->join('tblProdType', 'tblProducts.intProdType', '=', 'tblProdType.intPTID')
-		//	->where('tblInventory.intInvBranch', '=', Session::get('user_bc'))
+			->join('tblAdjustments', 'tblInventory.intInvID', '=', 'tblAdjustments.intAdjInvID')
+			->where('tblInventory.intInvBranch', '=', 1)
 			->where('tblInvStatus.intISID','!=',3)
-			->get();
+			->get();	
+
 
 		$ct = 1 + DB::table('tblOrders')
 			->count();
@@ -25,10 +51,28 @@ class AdminController extends BaseController {
 		$ord = DB::table('tblOrders')
 			->join('tblOrderDetails', 'tblOrderDetails.intODCode', '=', 'tblOrders.intOID')
 			->join('tblProducts', 'tblOrderDetails.intOProdID', '=', 'tblProducts.intProdID')
-			->join('tblOrdStatus', 'tblOrders.intStatus', '=', 'tblOrdStatus.intOSID')		
+			->join('tblOrdStatus', 'tblOrders.intStatus', '=', 'tblOrdStatus.intOSID')	
+			->join('tblBranch', 'tblOrders.intOBranch', '=', 'tblBranch.intBranchID')	
 			->get();
 
-		return View::make('dash-admin')->with('data',$data)->with('ord',$ord)->with('count',$count);
+		$prod = DB::table('tblInventory')
+			->join('tblProducts', 'tblInventory.intInvPID', '=', 'tblProducts.intProdID')
+			->join('tblInvStatus', 'tblInventory.intInvStatus', '=', 'tblInvStatus.intISID')
+			->join('tblProdType', 'tblProducts.intProdType', '=', 'tblProdType.intPTID')
+			->where('tblInventory.intInvBranch', '=', 1)
+			->where('tblInventory.intInvStatus','!=',3)
+			->groupby('tblInventory.intInvPID')
+			->selectRaw('*, sum(intInvQty) as sum')
+			->get();
+
+		return View::make('dash-admin')
+		->with('data',$data)
+		->with('ord',$ord)
+		->with('count',$count)
+		->with('stock',$stock)
+		->with('prod',$prod)
+		->with('alls',$alls)
+		->with('branch',$branch);
 	}	
 
 	public function openAddItem() {
@@ -36,32 +80,115 @@ class AdminController extends BaseController {
 			->where('tblProducts.intProdStatus', '=', 1)
 			->get();
 
-		$ct = 1 + DB::table('tblOrders')
+		$ct = 1 + DB::table('tblAdjustments')
 			->count();
 
 		if($ct < 10)
-			$count = "BTH00" . $ct;
+			$count = "AMN00" . $ct;
 		else if($ct < 100)
-			$count = "BTH0" . $ct;
+			$count = "AMN0" . $ct;
 		else if($ct < 1000)
-			$count = "BTH" . $ct;
+			$count = "AMN" . $ct;
 
 			return View::make('add-order')->with('data',$data)->with('count',$count);
 	}
 
 	public function addItem() {
 
+		$inv = DB::table('tblInventory')
+			->where('tblInventory.intInvPID', '=', Request::input('name'))
+			->where('tblInventory.intInvBranch', '=', 1)
+			->where('tblInventory.intInvStatus','!=',3)
+			->groupby('tblInventory.intInvPID')
+			->selectRaw('*, sum(intInvQty) as sum')
+			->first();
+
+		$new_qty = Request::input('qty');
+		$curr_qty =  $inv->intInvQty;
+		$total;
+
+		$total = $curr_qty + $new_qty;
+
+				DB::table('tblAdjustments')
+					->insert([
+						'strAdjCode'  => Request::input('user_id'),
+						'intAdjInvID' => $inv->intInvPID,
+					    'intAdjQty' => Request::input('qty'),
+					    'strAdjReason' => "BOUGHT BY MAIN",
+					    'intAdjStatus' => 1,
+					    'intAdjBranch' => 1
+					]);		
+
+				DB::table('tblInventory')
+						->where('tblInventory.intInvID', '=', $inv->intInvPID)
+						->update([
+							'intInvQty' => $total,
+						]);
+
+		return Redirect::to('/admin');
+	}
+
+	public function deliverOrd($id) {
+
 		$ldate = date('Y-m-d H:i:s');
 
-		DB::table('tblInventory')
-			->insert([
-				'intInvPID' => Request::input('name'),
-				'strInvCode' => Request::input('user_id'),
-			    'intInvQty' => Request::input('qty'),
-			    'dtInvExpiry' => NULL,
-			    'intInvStatus' => 1,
-				'intInvBranch' => Session::get('user_bc')
-			]);
+		$ct = 1 + DB::table('tblAdjustments')
+			->count();
+
+		if($ct < 10)
+			$count = "MMN00" . $ct;
+		else if($ct < 100)
+			$count = "MMN0" . $ct;
+		else if($ct < 1000)
+			$count = "MMN" . $ct;
+
+		DB::table('tblOrders')
+				->where('tblOrders.intOID', '=', $id)
+				->update([
+					'dtOReceived' => $ldate,
+					'intStatus' => 4,
+				]);
+
+		$data = DB::table('tblOrders')
+			->join('tblOrderDetails', 'tblOrderDetails.intODCode', '=', 'tblOrders.intOID')
+			->join('tblProducts', 'tblOrderDetails.intOProdID', '=', 'tblProducts.intProdID')
+			->join('tblBranch', 'tblOrders.intOBranch', '=', 'tblBranch.intBranchID')
+			->where('tblOrders.intOID', '=', $id)
+			->first();
+
+		$inv = DB::table('tblInventory')
+			->where('tblInventory.intInvPID', '=', $data->intOProdID)
+			->where('tblInventory.intInvBranch', '=', 1)
+			->where('tblInventory.intInvStatus','!=',3)
+			->groupby('tblInventory.intInvPID')
+			->selectRaw('*, sum(intInvQty) as sum')
+			->first();
+
+		$new_qty = $data->intOQty;
+		$curr_qty =  $inv->intInvQty;
+		$total;
+		$string = "ORDER BY " . $data->strBranchName . "(" . $data->strOCode . ")";
+			if($new_qty <= $inv->sum)
+				{
+				$total = $curr_qty - $new_qty;
+				DB::table('tblAdjustments')
+					->insert([
+						'strAdjCode'  => $count,
+						'intAdjInvID' => $inv->intInvID,
+					    'intAdjQty' => $new_qty,
+					    'strAdjReason' => $string,
+					    'intAdjStatus' => 2,
+					    'intAdjBranch' => 1
+					]);		
+
+				DB::table('tblInventory')
+						->where('tblInventory.intInvID', '=', $inv->intInvID)
+						->update([
+							'intInvQty' => $total,
+						]);
+					return Redirect::to('/admin');
+				}
+
 
 		return Redirect::to('/admin');
 	}
@@ -83,6 +210,7 @@ class AdminController extends BaseController {
 
 		$data = DB::table('tblBranch')
 			->where('tblBranch.intBStatus', '=', 1)
+			->where('tblBranch.intBranchID', '!=', 1)
 			->get();
 
 		return View::make('admin-branches')->with('data',$data);
@@ -137,7 +265,7 @@ class AdminController extends BaseController {
 
 		$branch = DB::table('tblBranch')
 			->where('tblBranch.intBStatus', '=', 1)
-			//->where('tblBranch.intBranchID', '!=', 1)
+			->where('tblBranch.intBranchID', '!=', 1)
 			->get();
 
 		return View::make('add-doctor')->with('branch',$branch);
@@ -177,6 +305,7 @@ class AdminController extends BaseController {
 
 		$branch = DB::table('tblBranch')
 			->where('tblBranch.intBStatus', '=', 1)
+			->where('tblBranch.intBranchID', '!=', 1)
 			->get();
 
 	    return View::make('update-doctor')->with('data',$data)->with('branch',$branch)->with('id',$id);
@@ -221,7 +350,7 @@ class AdminController extends BaseController {
 
 		$branch = DB::table('tblBranch')
 			->where('tblBranch.intBStatus', '=', 1)
-			//->where('tblBranch.intBranchID', '!=', 1)
+			->where('tblBranch.intBranchID', '!=', 1)
 			->get();
 
 		return View::make('add-employee')->with('branch',$branch);
@@ -258,6 +387,7 @@ class AdminController extends BaseController {
 
 		$branch = DB::table('tblBranch')
 				->where('tblBranch.intBStatus', '=', 1)
+				->where('tblBranch.intBranchID', '!=', 1)
 				->get();
 
 	    return View::make('update-employee')->with('data',$data)->with('branch',$branch)->with('id',$id);
@@ -361,6 +491,17 @@ class AdminController extends BaseController {
 
 	public function addProd() {
 
+		$ct = 1 + DB::table('tblProducts')
+			->count();
+
+		if($ct < 10)
+			$count = "MN00" . $ct;
+		else if($ct < 100)
+			$count = "MN0" . $ct;
+		else if($ct < 1000)
+			$count = "MN" . $ct;
+
+
 		DB::table('tblProducts')
 		->insert([
 			'strProdName' 		=> Request::input('name'),
@@ -370,6 +511,18 @@ class AdminController extends BaseController {
 			'dcInvPPrice' => Request::input('price'),
 			'intProdStatus' => 1
 		]);
+
+		$ldate = date('Y-m-d H:i:s');
+
+		DB::table('tblInventory')
+			->insert([
+				'intInvPID' => $ct,
+				'strInvCode' => $count,
+			    'intInvQty' => 0,
+			    'dtInvExpiry' => NULL,
+			    'intInvStatus' => 1,
+				'intInvBranch' => 1
+			]);
 
 		return Redirect::to('/products');
 	}

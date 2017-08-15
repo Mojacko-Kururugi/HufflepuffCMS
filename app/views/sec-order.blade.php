@@ -44,7 +44,7 @@
                         <td>{{ $data->created_at }}</td>
                         <td @if($data->intStatus == 1) class="green-text bold" @else class="yellow-text bold" @endif>{{ $data->strOSDesc }}</td>
                         <td>
-                        @if($data->intStatus == 2)
+                        @if($data->intStatus == 4)
                             <div class="center-btn">
                              <a class="modal-trigger waves-effect waves-light btn green darken-1 btn-small center-text" href="#{{$data->intOID}}">RECEIVE</a>
                             </div>

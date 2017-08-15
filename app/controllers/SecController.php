@@ -50,6 +50,19 @@ class SecController extends BaseController {
 	public function openSecInv() {
 		$this->doExpiryCheck();
 
+		$alls = DB::table('tblInventory')
+			->join('tblProducts', 'tblInventory.intInvPID', '=', 'tblProducts.intProdID')
+			->join('tblInvStatus', 'tblInventory.intInvStatus', '=', 'tblInvStatus.intISID')
+			->join('tblProdType', 'tblProducts.intProdType', '=', 'tblProdType.intPTID')
+			->where('tblInventory.intInvBranch', '!=', 1)
+			->groupby('tblInventory.intInvPID')
+			->selectRaw('*, sum(intInvQty) as sum')
+			->get();
+
+		$branch = DB::table('tblBranch')
+			->where('tblBranch.intBStatus', '=', 1)
+			->where('tblBranch.intBranchID', '!=', 1)
+			->get();
 
 		$ct = 1 + DB::table('tblAdjustments')
 			->count();
@@ -70,7 +83,7 @@ class SecController extends BaseController {
 			->where('tblInvStatus.intISID','!=',3)
 			->get();
 
-			return View::make('sec-inv')->with('data',$data)->with('count',$count);
+			return View::make('sec-inv')->with('data',$data)->with('count',$count)->with('alls',$alls)->with('branch',$branch);
 	}
 
 	public function openAddOrd() {

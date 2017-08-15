@@ -32,6 +32,7 @@ Route::get('/admin', 'AdminController@openAdmin');
 
 Route::get('/admin/ord', 'AdminController@openAddItem');
 Route::post('/admin/add-order', 'AdminController@addItem');
+Route::get('/admin/deliver/{id}', 'AdminController@deliverOrd');
 
 Route::get('/branches', 'AdminController@showBranches');
 Route::get('/add-branch', 'AdminController@addBranchForm');

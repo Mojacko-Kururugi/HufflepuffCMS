@@ -4,7 +4,6 @@ CREATE DATABASE CMS;
 
 USE CMS;
 
-
 CREATE TABLE tblBranch(
 	intBranchID int NOT NULL AUTO_INCREMENT,
 	strBranchName VARCHAR(100),
@@ -380,6 +379,7 @@ INSERT INTO tblSchedStatus(intSSID,strSSDesc) VALUES ('4','DONE');
 INSERT INTO tblOrdStatus(intOSID,strOSDesc) VALUES ('1','RECEIVED');
 INSERT INTO tblOrdStatus(intOSID,strOSDesc) VALUES ('2','PENDING');
 INSERT INTO tblOrdStatus(intOSID,strOSDesc) VALUES ('3','CANCELLED');
+INSERT INTO tblOrdStatus(intOSID,strOSDesc) VALUES ('4','DELIVERED');
 
 INSERT INTO tblInvStatus(intISID,strISDesc) VALUES ('1','GOOD');
 INSERT INTO tblInvStatus(intISID,strISDesc) VALUES ('2','DISCOUNTED');
@@ -391,13 +391,13 @@ INSERT INTO tblProdType(strPTDesc,intPTStatus) VALUES ('Solution','1');
 
 INSERT INTO tblUserType(intUTID,strUTDesc) VALUES ('1','Admin');
 INSERT INTO tblUserType(intUTID,strUTDesc) VALUES ('2','Optometrist');
-INSERT INTO tblUserType(intUTID,strUTDesc) VALUES ('3','Secretary');
+INSERT INTO tblUserType(intUTID,strUTDesc) VALUES ('3','Assistant');
 INSERT INTO tblUserType(intUTID,strUTDesc) VALUES ('4','Patient');
 
 INSERT INTO tblServices(strServName,strServDesc,intServStatus) VALUES ('Eye Refraction','refraction for the eye','1');
 INSERT INTO tblServices(strServName,strServDesc,intServStatus) VALUES ('Eye Check Up','check up for the eye','1');
-INSERT INTO tblServices(strServName,strServDesc,intServStatus) VALUES ('Glass/Lens Assign','assigning of lens or glasses','1');
+INSERT INTO tblServices(strServName,strServDesc,intServStatus) VALUES ('Glass/Lens Assignment','assigning of lens or glasses','1');
 
 INSERT INTO tblUserAccounts (strUEmail,strUPassword,intUID,intUType) VALUES ('admin@hufflepuff','admin123','0','1');
 
-INSERT INTO tblBranch(strBranchName,strBranchAddress,strBContactNumb,intBStatus) VALUES ('ARG Main','Quezon City','123-4567','1');
+INSERT INTO tblBranch(strBranchName,strBranchAddress,strBContactNumb,intBStatus) VALUES (	'Main Office','Quezon City','1234567','1');
