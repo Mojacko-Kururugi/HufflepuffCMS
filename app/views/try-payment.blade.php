@@ -62,27 +62,39 @@
                 </div>
              </div>
 
-            <div id="contact-lens">
-              <div class="row">
-                <label for="payment-mode">Products:</label>
-                  <select name="Products">
-                   <option value="2" disabled selected>- Choose contact lens -</option>
-                   <option>product 1</option>
-                   <option>product 2</option>
-                  </select>
-               </div>
-            </div>
+              <div id="contact-lens">
+                <div class="row">
+                  <label for="payment-mode">Products:</label>
+                    <select name="Products">
+                     <option value="2" disabled selected>- Choose contact lens -</option>
+                     <option>product 1</option>
+                     <option>product 2</option>
+                    </select>
+                 </div>
+              </div>
 
-            <div id="solution">
+              <div id="solution">
+                <div class="row">
+                  <label for="payment-mode">Products:</label>
+                    <select name="Products">
+                     <option value="2" disabled selected>- Choose solution-</option>
+                     <option>product 1</option>
+                     <option>product 2</option>
+                    </select>
+                 </div>
+              </div>
+        </div>
+
+        <div class="card-content">
               <div class="row">
-                <label for="payment-mode">Products:</label>
-                  <select name="Products">
-                   <option value="2" disabled selected>- Choose solution-</option>
-                   <option>product 1</option>
-                   <option>product 2</option>
-                  </select>
-               </div>
-            </div>
+                <div class="input-field col l6 m6 s6">
+                   <label for="qty">Quantity</label>
+                    <input id="qty" name="qty" type="text" class="validate" value="" />
+                </div>
+                <div class="col s6 m6 s6 middle">
+                    <button type="submit" class="waves-effect waves-light btn btn-green modal-btn">Add</button>
+                </div>
+              </div>
         </div>
        </div>   
     </div>
