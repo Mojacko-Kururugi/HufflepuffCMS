@@ -5,19 +5,31 @@ class AdminController extends BaseController {
 	public function openAdmin() {
 
 		$data = DB::table('tblInventory')
-			->join('tblProducts', 'tblInventory.intInvPID', '=', 'tblProducts.intProdID')
+			->join('tblItems', 'tblInventory.intInvPID', '=', 'tblItems.intItemID')
 			->join('tblInvStatus', 'tblInventory.intInvStatus', '=', 'tblInvStatus.intISID')
-			->join('tblProdType', 'tblProducts.intProdType', '=', 'tblProdType.intPTID')
+			->join('tblItemType', 'tblItems.intItemType', '=', 'tblItemType.intITID')
 			->where('tblInventory.intInvBranch', '=', 1)
 			->where('tblInventory.intInvStatus','!=',3)
+			->where('tblItemType.intITSType', '=', 1)
+			->groupby('tblInventory.intInvPID')
+			->selectRaw('*, sum(intInvQty) as sum')
+			->get();
+
+		$mat = DB::table('tblInventory')
+			->join('tblItems', 'tblInventory.intInvPID', '=', 'tblItems.intItemID')
+			->join('tblInvStatus', 'tblInventory.intInvStatus', '=', 'tblInvStatus.intISID')
+			->join('tblItemType', 'tblItems.intItemType', '=', 'tblItemType.intITID')
+			->where('tblInventory.intInvBranch', '=', 1)
+			->where('tblInventory.intInvStatus','!=',3)
+			->where('tblItemType.intITSType', '=', 2)
 			->groupby('tblInventory.intInvPID')
 			->selectRaw('*, sum(intInvQty) as sum')
 			->get();
 
 		$alls = DB::table('tblInventory')
-			->join('tblProducts', 'tblInventory.intInvPID', '=', 'tblProducts.intProdID')
+			->join('tblItems', 'tblInventory.intInvPID', '=', 'tblItems.intItemID')
 			->join('tblInvStatus', 'tblInventory.intInvStatus', '=', 'tblInvStatus.intISID')
-			->join('tblProdType', 'tblProducts.intProdType', '=', 'tblProdType.intPTID')
+			->join('tblItemType', 'tblItems.intItemType', '=', 'tblItemType.intITID')
 			->where('tblInventory.intInvBranch', '!=', 1)
 			->groupby('tblInventory.intInvPID')
 			->selectRaw('*, sum(intInvQty) as sum')
@@ -30,8 +42,8 @@ class AdminController extends BaseController {
 
 		$stock = DB::table('tblInventory')
 			->join('tblInvStatus', 'tblInventory.intInvStatus', '=', 'tblInvStatus.intISID')
-			->join('tblProducts', 'tblInventory.intInvPID', '=', 'tblProducts.intProdID')
-			->join('tblProdType', 'tblProducts.intProdType', '=', 'tblProdType.intPTID')
+			->join('tblItems', 'tblInventory.intInvPID', '=', 'tblItems.intItemID')
+			->join('tblItemType', 'tblItems.intItemType', '=', 'tblItemType.intITID')
 			->join('tblAdjustments', 'tblInventory.intInvID', '=', 'tblAdjustments.intAdjInvID')
 			->where('tblInventory.intInvBranch', '=', 1)
 			->where('tblInvStatus.intISID','!=',3)
@@ -50,15 +62,15 @@ class AdminController extends BaseController {
 
 		$ord = DB::table('tblOrders')
 			->join('tblOrderDetails', 'tblOrderDetails.intODCode', '=', 'tblOrders.intOID')
-			->join('tblProducts', 'tblOrderDetails.intOProdID', '=', 'tblProducts.intProdID')
+			->join('tblItems', 'tblOrderDetails.intOProdID', '=', 'tblItems.intItemID')
 			->join('tblOrdStatus', 'tblOrders.intStatus', '=', 'tblOrdStatus.intOSID')	
 			->join('tblBranch', 'tblOrders.intOBranch', '=', 'tblBranch.intBranchID')	
 			->get();
 
 		$prod = DB::table('tblInventory')
-			->join('tblProducts', 'tblInventory.intInvPID', '=', 'tblProducts.intProdID')
+			->join('tblItems', 'tblInventory.intInvPID', '=', 'tblItems.intItemID')
 			->join('tblInvStatus', 'tblInventory.intInvStatus', '=', 'tblInvStatus.intISID')
-			->join('tblProdType', 'tblProducts.intProdType', '=', 'tblProdType.intPTID')
+			->join('tblItemType', 'tblItems.intItemType', '=', 'tblItemType.intITID')
 			->where('tblInventory.intInvBranch', '=', 1)
 			->where('tblInventory.intInvStatus','!=',3)
 			->groupby('tblInventory.intInvPID')
@@ -72,12 +84,13 @@ class AdminController extends BaseController {
 		->with('stock',$stock)
 		->with('prod',$prod)
 		->with('alls',$alls)
-		->with('branch',$branch);
+		->with('branch',$branch)
+		->with('mat',$mat);
 	}	
 
 	public function openAddItem() {
-		$data = DB::table('tblProducts')
-			->where('tblProducts.intProdStatus', '=', 1)
+		$data = DB::table('tblItems')
+			->where('tblItems.intItemStatus', '=', 1)
 			->get();
 
 		$ct = 1 + DB::table('tblAdjustments')
@@ -151,7 +164,7 @@ class AdminController extends BaseController {
 
 		$data = DB::table('tblOrders')
 			->join('tblOrderDetails', 'tblOrderDetails.intODCode', '=', 'tblOrders.intOID')
-			->join('tblProducts', 'tblOrderDetails.intOProdID', '=', 'tblProducts.intProdID')
+			->join('tblItems', 'tblOrderDetails.intOProdID', '=', 'tblItems.intProdID')
 			->join('tblBranch', 'tblOrders.intOBranch', '=', 'tblBranch.intBranchID')
 			->where('tblOrders.intOID', '=', $id)
 			->first();
@@ -417,8 +430,8 @@ class AdminController extends BaseController {
 	}
 
 	public function openProdType() {
-		$data = DB::table('tblProdType')
-			->where('tblProdType.intPTStatus', '=', 1)
+		$data = DB::table('tblItemType')
+			->where('tblItemType.intITStatus', '=', 1)
 			->get();
 
 			return View::make('admin-product-types')->with('data',$data);
@@ -432,10 +445,10 @@ class AdminController extends BaseController {
 
 	public function addProdType() {
 
-		DB::table('tblProdType')
+		DB::table('tblItemType')
 		->insert([
-		    'strPTDesc' => Request::input('name'),
-		    'intPTStatus'  => 1
+		    'strITDesc' => Request::input('name'),
+		    'intITStatus'  => 1
 		]);
 
 		return Redirect::to('/product-type');
@@ -443,16 +456,16 @@ class AdminController extends BaseController {
 
 	public function showUpPT($id) {
 
-		$data = DB::table('tblProdType')
-			->where('tblProdType.intPTID', '=', $id)
+		$data = DB::table('tblItemType')
+			->where('tblItemType.intITID', '=', $id)
 			->first();
 
 	    return View::make('update-product-type')->with('data',$data)->with('id',$id);
 	}
 
 	public function updatePT() {
-			DB::table('tblProdType')
-				->where('tblProdType.intPTID', '=', Session::get('upId'))
+			DB::table('tblItemType')
+				->where('tblItemType.intITID', '=', Session::get('upId'))
 				->update([
 					'strPTDesc' => Request::input('name'),
 				]);
@@ -461,29 +474,36 @@ class AdminController extends BaseController {
 	}
 
 	public function deactPT($id) {
-			DB::table('tblProdType')
-				->where('tblProdType.intPTID', '=', $id)
+			DB::table('tblItemType')
+				->where('tblItemType.intITID', '=', $id)
 				->update([
-						'intPTStatus'  => 0,
+						'intITStatus'  => 0,
 				]);
 
 		return Redirect::to('/product-type');
 	}
 
 	public function openProd() {
-		$data = DB::table('tblProducts')
-			->join('tblProdType', 'tblProducts.intProdType', '=', 'tblProdType.intPTID')
-			->where('tblProducts.intProdStatus', '=', 1)
+		$data = DB::table('tblItems')
+			->join('tblItemType', 'tblItems.intItemType', '=', 'tblItemType.intITID')
+			->where('tblItems.intItemStatus', '=', 1)
+			->where('tblItemType.intITSType', '=', 1)
 			->get();
 		
-			return View::make('admin-products')->with('data',$data);
+		$mat = DB::table('tblItems')
+			->join('tblItemType', 'tblItems.intItemType', '=', 'tblItemType.intITID')
+			->where('tblItems.intItemStatus', '=', 1)
+			->where('tblItemType.intITSType', '=', 2)
+			->get();
+
+			return View::make('admin-products')->with('data',$data)->with('mat',$mat);
 	}
 
 
 	public function openAddProd() {
 		
-		$data = DB::table('tblProdType')
-			->where('tblProdType.intPTStatus', '=', 1)
+		$data = DB::table('tblItemType')
+			->where('tblItemType.intITStatus', '=', 1)
 			->get();
 
 			return View::make('add-product')->with('data',$data);
@@ -491,7 +511,7 @@ class AdminController extends BaseController {
 
 	public function addProd() {
 
-		$ct = 1 + DB::table('tblProducts')
+		$ct = 1 + DB::table('tblItems')
 			->count();
 
 		if($ct < 10)
@@ -502,14 +522,14 @@ class AdminController extends BaseController {
 			$count = "MN" . $ct;
 
 
-		DB::table('tblProducts')
+		DB::table('tblItems')
 		->insert([
-			'strProdName' 		=> Request::input('name'),
-			'strProdModel' 	=> Request::input('model'),
-			'strProdBrand' =>  Request::input('brand'),
-			'intProdType'	=> Request::input('type'),
+			'strItemName' 		=> Request::input('name'),
+			'strItemModel' 	=> Request::input('model'),
+			'strItemBrand' =>  Request::input('brand'),
+			'intItemType'	=> Request::input('type'),
 			'dcInvPPrice' => Request::input('price'),
-			'intProdStatus' => 1
+			'intItemStatus' => 1
 		]);
 
 		$ldate = date('Y-m-d H:i:s');
@@ -528,24 +548,24 @@ class AdminController extends BaseController {
 	}
 
 	public function showUpProd($id) {
-		$prod = DB::table('tblProducts')
-			->where('tblProducts.intProdID', '=', $id)
+		$prod = DB::table('tblItems')
+			->where('tblItems.intItemID', '=', $id)
 			->first();
 
-		$data = DB::table('tblProdType')
+		$data = DB::table('tblItemType')
 			->get();
 
 	    return View::make('update-product')->with('data',$data)->with('prod',$prod)->with('id',$id);
 	}
 
 	public function updateProd() {
-			DB::table('tblProducts')
-				->where('tblProducts.intProdID', '=', Session::get('upId'))
+			DB::table('tblItems')
+				->where('tblItems.intItemID', '=', Session::get('upId'))
 				->update([
-					'strProdName' 		=> Request::input('name'),
-					'strProdModel' 	=> Request::input('model'),
-					'strProdBrand' =>  Request::input('brand'),
-					'intProdType'	=> Request::input('type'),
+					'strItemName' 		=> Request::input('name'),
+					'strItemModel' 	=> Request::input('model'),
+					'strItemBrand' =>  Request::input('brand'),
+					'intItemType'	=> Request::input('type'),
 					'dcInvPPrice' => Request::input('price')
 				]);
 
@@ -553,10 +573,10 @@ class AdminController extends BaseController {
 	}
 
 	public function deactProd($id) {
-			DB::table('tblProducts')
-				->where('tblProducts.intProdID', '=', $id)
+			DB::table('tblItems')
+				->where('tblItems.intItemID', '=', $id)
 				->update([
-					'intProdStatus' => 0,
+					'intItemStatus' => 0,
 				]);
 
 	    return Redirect::to('/products');

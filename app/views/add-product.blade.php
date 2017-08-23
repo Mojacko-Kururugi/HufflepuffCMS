@@ -42,7 +42,7 @@
                         <select class="initialized browser-default" name="type" id="type" data-error=".school_error">
                           <option value="" disabled selected>Type</option>
                           @foreach($data as $data)
-                            <option value="{{ $data->intPTID}}" @if(Input::old('type') == $data->intPTID) selected="selected" @endif>{{ $data->strPTDesc}}</option>
+                            <option value="{{ $data->intITID}}" @if(Input::old('type') == $data->intITID) selected="selected" @endif>{{ $data->strITDesc}}</option>
                           @endforeach
                         </select>
                        <div class="school_error"></div>

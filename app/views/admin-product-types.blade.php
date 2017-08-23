@@ -5,7 +5,7 @@
 <!-- header -->
 <div class="row page-title">
   <div class="col s12 m12 l12">
-    <h5>Product Types</h5>
+    <h5>Item Types</h5>
   </div>
 </div>
 
@@ -16,7 +16,7 @@
       <div class="card-content">
         <div class="row">
           <div class="col s12 m12 l6">
-                <a class="waves-effect waves-light btn blue darken-1 btn-small center-text" href="/product-type/add-pt">ADD NEW PRODUCT TYPE</a>
+                <a class="waves-effect waves-light btn blue darken-1 btn-small center-text" href="/product-type/add-pt">ADD NEW ITEM TYPE</a>
           </div>
         </div>
 
@@ -26,19 +26,25 @@
               <table id="example" class="mdl-data-table" cellspacing="0" width="100%">
                 <thead>
                     <tr>
-                        <th>Product Type Name</th>
+                        <th>Item Sub Type</th>
+                        <th>Item Super Type</th>
                         <th>Date Created</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
                 @foreach($data as $data)
                       <tr>
-                        <td>{{ $data->strPTDesc }}</td>
+                        <td>{{ $data->strITDesc }}</td>
+                        @if($data->intITSType == 1)
+                        <td>Product</td>
+                        @else
+                        <td>Raw Material</td>
+                        @endif
                         <td>{{ $data->dtPTDateCreated }}</td>
                         <td>
                             <div class="center-btn">
-                             <a class="waves-effect waves-light btn green darken-1 btn-small center-text" href="product-type/{{$data->intPTID}}">UPDATE</a>
-                             <a class="waves-effect waves-light btn red lighten-1 btn-small center-text" href="delete-pt/{{$data->intPTID}}">DELETE</a>
+                             <a class="waves-effect waves-light btn green darken-1 btn-small center-text" href="product-type/{{$data->intITID}}">UPDATE</a>
+                             <a class="waves-effect waves-light btn red lighten-1 btn-small center-text" href="delete-pt/{{$data->intITID}}">DELETE</a>
                             </div>
                         </td>
                     </tr>

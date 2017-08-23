@@ -24,7 +24,7 @@
                         <select class="initialized browser-default" name="name" id="name" data-error=".school_error">
                           <option value="" disabled selected>Product Name</option>
                           @foreach($data as $data)
-                            <option value="{{ $data->intProdID}}" @if(Input::old('product') == $data->intProdID) selected="selected" @endif>{{ $data->strProdName . ' - ' . $data->strProdModel}}</option>
+                            <option value="{{ $data->intItemID}}" @if(Input::old('product') == $data->intItemID) selected="selected" @endif>{{ $data->strItemName . ' - ' . $data->strItemModel}}</option>
                           @endforeach
                         </select>
                        <div class="school_error"></div>

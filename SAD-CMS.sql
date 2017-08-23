@@ -22,13 +22,15 @@ CREATE TABLE tblUserType(
     PRIMARY KEY(intUTID)
 )Engine=InnoDb;
 
-CREATE TABLE tblProdType(
-	intPTID int NOT NULL AUTO_INCREMENT,
-    strPTDesc VARCHAR(20),
-    intPTStatus INT,
+CREATE TABLE tblItemType(
+	intITID int NOT NULL AUTO_INCREMENT,
+    strITDesc VARCHAR(20),
+    intITSType INT,
+    intITStatus INT,
+    intIsPerishable INT,
 	dtPTDateCreated TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     
-    PRIMARY KEY(intPTID)
+    PRIMARY KEY(intITID)
 )Engine=InnoDb;
 
 CREATE TABLE tblInvStatus(
@@ -168,18 +170,18 @@ CREATE TABLE tblServices(
     PRIMARY KEY(intServID)
 )Engine=InnoDb;
 
-CREATE TABLE tblProducts(
-	intProdID int NOT NULL AUTO_INCREMENT,
-    strProdName VARCHAR(50),
-    strProdModel VARCHAR(50),
-    strProdBrand VARCHAR(50),
-    intProdType INT(3),
+CREATE TABLE tblItems(
+	intItemID int NOT NULL AUTO_INCREMENT,
+    strItemName VARCHAR(50),
+    strItemModel VARCHAR(50),
+    strItemBrand VARCHAR(50),
+    intItemType INT(3),
 	dcInvPPrice DECIMAL(18,2),
-    intProdStatus INT(2),
+    intItemStatus INT(2),
     
-    PRIMARY KEY (intProdID),
-	FOREIGN KEY(intProdType)
-    REFERENCES tblProdType(intPTID)
+    PRIMARY KEY (intItemID),
+	FOREIGN KEY(intItemType)
+    REFERENCES tblItemType(intITID)
 )Engine=InnoDb;
 
 CREATE TABLE tblInventory(
@@ -193,7 +195,7 @@ CREATE TABLE tblInventory(
     
     PRIMARY KEY(intInvID),
     FOREIGN KEY(intInvPID)
-    REFERENCES tblProducts(intProdID),
+    REFERENCES tblItems(intItemID),
 	FOREIGN KEY(intInvBranch)
     REFERENCES tblBranch(intBranchID),
     FOREIGN KEY(intInvStatus)
@@ -250,7 +252,7 @@ CREATE TABLE tblOrderDetails(
     intOQty INT(100),
     
     FOREIGN KEY(intOProdID)
-    REFERENCES tblProducts(intProdID),
+    REFERENCES tblItems(intItemID),
 	FOREIGN KEY(intODCode)
     REFERENCES tblOrders(intOID)
 )Engine=InnoDb;
@@ -378,16 +380,21 @@ INSERT INTO tblSchedStatus(intSSID,strSSDesc) VALUES ('4','DONE');
 
 INSERT INTO tblOrdStatus(intOSID,strOSDesc) VALUES ('1','RECEIVED');
 INSERT INTO tblOrdStatus(intOSID,strOSDesc) VALUES ('2','PENDING');
-INSERT INTO tblOrdStatus(intOSID,strOSDesc) VALUES ('3','CANCELLED');
+INSERT INTO tblOrdStatus(intOSID,strOSDesc) VALUES ('3','CANCELLED');	
 INSERT INTO tblOrdStatus(intOSID,strOSDesc) VALUES ('4','DELIVERED');
 
 INSERT INTO tblInvStatus(intISID,strISDesc) VALUES ('1','GOOD');
 INSERT INTO tblInvStatus(intISID,strISDesc) VALUES ('2','DISCOUNTED');
 INSERT INTO tblInvStatus(intISID,strISDesc) VALUES ('3','EXPIRED');
 
-INSERT INTO tblProdType(strPTDesc,intPTStatus) VALUES ('Glasses','1');
-INSERT INTO tblProdType(strPTDesc,intPTStatus) VALUES ('Contact Lens','1');
-INSERT INTO tblProdType(strPTDesc,intPTStatus) VALUES ('Solution','1');
+INSERT INTO tblItemType(strITDesc,intITSType,intITStatus,intIsPerishable) VALUES ('Frames','2','1','0');
+INSERT INTO tblItemType(strITDesc,intITSType,intITStatus,intIsPerishable) VALUES ('Lenses','2','1','0');
+INSERT INTO tblItemType(strITDesc,intITSType,intITStatus,intIsPerishable) VALUES ('Screws','2','1','0');
+INSERT INTO tblItemType(strITDesc,intITSType,intITStatus,intIsPerishable) VALUES ('Nose Pads','2','1','0');
+INSERT INTO tblItemType(strITDesc,intITSType,intITStatus,intIsPerishable) VALUES ('Temples','2','1','0');
+INSERT INTO tblItemType(strITDesc,intITSType,intITStatus,intIsPerishable) VALUES ('Glasses','1','1','0');
+INSERT INTO tblItemType(strITDesc,intITSType,intITStatus,intIsPerishable) VALUES ('Contact Lens','1','1','1');
+INSERT INTO tblItemType(strITDesc,intITSType,intITStatus,intIsPerishable) VALUES ('Solution','1','1','1');
 
 INSERT INTO tblUserType(intUTID,strUTDesc) VALUES ('1','Admin');
 INSERT INTO tblUserType(intUTID,strUTDesc) VALUES ('2','Optometrist');

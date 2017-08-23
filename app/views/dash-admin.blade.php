@@ -21,7 +21,7 @@
                 <a class="modal-trigger waves-effect waves-light btn btn-flat right btn-small center-text" href="{{ URL::to('/reports') }}">Generate Report</a>
           </div>
         </div>
-
+        <h5>Products</h5>
         <div id="allbranch" class="modal modal-fixed-footer">
                                 <div class="modal-content col 6">
                                   <h4>Inventories on other Branches</h4>
@@ -45,10 +45,10 @@
                                                       @foreach($alls as $all)
                                                           @if($branch->intBranchID == $all->intInvBranch)
                                                          <tr>
-                                                              <td>{{ $all->strProdBrand}}</td>
-                                                              <td>{{ $all->strProdName }}</td>
-                                                              <td>{{ $all->strProdModel }}</td>
-                                                              <td>{{ $all->strPTDesc }}</td>
+                                                              <td>{{ $all->strItemBrand}}</td>
+                                                              <td>{{ $all->strItemName }}</td>
+                                                              <td>{{ $all->strItemModel }}</td>
+                                                              <td>{{ $all->strITDesc }}</td>
                                                               <td>{{ $all->dcInvPPrice }}</td>
                                                               <td>{{ $all->sum }}</td>
                                                               @if($all->dtInvExpiry == NULL)
@@ -97,10 +97,10 @@
                 <tbody>
                 @foreach($data as $data)
                       <tr>
-                        <td>{{$data->strProdBrand}}</td>
-                        <td>{{ $data->strProdName }}</td>
-                        <td>{{ $data->strProdModel }}</td>
-                        <td>{{ $data->strPTDesc }}</td>
+                        <td>{{$data->strItemBrand}}</td>
+                        <td>{{ $data->strItemName }}</td>
+                        <td>{{ $data->strItemModel }}</td>
+                        <td>{{ $data->strITDesc }}</td>
                         <td>{{ $data->dcInvPPrice }}</td>
                         <td>{{ $data->sum }}</td>
                         @if($data->dtInvExpiry == NULL)
@@ -116,7 +116,7 @@
                         <td class="red-text bold">{{ $data->strISDesc }}</td>
                         @endif
                         <td>
-                            @if($data->intProdType != 1)
+                            @if($data->intItemType != 1)
                             <a class="modal-trigger waves-effect waves-light btn green darken-1 btn-small center-text" href="#{{$data->intInvID}}">EXPIRATION</a>
                             @endif
                              <a class="modal-trigger waves-effect waves-light btn green darken-1 btn-small center-text" href="#{{$data->intInvID}}/stocks">STOCK CARD</a>
@@ -126,7 +126,7 @@
                               <!-- Modal Structure -->
                               <div id="{{$data->intInvID}}" class="modal modal-fixed-footer">
                                 <div class="modal-content col 6">
-                                  <h4>Expiration for {{$data->strProdName}} - {{$data->strInvCode}}</h4>
+                                  <h4>Expiration for {{$data->strItemName}} - {{$data->strInvCode}}</h4>
                                   <p>
                                   <form action="/adjust/{{$data->intInvID}}" method="POST">
                                              <br>
@@ -150,11 +150,82 @@
                 </tbody>
               </table>
             <br>
+            <h5>Materials</h5>
+            <table id="example1" class="mdl-data-table" cellspacing="0" width="100%">
+                <thead>
+                    <tr>
+                        <th>Product Brand</th>
+                        <th>Product Name</th>
+                        <th>Product Model</th>
+                        <th>Product Type</th>
+                        <th>Price</th>
+                        <th>Available Stock</th>
+                        <th>Expiry Date</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                @foreach($mat as $data)
+                      <tr>
+                        <td>{{$data->strItemBrand}}</td>
+                        <td>{{ $data->strItemName }}</td>
+                        <td>{{ $data->strItemModel }}</td>
+                        <td>{{ $data->strITDesc }}</td>
+                        <td>{{ $data->dcInvPPrice }}</td>
+                        <td>{{ $data->sum }}</td>
+                        @if($data->dtInvExpiry == NULL)
+                        <td>N/A</td>
+                        @else
+                        <td>{{ $data->dtInvExpiry }}</td>
+                        @endif 
+                        @if($data->intISID == 1)
+                        <td class="green-text bold">{{ $data->strISDesc }}</td>
+                        @elseif($data->intISID == 2)
+                        <td class="yellow-text bold">{{ $data->strISDesc }}</td>
+                        @elseif($data->intISID == 3)
+                        <td class="red-text bold">{{ $data->strISDesc }}</td>
+                        @endif
+                        <td>
+                            @if($data->intItemType != 1)
+                            <a class="modal-trigger waves-effect waves-light btn green darken-1 btn-small center-text" href="#{{$data->intInvID}}">EXPIRATION</a>
+                            @endif
+                             <a class="modal-trigger waves-effect waves-light btn green darken-1 btn-small center-text" href="#{{$data->intInvID}}/stocks">STOCK CARD</a>
+                        </td>
+
+
+                              <!-- Modal Structure -->
+                              <div id="{{$data->intInvID}}" class="modal modal-fixed-footer">
+                                <div class="modal-content col 6">
+                                  <h4>Expiration for {{$data->strItemName}} - {{$data->strInvCode}}</h4>
+                                  <p>
+                                  <form action="/adjust/{{$data->intInvID}}" method="POST">
+                                             <br>
+                                          <div class="row">
+                                            <div class="col s12 m8 l6">
+                                              <label for="date">Choose Expiry Date</label>
+                                              <input id="date" name="date" type="date" class="datepicker" style="height:39px" value="">
+                                            </div>
+                                          </div> 
+                                  </p>
+                                </div>
+                                <div class="modal-footer col 6">
+                                  <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat ">CANCEL</a>
+                                  <button type="submit" class="waves-effect waves-green btn-flat ">SUBMIT</button>
+                                </div>
+                                </form>
+                              </div>
+
+                    </tr>
+                   @endforeach 
+                </tbody>
+              </table>
+              <br>
                             @foreach($prod as $prod)
                                                         <!-- Modal Structure -->
                               <div id="{{$prod->intInvID}}/stocks" class="modal modal-fixed-footer">
                                 <div class="modal-content col 6">
-                                  <h4>Stock Card for {{$prod->strProdName}} - {{$prod->strProdModel}}</h4>
+                                  <h4>Stock Card for {{$prod->strItemName}} - {{$prod->strItemModel}}</h4>
                                   <p>
                                                       <table class="centered table-fixed">
                                                       <thead>
@@ -168,15 +239,15 @@
                                                       </thead>
                                                       <tbody>
                                                       @foreach($stock as $data)
-                                                            @if($prod->intProdID == $data->intProdID)
+                                                            @if($prod->intItemID == $data->intItemID)
                                                             <tr>
                                                               <td>{{ $data->dtAdjDate }}</td>
                                                               <td>{{ $data->strAdjCode }}</td>
                                                               <td>{{ $data->intAdjQty }}</td>
                                                               @if($data->intAdjStatus == 1)
-                                                              <td class="blue-text bold">Increase</td>
+                                                              <td class="blue-text bold">Acquired</td>
                                                               @else
-                                                              <td class="red-text bold">Decrease</td>
+                                                              <td class="red-text bold">Released</td>
                                                               @endif
                                                               <td>{{ $data->strAdjReason }}</td>
                                                           </tr>
@@ -272,6 +343,21 @@
   <script type="text/javascript">
 $(document).ready(function() {
     $('#example').DataTable( {
+        columnDefs: [
+            {
+                targets: [ 0, 1, 2 ],
+                className: 'mdl-data-table__cell--non-numeric'
+            }
+        ],
+        "aLengthMenu": [[25, 50, 75, -1], [25, 50, 75, "All"]],
+        "iDisplayLength": 25,
+        "paging":   true,
+        "ordering": true,
+        "info":     true
+
+    } );
+
+     $('#example1').DataTable( {
         columnDefs: [
             {
                 targets: [ 0, 1, 2 ],

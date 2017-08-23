@@ -64,13 +64,13 @@
               <li class="bold {{ strpos(Request::url(), 'product-type') !== false ? 'active' : '' }}">
 			       <a href="/product-type" class="row">
 				        <span class="col l3 m6 s12">{{ HTML::image('img/product type.png', 'product type', array('class' => 'responsive-img circle')) }}</span>
-				        <span  class="col l7 m6 s12">Product Types</span>
+				        <span  class="col l7 m6 s12">Item Types</span>
 				   </a>
 			  </li>
               <li class="bold {{ strpos(Request::url(), 'products') !== false ? 'active' : '' }}">
 			       <a href="/products" class="row">
 				         <span class="col l3 m6 s12">{{ HTML::image('img/products.png', 'products', array('class' => 'responsive-img circle')) }}</span>
-				        <span  class="col l7 m6 s12">Products</span>
+				        <span  class="col l7 m6 s12">Products/Materials</span>
 				   </a>
 			 </li>
               <li class="bold {{ strpos(Request::url(), 'services') !== false ? 'active' : '' }}">
