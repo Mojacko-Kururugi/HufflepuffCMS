@@ -448,6 +448,8 @@ class AdminController extends BaseController {
 		DB::table('tblItemType')
 		->insert([
 		    'strITDesc' => Request::input('name'),
+		    'intITSType'  => Request::input('stype'),
+		    'intIsPerishable'  => Request::input('exp'),
 		    'intITStatus'  => 1
 		]);
 
@@ -504,9 +506,20 @@ class AdminController extends BaseController {
 		
 		$data = DB::table('tblItemType')
 			->where('tblItemType.intITStatus', '=', 1)
+			->where('tblItemType.intITSType', '=', 1)
 			->get();
 
 			return View::make('add-product')->with('data',$data);
+	}
+
+	public function openAddMat() {
+		
+		$data = DB::table('tblItemType')
+			->where('tblItemType.intITStatus', '=', 1)
+			->where('tblItemType.intITSType', '=', 2)
+			->get();
+
+			return View::make('add-material')->with('data',$data);
 	}
 
 	public function addProd() {

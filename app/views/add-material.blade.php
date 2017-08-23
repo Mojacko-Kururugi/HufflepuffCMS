@@ -4,7 +4,7 @@
 
   <div class="row"><br>
     <div class="center col l12 m12 s12">
-      <h3>Add New Product</h3>
+      <h3>Add New Material</h3>
 
     </div>
   </div>
@@ -12,7 +12,7 @@
   <div class="contents z-depth-1">
     <div class="container">
       <form action="{{ URL::to('/products/add-prod') }}" method="POST" id="signup_validate" enctype="multipart/form-data"><br><br>
-                          
+
                            <div class="input-field col l6 m6 s12">
                         <select class="initialized browser-default" name="type" id="type" data-error=".school_error">
                           <option value="" disabled selected>Type</option>
@@ -25,22 +25,17 @@
 
         <div class="row">
               <div class="input-field col l12 m8 s12">
-                <label for="brand">Product Brand</label>
-                <input id="brand" name="brand" type="text" class="validate" value="" />
-              </div>
-        </div>
-        <div class="row">
-              <div class="input-field col l12 m8 s12">
-                <label for="name">Product Name</label>
+                <label for="name">Material Name</label>
                 <input id="name" name="name" type="text" class="validate" value="" />
               </div>
         </div>
         <div class="row">
               <div class="input-field col l12 m8 s12">
-                <label for="model">Product Description</label>
+                <label for="model">Material Description</label>
                 <input id="model" name="model" type="text" class="validate" value="" />
               </div>
         </div>
+
         <div class="row">
               <div class="form-group col l6 ">
                 <label for="price">Price per piece</label>

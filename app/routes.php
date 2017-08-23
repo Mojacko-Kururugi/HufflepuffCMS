@@ -69,6 +69,8 @@ Route::get('/products/{id}', 'AdminController@showUpProd');
 Route::post('/products/update-prod','AdminController@updateProd' );
 Route::get('delete-prod/{id}','AdminController@deactProd');
 
+Route::get('/materials/add', 'AdminController@openAddMat');
+
 Route::get('/services', 'AdminController@openServ');
 Route::get('/services/add-serv', 'AdminController@openAddServ');
 Route::post('/services/save-serv','AdminController@addServ' );

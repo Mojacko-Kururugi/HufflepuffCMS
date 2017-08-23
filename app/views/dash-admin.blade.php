@@ -21,7 +21,7 @@
                 <a class="modal-trigger waves-effect waves-light btn btn-flat right btn-small center-text" href="{{ URL::to('/reports') }}">Generate Report</a>
           </div>
         </div>
-        <h5>Products</h5>
+        <h5> Products</h5>
         <div id="allbranch" class="modal modal-fixed-footer">
                                 <div class="modal-content col 6">
                                   <h4>Inventories on other Branches</h4>
@@ -33,7 +33,7 @@
                                                           <tr>
                                                               <th>Product Brand</th>
                                                               <th>Product Name</th>
-                                                              <th>Product Model</th>
+                                                              <th>Product Description</th>
                                                               <th>Product Type</th>
                                                               <th>Price</th>
                                                               <th>Available Stock</th>
@@ -85,7 +85,7 @@
                     <tr>
                         <th>Product Brand</th>
                         <th>Product Name</th>
-                        <th>Product Model</th>
+                        <th>Product Description</th>
                         <th>Product Type</th>
                         <th>Price</th>
                         <th>Available Stock</th>
@@ -116,7 +116,7 @@
                         <td class="red-text bold">{{ $data->strISDesc }}</td>
                         @endif
                         <td>
-                            @if($data->intItemType != 1)
+                            @if($data->intIsPerishable == 1)
                             <a class="modal-trigger waves-effect waves-light btn green darken-1 btn-small center-text" href="#{{$data->intInvID}}">EXPIRATION</a>
                             @endif
                              <a class="modal-trigger waves-effect waves-light btn green darken-1 btn-small center-text" href="#{{$data->intInvID}}/stocks">STOCK CARD</a>
@@ -154,10 +154,9 @@
             <table id="example1" class="mdl-data-table" cellspacing="0" width="100%">
                 <thead>
                     <tr>
-                        <th>Product Brand</th>
-                        <th>Product Name</th>
-                        <th>Product Model</th>
-                        <th>Product Type</th>
+                        <th>Material Name</th>
+                        <th>Material Description</th>
+                        <th>Material Type</th>
                         <th>Price</th>
                         <th>Available Stock</th>
                         <th>Expiry Date</th>
@@ -168,7 +167,6 @@
                 <tbody>
                 @foreach($mat as $data)
                       <tr>
-                        <td>{{$data->strItemBrand}}</td>
                         <td>{{ $data->strItemName }}</td>
                         <td>{{ $data->strItemModel }}</td>
                         <td>{{ $data->strITDesc }}</td>
@@ -187,35 +185,8 @@
                         <td class="red-text bold">{{ $data->strISDesc }}</td>
                         @endif
                         <td>
-                            @if($data->intItemType != 1)
-                            <a class="modal-trigger waves-effect waves-light btn green darken-1 btn-small center-text" href="#{{$data->intInvID}}">EXPIRATION</a>
-                            @endif
                              <a class="modal-trigger waves-effect waves-light btn green darken-1 btn-small center-text" href="#{{$data->intInvID}}/stocks">STOCK CARD</a>
                         </td>
-
-
-                              <!-- Modal Structure -->
-                              <div id="{{$data->intInvID}}" class="modal modal-fixed-footer">
-                                <div class="modal-content col 6">
-                                  <h4>Expiration for {{$data->strItemName}} - {{$data->strInvCode}}</h4>
-                                  <p>
-                                  <form action="/adjust/{{$data->intInvID}}" method="POST">
-                                             <br>
-                                          <div class="row">
-                                            <div class="col s12 m8 l6">
-                                              <label for="date">Choose Expiry Date</label>
-                                              <input id="date" name="date" type="date" class="datepicker" style="height:39px" value="">
-                                            </div>
-                                          </div> 
-                                  </p>
-                                </div>
-                                <div class="modal-footer col 6">
-                                  <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat ">CANCEL</a>
-                                  <button type="submit" class="waves-effect waves-green btn-flat ">SUBMIT</button>
-                                </div>
-                                </form>
-                              </div>
-
                     </tr>
                    @endforeach 
                 </tbody>

@@ -14,10 +14,30 @@
       <form action="{{ URL::to('/product-type/save') }}" method="POST" id="signup_validate" enctype="multipart/form-data"><br><br>
         <div class="row">
               <div class="input-field col l12 m8 s12">
-                <label for="name">Product Type Name</label>
+                <label for="name">Item Type Name</label>
                 <input id="name" name="name" type="text" class="validate" value="" />
               </div>
         </div>
+
+            <div class="row">
+              <div class="col s6">
+                <label for="stype">Item Super Type:</label>
+                <select name="stype" id="stype">
+                   <option value="0" disabled selected>- select -</option>
+                   <option value="1">Product</option>
+                   <option value="2">Raw Material</option>
+                </select>
+              </div> 
+
+              <div class="row">
+              <div class="col s6">
+                <label for="exp">Is Expirable?:</label>
+                <select name="exp" id="exp">
+                   <option value="2" disabled selected>- select -</option>
+                   <option value="1">Yes</option>
+                   <option value="0">No</option>
+                </select>
+              </div> 
 
             <div class="row">
               <div class="input-field col l12 s12 center">

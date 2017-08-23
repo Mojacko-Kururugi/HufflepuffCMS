@@ -33,7 +33,7 @@
                                                           <tr>
                                                               <th>Product Brand</th>
                                                               <th>Product Name</th>
-                                                              <th>Product Model</th>
+                                                              <th>Product Description</th>
                                                               <th>Product Type</th>
                                                               <th>Price</th>
                                                               <th>Available Stock</th>
@@ -45,10 +45,10 @@
                                                       @foreach($alls as $all)
                                                           @if($branch->intBranchID == $all->intInvBranch)
                                                          <tr>
-                                                              <td>{{ $all->strProdBrand}}</td>
-                                                              <td>{{ $all->strProdName }}</td>
-                                                              <td>{{ $all->strProdModel }}</td>
-                                                              <td>{{ $all->strPTDesc }}</td>
+                                                              <td>{{ $all->strItemBrand}}</td>
+                                                              <td>{{ $all->strItemName }}</td>
+                                                              <td>{{ $all->strItemModel }}</td>
+                                                              <td>{{ $all->strITDesc }}</td>
                                                               <td>{{ $all->dcInvPPrice }}</td>
                                                               <td>{{ $all->sum }}</td>
                                                               @if($all->dtInvExpiry == NULL)
@@ -85,7 +85,7 @@
                     <tr>
                         <th>Serial Code</th>
                         <th>Product Name</th>
-                        <th>Product Model</th>
+                        <th>Product Description</th>
                         <th>Product Type</th>
                         <th>Price</th>
                         <th>Available Stock</th>
@@ -97,9 +97,9 @@
                 @foreach($data as $data)
                       <tr>
                         <td>{{ $data->strInvCode }}</td>
-                        <td>{{ $data->strProdName }}</td>
-                        <td>{{ $data->strProdModel }}</td>
-                        <td>{{ $data->strPTDesc }}</td>
+                        <td>{{ $data->strItemName }}</td>
+                        <td>{{ $data->strItemModel }}</td>
+                        <td>{{ $data->strITDesc }}</td>
                         <td>{{ $data->dcInvPPrice }}</td>
                         <td>{{ $data->intInvQty }}</td>
                         @if($data->dtInvExpiry == NULL)

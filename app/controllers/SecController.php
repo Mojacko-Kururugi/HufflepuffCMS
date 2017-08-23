@@ -39,7 +39,7 @@ class SecController extends BaseController {
 			->join('tblConsultationRecords', 'tblServiceHeader.strSHCode','=','tblConsultationRecords.strCRHeaderCode')
 			->join('tblServiceDetails', 'tblServiceHeader.strSHCode','=','tblServiceDetails.strHeaderCode')
 			->join('tblInventory', 'tblServiceDetails.intHInvID','=','tblInventory.intInvID')
-			->join('tblProducts','tblInventory.intInvPID','=','tblProducts.intProdID')
+			->join('tblItems','tblInventory.intInvPID','=','tblItems.intItemID')
 			->where('tblInventory.intInvBranch', '=', Session::get('user_bc'))
 			->get();
 
@@ -51,9 +51,9 @@ class SecController extends BaseController {
 		$this->doExpiryCheck();
 
 		$alls = DB::table('tblInventory')
-			->join('tblProducts', 'tblInventory.intInvPID', '=', 'tblProducts.intProdID')
+			->join('tblItems', 'tblInventory.intInvPID', '=', 'tblItems.intItemID')
 			->join('tblInvStatus', 'tblInventory.intInvStatus', '=', 'tblInvStatus.intISID')
-			->join('tblProdType', 'tblProducts.intProdType', '=', 'tblProdType.intPTID')
+			->join('tblItemType', 'tblItems.intItemType', '=', 'tblItemType.intITID')
 			->where('tblInventory.intInvBranch', '!=', 1)
 			->groupby('tblInventory.intInvPID')
 			->selectRaw('*, sum(intInvQty) as sum')
@@ -77,8 +77,8 @@ class SecController extends BaseController {
 
 		$data = DB::table('tblInventory')
 			->join('tblInvStatus', 'tblInventory.intInvStatus', '=', 'tblInvStatus.intISID')
-			->join('tblProducts', 'tblInventory.intInvPID', '=', 'tblProducts.intProdID')
-			->join('tblProdType', 'tblProducts.intProdType', '=', 'tblProdType.intPTID')
+			->join('tblItems', 'tblInventory.intInvPID', '=', 'tblItems.intItemID')
+			->join('tblItemType', 'tblItems.intItemType', '=', 'tblItemType.intITID')
 			->where('tblInventory.intInvBranch', '=', Session::get('user_bc'))
 			->where('tblInvStatus.intISID','!=',3)
 			->get();
@@ -87,8 +87,8 @@ class SecController extends BaseController {
 	}
 
 	public function openAddOrd() {
-		$data = DB::table('tblProducts')
-			->where('tblProducts.intProdStatus', '=', 1)
+		$data = DB::table('tblItems')
+			->where('tblItems.intItemStatus', '=', 1)
 			->get();
 
 		$ct = 1 + DB::table('tblOrders')
@@ -107,7 +107,7 @@ class SecController extends BaseController {
 	public function openOrdList() {
 		$data = DB::table('tblOrders')
 			->join('tblOrderDetails', 'tblOrderDetails.intODCode', '=', 'tblOrders.intOID')
-			->join('tblProducts', 'tblOrderDetails.intOProdID', '=', 'tblProducts.intProdID')
+			->join('tblItems', 'tblOrderDetails.intOProdID', '=', 'tblItems.intItemID')
 			->join('tblOrdStatus', 'tblOrders.intStatus', '=', 'tblOrdStatus.intOSID')
 			->where('tblOrders.intOBranch', '=', Session::get('user_bc'))		
 			->get();
@@ -200,7 +200,7 @@ class SecController extends BaseController {
 	public function openSecAdj() {
 		$data = DB::table('tblInventory')
 			->join('tblInvStatus', 'tblInventory.intInvStatus', '=', 'tblInvStatus.intISID')
-			->join('tblProducts', 'tblInventory.intInvPID', '=', 'tblProducts.intProdID')
+			->join('tblItems', 'tblInventory.intInvPID', '=', 'tblItems.intItemID')
 			->join('tblAdjustments', 'tblInventory.intInvID', '=', 'tblAdjustments.intAdjInvID')
 			->where('tblInventory.intInvBranch', '=', Session::get('user_bc'))
 			->get();
@@ -217,7 +217,7 @@ class SecController extends BaseController {
 			->join('tblServiceDetails', 'tblServiceHeader.strSHCode','=','tblServiceDetails.strHeaderCode')
 			->join('tblWarranty', 'tblServiceDetails.intHWarranty','=','tblWarranty.intWID')
 			->join('tblInventory', 'tblServiceDetails.intHInvID','=','tblInventory.intInvID')
-			->join('tblProducts','tblInventory.intInvPID','=','tblProducts.intProdID')
+			->join('tblItems','tblInventory.intInvPID','=','tblItems.intItemID')
 			->where('tblInventory.intInvBranch', '=', Session::get('user_bc'))
 			->get();
 
@@ -243,7 +243,7 @@ class SecController extends BaseController {
 			->join('tblServiceStatus', 'tblServiceHeader.intSHStatus','=','tblServiceStatus.intServStatID')
 			->join('tblServiceDetails', 'tblServiceHeader.strSHCode','=','tblServiceDetails.strHeaderCode')
 			->join('tblInventory', 'tblServiceDetails.intHInvID','=','tblInventory.intInvID')
-			->join('tblProducts','tblInventory.intInvPID','=','tblProducts.intProdID')
+			->join('tblItems','tblInventory.intInvPID','=','tblItems.intItemID')
 			->where('tblInventory.intInvBranch', '=', Session::get('user_bc'))
 			->get();
 
@@ -323,8 +323,8 @@ class SecController extends BaseController {
 
 		$data = DB::table('tblInventory')
 			->join('tblInvStatus', 'tblInventory.intInvStatus', '=', 'tblInvStatus.intISID')
-			->join('tblProducts', 'tblInventory.intInvPID', '=', 'tblProducts.intProdID')
-			->join('tblProdType', 'tblProducts.intProdType', '=', 'tblProdType.intPTID')
+			->join('tblItems', 'tblInventory.intInvPID', '=', 'tblItems.intItemID')
+			->join('tblItemType', 'tblItems.intItemType', '=', 'tblItemType.intITID')
 			->where('tblInventory.intInvBranch', '=', Session::get('user_bc'))
 			->where('tblInvStatus.intISID','=',3)
 			->get();

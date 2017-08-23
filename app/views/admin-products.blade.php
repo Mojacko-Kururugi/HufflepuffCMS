@@ -27,8 +27,8 @@
                 <thead>
                     <tr>
                         <th>Product Name</th>
-                        <th>Product Model</th>
                         <th>Product Brand</th>
+                        <th>Product Description</th>
                         <th>Product Type</th>
                         <th>Actions</th>
                     </tr>
@@ -36,8 +36,8 @@
                 @foreach($data as $data)
                       <tr>
                         <td>{{ $data->strItemName }}</td>
-                        <td>{{ $data->strItemModel }}</td>
                         <td>{{ $data->strItemBrand }}</td>
+                        <td>{{ $data->strItemModel }}</td>
                         <td>{{ $data->strITDesc }}</td>
                         <td>
                             <div class="center-btn">
@@ -62,7 +62,7 @@
       <div class="card-content">
         <div class="row">
           <div class="col s12 m12 l6">
-                <a class="waves-effect waves-light btn blue darken-1 btn-small center-text" href="/products/add">ADD NEW MATERIAL</a>
+                <a class="waves-effect waves-light btn blue darken-1 btn-small center-text" href="/materials/add">ADD NEW MATERIAL</a>
           </div>
         </div>
 
@@ -73,8 +73,7 @@
                 <thead>
                     <tr>
                         <th>Material Name</th>
-                        <th>Material Model</th>
-                        <th>Material Brand</th>
+                        <th>Material Description</th>
                         <th>Material Type</th>
                         <th>Actions</th>
                     </tr>
@@ -83,7 +82,6 @@
                       <tr>
                         <td>{{ $data->strItemName }}</td>
                         <td>{{ $data->strItemModel }}</td>
-                        <td>{{ $data->strItemBrand }}</td>
                         <td>{{ $data->strITDesc }}</td>
                         <td>
                             <div class="center-btn">
