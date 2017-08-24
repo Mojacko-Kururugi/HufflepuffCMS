@@ -89,8 +89,6 @@
                         <th>Product Type</th>
                         <th>Price</th>
                         <th>Available Stock</th>
-                        <th>Expiry Date</th>
-                        <th>Status</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -103,18 +101,6 @@
                         <td>{{ $data->strITDesc }}</td>
                         <td>{{ $data->dcInvPPrice }}</td>
                         <td>{{ $data->sum }}</td>
-                        @if($data->dtInvExpiry == NULL)
-                        <td>N/A</td>
-                        @else
-                        <td>{{ $data->dtInvExpiry }}</td>
-                        @endif 
-                        @if($data->intISID == 1)
-                        <td class="green-text bold">{{ $data->strISDesc }}</td>
-                        @elseif($data->intISID == 2)
-                        <td class="yellow-text bold">{{ $data->strISDesc }}</td>
-                        @elseif($data->intISID == 3)
-                        <td class="red-text bold">{{ $data->strISDesc }}</td>
-                        @endif
                         <td>
                             @if($data->intIsPerishable == 1)
                             <a class="modal-trigger waves-effect waves-light btn green darken-1 btn-small center-text" href="#{{$data->intInvID}}">EXPIRATION</a>
@@ -159,8 +145,6 @@
                         <th>Material Type</th>
                         <th>Price</th>
                         <th>Available Stock</th>
-                        <th>Expiry Date</th>
-                        <th>Status</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -172,18 +156,6 @@
                         <td>{{ $data->strITDesc }}</td>
                         <td>{{ $data->dcInvPPrice }}</td>
                         <td>{{ $data->sum }}</td>
-                        @if($data->dtInvExpiry == NULL)
-                        <td>N/A</td>
-                        @else
-                        <td>{{ $data->dtInvExpiry }}</td>
-                        @endif 
-                        @if($data->intISID == 1)
-                        <td class="green-text bold">{{ $data->strISDesc }}</td>
-                        @elseif($data->intISID == 2)
-                        <td class="yellow-text bold">{{ $data->strISDesc }}</td>
-                        @elseif($data->intISID == 3)
-                        <td class="red-text bold">{{ $data->strISDesc }}</td>
-                        @endif
                         <td>
                              <a class="modal-trigger waves-effect waves-light btn green darken-1 btn-small center-text" href="#{{$data->intInvID}}/stocks">STOCK CARD</a>
                         </td>
@@ -202,7 +174,8 @@
                                                       <thead>
                                                           <tr>
                                                               <th>Date</th>
-                                                              <th>Serial Code</th>
+                                                              <th>Lot Number</th>
+                                                              <th>Batch Code</th>
                                                               <th>Quantity</th>
                                                               <th>Type</th>
                                                               <th>Reason</th>
@@ -214,6 +187,7 @@
                                                             <tr>
                                                               <td>{{ $data->dtAdjDate }}</td>
                                                               <td>{{ $data->strAdjCode }}</td>
+                                                              <td>{{ $data->strInvCode }}</td>
                                                               <td>{{ $data->intAdjQty }}</td>
                                                               @if($data->intAdjStatus == 1)
                                                               <td class="blue-text bold">Acquired</td>
@@ -254,6 +228,7 @@
           <table class="centered table-fixed">
             <thead>
                     <tr>
+                        <th>Order Number</th>
                         <th>Branch Name</th>
                         <th>Ordered Product Name and Model</th>
                         <th>Ordered Quantity</th>
@@ -265,8 +240,9 @@
             <tbody>
                @foreach($ord as $data)
                       <tr>
+                        <td>{{ $data->strOCode }}</td>
                         <td>{{ $data->strBranchName }}</td>
-                        <td>{{ $data->strProdName .' - ' . $data->strProdModel }}</td>
+                        <td>{{ $data->strItemName .' - ' . $data->strItemModel }}</td>
                         <td>{{ $data->intOQty }}</td>
                         <td>{{ $data->created_at }}</td>
                         @if($data->intStatus == 2)

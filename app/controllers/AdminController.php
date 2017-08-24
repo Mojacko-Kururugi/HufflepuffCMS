@@ -93,6 +93,16 @@ class AdminController extends BaseController {
 			->where('tblItems.intItemStatus', '=', 1)
 			->get();
 
+		$type = DB::table('tblItemType')
+			->where('tblItemType.intITStatus', '=', 1)
+			->where('tblItemType.intITSType', '=', 1)
+			->get();
+
+		$sub = DB::table('tblItemType')
+			->where('tblItemType.intITStatus', '=', 1)
+			->where('tblItemType.intITSType', '=', 1)
+			->get();
+
 		$ct = 1 + DB::table('tblAdjustments')
 			->count();
 
@@ -103,7 +113,7 @@ class AdminController extends BaseController {
 		else if($ct < 1000)
 			$count = "AMN" . $ct;
 
-			return View::make('add-order')->with('data',$data)->with('count',$count);
+			return View::make('add-order')->with('data',$data)->with('count',$count)->with('type',$type)->with('sub',$sub);
 	}
 
 	public function addItem() {
@@ -164,7 +174,7 @@ class AdminController extends BaseController {
 
 		$data = DB::table('tblOrders')
 			->join('tblOrderDetails', 'tblOrderDetails.intODCode', '=', 'tblOrders.intOID')
-			->join('tblItems', 'tblOrderDetails.intOProdID', '=', 'tblItems.intProdID')
+			->join('tblItems', 'tblOrderDetails.intOProdID', '=', 'tblItems.intItemID')
 			->join('tblBranch', 'tblOrders.intOBranch', '=', 'tblBranch.intBranchID')
 			->where('tblOrders.intOID', '=', $id)
 			->first();

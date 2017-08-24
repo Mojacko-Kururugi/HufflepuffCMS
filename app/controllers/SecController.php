@@ -101,7 +101,7 @@ class SecController extends BaseController {
 		else if($ct < 1000)
 			$count = "BTH" . $ct;
 
-			return View::make('sec-ord')->with('data',$data)->with('count',$count);
+			return View::make('try-sec-ord')->with('data',$data)->with('count',$count);
 	}
 
 	public function openOrdList() {
@@ -152,7 +152,7 @@ class SecController extends BaseController {
 
 		$data = DB::table('tblOrders')
 			->join('tblOrderDetails', 'tblOrderDetails.intODCode', '=', 'tblOrders.intOID')
-			->join('tblProducts', 'tblOrderDetails.intOProdID', '=', 'tblProducts.intProdID')
+			->join('tblItems', 'tblOrderDetails.intOProdID', '=', 'tblItems.intItemID')
 			->where('tblOrders.intOID', '=', $id)
 			->first();
 

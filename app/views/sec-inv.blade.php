@@ -122,7 +122,7 @@
                               <!-- Modal Structure -->
                               <div id="{{$data->intInvID}}" class="modal modal-fixed-footer">
                                 <div class="modal-content col 6">
-                                  <h4>Adjustments for {{$data->strProdName}} - {{$data->strInvCode}}</h4>
+                                  <h4>Adjustments for {{$data->strItemName}} - {{$data->strInvCode}}</h4>
                                   <p>
                                   <form action="/adjust/{{$data->intInvID}}" method="POST">
                                             <div class="row">

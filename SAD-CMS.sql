@@ -382,10 +382,12 @@ INSERT INTO tblOrdStatus(intOSID,strOSDesc) VALUES ('1','RECEIVED');
 INSERT INTO tblOrdStatus(intOSID,strOSDesc) VALUES ('2','PENDING');
 INSERT INTO tblOrdStatus(intOSID,strOSDesc) VALUES ('3','CANCELLED');	
 INSERT INTO tblOrdStatus(intOSID,strOSDesc) VALUES ('4','DELIVERED');
+INSERT INTO tblOrdStatus(intOSID,strOSDesc) VALUES ('5','ON SESSION');
 
-INSERT INTO tblInvStatus(intISID,strISDesc) VALUES ('1','GOOD');
+INSERT INTO tblInvStatus(intISID,strISDesc) VALUES ('1','NORMAL');
 INSERT INTO tblInvStatus(intISID,strISDesc) VALUES ('2','DISCOUNTED');
 INSERT INTO tblInvStatus(intISID,strISDesc) VALUES ('3','EXPIRED');
+INSERT INTO tblInvStatus(intISID,strISDesc) VALUES ('4','EMPTY');
 
 INSERT INTO tblItemType(strITDesc,intITSType,intITStatus,intIsPerishable) VALUES ('Frames','2','1','0');
 INSERT INTO tblItemType(strITDesc,intITSType,intITStatus,intIsPerishable) VALUES ('Lenses','2','1','0');
@@ -407,4 +409,4 @@ INSERT INTO tblServices(strServName,strServDesc,intServStatus) VALUES ('Glass/Le
 
 INSERT INTO tblUserAccounts (strUEmail,strUPassword,intUID,intUType) VALUES ('admin@hufflepuff','admin123','0','1');
 
-INSERT INTO tblBranch(strBranchName,strBranchAddress,strBContactNumb,intBStatus) VALUES (	'Main Office','Quezon City','1234567','1');
+INSERT INTO tblBranch(strBranchName,strBranchAddress,strBContactNumb,intBStatus) VALUES ('Main Office','Quezon City','1234567','1');

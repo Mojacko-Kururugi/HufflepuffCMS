@@ -39,7 +39,7 @@
                 @foreach($data as $data)
                       <tr>
                         <td>{{ $data->strOCode }}</td>
-                        <td>{{ $data->strProdName .' - ' . $data->strProdModel }}</td>
+                        <td>{{ $data->strItemName .' - ' . $data->strItemModel }}</td>
                         <td>{{ $data->intOQty }}</td>
                         <td>{{ $data->created_at }}</td>
                         <td @if($data->intStatus == 1) class="green-text bold" @else class="yellow-text bold" @endif>{{ $data->strOSDesc }}</td>
@@ -52,24 +52,9 @@
                               <!-- Modal Structure -->
                               <div id="{{$data->intOID}}" class="modal modal-fixed-footer">
                                 <div class="modal-content col 6">
-                                  <h4>ENTER PRICE FOR {{$data->strProdName}}</h4>
+                                  <h4>RECEIVE ORDER FOR {{$data->strItemName}}??</h4>
                                   <p>
-                                  <form action="/sec-inv/ord/{{$data->intOID}}" method="POST">
-                                          <div class="form-group col l6 ">
-                                          <label for="price">Price per piece</label>
-                                          <input type="number" class="form-control" name="price" id="price" value="1">
-                                          </div>
-                                          @if($data->intProdType == 1)
-                                          <br>
-                                          @else
-                                          <br>
-                                          <div class="row">
-                                            <div class="col s12 m8 l6">
-                                              <label for="date">Choose Expiry Date</label>
-                                              <input id="date" name="date" type="date" class="datepicker" style="height:39px" value="">
-                                            </div>
-                                          </div>
-                                          @endif  
+                                  <form action="/sec-inv/ord/{{$data->intOID}}" method="POST"> 
                                   </p>
                                 </div>
                                 <div class="modal-footer col 6">

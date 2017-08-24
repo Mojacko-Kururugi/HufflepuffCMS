@@ -28,7 +28,7 @@
                     <tr>
                         <th>Adjusment Code</th>
                         <th>Serial Code</th>
-                        <th>Product Name & Model</th>
+                        <th>Product Name & Desc</th>
                         <th>Qty Adjusted</th>
                         <th>Date Adjusted</th>
                         <th>Adjustment Type</th>
@@ -40,7 +40,7 @@
                       <tr>
                         <td>{{ $data->strAdjCode }}</td>
                         <td>{{ $data->strInvCode }}</td>
-                        <td>{{ $data->strProdName .' - ' . $data->strProdModel }}</td>
+                        <td>{{ $data->strItemName .' - ' . $data->strItemModel }}</td>
                         <td>{{ $data->intAdjQty }}</td>
                         <td>{{ $data->dtAdjDate }}</td>
                         @if($data->intAdjStatus == 1)
