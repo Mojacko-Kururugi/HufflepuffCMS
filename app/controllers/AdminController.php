@@ -11,6 +11,19 @@ class AdminController extends BaseController {
 			->where('tblInventory.intInvBranch', '=', 1)
 			->where('tblInventory.intInvStatus','!=',3)
 			->where('tblItemType.intITSType', '=', 1)
+			->where('tblItemType.intIsPerishable', '!=', 1)
+			->groupby('tblInventory.intInvPID')
+			->selectRaw('*, sum(intInvQty) as sum')
+			->get();
+
+		$data2 = DB::table('tblInventory')
+			->join('tblItems', 'tblInventory.intInvPID', '=', 'tblItems.intItemID')
+			->join('tblInvStatus', 'tblInventory.intInvStatus', '=', 'tblInvStatus.intISID')
+			->join('tblItemType', 'tblItems.intItemType', '=', 'tblItemType.intITID')
+			->where('tblInventory.intInvBranch', '=', 1)
+			->where('tblInventory.intInvStatus','!=',3)
+			->where('tblItemType.intITSType', '=', 1)
+			->where('tblItemType.intIsPerishable', '!=', 1)
 			->groupby('tblInventory.intInvPID')
 			->selectRaw('*, sum(intInvQty) as sum')
 			->get();
@@ -79,6 +92,7 @@ class AdminController extends BaseController {
 
 		return View::make('dash-admin')
 		->with('data',$data)
+		->with('data2',$data2)
 		->with('ord',$ord)
 		->with('count',$count)
 		->with('stock',$stock)
@@ -113,7 +127,7 @@ class AdminController extends BaseController {
 		else if($ct < 1000)
 			$count = "AMN" . $ct;
 
-			return View::make('add-order')->with('data',$data)->with('count',$count)->with('type',$type)->with('sub',$sub);
+			return View::make('try-add-order')->with('data',$data)->with('count',$count)->with('type',$type)->with('sub',$sub);
 	}
 
 	public function addItem() {

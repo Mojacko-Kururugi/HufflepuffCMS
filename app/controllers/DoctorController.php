@@ -69,11 +69,17 @@ class DoctorController extends BaseController {
 			'strPatCompany' =>Request::input('company'),
 			'dPatBirthdate' => null,
 			'strPatHistory' => $history,
-			'strPatComplaints' => $complaints,
-			'strPatOldRX' => $oldrx,
 			'strPatImagePath' => "",
 			'strPatEmail' 	=> Request::input('email'),
 			'intPatStatus' => 1
+		]);
+
+		DB::table('tblPatientRX')
+		->insert([
+			'intRXPatID' 	=> Request::input('last_name_sa'),
+			'strPatComplaints' => $complaints,
+			'strPatOldRX' => $oldrx,
+			'intRXPatStatus' => 1
 		]);
 
 		DB::table('tblUserAccounts')

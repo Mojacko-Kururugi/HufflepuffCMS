@@ -40,9 +40,7 @@
                                   <label for="payment-mode">Products:</label>
                                     <select name="Products">
                                      <option value="2" disabled selected>- Choose specs -</option>
-                                     @foreach($data as $data)
-                                     <option>{{ $data->strItemName . ' - ' . $data->strItemModel}}</option>
-                                     @endforeach
+
                                     </select>
                                  </div>
                                  @if($sub->intIsPerishable == 1)
