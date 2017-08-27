@@ -56,7 +56,7 @@
                         <select class="initialized browser-default" name="product" id="product" data-error=".school_error">
                           <option value="" disabled selected>Product</option>
                           @foreach($product as $product)
-                            <option value="{{ $product->intInvID}}" @if(Input::old('product') == $product->intInvID) selected="selected" @endif>{{ $product->strProdName . ' - ' . $product->dcInvPPrice . ' php' }}</option>
+                            <option value="{{ $product->intInvID}}" @if(Input::old('product') == $product->intInvID) selected="selected" @endif>{{ $product->strItemName . ' - ' . $product->dcInvPPrice . ' php' }}</option>
                           @endforeach
                         </select>
                        <div class="school_error"></div>

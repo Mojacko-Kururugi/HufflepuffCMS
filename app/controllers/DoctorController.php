@@ -128,7 +128,7 @@ class DoctorController extends BaseController {
 			->join('tblConsultationRecords', 'tblServiceHeader.strSHCode','=','tblConsultationRecords.strCRHeaderCode')
 			->join('tblServiceDetails', 'tblServiceHeader.strSHCode','=','tblServiceDetails.strHeaderCode')
 			->join('tblInventory', 'tblServiceDetails.intHInvID','=','tblInventory.intInvID')
-			->join('tblProducts','tblInventory.intInvPID','=','tblProducts.intProdID')
+			->join('tblItems','tblInventory.intInvPID','=','tblItems.intItemID')
 			->where('tblInventory.intInvBranch', '=', Session::get('user_bc'))
 			->get();
 
@@ -153,7 +153,7 @@ class DoctorController extends BaseController {
 			->get();
 		
 		$product = DB::table('tblInventory')
-			->join('tblProducts', 'tblInventory.intInvPID', '=', 'tblProducts.intProdID')
+			->join('tblItems', 'tblInventory.intInvPID', '=', 'tblItems.intItemID')
 			->where('tblInventory.intInvBranch', '=', Session::get('user_bc'))
 			->where('tblInventory.intInvStatus','!=',3)
 			->get();

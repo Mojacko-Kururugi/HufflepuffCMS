@@ -17,19 +17,19 @@
         <div class="row">
               <div class="input-field col l12 m8 s12">
                 <label for="name">Product Name</label>
-                <input id="name" name="name" type="text" class="validate" value="{{ $prod->strProdName }}" />
+                <input id="name" name="name" type="text" class="validate" value="{{ $prod->strItemName }}" />
               </div>
         </div>
         <div class="row">
               <div class="input-field col l12 m8 s12">
                 <label for="model">Product Model</label>
-                <input id="model" name="model" type="text" class="validate" value="{{ $prod->strProdModel }}" />
+                <input id="model" name="model" type="text" class="validate" value="{{ $prod->strItemModel }}" />
               </div>
         </div>
         <div class="row">
               <div class="input-field col l12 m8 s12">
                 <label for="brand">Product Brand</label>
-                <input id="brand" name="brand" type="text" class="validate" value="{{ $prod->strProdBrand }}" />
+                <input id="brand" name="brand" type="text" class="validate" value="{{ $prod->strItemBrand }}" />
               </div>
         </div>
         <div class="row">
@@ -42,7 +42,7 @@
                         <select class="initialized browser-default" name="type" id="type" data-error=".school_error">
                           <option value="" disabled selected>Type</option>
                           @foreach($data as $data)
-                            <option value="{{ $data->intPTID}}" @if(Input::old('type') == $data->intPTID) selected="selected" @endif>{{ $data->strPTDesc}}</option>
+                            <option value="{{ $data->intITID}}" @if(Input::old('type') == $data->intITID) selected="selected" @endif>{{ $data->strITDesc}}</option>
                           @endforeach
                         </select>
                        <div class="school_error"></div>
