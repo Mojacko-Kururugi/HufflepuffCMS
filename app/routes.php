@@ -123,6 +123,7 @@ Route::get('/claim/{id}', 'SecController@prodClaim');
 Route::post('/adjust/{id}', 'SecController@adjInv');
 Route::get('/expired', 'SecController@openExp');
 
+Route::get('/job-order', 'SecController@openJO');
 
 
 

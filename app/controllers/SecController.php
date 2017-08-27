@@ -17,6 +17,11 @@ class SecController extends BaseController {
 		}
 	}
 
+	public function openJO() {
+
+		return View::make('job-order');
+	}
+
 	public function openSec() {
 		
 		$data = DB::table('tblEmployeeInfo')
