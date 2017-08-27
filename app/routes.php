@@ -87,7 +87,7 @@ Route::get('/service', 'DoctorController@showServ');
 Route::get('/service/add-service', 'DoctorController@showAddServ');
 Route::post('/save-service', 'DoctorController@saveServ');
 Route::get('/add-patient', 'DoctorController@addPatForm');
-Route::post('/save-pat', 'DoctorController@addPat');
+Route::post('/save-pat/', 'DoctorController@addPat');
 Route::get('patient/{id}', 'DoctorController@openUpPat');
 Route::post('/update-pat', 'DoctorController@updatePat');
 Route::get('delete-pat/{id}', 'DoctorController@deactPat');

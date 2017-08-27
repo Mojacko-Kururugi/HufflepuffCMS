@@ -23,7 +23,7 @@ class AdminController extends BaseController {
 			->where('tblInventory.intInvBranch', '=', 1)
 			->where('tblInventory.intInvStatus','!=',3)
 			->where('tblItemType.intITSType', '=', 1)
-			->where('tblItemType.intIsPerishable', '!=', 1)
+			->where('tblItemType.intIsPerishable', '=', 1)
 			->groupby('tblInventory.intInvPID')
 			->selectRaw('*, sum(intInvQty) as sum')
 			->get();

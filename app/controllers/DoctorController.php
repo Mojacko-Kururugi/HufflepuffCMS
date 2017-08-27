@@ -42,10 +42,11 @@ class DoctorController extends BaseController {
 
 	public function showPat() {
 		$data = DB::table('tblPatientInfo')
+			->join('tblPatientRX', 'tblPatientRX.intRXPatID', '=', 'tblPatientInfo.intPatID')
 			->where('tblPatientInfo.intPatStatus', '=', 1)
 			->get();
 		
-				return View::make('record')->with('data',$data);
+		return View::make('record')->with('data',$data);
 	}	
 
 	public function addPatForm() {
@@ -58,6 +59,9 @@ class DoctorController extends BaseController {
 		$complaints = Request::input('BOVfar') . Request::input('BOVnear') . Request::input('headache') . Request::input('dizziness') . Request::input('glare') . Request::input('vomitting'); 	
 		$oldrx = Request::input('OD') . '-' . Request::input('ODAdd') . ',' . Request::input('OS') . '-' . Request::input('OSAdd') . '/' . Request::input('CLOD') . '-' . Request::input('CLOS');
 
+		$ct = 1 + DB::table('tblPatientInfo')
+			->count();
+		
 		DB::table('tblPatientInfo')
 		->insert([
 			'strPatLast' 	=> Request::input('last_name_sa'),
@@ -76,11 +80,12 @@ class DoctorController extends BaseController {
 
 		DB::table('tblPatientRX')
 		->insert([
-			'intRXPatID' 	=> Request::input('last_name_sa'),
+			'intRXPatID' 	=> $ct,
 			'strPatComplaints' => $complaints,
 			'strPatOldRX' => $oldrx,
 			'intRXPatStatus' => 1
 		]);
+
 
 		DB::table('tblUserAccounts')
 		->insert([
