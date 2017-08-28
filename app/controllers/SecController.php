@@ -22,6 +22,15 @@ class SecController extends BaseController {
 		return View::make('sec-job-order');
 	}
 
+	public function showPayment() {
+
+		$data = DB::table('tblSales')
+			->where('tblSales.intSStatus','!=',1)
+			->get();
+
+		return View::make('sec-add-payment')->with('data',$data);
+	}
+
 	public function openSec() {
 		
 		$data = DB::table('tblEmployeeInfo')

@@ -17,7 +17,7 @@
                 <div class="row">
                     <div class="col s12 m12 l10">
                         <a class="waves-effect waves-light btn blue darken-1 btn-small center-text" href="/service/add-service">ADD NEW SERVICE</a>
-                        <a class="waves-effect waves-light btn blue darken-1 btn-small center-text" href="/add-payment">ADD NEW PAYMENT</a>
+                        <a class="waves-effect waves-light btn blue darken-1 btn-small center-text" href="/sec-add-payment">ADD NEW PAYMENT</a>
                     </div>
                  </div>
 

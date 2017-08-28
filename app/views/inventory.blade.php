@@ -41,9 +41,9 @@
                 @foreach($data as $data)
                       <tr>
                         <td>{{ $data->strInvCode }}</td>
-                        <td>{{ $data->strProdName }}</td>
-                        <td>{{ $data->strProdModel }}</td>
-                        <td>{{ $data->strPTDesc }}</td>
+                        <td>{{ $data->strItemName }}</td>
+                        <td>{{ $data->strItemModel }}</td>
+                        <td>{{ $data->strITDesc }}</td>
                         <td>{{ $data->dcInvPPrice }}</td>
                         <td>{{ $data->intInvQty }}</td>
                         @if($data->dtInvExpiry == NULL)
