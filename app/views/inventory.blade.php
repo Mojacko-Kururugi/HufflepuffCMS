@@ -73,7 +73,7 @@
                         <!-- Modal Structure -->
                               <div id="{{$data->intInvID}}" class="modal modal-fixed-footer">
                                 <div class="modal-content col 6">
-                                  <h4>Enter Discount PERCENTAGE for {{$data->strIntName}}</h4>
+                                  <h4>Enter Discount PERCENTAGE for {{$data->strItemName}}</h4>
                                   <p>
                                   <form action="/inventory/discount/{{$data->intInvID}}" method="POST">
                                           <div class="form-group col l6 ">
