@@ -34,8 +34,8 @@
             <tbody>
             @foreach($inv as $inv)
              <tr>
-                <td>{{ $inv->strProdName }}</td>
-                <td>{{ $inv->strProdModel }}</td>
+                <td>{{ $inv->strItemName }}</td>
+                <td>{{ $inv->strItemModel }}</td>
                 <td>{{ $inv->sum }}</td>
                 <td>
                   <div class="center-btn">

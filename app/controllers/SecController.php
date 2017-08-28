@@ -19,7 +19,7 @@ class SecController extends BaseController {
 
 	public function openJO() {
 
-		return View::make('job-order');
+		return View::make('sec-job-order');
 	}
 
 	public function openSec() {

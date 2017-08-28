@@ -99,6 +99,7 @@ Route::post('/inventory/add-order', 'DoctorController@addOrd');
 Route::get('/sales', 'DoctorController@showSales');
 Route::get('/add-sched', 'DoctorController@addSched');
 Route::get('/add-payment', 'DoctorController@showPayment');
+Route::get('/job-order', 'DoctorController@openJO');
 Route::post('/save-payment', 'DoctorController@addPayment');
 Route::get('/reports', 'DoctorController@generateReport');
 
@@ -123,7 +124,7 @@ Route::get('/claim/{id}', 'SecController@prodClaim');
 Route::post('/adjust/{id}', 'SecController@adjInv');
 Route::get('/expired', 'SecController@openExp');
 
-Route::get('/job-order', 'SecController@openJO');
+Route::get('/sec-job-order', 'SecController@openJO');
 
 
 

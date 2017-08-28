@@ -16,7 +16,7 @@ class DoctorController extends BaseController {
 		Session::put('user_bc',$data->intBranchID);
 
 		$inv = DB::table('tblInventory')
-			->join('tblProducts', 'tblInventory.intInvPID', '=', 'tblProducts.intProdID')
+			->join('tblItems', 'tblInventory.intInvPID', '=', 'tblItems.intItemID')
 			->where('tblInventory.intInvBranch', '=', Session::get('user_bc'))
 			->where('tblInventory.intInvStatus','!=',3)
 			->groupby('tblInventory.intInvPID')
@@ -244,8 +244,8 @@ class DoctorController extends BaseController {
 	public function showInv() {
 		$data = DB::table('tblInventory')
 			->join('tblInvStatus', 'tblInventory.intInvStatus', '=', 'tblInvStatus.intISID')
-			->join('tblProducts', 'tblInventory.intInvPID', '=', 'tblProducts.intProdID')
-			->join('tblProdType', 'tblProducts.intProdType', '=', 'tblProdType.intPTID')
+			->join('tblItems', 'tblInventory.intInvPID', '=', 'tblItems.intItemID')
+			->join('tblItemType', 'tblItems.intItemType', '=', 'tblItemType.intITID')
 			->where('tblInventory.intInvBranch', '=', Session::get('user_bc'))
 			->get();
 		
@@ -254,8 +254,8 @@ class DoctorController extends BaseController {
 	}
 
 	public function openOrdList() {
-			$data = DB::table('tblProducts')
-						->where('tblProducts.intProdStatus', '=', 1)
+			$data = DB::table('tblItems')
+						->where('tblItems.intItemStatus', '=', 1)
 						->get();
 
 					$ct = 1 + DB::table('tblOrders')
@@ -302,6 +302,11 @@ class DoctorController extends BaseController {
 
 
 		return View::make('sales')->with('data',$data);
+	}
+
+	public function openJO() {
+
+		return View::make('job-order');
 	}
 
 	public function showSched() {
