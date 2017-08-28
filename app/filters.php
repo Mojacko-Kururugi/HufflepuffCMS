@@ -91,7 +91,7 @@ Route::filter('csrf', function()
 
 
 Route::filter('checkSession', function() {
-	$userType = Session::get('user_type');	
+	$userType = Session::get('log_no');	
 
 	if($userType) {
 		if($userType == 1) {

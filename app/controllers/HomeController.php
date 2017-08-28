@@ -42,23 +42,27 @@ class HomeController extends BaseController {
 		{
 			if($data->intUType == 2)
 			{
+				Session::put('log_no',2);
 				Session::put('user_type',$data->strUEmail);
 				Session::put('user_desc',$data->strUTDesc);
 				return Redirect::to('/index');
 			}
 			else if($data->intUType == 1)
 			{
+				Session::put('log_no',1);
 				Session::put('user_type',$data->strUEmail);
 				return Redirect::to('/admin');
 			}
 			else if($data->intUType == 3)
 			{
+				Session::put('log_no',3);
 				Session::put('user_type',$data->strUEmail);
 				Session::put('user_desc',$data->strUTDesc);
 				return Redirect::to('/sec-home');
 			}
 			else if($data->intUType == 4)
 			{
+				Session::put('log_no',4);
 				Session::put('user_type',$data->strUEmail);
 				return Redirect::to('/patient-home');
 			}
