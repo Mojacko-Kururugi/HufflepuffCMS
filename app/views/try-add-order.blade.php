@@ -38,7 +38,7 @@
                                <div id="{{ $subt->intITID }}">
                                  <div class="row">
                                   <label for="payment-mode">Products:</label>
-                                    <select name="Products">
+                                    <select name="name" id="name">
                                      <option value="0" disabled selected>- Choose specs -</option>
                                      @foreach($data as $prod)
                                      @if($prod->intItemType == $subt->intITID)
@@ -55,7 +55,11 @@
                                             </div>
                                           </div>
                                 @endif
-                              <div class="row">
+                               </div>
+                        </div>
+                      @endforeach  
+                    </div>
+                                                  <div class="row">
                                   <div class="input-field col l6 m6 s6">
                                           <label for="qty">Quantity</label>
                                           <input id="qty" name="qty" type="text" class="validate" value="" />
@@ -64,10 +68,6 @@
                                       <button type="submit" class="waves-effect waves-light btn btn-green modal-btn">Add</button>
                                   </div>
                               </div> 
-                               </div>
-                        </div>
-                      @endforeach  
-                    </div>
                   </div>
                   </form>
 
