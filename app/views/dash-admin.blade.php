@@ -5,7 +5,7 @@
 <!-- header -->
 <div class="row page-title">
   <div class="col s12 m12 l12">
-    <h5>Inventory on Main</h5>
+    <h5>Stocks on Main</h5>
   </div>
 </div>
 
@@ -26,8 +26,8 @@
                                 <div class="modal-content col 6">
                                   <h4>Inventories on other Branches</h4>
                                   <p>
-                                    @foreach($branch as $branch)
-                                    <h5>{{$branch->strBranchName}}</h5>
+                                    @foreach($branch as $br)
+                                    <h5>{{$br->strBranchName}}</h5>
                                                     <table class="centered table-fixed">
                                                       <thead>
                                                           <tr>
@@ -43,7 +43,7 @@
                                                       </thead>
                                                       <tbody>
                                                       @foreach($alls as $all)
-                                                          @if($branch->intBranchID == $all->intInvBranch)
+                                                          @if($br->intBranchID == $all->intInvBranch)
                                                          <tr>
                                                               <td>{{ $all->strItemBrand}}</td>
                                                               <td>{{ $all->strItemName }}</td>

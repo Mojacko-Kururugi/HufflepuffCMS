@@ -9,7 +9,7 @@
   </div>
 
   <div class="contents z-depth-1">
-      <form action="{{ URL::to('/sec-inv/add-order') }}" method="POST" id="signup_validate" enctype="multipart/form-data"><br><br>
+      <form action="{{ URL::to('/admin/add-order') }}" method="POST" id="signup_validate" enctype="multipart/form-data"><br><br>
               <div class="row">
                 <div class="input-field col l6 m6 s12">
                   <input id="user_id" name="user_id" type="text" class="validate" data-error=".id_error" value="{{ $count }}" readonly />
@@ -21,29 +21,33 @@
                <div class="row">
                   <div class="col s12 m12 l7">
                     <div class="card-panel">
-                      <span class="card-title">Products</span>
+                      <span class="card-title">Products and Materials</span>
                       <hr>
                         <div class="card-content">
                              <div class="card-tabs">
                                 <ul class="tabs tabs-fixed-width">
-                                @foreach($type as $type)
-                                  <li class="tab"><a href="#{{ $type->intITID }}">{{ $type->strITDesc }}</a></li>
+                                @foreach($type as $stype)
+                                  <li class="tab"><a href="#{{ $stype->intITID }}">{{ $stype->strITDesc }}</a></li>
                                 @endforeach
                                 </ul>
                             </div>
                         </div>
 
-                      @foreach($sub as $sub)
+                      @foreach($type as $subt)
                         <div class="card-content">
-                               <div id="{{ $sub->intITID }}">
+                               <div id="{{ $subt->intITID }}">
                                  <div class="row">
                                   <label for="payment-mode">Products:</label>
                                     <select name="Products">
-                                     <option value="2" disabled selected>- Choose specs -</option>
-
+                                     <option value="0" disabled selected>- Choose specs -</option>
+                                     @foreach($data as $prod)
+                                     @if($prod->intItemType == $subt->intITID)
+                                     <option value="{{$prod->intItemID}}">{{$prod->strItemName}}</option>
+                                     @endif
+                                     @endforeach
                                     </select>
                                  </div>
-                                 @if($sub->intIsPerishable == 1)
+                                 @if($subt->intIsPerishable == 1)
                                           <div class="row">
                                             <div class="col s12 m8 l6">
                                               <label for="date">Choose Expiry Date</label>
@@ -65,10 +69,11 @@
                       @endforeach  
                     </div>
                   </div>
+                  </form>
 
                   <div class="col s12 m12 l5">
                     <div class="card-panel">
-                      <span class="card-title">Purchase</span>
+                      <span class="card-title">List</span>
                       <hr>
                           <div class="card-content">
                                 <div v-show="isCartEmpty">
@@ -110,12 +115,12 @@
         </div>-->
             <div class="row">
               <div class="input-field col l12 s12 center">
-                <button type="submit" class="waves-effect waves-light btn btn-green modal-btn">Save</button>
-                <a href="{{ URL::to('/sec-order') }}" class="waves-effect waves-light btn btn-green modal-btn" style="margin-right:20px;">Cancel</a>
+                <button type="submit" class="waves-effect waves-light btn btn-green modal-btn">SUBMIT</button>
+                <a href="{{ URL::to('/admin') }}" class="waves-effect waves-light btn btn-green modal-btn" style="margin-right:20px;">Cancel</a>
               </div>
             </div>
             <br><br>
-            </form>
+           <!-- </form> -->
         </div>
 
 

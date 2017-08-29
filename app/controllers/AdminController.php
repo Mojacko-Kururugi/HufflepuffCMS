@@ -104,17 +104,12 @@ class AdminController extends BaseController {
 
 	public function openAddItem() {
 		$data = DB::table('tblItems')
+			->join('tblItemType', 'tblItems.intItemType', '=', 'tblItemType.intITID')
 			->where('tblItems.intItemStatus', '=', 1)
 			->get();
 
 		$type = DB::table('tblItemType')
 			->where('tblItemType.intITStatus', '=', 1)
-			->where('tblItemType.intITSType', '=', 1)
-			->get();
-
-		$sub = DB::table('tblItemType')
-			->where('tblItemType.intITStatus', '=', 1)
-			->where('tblItemType.intITSType', '=', 1)
 			->get();
 
 		$ct = 1 + DB::table('tblAdjustments')
@@ -127,7 +122,7 @@ class AdminController extends BaseController {
 		else if($ct < 1000)
 			$count = "AMN" . $ct;
 
-			return View::make('try-add-order')->with('data',$data)->with('count',$count)->with('type',$type)->with('sub',$sub);
+			return View::make('try-add-order')->with('data',$data)->with('count',$count)->with('type',$type);
 	}
 
 	public function addItem() {
