@@ -233,8 +233,8 @@
                                                       <thead>
                                                           <tr>
                                                               <th>Date</th>
-                                                              <th>Lot Number</th>
                                                               <th>Batch Code</th>
+                                                              <th>Lot Number</th>
                                                               <th>Quantity</th>
                                                               <th>Type</th>
                                                               <th>Reason</th>

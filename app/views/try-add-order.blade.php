@@ -9,7 +9,7 @@
   </div>
 
   <div class="contents z-depth-1">
-      <form action="{{ URL::to('/admin/add-order') }}" method="POST" id="signup_validate" enctype="multipart/form-data"><br><br>
+      <form action="{{ URL::to('/admin/add-to-list') }}" method="POST" id="signup_validate" enctype="multipart/form-data"><br><br>
               <div class="row">
                 <div class="input-field col l6 m6 s12">
                   <input id="user_id" name="user_id" type="text" class="validate" data-error=".id_error" value="{{ $count }}" readonly />
@@ -77,16 +77,27 @@
                       <hr>
                           <div class="card-content">
                                 <div v-show="isCartEmpty">
-                                   <span class="label label-primary">No items on cart</span>
+                                  <!-- <span class="label label-primary">No items on cart</span> -->
                                 </div>
                                 <table class="table cart-table table-hover" v-show="!isCartEmpty">
                                     <thead>
                                       <tr class="register-items-header">
-                                        <th>Product Name</th>
+                                        <th>Name</th>
+                                        <th>Desc.</th>
                                         <th>Qty.</th>
-                                        <th>Price</th>
+                                        <th>Action</th>
                                       </tr>
                                     </thead>
+                                    <tbody>
+                                    @foreach($list as $l)
+                                    <tr>
+                                      <td>{{$l->strItemName}}</td>
+                                      <td>{{$l->strItemModel}}</td>
+                                      <td>{{$l->intOQty}}</td>
+                                      <td><button class="waves-effect waves-light btn btn-green modal-btn">REMOVE</button></td>
+                                    </tr>
+                                    @endforeach
+                                    </tbody>
                                 </table>
                           </div>
                     </div>
@@ -115,7 +126,7 @@
         </div>-->
             <div class="row">
               <div class="input-field col l12 s12 center">
-                <button type="submit" class="waves-effect waves-light btn btn-green modal-btn">SUBMIT</button>
+                <a class="waves-effect waves-light btn btn-green modal-btn" href="/admin/add-order">SUBMIT</a>
                 <a href="{{ URL::to('/admin') }}" class="waves-effect waves-light btn btn-green modal-btn" style="margin-right:20px;">Cancel</a>
               </div>
             </div>

@@ -31,7 +31,8 @@ Route::get('/logout', 'HomeController@doLogout');
 Route::get('/admin', 'AdminController@openAdmin');
 
 Route::get('/admin/ord', 'AdminController@openAddItem');
-Route::post('/admin/add-order', 'AdminController@addItem');
+Route::post('/admin/add-to-list', 'AdminController@addToList');
+Route::get('/admin/add-order', 'AdminController@addItem');
 Route::get('/admin/deliver/{id}', 'AdminController@deliverOrd');
 
 Route::get('/branches', 'AdminController@showBranches');

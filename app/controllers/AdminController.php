@@ -122,40 +122,135 @@ class AdminController extends BaseController {
 		else if($ct < 1000)
 			$count = "AMN" . $ct;
 
-			return View::make('try-add-order')->with('data',$data)->with('count',$count)->with('type',$type);
+		Session::put('ord_sess',$count);
+
+		$list = DB::table('tblOrders')
+			->join('tblOrderDetails', 'tblOrderDetails.intODCode', '=', 'tblOrders.intOID')
+			->join('tblItems', 'tblOrderDetails.intOProdID', '=', 'tblItems.intItemID')
+			->join('tblOrdStatus', 'tblOrders.intStatus', '=', 'tblOrdStatus.intOSID')
+			->where('tblOrders.intOBranch', '=', Session::get('user_bc'))
+			->where('tblOrders.strOCode', '=', Session::get('ord_sess'))
+			->where('tblOrders.intStatus', '=', 4)		
+			->get();
+
+			return View::make('try-add-order')->with('data',$data)->with('count',$count)->with('type',$type)->with('list',$list);
+	}
+
+	public function addToList()
+	{
+		$sess = DB::table('tblOrders')
+			->where('tblOrders.strOCode', '=', Session::get('ord_sess'))
+			->where('tblOrders.intStatus', '=', 4)		
+			->first();
+
+		if($sess == NULL)
+		{
+		DB::table('tblOrders')
+		->insert([
+			'strOCode'			=> Session::get('ord_sess'),
+			'dtOReceived'	=> null,
+			'intOBranch'	=> Session::get('user_bc'),			
+			'intStatus' => 4
+		]);
+		}
+
+		$data = DB::table('tblOrders')
+			->where('tblOrders.strOCode', '=',Request::input('user_id'))
+			->first();
+
+		DB::table('tblOrderDetails')
+		->insert([
+			'intOProdID' 		=> Request::input('name'),
+			'intODCode'			=> $data->intOID,
+			'intOQty' 	=> Request::input('qty'),
+		]);
+
+		return Redirect::to('/admin/ord');
 	}
 
 	public function addItem() {
+		$ord = DB::table('tblOrders')
+			->join('tblOrderDetails', 'tblOrderDetails.intODCode', '=', 'tblOrders.intOID')
+			->join('tblItems', 'tblOrderDetails.intOProdID', '=', 'tblItems.intItemID')
+			->join('tblItemType', 'tblItems.intItemType', '=', 'tblItemType.intITID')
+			->where('tblOrders.strOCode', '=', Session::get('ord_sess'))
+			->where('tblOrders.intStatus', '=', 4)		
+			->get();
 
-		$inv = DB::table('tblInventory')
-			->where('tblInventory.intInvPID', '=', Request::input('name'))
-			->where('tblInventory.intInvBranch', '=', 1)
-			->where('tblInventory.intInvStatus','!=',3)
-			->groupby('tblInventory.intInvPID')
-			->selectRaw('*, sum(intInvQty) as sum')
-			->first();
+		foreach($ord as $o)
+		{
+			if($o->intIsPerishable == 1)
+			{
+					$ct = 1 + DB::table('tblItems')
+							->count();
 
-		$new_qty = Request::input('qty');
-		$curr_qty =  $inv->intInvQty;
-		$total;
+					if($ct < 10)
+						$count = "MN00" . $ct;
+					else if($ct < 100)
+						$count = "MN0" . $ct;
+					else if($ct < 1000)
+						$count = "MN" . $ct;
 
-		$total = $curr_qty + $new_qty;
-
-				DB::table('tblAdjustments')
-					->insert([
-						'strAdjCode'  => Request::input('user_id'),
-						'intAdjInvID' => $inv->intInvPID,
-					    'intAdjQty' => Request::input('qty'),
-					    'strAdjReason' => "BOUGHT BY MAIN",
-					    'intAdjStatus' => 1,
-					    'intAdjBranch' => 1
-					]);		
-
-				DB::table('tblInventory')
-						->where('tblInventory.intInvID', '=', $inv->intInvPID)
-						->update([
-							'intInvQty' => $total,
+					DB::table('tblInventory')
+						->insert([
+							'intInvPID' => $o->intOProdID,
+							'strInvCode' => $count,
+						    'intInvQty' => $o->intOQty,
+						    'dtInvExpiry' => NULL,
+						    'intInvStatus' => 1,
+							'intInvBranch' => 1
 						]);
+
+					$inv = DB::table('tblInventory')
+						->where('tblInventory.intInvPID', '=', $o->intOProdID)
+						->where('tblInventory.intInvBranch', '=', 1)
+						->where('tblInventory.intInvStatus','!=',3)
+						->where('tblInventory.strInvCode','=',$count)
+						->first();
+
+					DB::table('tblAdjustments')
+						->insert([
+							'strAdjCode'  => Session::get('ord_sess'),
+							'intAdjInvID' => $inv->intInvID,
+						    'intAdjQty' => $o->intOQty,
+						    'strAdjReason' => "BOUGHT BY MAIN",
+						    'intAdjStatus' => 1,
+						    'intAdjBranch' => 1
+						]);
+			}
+			else
+			{
+			$inv = DB::table('tblInventory')
+				->where('tblInventory.intInvPID', '=', $o->intOProdID)
+				->where('tblInventory.intInvBranch', '=', 1)
+				->where('tblInventory.intInvStatus','!=',3)
+				->groupby('tblInventory.intInvPID')
+				->selectRaw('*, sum(intInvQty) as sum')
+				->first();
+
+			$new_qty = $o->intOQty;
+			$curr_qty =  $inv->intInvQty;
+			$total;
+
+			$total = $curr_qty + $new_qty;		
+
+					DB::table('tblInventory')
+							->where('tblInventory.intInvID', '=', $inv->intInvPID)
+							->update([
+								'intInvQty' => $total,
+							]);
+
+					DB::table('tblAdjustments')
+						->insert([
+							'strAdjCode'  => Session::get('ord_sess'),
+							'intAdjInvID' => $inv->intInvID,
+						    'intAdjQty' => $o->intOQty,
+						    'strAdjReason' => "BOUGHT BY MAIN",
+						    'intAdjStatus' => 1,
+						    'intAdjBranch' => 1
+						]);
+			}
+		}//foreach
 
 		return Redirect::to('/admin');
 	}
@@ -564,8 +659,12 @@ class AdminController extends BaseController {
 			'intItemStatus' => 1
 		]);
 
-		$ldate = date('Y-m-d H:i:s');
+		$data = DB::table('tblItemType')
+			->where('tblItemType.intITID', '=', Request::input('type'))
+			->first();
 
+		if($data->intIsPerishable != 1)
+		{
 		DB::table('tblInventory')
 			->insert([
 				'intInvPID' => $ct,
@@ -575,7 +674,7 @@ class AdminController extends BaseController {
 			    'intInvStatus' => 1,
 				'intInvBranch' => 1
 			]);
-
+		}
 		return Redirect::to('/products');
 	}
 
