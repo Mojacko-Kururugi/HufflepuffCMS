@@ -24,8 +24,8 @@ class AdminController extends BaseController {
 			->where('tblInventory.intInvStatus','!=',3)
 			->where('tblItemType.intITSType', '=', 1)
 			->where('tblItemType.intIsPerishable', '=', 1)
-			->groupby('tblInventory.intInvPID')
-			->selectRaw('*, sum(intInvQty) as sum')
+			//->groupby('tblInventory.intInvPID')
+			//->selectRaw('*, sum(intInvQty) as sum')
 			->get();
 
 		$mat = DB::table('tblInventory')
@@ -77,7 +77,24 @@ class AdminController extends BaseController {
 			->join('tblOrderDetails', 'tblOrderDetails.intODCode', '=', 'tblOrders.intOID')
 			->join('tblItems', 'tblOrderDetails.intOProdID', '=', 'tblItems.intItemID')
 			->join('tblOrdStatus', 'tblOrders.intStatus', '=', 'tblOrdStatus.intOSID')	
-			->join('tblBranch', 'tblOrders.intOBranch', '=', 'tblBranch.intBranchID')	
+			->join('tblBranch', 'tblOrders.intOBranch', '=', 'tblBranch.intBranchID')
+			->where('tblOrders.intStatus', '!=', 5)
+			->groupby('tblOrders.strOCode')	
+			->get();
+
+		$test = DB::table('tblOrders')
+			->join('tblOrdStatus', 'tblOrders.intStatus', '=', 'tblOrdStatus.intOSID')	
+			->join('tblBranch', 'tblOrders.intOBranch', '=', 'tblBranch.intBranchID')
+			->where('tblOrders.intStatus', '!=', 5)
+			->groupby('tblOrders.strOCode')	
+			->get();
+
+		$list = DB::table('tblOrders')
+			->join('tblOrderDetails', 'tblOrderDetails.intODCode', '=', 'tblOrders.intOID')
+			->join('tblItems', 'tblOrderDetails.intOProdID', '=', 'tblItems.intItemID')
+			->join('tblOrdStatus', 'tblOrders.intStatus', '=', 'tblOrdStatus.intOSID')	
+			->join('tblBranch', 'tblOrders.intOBranch', '=', 'tblBranch.intBranchID')
+			->where('tblOrders.intStatus', '!=', 5)	
 			->get();
 
 		$prod = DB::table('tblInventory')
@@ -94,6 +111,8 @@ class AdminController extends BaseController {
 		->with('data',$data)
 		->with('data2',$data2)
 		->with('ord',$ord)
+		->with('list',$list)
+		->with('test',$test)
 		->with('count',$count)
 		->with('stock',$stock)
 		->with('prod',$prod)
@@ -101,6 +120,17 @@ class AdminController extends BaseController {
 		->with('branch',$branch)
 		->with('mat',$mat);
 	}	
+
+	public function setExp($id) {
+
+		DB::table('tblInventory')
+							->where('tblInventory.intInvID', '=', $id)
+							->update([
+								'dtInvExpiry' => Request::input('date')
+							]);
+
+		return Redirect::to('/admin');
+	}
 
 	public function openAddItem() {
 		$data = DB::table('tblItems')
@@ -128,9 +158,9 @@ class AdminController extends BaseController {
 			->join('tblOrderDetails', 'tblOrderDetails.intODCode', '=', 'tblOrders.intOID')
 			->join('tblItems', 'tblOrderDetails.intOProdID', '=', 'tblItems.intItemID')
 			->join('tblOrdStatus', 'tblOrders.intStatus', '=', 'tblOrdStatus.intOSID')
-			->where('tblOrders.intOBranch', '=', Session::get('user_bc'))
+			->where('tblOrders.intOBranch', '=', 1)
 			->where('tblOrders.strOCode', '=', Session::get('ord_sess'))
-			->where('tblOrders.intStatus', '=', 4)		
+			->where('tblOrders.intStatus', '=', 5)		
 			->get();
 
 			return View::make('try-add-order')->with('data',$data)->with('count',$count)->with('type',$type)->with('list',$list);
@@ -138,9 +168,10 @@ class AdminController extends BaseController {
 
 	public function addToList()
 	{
+		//dd(Request::input('qty'));
 		$sess = DB::table('tblOrders')
 			->where('tblOrders.strOCode', '=', Session::get('ord_sess'))
-			->where('tblOrders.intStatus', '=', 4)		
+			->where('tblOrders.intStatus', '=', 5)		
 			->first();
 
 		if($sess == NULL)
@@ -149,8 +180,8 @@ class AdminController extends BaseController {
 		->insert([
 			'strOCode'			=> Session::get('ord_sess'),
 			'dtOReceived'	=> null,
-			'intOBranch'	=> Session::get('user_bc'),			
-			'intStatus' => 4
+			'intOBranch'	=> 1,			
+			'intStatus' => 5
 		]);
 		}
 
@@ -174,14 +205,14 @@ class AdminController extends BaseController {
 			->join('tblItems', 'tblOrderDetails.intOProdID', '=', 'tblItems.intItemID')
 			->join('tblItemType', 'tblItems.intItemType', '=', 'tblItemType.intITID')
 			->where('tblOrders.strOCode', '=', Session::get('ord_sess'))
-			->where('tblOrders.intStatus', '=', 4)		
+			->where('tblOrders.intStatus', '=', 5)		
 			->get();
-
+	
 		foreach($ord as $o)
 		{
 			if($o->intIsPerishable == 1)
 			{
-					$ct = 1 + DB::table('tblItems')
+					$ct = 1 + DB::table('tblInventory')
 							->count();
 
 					if($ct < 10)
@@ -235,7 +266,7 @@ class AdminController extends BaseController {
 			$total = $curr_qty + $new_qty;		
 
 					DB::table('tblInventory')
-							->where('tblInventory.intInvID', '=', $inv->intInvPID)
+							->where('tblInventory.intInvID', '=', $inv->intInvID)
 							->update([
 								'intInvQty' => $total,
 							]);
@@ -638,7 +669,10 @@ class AdminController extends BaseController {
 
 	public function addProd() {
 
-		$ct = 1 + DB::table('tblItems')
+		$it = 1 + DB::table('tblItems')
+			->count();
+
+		$ct = 1 + DB::table('tblInventory')
 			->count();
 
 		if($ct < 10)
@@ -667,7 +701,7 @@ class AdminController extends BaseController {
 		{
 		DB::table('tblInventory')
 			->insert([
-				'intInvPID' => $ct,
+				'intInvPID' => $it,
 				'strInvCode' => $count,
 			    'intInvQty' => 0,
 			    'dtInvExpiry' => NULL,

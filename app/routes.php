@@ -30,6 +30,7 @@ Route::get('/logout', 'HomeController@doLogout');
 //for Admin Module
 Route::get('/admin', 'AdminController@openAdmin');
 
+Route::post('/set-exp/{id}', 'AdminController@setExp');
 Route::get('/admin/ord', 'AdminController@openAddItem');
 Route::post('/admin/add-to-list', 'AdminController@addToList');
 Route::get('/admin/add-order', 'AdminController@addItem');
@@ -115,7 +116,8 @@ Route::get('/sec-home', 'SecController@openSec');
 Route::get('/sec-inv', 'SecController@openSecInv');
 Route::get('/sec-order/ord', 'SecController@openAddOrd');
 Route::get('/sec-order', 'SecController@openOrdList');
-Route::post('/sec-inv/add-order', 'SecController@addOrd');
+Route::post('/sec-order/add-to-list', 'SecController@addToList');
+Route::get('/sec-inv/add-order', 'SecController@addOrd');
 Route::post('/sec-inv/ord/{id}', 'SecController@receiveOrd');
 Route::get('/adjustments', 'SecController@openSecAdj');
 Route::get('/warranty', 'SecController@openSecWar');

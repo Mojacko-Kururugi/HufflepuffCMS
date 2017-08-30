@@ -23,12 +23,26 @@ class SecController extends BaseController {
 	}
 
 	public function showPayment() {
+		$data = DB::table('tblItems')
+			->join('tblItemType', 'tblItems.intItemType', '=', 'tblItemType.intITID')
+			->join('tblInventory', 'tblInventory.intInvPID', '=', 'tblItems.intItemID')
+			->where('tblItems.intItemStatus', '=', 1)
+			->where('tblInventory.intInvBranch', '=', Session::get('user_bc'))
+			->get();
 
-		$data = DB::table('tblSales')
+		$data2 = DB::table('tblSales')
 			->where('tblSales.intSStatus','!=',1)
 			->get();
 
-		return View::make('sec-add-payment')->with('data',$data);
+		$type = DB::table('tblItemType')
+			->where('tblItemType.intITSType', '=', 1)
+			->where('tblItemType.intITStatus', '=', 1)
+			->get();
+
+		return View::make('sec-add-payment')
+		->with('data',$data)
+		->with('data2',$data2)
+		->with('type',$type);
 	}
 
 	public function openSec() {
@@ -43,6 +57,7 @@ class SecController extends BaseController {
 		Session::put('user_bc',$data->intBranchID);
 
 		$this->doExpiryCheck();
+
 
 		$serv = DB::table('tblServiceHeader')
 			->join('tblPatientInfo', 'tblServiceHeader.intSHPatID','=','tblPatientInfo.intPatID')
@@ -64,11 +79,37 @@ class SecController extends BaseController {
 	public function openSecInv() {
 		$this->doExpiryCheck();
 
-		$alls = DB::table('tblInventory')
+		$data = DB::table('tblInventory')
 			->join('tblItems', 'tblInventory.intInvPID', '=', 'tblItems.intItemID')
 			->join('tblInvStatus', 'tblInventory.intInvStatus', '=', 'tblInvStatus.intISID')
 			->join('tblItemType', 'tblItems.intItemType', '=', 'tblItemType.intITID')
-			->where('tblInventory.intInvBranch', '!=', 1)
+			->where('tblInventory.intInvBranch', '=', Session::get('user_bc'))
+			->where('tblInventory.intInvStatus','!=',3)
+			->where('tblItemType.intITSType', '=', 1)
+			->where('tblItemType.intIsPerishable', '!=', 1)
+			->groupby('tblInventory.intInvPID')
+			->selectRaw('*, sum(intInvQty) as sum')
+			->get();
+
+		$data2 = DB::table('tblInventory')
+			->join('tblItems', 'tblInventory.intInvPID', '=', 'tblItems.intItemID')
+			->join('tblInvStatus', 'tblInventory.intInvStatus', '=', 'tblInvStatus.intISID')
+			->join('tblItemType', 'tblItems.intItemType', '=', 'tblItemType.intITID')
+			->where('tblInventory.intInvBranch', '=', Session::get('user_bc'))
+			->where('tblInventory.intInvStatus','!=',3)
+			->where('tblItemType.intITSType', '=', 1)
+			->where('tblItemType.intIsPerishable', '=', 1)
+			//->groupby('tblInventory.intInvPID')
+			//->selectRaw('*, sum(intInvQty) as sum')
+			->get();
+
+		$mats = DB::table('tblInventory')
+			->join('tblItems', 'tblInventory.intInvPID', '=', 'tblItems.intItemID')
+			->join('tblInvStatus', 'tblInventory.intInvStatus', '=', 'tblInvStatus.intISID')
+			->join('tblItemType', 'tblItems.intItemType', '=', 'tblItemType.intITID')
+			->where('tblInventory.intInvBranch', '=', Session::get('user_bc'))
+			->where('tblInventory.intInvStatus','!=',3)
+			->where('tblItemType.intITSType', '=', 2)
 			->groupby('tblInventory.intInvPID')
 			->selectRaw('*, sum(intInvQty) as sum')
 			->get();
@@ -89,24 +130,35 @@ class SecController extends BaseController {
 			$count = "ADJ" . $ct;
 
 
-		$data = DB::table('tblInventory')
+		/*$data = DB::table('tblInventory')
 			->join('tblInvStatus', 'tblInventory.intInvStatus', '=', 'tblInvStatus.intISID')
 			->join('tblItems', 'tblInventory.intInvPID', '=', 'tblItems.intItemID')
 			->join('tblItemType', 'tblItems.intItemType', '=', 'tblItemType.intITID')
 			->where('tblInventory.intInvBranch', '=', Session::get('user_bc'))
 			->where('tblInvStatus.intISID','!=',3)
-			->get();
+			->get();*/
 
-			return View::make('sec-inv')->with('data',$data)->with('count',$count)->with('alls',$alls)->with('branch',$branch);
+			return View::make('sec-inv')
+			->with('data',$data)
+			->with('data2',$data2)
+			->with('mats',$mats)
+			->with('count',$count)
+			->with('branch',$branch);
 	}
 
 	public function openAddOrd() {
 		$data = DB::table('tblItems')
+			->join('tblItemType', 'tblItems.intItemType', '=', 'tblItemType.intITID')
 			->where('tblItems.intItemStatus', '=', 1)
 			->get();
 
-		$ct = 1 + DB::table('tblOrders')
+		$type = DB::table('tblItemType')
+			->where('tblItemType.intITStatus', '=', 1)
+			->get();
+
+		$ct = 1 + DB::table('tblAdjustments')
 			->count();
+
 
 		if($ct < 10)
 			$count = "BTH00" . $ct;
@@ -115,7 +167,51 @@ class SecController extends BaseController {
 		else if($ct < 1000)
 			$count = "BTH" . $ct;
 
-			return View::make('try-sec-ord')->with('data',$data)->with('count',$count);
+		Session::put('ord_sess',$count);
+
+		$list = DB::table('tblOrders')
+			->join('tblOrderDetails', 'tblOrderDetails.intODCode', '=', 'tblOrders.intOID')
+			->join('tblItems', 'tblOrderDetails.intOProdID', '=', 'tblItems.intItemID')
+			->join('tblOrdStatus', 'tblOrders.intStatus', '=', 'tblOrdStatus.intOSID')
+			->where('tblOrders.intOBranch', '=', Session::get('user_bc'))
+			->where('tblOrders.strOCode', '=', Session::get('ord_sess'))
+			->where('tblOrders.intStatus', '=', 5)		
+			->get();
+
+			return View::make('try-sec-ord')->with('data',$data)->with('count',$count)->with('type',$type)->with('list',$list);
+	}
+
+	public function addToList()
+	{
+		//dd(Request::input('qty'));
+		$sess = DB::table('tblOrders')
+			->where('tblOrders.strOCode', '=', Session::get('ord_sess'))
+			->where('tblOrders.intStatus', '=', 5)		
+			->first();
+
+		if($sess == NULL)
+		{
+		DB::table('tblOrders')
+		->insert([
+			'strOCode'			=> Session::get('ord_sess'),
+			'dtOReceived'	=> null,
+			'intOBranch'	=> Session::get('user_bc'),			
+			'intStatus' => 5
+		]);
+		}
+
+		$data = DB::table('tblOrders')
+			->where('tblOrders.strOCode', '=',Request::input('user_id'))
+			->first();
+
+		DB::table('tblOrderDetails')
+		->insert([
+			'intOProdID' 		=> Request::input('name'),
+			'intODCode'			=> $data->intOID,
+			'intOQty' 	=> Request::input('qty'),
+		]);
+
+		return Redirect::to('/sec-order/ord');
 	}
 
 	public function openOrdList() {
@@ -123,14 +219,30 @@ class SecController extends BaseController {
 			->join('tblOrderDetails', 'tblOrderDetails.intODCode', '=', 'tblOrders.intOID')
 			->join('tblItems', 'tblOrderDetails.intOProdID', '=', 'tblItems.intItemID')
 			->join('tblOrdStatus', 'tblOrders.intStatus', '=', 'tblOrdStatus.intOSID')
-			->where('tblOrders.intOBranch', '=', Session::get('user_bc'))		
+			->where('tblOrders.intOBranch', '=', Session::get('user_bc'))
+			->where('tblOrders.intStatus', '!=', 5)			
+			->groupby('tblOrders.strOCode')	
+			->get();
+
+		$test = DB::table('tblOrders')
+			->join('tblOrdStatus', 'tblOrders.intStatus', '=', 'tblOrdStatus.intOSID')	
+			->join('tblBranch', 'tblOrders.intOBranch', '=', 'tblBranch.intBranchID')
+			->where('tblOrders.intStatus', '!=', 5)
+			->groupby('tblOrders.strOCode')	
+			->get();
+
+		$list = DB::table('tblOrders')
+			->join('tblOrderDetails', 'tblOrderDetails.intODCode', '=', 'tblOrders.intOID')
+			->join('tblItems', 'tblOrderDetails.intOProdID', '=', 'tblItems.intItemID')
+			->where('tblOrders.intStatus', '!=', 5)	
+			->where('tblOrders.intOBranch', '=', Session::get('user_bc'))
 			->get();
 		
-			return View::make('sec-order')->with('data',$data);
+			return View::make('sec-order')->with('data',$data)->with('test',$test)->with('list',$list);
 	}
 
 	public function addOrd() {
-
+		/*
 		DB::table('tblOrders')
 		->insert([
 			'strOCode'			=> Request::input('user_id'),
@@ -149,6 +261,13 @@ class SecController extends BaseController {
 			'intODCode'			=> $data->intOID,
 			'intOQty' 	=> Request::input('qty'),
 		]);
+		*/
+
+		DB::table('tblOrders')
+				->where('tblOrders.strOCode', '=', Session::get('ord_sess'))
+				->update([
+					'intStatus' => 2,
+				]);
 
 		return Redirect::to('/sec-order');
 	}

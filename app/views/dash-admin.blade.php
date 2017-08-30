@@ -158,11 +158,17 @@
                         <td>{{ $data->strItemModel }}</td>
                         <td>{{ $data->strITDesc }}</td>
                         <td>{{ $data->dcInvPPrice }}</td>
-                        <td>{{ $data->sum }}</td>
-                        <td>WAIT LANG</td>
+                        <td>{{ $data->intInvQty }}</td>
+                        @if($data->dtInvExpiry != null)
+                        <td>{{ $data->dtInvExpiry }}</td>
+                        @else
+                        <td>PLEASE SET AN EXPIRY</td>
+                        @endif
                         <td>
                             @if($data->intIsPerishable == 1)
-                            <a class="modal-trigger waves-effect waves-light btn green darken-1 btn-small center-text" href="#{{$data->intInvID}}">EXPIRATION</a>
+                            @if($data->dtInvExpiry == null)
+                            <a class="modal-trigger waves-effect waves-light btn green darken-1 btn-small center-text" href="#{{$data->intInvID}}">SET EXPIRATION</a>
+                            @endif
                             @endif
                              <a class="modal-trigger waves-effect waves-light btn green darken-1 btn-small center-text" href="#{{$data->intInvID}}/stocks">STOCK CARD</a>
                         </td>
@@ -173,7 +179,7 @@
                                 <div class="modal-content col 6">
                                   <h4>Expiration for {{$data->strItemName}} - {{$data->strInvCode}}</h4>
                                   <p>
-                                  <form action="/adjust/{{$data->intInvID}}" method="POST">
+                                  <form action="/set-exp/{{$data->intInvID}}" method="POST">
                                              <br>
                                           <div class="row">
                                             <div class="col s12 m8 l6">
@@ -289,31 +295,29 @@
                     <tr>
                         <th>Order Number</th>
                         <th>Branch Name</th>
-                        <th>Ordered Product Name and Model</th>
-                        <th>Ordered Quantity</th>
+                        <th>Ordered Items</th>
                         <th>Date Ordered</th>
                         <th>Action</th>
                     </tr>
             </thead>
 
             <tbody>
-               @foreach($ord as $data)
+               @foreach($ord as $order)
                       <tr>
-                        <td>{{ $data->strOCode }}</td>
-                        <td>{{ $data->strBranchName }}</td>
-                        <td>{{ $data->strItemName .' - ' . $data->strItemModel }}</td>
-                        <td>{{ $data->intOQty }}</td>
-                        <td>{{ $data->created_at }}</td>
-                        @if($data->intStatus == 2)
-                        <td @if($data->intStatus == 1) class="green-text bold" @else class="yellow-text bold" @endif>{{ $data->strOSDesc }}</td>
+                        <td>{{ $order->strOCode }}</td>
+                        <td>{{ $order->strBranchName }}</td>
+                        <td><a class="modal-trigger waves-effect waves-light btn green darken-1 btn-small center-text" href="#{{$order->strOCode}}/items">VIEW ORDERS</a></td>
+                        <td>{{ $order->created_at }}</td>
+                        @if($order->intStatus == 2)
+                        <td @if($order->intStatus == 1) class="green-text bold" @else class="yellow-text bold" @endif>{{ $order->strOSDesc }}</td>
                         <td>
                             <div class="center-btn">
-                             <a class="waves-effect waves-light btn green darken-1 btn-small center-text" href="admin/deliver/{{$data->intOID}}">DELIVER</a>
+                             <a class="waves-effect waves-light btn green darken-1 btn-small center-text" href="admin/deliver/{{$order->intOID}}">DELIVER</a>
                             </div>
-                        @elseif($data->intStatus == 1)
+                        @elseif($order->intStatus == 1)
                         <td>
-                        <a class="green-text bold"> Received at {{ $data->dtOReceived }} </a>
-                         @elseif($data->intStatus == 4)
+                        <a class="green-text bold"> Received at {{ $order->dtOReceived }} </a>
+                         @elseif($order->intStatus == 4)
                         <td>
                         <a class="orange-text bold"> ON DELIVERY </a>
                         @endif
@@ -323,6 +327,40 @@
               @endforeach
             </tbody>
           </table>
+
+          @foreach($test as $test)
+                              <div id="{{$test->strOCode}}/items" class="modal modal-fixed-footer">
+                                <div class="modal-content col 6">
+                                  <h4>Ordered Items</h4>
+                                  <p>
+                                                      <table class="centered table-fixed">
+                                                      <thead>
+                                                          <tr>
+                                                              <th>Item Name</th>
+                                                              <th>Item Description</th>
+                                                              <th>Quantity</th>
+                                                          </tr>
+                                                      </thead>
+                                                      <tbody>
+                                                      @foreach($list as $listi)
+                                                            @if($listi->intODCode == $test->intOID)
+                                                            <tr>
+                                                              <td>{{ $listi->strItemName }}</td>
+                                                              <td>{{ $listi->strItemModel }}</td>
+                                                              <td>{{ $listi->intOQty }}</td>
+                                                          </tr>
+                                                          @endif
+                                                         @endforeach 
+                                                      </tbody>
+                                                    </table>
+                                  </p>
+                                </div>
+                                <div class="modal-footer col 6">
+                                  <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat ">CLOSE</a>
+                                </div>
+                              </div>
+          @endforeach
+
           @else
           <p>
             You have no pending requests.

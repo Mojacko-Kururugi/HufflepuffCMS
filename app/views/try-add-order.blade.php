@@ -39,7 +39,7 @@
                                  <div class="row">
                                   <label for="payment-mode">Products:</label>
                                     <select name="name" id="name">
-                                     <option value="0" disabled selected>- Choose specs -</option>
+                                     <option value="0" disabled selected>- Select {{$subt->strITDesc}} -</option>
                                      @foreach($data as $prod)
                                      @if($prod->intItemType == $subt->intITID)
                                      <option value="{{$prod->intItemID}}">{{$prod->strItemName}}</option>
@@ -47,14 +47,16 @@
                                      @endforeach
                                     </select>
                                  </div>
+                                 <!--
                                  @if($subt->intIsPerishable == 1)
                                           <div class="row">
                                             <div class="col s12 m8 l6">
                                               <label for="date">Choose Expiry Date</label>
-                                              <input id="date" name="date" type="date" class="datepicker" style="height:39px" value="">
+                                              <input id="date" name="date" type="date" class="datepicker" style="height:39px">
                                             </div>
                                           </div>
                                 @endif
+                                -->
                                </div>
                         </div>
                       @endforeach  

@@ -163,11 +163,6 @@ class DoctorController extends BaseController {
 		$status = DB::table('tblServiceStatus')
 			->get();
 		
-		$product = DB::table('tblInventory')
-			->join('tblItems', 'tblInventory.intInvPID', '=', 'tblItems.intItemID')
-			->where('tblInventory.intInvBranch', '=', Session::get('user_bc'))
-			->where('tblInventory.intInvStatus','!=',3)
-			->get();
 
 		$ct = 1 + DB::table('tblServiceHeader')
 			->count();
@@ -348,7 +343,7 @@ class DoctorController extends BaseController {
 		$data = DB::table('tblSales')
 			->where('tblSales.intSStatus','!=',1)
 			->get();
-
+		
 		return View::make('try-payment')->with('data',$data);
 		//return View::make('add-payment');
 	}

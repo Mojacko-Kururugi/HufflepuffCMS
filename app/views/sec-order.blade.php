@@ -28,8 +28,7 @@
                 <thead>
                     <tr>
                         <th>Serial Code</th>
-                        <th>Ordered Product Name and Model</th>
-                        <th>Ordered Quantity</th>
+                        <th>Ordered Items</th>
                         <th>Date Ordered</th>
                         <th>Status</th>
                         <th>Action</th>
@@ -39,8 +38,7 @@
                 @foreach($data as $data)
                       <tr>
                         <td>{{ $data->strOCode }}</td>
-                        <td>{{ $data->strItemName .' - ' . $data->strItemModel }}</td>
-                        <td>{{ $data->intOQty }}</td>
+                        <td><a class="modal-trigger waves-effect waves-light btn green darken-1 btn-small center-text" href="#{{$data->strOCode}}/items">VIEW ORDERS</a></td>
                         <td>{{ $data->created_at }}</td>
                         <td @if($data->intStatus == 1) class="green-text bold" @else class="yellow-text bold" @endif>{{ $data->strOSDesc }}</td>
                         <td>
@@ -72,6 +70,40 @@
                    @endforeach 
                 </tbody>
               </table>
+
+                        @foreach($test as $test)
+                              <div id="{{$test->strOCode}}/items" class="modal modal-fixed-footer">
+                                <div class="modal-content col 6">
+                                  <h4>Ordered Items</h4>
+                                  <p>
+                                                      <table class="centered table-fixed">
+                                                      <thead>
+                                                          <tr>
+                                                              <th>Item Name</th>
+                                                              <th>Item Description</th>
+                                                              <th>Quantity</th>
+                                                          </tr>
+                                                      </thead>
+                                                      <tbody>
+                                                      @foreach($list as $listi)
+                                                            @if($listi->intODCode == $test->intOID)
+                                                            <tr>
+                                                              <td>{{ $listi->strItemName }}</td>
+                                                              <td>{{ $listi->strItemModel }}</td>
+                                                              <td>{{ $listi->intOQty }}</td>
+                                                          </tr>
+                                                          @endif
+                                                         @endforeach 
+                                                      </tbody>
+                                                    </table>
+                                  </p>
+                                </div>
+                                <div class="modal-footer col 6">
+                                  <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat ">CLOSE</a>
+                                </div>
+                              </div>
+          @endforeach
+
             <br>
             <br>
             </div>

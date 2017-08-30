@@ -4,7 +4,7 @@
 
   <div class="row"><br>
     <div class="center col l12 m12 s12">
-      <h3>Service</h3>
+      <h3>Medical Service</h3>
 
     </div>
   </div>
@@ -32,6 +32,86 @@
                     </div>
                   </div>
 
+                  <hr>
+        <div class="row">
+          <div class="col l12 m6 s6">
+              <div class="row">
+                 <div class="col s12 m6 l4">
+                  <h5>Complaints:</h5>
+                    <form action="#" style="font-color: black;">
+                      <p>
+                        <input type="checkbox" id="BOVfar" />
+                        <label for="BOVfar">BOV Far</label>
+                      </p>
+                      <p>
+                        <input type="checkbox" id="BOVnear" />
+                        <label for="BOVnear">BOV Near</label>
+                      </p>
+                      <p>
+                        <input type="checkbox" id="headache" />
+                        <label for="headache">Headache</label>
+                      </p>
+                      <p>
+                        <input type="checkbox" id="dizziness" />
+                        <label for="dizziness">Dizziness</label>
+                      </p>
+                      <p>
+                        <input type="checkbox" id="glare" />
+                        <label for="glare">Glare</label>
+                      </p>
+                      <p>
+                        <input type="checkbox" id="vomitting" />
+                        <label for="vomitting">Vomitting</label>
+                      </p>
+                    </form>
+                </div>
+              </div>
+          </div>
+        </div>
+
+      <br>
+      <hr>
+      <br>
+      <div class="col s12 m6 l6">
+        <!-- mga bes, wag nested row at col-->
+        <div class="row">
+            <div class="col s12">
+              <h5>New Rx</h5>
+              <h6>Spectacles</h6>
+            </div>
+            <div class="input-field col l6 m6 s12">
+              <label for="OD">OD:</label>
+              <input id="OD" name="OD" type="number" class="" value="" />
+            </div>
+            <div class="input-field col l6 m6 s12">
+              <label  for="ODAdd">Add:</label>
+              <input id="ODAdd" name="ODAdd" type="number" class="" value=""/>
+            </div>
+            <div class="input-field col l6 m6 s12">
+              <label for="OS">OS:</label>
+              <input id="OS" name="OS" type="number" class="" value="" />
+            </div>
+            <div class="input-field col l6 m6 s12">
+                <label  for="OSAdd">Add:</label>
+                <input id="OSAdd" name="OSAdd" type="number" class="" value=""/>
+            </div>
+        </div>
+        <div class="row">
+          <div class="col s12">
+            <h6>VA/Contact Lens</h6>
+          </div>
+          <div class="input-field col l6 m6 s12">
+            <label for="CLOD">OD:</label>
+            <input id="CLOD" name="OD" type="number" class="" value="" />
+          </div>
+          <div class="input-field col l6 m6 s12">
+            <label  for="CLOS">OS:</label>
+            <input id="CLOS" name="CLOS" type="number" class="" value=""/>
+          </div>
+        </div>
+          
+      </div>
+
                   <div class="row">
                     <div class="input-field col l6 m6 s12">
                         <select class="initialized browser-default" name="service" id="service" data-error=".school_error">
@@ -46,34 +126,22 @@
 
                   <div class="row">
                         <div class="col s12">
-                        <label for="desc">Consultation Details:</label>
+                        <label for="desc">Consultation Diagnosis and Details:</label>
                         <textarea id="desc" name="desc" class="materialize-textarea"></textarea>
                         </div>
                   </div> 
 
+
                   <div class="row">
-                    <div class="input-field col l6 m6 s12">
-                        <select class="initialized browser-default" name="product" id="product" data-error=".school_error">
-                          <option value="" disabled selected>Product</option>
-                          @foreach($product as $product)
-                            <option value="{{ $product->intInvID}}" @if(Input::old('product') == $product->intInvID) selected="selected" @endif>{{ $product->strItemName . ' - ' . $product->dcInvPPrice . ' php' }}</option>
-                          @endforeach
-                        </select>
-                       <div class="school_error"></div>
-                    </div>
-                  </div>
-
-              <div class="row">
-                <div class="input-field col l6 m8 s12">
-                  <label for="qty">Quantity</label>
-                  <input id="qty" name="qty" type="number" class="validate" value="" />
-                </div>
-              </div>
-
+                        <div class="col s12">
+                        <label for="asc">Prescription and Recommendations:</label>
+                        <textarea id="asc" name="asc" class="materialize-textarea"></textarea>
+                        </div>
+                  </div> 
 
                <div class="row">
                   <div class="col s12">
-                    <label for="claim">Will Claim the Product Today?</label>
+                    <label for="claim">Will Purchase A Product?</label>
                     <select name="claim" id="claim">
                  <option value="" selected disabled>- Choose Option -</option>
                  <option value="1">Yes</option>
@@ -82,7 +150,7 @@
                   </div>
                 </div>
 
-                  <div class="row">
+              <!--    <div class="row">
                     <div class="input-field col l6 m6 s12">
                         <select class="initialized browser-default" name="type" id="type" data-error=".school_error">
                           <option value="" disabled selected>Payment Type</option>
@@ -104,7 +172,7 @@
                         </select>
                        <div class="school_error"></div>
                     </div>
-                  </div>
+                  </div> -->
 
             <div class="row">
               <div class="input-field col l12 s12 center">

@@ -5,7 +5,7 @@
 
   <div class="row">
     <div class="center col l12 m12 s12">
-      <h5>New Payment</h5>
+      <h5>POS</h5>
     </div>
   </div>
 
@@ -38,60 +38,43 @@
         <div class="card-content">
          <div class="card-tabs">
             <ul class="tabs tabs-fixed-width">
-              <li class="tab"><a class="active" href="#specs">SPECS</a></li>
-              <li class="tab"><a href="#lens">LENSES</a></li>
-              <li class="tab"><a href="#contact-lens">CONTACTLENSE</a></li>
-              <li class="tab"><a href="#solution">SOLUTIONS</a></li>
+                        <ul class="tabs tabs-fixed-width">
+                                @foreach($type as $stype)
+                                  <li class="tab"><a href="#{{ $stype->intITID }}">{{ $stype->strITDesc }}</a></li>
+                                @endforeach
+                                </ul>
             </ul>
         </div>
-        <div class="card-content">
-             <div id="specs">
-               <div class="row">
-                <label for="payment-mode">Products:</label>
-                  <select name="Products">
-                   <option value="2" disabled selected>- Choose specs -</option>
-                   <option>product 1</option>
-                   <option>product 2</option>
-                  </select>
-               </div>
-             </div>
-
-             <div id="lens">
-               <div class="row">
-                <label for="payment-mode">Products:</label>
-                  <select name="Products">
-                   <option value="2" disabled selected>- Choose lens -</option>
-                   <option>product 1</option>
-                   <option>product 2</option>
-                  </select>
-                </div>
-             </div>
-
-              <div id="contact-lens">
-                <div class="row">
-                  <label for="payment-mode">Products:</label>
-                    <select name="Products">
-                     <option value="2" disabled selected>- Choose contact lens -</option>
-                     <option>product 1</option>
-                     <option>product 2</option>
-                    </select>
-                 </div>
-              </div>
-
-              <div id="solution">
-                <div class="row">
-                  <label for="payment-mode">Products:</label>
-                    <select name="Products">
-                     <option value="2" disabled selected>- Choose solution-</option>
-                     <option>product 1</option>
-                     <option>product 2</option>
-                    </select>
-                 </div>
-              </div>
-        </div>
-
-        <div class="card-content">
-              <div class="row">
+                      @foreach($type as $subt)
+                        <div class="card-content">
+                               <div id="{{ $subt->intITID }}">
+                                 <div class="row">
+                                  <label for="payment-mode">Products:</label>
+                                    <select name="name" id="name">
+                                     <option value="0" disabled selected>- Select {{$subt->strITDesc}} -</option>
+                                     @foreach($data as $prod)
+                                     @if($prod->intItemType == $subt->intITID)
+                                     <option value="{{$prod->intItemID}}">{{$prod->strItemName}}</option>
+                                     @endif
+                                     @endforeach
+                                    </select>
+                                 </div>
+                                 <!--
+                                 @if($subt->intIsPerishable == 1)
+                                          <div class="row">
+                                            <div class="col s12 m8 l6">
+                                              <label for="date">Choose Expiry Date</label>
+                                              <input id="date" name="date" type="date" class="datepicker" style="height:39px">
+                                            </div>
+                                          </div>
+                                @endif
+                                -->
+                               </div>
+                        </div>
+                      @endforeach
+       </div>   
+    </div>
+    <div class="row">
                 <div class="input-field col l6 m6 s6">
                    <label for="qty">Quantity</label>
                     <input id="qty" name="qty" type="text" class="validate" value="" />
@@ -100,9 +83,6 @@
                     <button type="submit" class="waves-effect waves-light btn btn-green modal-btn">Add</button>
                 </div>
               </div>
-        </div>
-       </div>   
-    </div>
 
     <div class="card-panel">
       <span class="card-title">Payment</span>
@@ -140,7 +120,7 @@
             <div class="row">
               <div class="input-field col l12 s12 center">
                 <button type="submit" class="waves-effect waves-light btn btn-green modal-btn">PAY</button>
-                <a href="{{ URL::to('/sales') }}" class="waves-effect waves-light btn btn-green modal-btn" style="margin-right:20px;">Cancel</a>
+                <a href="{{ URL::to('/sec-home') }}" class="waves-effect waves-light btn btn-green modal-btn" style="margin-right:20px;">Cancel</a>
               </div>
             </div>
         </div>
