@@ -184,6 +184,15 @@ CREATE TABLE tblItems(
     REFERENCES tblItemType(intITID)
 )Engine=InnoDb;
 
+CREATE TABLE tblUnits(
+	intUnitID int NOT NULL AUTO_INCREMENT,
+    intUnitItemID INT,
+    strUnitDesc TEXT,
+    intUnitQty INT,
+    
+    PRIMARY KEY (intUnitID)
+)Engine=InnoDb;
+
 CREATE TABLE tblInventory(
 	intInvID int NOT NULL AUTO_INCREMENT,
     strInvCode VARCHAR(25),
@@ -286,6 +295,7 @@ CREATE TABLE tblServiceDetails(
     intQty INT,
     intClaimStatus INT,
     intHWarranty INT,
+	intIsCustom INT,
 
 	FOREIGN KEY(intHInvID)
     REFERENCES tblInventory(intInvID),
@@ -293,10 +303,12 @@ CREATE TABLE tblServiceDetails(
     REFERENCES tblWarranty(intWID)
 )Engine=InnoDb;
 
+
 CREATE TABLE tblConsultationRecords(
 	strCRHeaderCode VARCHAR(25),
-    strCRDesc TEXT
-
+    strCRDiagnosis TEXT,
+    strCRPresciptions TEXT
+    
 )Engine=InnoDb;
 
 CREATE TABLE tblSales(
