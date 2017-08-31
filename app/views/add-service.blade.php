@@ -22,6 +22,18 @@
 
                   <div class="row">
                     <div class="input-field col l6 m6 s12">
+                        <select class="initialized browser-default" name="doc" id="doc" data-error=".school_error">
+                          <option value="" disabled selected>Optometrist Name</option>
+                          @foreach($doc as $doc)
+                            <option value="{{ $doc->intDocID}}" @if(Input::old('doc') == $doc->intDocID) selected="selected" @endif>{{ $doc->strDocLast . ', ' . $doc->strDocFirst . ' ' . $doc->strDocMiddle}}</option>
+                          @endforeach
+                        </select>
+                       <div class="school_error"></div>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="input-field col l6 m6 s12">
                         <select class="initialized browser-default" name="patient" id="patient" data-error=".school_error">
                           <option value="" disabled selected>Patient Name</option>
                           @foreach($patient as $patient)
@@ -38,7 +50,6 @@
               <div class="row">
                  <div class="col s12 m6 l4">
                   <h5>Complaints:</h5>
-                    <form action="#" style="font-color: black;">
                       <p>
                         <input type="checkbox" id="BOVfar" />
                         <label for="BOVfar">BOV Far</label>
@@ -63,7 +74,6 @@
                         <input type="checkbox" id="vomitting" />
                         <label for="vomitting">Vomitting</label>
                       </p>
-                    </form>
                 </div>
               </div>
           </div>
@@ -150,6 +160,14 @@
                   </div>
                 </div>
 
+              <div class="row">
+                <div class="input-field col l6 m6 s12">
+                  <input id="fee" name="fee" type="number" data-error=".id_error" />
+                  <label for="fee">Specified Total Fee:</label>
+                  <div class="id_error"></div>
+                </div>
+              </div>
+
               <!--    <div class="row">
                     <div class="input-field col l6 m6 s12">
                         <select class="initialized browser-default" name="type" id="type" data-error=".school_error">
@@ -176,7 +194,7 @@
 
             <div class="row">
               <div class="input-field col l12 s12 center">
-                <button type="submit" class="waves-effect waves-light btn btn-green modal-btn">Save</button>
+                <button type="submit" class="waves-effect waves-light btn btn-green">Save</button>
                 <a href="{{ URL::to('/sec-home') }}" class="waves-effect waves-light btn btn-green modal-btn" style="margin-right:20px;">Cancel</a>
               </div>
             </div>

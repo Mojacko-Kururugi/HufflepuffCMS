@@ -156,7 +156,8 @@ class SecController extends BaseController {
 			->where('tblItemType.intITStatus', '=', 1)
 			->get();
 
-		$ct = 1 + DB::table('tblAdjustments')
+		$ct = 1 + DB::table('tblOrders')
+			->where('tblOrders.intStatus', '!=', 5)
 			->count();
 
 
@@ -228,6 +229,7 @@ class SecController extends BaseController {
 			->join('tblOrdStatus', 'tblOrders.intStatus', '=', 'tblOrdStatus.intOSID')	
 			->join('tblBranch', 'tblOrders.intOBranch', '=', 'tblBranch.intBranchID')
 			->where('tblOrders.intStatus', '!=', 5)
+			->where('tblOrders.intOBranch', '=', Session::get('user_bc'))
 			->groupby('tblOrders.strOCode')	
 			->get();
 
@@ -283,12 +285,24 @@ class SecController extends BaseController {
 					'intStatus' => 1,
 				]);
 
-		$data = DB::table('tblOrders')
+		$data1 = DB::table('tblOrders')
 			->join('tblOrderDetails', 'tblOrderDetails.intODCode', '=', 'tblOrders.intOID')
 			->join('tblItems', 'tblOrderDetails.intOProdID', '=', 'tblItems.intItemID')
 			->where('tblOrders.intOID', '=', $id)
-			->first();
+			->get();
 
+		foreach($data1 as $data)
+		{
+		DB::table('tblInventory')
+			->insert([
+				'intInvPID' => $data->intOProdID,
+				'strInvCode' => $data->strOCode,
+			    'intInvQty' => $data->intOQty,
+			    'dtInvExpiry' => NULL,
+			    'intInvStatus' => 1,
+				'intInvBranch' => Session::get('user_bc')
+			]);
+		}
 	/*	if($data->intProdType == 1)
 		{
 		DB::table('tblInventory')
@@ -316,16 +330,6 @@ class SecController extends BaseController {
 			]);
 		}
 		*/
-
-		DB::table('tblInventory')
-			->insert([
-				'intInvPID' => $data->intOProdID,
-				'strInvCode' => $data->strOCode,
-			    'intInvQty' => $data->intOQty,
-			    'dtInvExpiry' => NULL,
-			    'intInvStatus' => 1,
-				'intInvBranch' => Session::get('user_bc')
-			]);
 
 		return Redirect::to('/sec-inv');
 	}

@@ -16,7 +16,7 @@
       <div class="card-content">
         <div class="row">
           <div class="col s12 m12 l12">
-                <a class="waves-effect waves-light btn blue darken-1 btn-small center-text" href="/admin/ord">ADD NEW ITEMS</a>
+                <a class="waves-effect waves-light btn blue darken-1 btn-small center-text" href="/admin/ord">ADD NEW ITEM STOCK</a>
                 <a class="modal-trigger waves-effect waves-light btn green darken-1 btn-small center-text" href="#allbranch">VIEW ALL BRANCHES</a>
                 <a class="modal-trigger waves-effect waves-light btn btn-flat right btn-small center-text" href="{{ URL::to('/reports') }}">Generate Report</a>
           </div>
@@ -239,8 +239,8 @@
                                                       <thead>
                                                           <tr>
                                                               <th>Date</th>
-                                                              <th>Batch Code</th>
-                                                              <th>Lot Number</th>
+                                                              <th>Batch Number</th>
+                                                              <th>Inventory Code</th>
                                                               <th>Quantity</th>
                                                               <th>Type</th>
                                                               <th>Reason</th>

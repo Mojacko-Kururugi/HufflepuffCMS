@@ -27,7 +27,7 @@
               <table id="example" class="mdl-data-table" cellspacing="0" width="100%">
                 <thead>
                     <tr>
-                        <th>Serial Code</th>
+                        <th>Order Code</th>
                         <th>Ordered Items</th>
                         <th>Date Ordered</th>
                         <th>Status</th>
@@ -50,7 +50,7 @@
                               <!-- Modal Structure -->
                               <div id="{{$data->intOID}}" class="modal modal-fixed-footer">
                                 <div class="modal-content col 6">
-                                  <h4>RECEIVE ORDER FOR {{$data->strItemName}}??</h4>
+                                  <h4>RECEIVE ORDER FOR {{$data->strOCode}}??</h4>
                                   <p>
                                   <form action="/sec-inv/ord/{{$data->intOID}}" method="POST"> 
                                   </p>

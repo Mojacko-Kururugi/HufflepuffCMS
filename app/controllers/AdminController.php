@@ -64,6 +64,7 @@ class AdminController extends BaseController {
 
 
 		$ct = 1 + DB::table('tblOrders')
+			->where('tblOrders.intStatus', '!=', 5)
 			->count();
 
 		if($ct < 10)
@@ -78,6 +79,7 @@ class AdminController extends BaseController {
 			->join('tblItems', 'tblOrderDetails.intOProdID', '=', 'tblItems.intItemID')
 			->join('tblOrdStatus', 'tblOrders.intStatus', '=', 'tblOrdStatus.intOSID')	
 			->join('tblBranch', 'tblOrders.intOBranch', '=', 'tblBranch.intBranchID')
+			->where('tblOrders.intOBranch', '!=', 1)
 			->where('tblOrders.intStatus', '!=', 5)
 			->groupby('tblOrders.strOCode')	
 			->get();
@@ -85,6 +87,7 @@ class AdminController extends BaseController {
 		$test = DB::table('tblOrders')
 			->join('tblOrdStatus', 'tblOrders.intStatus', '=', 'tblOrdStatus.intOSID')	
 			->join('tblBranch', 'tblOrders.intOBranch', '=', 'tblBranch.intBranchID')
+			->where('tblOrders.intOBranch', '!=', 1)
 			->where('tblOrders.intStatus', '!=', 5)
 			->groupby('tblOrders.strOCode')	
 			->get();
@@ -94,6 +97,7 @@ class AdminController extends BaseController {
 			->join('tblItems', 'tblOrderDetails.intOProdID', '=', 'tblItems.intItemID')
 			->join('tblOrdStatus', 'tblOrders.intStatus', '=', 'tblOrdStatus.intOSID')	
 			->join('tblBranch', 'tblOrders.intOBranch', '=', 'tblBranch.intBranchID')
+			->where('tblOrders.intOBranch', '!=', 1)
 			->where('tblOrders.intStatus', '!=', 5)	
 			->get();
 
@@ -142,7 +146,8 @@ class AdminController extends BaseController {
 			->where('tblItemType.intITStatus', '=', 1)
 			->get();
 
-		$ct = 1 + DB::table('tblAdjustments')
+		$ct = 1 + DB::table('tblOrders')
+			->where('tblOrders.intStatus', '!=', 5)
 			->count();
 
 		if($ct < 10)
@@ -153,6 +158,7 @@ class AdminController extends BaseController {
 			$count = "AMN" . $ct;
 
 		Session::put('ord_sess',$count);
+
 
 		$list = DB::table('tblOrders')
 			->join('tblOrderDetails', 'tblOrderDetails.intODCode', '=', 'tblOrders.intOID')
@@ -283,12 +289,34 @@ class AdminController extends BaseController {
 			}
 		}//foreach
 
+		DB::table('tblOrders')
+				->where('tblOrders.strOCode', '=', Session::get('ord_sess'))
+				->update([
+					'intStatus' => 1,
+				]);
+
 		return Redirect::to('/admin');
 	}
 
 	public function deliverOrd($id) {
 
 		$ldate = date('Y-m-d H:i:s');
+
+
+		DB::table('tblOrders')
+				->where('tblOrders.intOID', '=', $id)
+				->update([
+					'dtOReceived' => $ldate,
+					'intStatus' => 4,
+				]);
+
+		$data = DB::table('tblOrderDetails')
+			->join('tblOrders', 'tblOrderDetails.intODCode', '=', 'tblOrders.intOID')
+			->join('tblItems', 'tblOrderDetails.intOProdID', '=', 'tblItems.intItemID')
+			->join('tblBranch', 'tblOrders.intOBranch', '=', 'tblBranch.intBranchID')
+			->where('tblOrderDetails.intODCode', '=', $id)
+			->get();
+
 
 		$ct = 1 + DB::table('tblAdjustments')
 			->count();
@@ -300,19 +328,8 @@ class AdminController extends BaseController {
 		else if($ct < 1000)
 			$count = "MMN" . $ct;
 
-		DB::table('tblOrders')
-				->where('tblOrders.intOID', '=', $id)
-				->update([
-					'dtOReceived' => $ldate,
-					'intStatus' => 4,
-				]);
-
-		$data = DB::table('tblOrders')
-			->join('tblOrderDetails', 'tblOrderDetails.intODCode', '=', 'tblOrders.intOID')
-			->join('tblItems', 'tblOrderDetails.intOProdID', '=', 'tblItems.intItemID')
-			->join('tblBranch', 'tblOrders.intOBranch', '=', 'tblBranch.intBranchID')
-			->where('tblOrders.intOID', '=', $id)
-			->first();
+		foreach($data as $data)
+		{
 
 		$inv = DB::table('tblInventory')
 			->where('tblInventory.intInvPID', '=', $data->intOProdID)
@@ -325,7 +342,9 @@ class AdminController extends BaseController {
 		$new_qty = $data->intOQty;
 		$curr_qty =  $inv->intInvQty;
 		$total;
+		//$string = "ORDER BY BRANCH";
 		$string = "ORDER BY " . $data->strBranchName . "(" . $data->strOCode . ")";
+		//$string =  $data->intODCode;
 			if($new_qty <= $inv->sum)
 				{
 				$total = $curr_qty - $new_qty;
@@ -344,9 +363,8 @@ class AdminController extends BaseController {
 						->update([
 							'intInvQty' => $total,
 						]);
-					return Redirect::to('/admin');
 				}
-
+			}//foreach
 
 		return Redirect::to('/admin');
 	}

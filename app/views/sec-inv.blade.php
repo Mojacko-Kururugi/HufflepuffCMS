@@ -28,7 +28,7 @@
               <table id="example" class="mdl-data-table" cellspacing="0" width="100%">
                 <thead>
                     <tr>
-                        <th>Serial Code</th>
+                        <th>Lot Number</th>
                         <th>Product Name</th>
                         <th>Product Description</th>
                         <th>Product Type</th>
@@ -45,7 +45,7 @@
                         <td>{{ $data->strItemModel }}</td>
                         <td>{{ $data->strITDesc }}</td>
                         <td>{{ $data->dcInvPPrice }}</td>
-                        <td>{{ $data->intInvQty }}</td>
+                        <td>{{ $data->sum }}</td>
                         @if($data->intISID == 1)
                         <td class="green-text bold">{{ $data->strISDesc }}</td>
                         @elseif($data->intISID == 2)
@@ -113,7 +113,7 @@
             <table id="example1" class="mdl-data-table" cellspacing="0" width="100%">
                 <thead>
                     <tr>
-                        <th>Serial Code</th>
+                        <th>Lot Number</th>
                         <th>Product Brand</th>
                         <th>Product Name</th>
                         <th>Product Description</th>
@@ -206,7 +206,7 @@
               <table id="example2" class="mdl-data-table" cellspacing="0" width="100%">
                 <thead>
                     <tr>
-                        <th>Serial Code</th>
+                        <th>Lot Number</th>
                         <th>Material Name</th>
                         <th>Material Description</th>
                         <th>Material Type</th>

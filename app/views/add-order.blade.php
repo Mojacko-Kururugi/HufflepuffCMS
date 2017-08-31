@@ -4,7 +4,7 @@
 
   <div class="row"><br>
     <div class="center col l12 m12 s12">
-      <h3>Add New Order</h3>
+      <h3>Add New Stock</h3>
     </div>
   </div>
 

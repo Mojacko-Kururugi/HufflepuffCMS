@@ -153,6 +153,11 @@ class DoctorController extends BaseController {
 			->where('tblPatientInfo.intPatStatus', '=', 1)
 			->get();
 
+		$doc = DB::table('tblDocInfo')
+			->join('tblBranch', 'tblDocInfo.intDocBranch', '=', 'tblBranch.intBranchID')
+			->where('tblDocInfo.intDocStatus', '=', 1)
+			->get();
+
 		$service = DB::table('tblServices')
 			->where('tblServices.intServStatus', '=', 1)
 			->get();
@@ -173,7 +178,8 @@ class DoctorController extends BaseController {
 			$count = "SRV0" . $ct;
 		else if($ct < 1000)
 			$count = "SRV" . $ct;
-				return View::make('add-service')->with('patient',$patient)->with('service',$service)->with('type',$type)->with('status',$status)->with('product',$product)->with('count',$count);
+
+				return View::make('add-service')->with('patient',$patient)->with('service',$service)->with('type',$type)->with('status',$status)->with('count',$count)->with('doc',$doc);
 	}	
 
 	public function saveServ() {
@@ -182,12 +188,32 @@ class DoctorController extends BaseController {
 		->insert([
 			'strSHCode' => Request::input('user_id'),
 			'intSHPatID' 	=> Request::input('patient'),
-			'intSHDocID' 	=> Session::get('user_code'),
+			'intSHDocID' 	=> Request::input('doc'),
 			'intSHServiceID' => Request::input('service'),
-			'intSHPaymentType' => Request::input('type'),
-			'intSHStatus' => Request::input('status')
+			'intSHPaymentType' => NULL,
+			'intSHStatus' => NULL
 		]);
 
+
+		DB::table('tblConsultationRecords')
+		->insert([
+			'strCRHeaderCode' => Request::input('user_id'),
+    		'strCRDiagnosis' => Request::input('desc'),
+    		'strCRPresciptions' => Request::input('asc')
+		]);
+	
+		$complaints = Request::input('BOVfar') . Request::input('BOVnear') . Request::input('headache') . Request::input('dizziness') . Request::input('glare') . Request::input('vomitting'); 	
+		$oldrx = Request::input('OD') . '-' . Request::input('ODAdd') . ',' . Request::input('OS') . '-' . Request::input('OSAdd') . '/' . Request::input('CLOD') . '-' . Request::input('CLOS');
+
+		DB::table('tblPatientRX')
+		->insert([
+			'intRXPatID' 	=> Request::input('patient'),
+			'strPatComplaints' => $complaints,
+			'strPatOldRX' => $oldrx,
+			'intRXPatStatus' => 1
+		]);
+
+		/*
 		DB::table('tblServiceDetails')
 		->insert([
 			'strHeaderCode' => Request::input('user_id'),
@@ -195,13 +221,7 @@ class DoctorController extends BaseController {
     		'intQty' => Request::input('qty'),
     		'intClaimStatus' => Request::input('claim'),
     		'intHWarranty' => 1
-		]);
-
-		DB::table('tblConsultationRecords')
-		->insert([
-			'strCRHeaderCode' => Request::input('user_id'),
-    		'strCRDesc' => Request::input('desc')
-		]);
+		]); 
 
 		$data = DB::table('tblInventory')
 				->where('tblInventory.intInvID', '=', Request::input('product'))
@@ -232,7 +252,8 @@ class DoctorController extends BaseController {
 		->update([
 			'intInvQty' => $total,
 		]);
-
+		*/
+		
 		return Redirect::to('/sec-home');
 	}
 
