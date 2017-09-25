@@ -134,8 +134,12 @@ CREATE TABLE tblPatientInfo(
 CREATE TABLE tblPatientRX(
 	intRXID int NOT NULL AUTO_INCREMENT,
 	intRXPatID int,
-    strPatComplaints VARCHAR(7),
-    strPatOldRX VARCHAR(200),
+    strSOD VARCHAR(200),
+    strSODAdd VARCHAR(200),
+    strSOS VARCHAR(200),
+    strSOSAdd VARCHAR(200),
+    strCLOD VARCHAR(200),
+    strCLOS VARCHAR(200),
     intRXPatStatus INT(2),
 	created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     
@@ -270,7 +274,6 @@ CREATE TABLE tblServiceHeader(
 	intSHID int NOT NULL AUTO_INCREMENT,
 	strSHCode VARCHAR(25),
     intSHPatID INT,
-    intSHDocID INT,
     intSHServiceID INT,
     intSHPaymentType INT,
     intSHStatus INT,
@@ -279,8 +282,6 @@ CREATE TABLE tblServiceHeader(
     PRIMARY KEY(intSHID,strSHCode),
 	FOREIGN KEY(intSHPatID)
     REFERENCES tblPatientInfo(intPatID),
-    FOREIGN KEY(intSHDocID)
-    REFERENCES tblDocInfo(intDocID),
     FOREIGN KEY(intSHServiceID)
     REFERENCES tblServices(intServID),
     FOREIGN KEY(intSHPaymentType)
@@ -295,7 +296,7 @@ CREATE TABLE tblServiceDetails(
     intQty INT,
     intClaimStatus INT,
     intHWarranty INT,
-	intIsCustom INT,
+	intSDStatus INT,
 
 	FOREIGN KEY(intHInvID)
     REFERENCES tblInventory(intInvID),
@@ -306,9 +307,13 @@ CREATE TABLE tblServiceDetails(
 
 CREATE TABLE tblConsultationRecords(
 	strCRHeaderCode VARCHAR(25),
+	intCRDocID INT,
+	strPatComplaints VARCHAR(7),
     strCRDiagnosis TEXT,
-    strCRPresciptions TEXT
+    strCRPrescriptions TEXT,
     
+	FOREIGN KEY(intCRDocID)
+    REFERENCES tblDocInfo(intDocID)
 )Engine=InnoDb;
 
 CREATE TABLE tblSales(

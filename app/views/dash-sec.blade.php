@@ -30,7 +30,6 @@
                                     <th>Patient Name</th>
                                     <th>Date and Time</th>
                                     <th>Service Done</th>
-                                    <th>Status</th>
                                     <th>Actions</th>
                                 </tr>
                             </thead>
@@ -41,7 +40,6 @@
                                     <td>{{ $data->strPatLast . ', ' . $data->strPatFirst . ' ' . $data->strPatMiddle }}</td>
                                     <td>{{ $data->intSHDateTime }}</td>
                                     <td>{{ $data->strServDesc}}</td>
-                                    <td>{{ $data->strServStatDesc }}</td>
                                     <td>
                                         <div class="center-btn">
                                          <a class="modal-trigger waves-effect waves-light btn blue lighten-1 btn-small center-text" href="#{{$data->intSHID}}">VIEW DETAILS</a>
@@ -57,22 +55,11 @@
                                      <div class="row">
                                           <div class="col s12">
                                           <label for="desc">Consultation Details:</label>
-                                          <textarea id="desc" name="desc" class="materialize-textarea" readonly>{{$data->strCRDesc}}</textarea>
+                                          <textarea id="desc" name="desc" class="materialize-textarea" readonly>{{$data->strCRDiagnosis}}</textarea>
                                           </div>
                                     </div> 
-                                    <div class="row"> 
-                                          <div class="col s12 m12 l12">
-                                            <label for="address">Product Availed</label>
-                                            <input id="address" name="address" type="text" class="validate" value="{{ $data->strProdName . ' - ' . $data->strProdModel}} (P {{ $data->dcInvPPrice }} , {{$data->intQty}} pcs)" readonly>
-                                          </div>
-                                    </div>
-                                    <?php $total = $data->dcInvPPrice * $data->intQty ?>
-                                    <div class="row"> 
-                                          <div class="col s12 m12 l12">
-                                            <label for="balance">Total Balance</label>
-                                            <input id="balance" name="balance" type="text" class="validate" value="P {{ $total }}" readonly>
-                                          </div>
-                                    </div>
+
+<!-- just copy mga nawala sa services.blade -->
                                   </p>
                                 </div>
                                 <div class="modal-footer col 6">

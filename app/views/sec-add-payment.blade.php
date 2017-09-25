@@ -15,8 +15,13 @@
  <div class="row">
     <div class="input-field col s12 m4 l4">
     <i class=" material-icons prefix">search</i>
-      <input type="text" id="search" required="">
-      <label class="label-icon" for="search">Customer</label>
+      <label class="label-icon" for="search"></label>
+      <select name="name" id="name">
+      <option value="0" disabled selected>- Select Customer Name -</option>
+      @foreach($pat as $pat)
+      <option value="{{$pat->intPatID}}">{{$pat->strPatLast . ", " . $pat->strPatFirst}}</option>
+      @endforeach
+      </select>
     </div>
 
     <div class="input-field col s12 m4 l4">

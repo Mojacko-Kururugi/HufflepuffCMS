@@ -28,6 +28,7 @@ class SecController extends BaseController {
 			->join('tblInventory', 'tblInventory.intInvPID', '=', 'tblItems.intItemID')
 			->where('tblItems.intItemStatus', '=', 1)
 			->where('tblInventory.intInvBranch', '=', Session::get('user_bc'))
+			->groupby('tblInventory.intInvPID')
 			->get();
 
 		$data2 = DB::table('tblSales')
@@ -39,10 +40,16 @@ class SecController extends BaseController {
 			->where('tblItemType.intITStatus', '=', 1)
 			->get();
 
+		$pat = DB::table('tblPatientInfo')
+			->join('tblPatientRX', 'tblPatientRX.intRXPatID', '=', 'tblPatientInfo.intPatID')
+			->where('tblPatientInfo.intPatStatus', '=', 1)
+			->get();
+
 		return View::make('sec-add-payment')
 		->with('data',$data)
 		->with('data2',$data2)
-		->with('type',$type);
+		->with('type',$type)
+		->with('pat',$pat);
 	}
 
 	public function openSec() {
@@ -59,17 +66,25 @@ class SecController extends BaseController {
 		$this->doExpiryCheck();
 
 
-		$serv = DB::table('tblServiceHeader')
+		/*$serv = DB::table('tblServiceHeader')
 			->join('tblPatientInfo', 'tblServiceHeader.intSHPatID','=','tblPatientInfo.intPatID')
-		//	->join('tblDocInfo', 'tblServiceHeader.intSHDocID','=','tblDocInfo.intDocID')
 			->join('tblServices', 'tblServiceHeader.intSHServiceID','=','tblServices.intServID')
 			->join('tblPayType', 'tblServiceHeader.intSHPaymentType','=','tblPayType.intPayTID')
 			->join('tblServiceStatus', 'tblServiceHeader.intSHStatus','=','tblServiceStatus.intServStatID')
 			->join('tblConsultationRecords', 'tblServiceHeader.strSHCode','=','tblConsultationRecords.strCRHeaderCode')
 			->join('tblServiceDetails', 'tblServiceHeader.strSHCode','=','tblServiceDetails.strHeaderCode')
+			->join('tblDocInfo', 'tblConsultationRecords.intCRDocID','=','tblDocInfo.intDocID')
 			->join('tblInventory', 'tblServiceDetails.intHInvID','=','tblInventory.intInvID')
 			->join('tblItems','tblInventory.intInvPID','=','tblItems.intItemID')
 			->where('tblInventory.intInvBranch', '=', Session::get('user_bc'))
+			->get();
+			*/
+
+			$serv = DB::table('tblServiceHeader')
+			->join('tblPatientInfo', 'tblServiceHeader.intSHPatID','=','tblPatientInfo.intPatID')
+			->join('tblServices', 'tblServiceHeader.intSHServiceID','=','tblServices.intServID')
+			->join('tblConsultationRecords', 'tblServiceHeader.strSHCode','=','tblConsultationRecords.strCRHeaderCode')
+			->join('tblDocInfo', 'tblConsultationRecords.intCRDocID','=','tblDocInfo.intDocID')
 			->get();
 
 

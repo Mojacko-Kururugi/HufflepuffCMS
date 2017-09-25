@@ -56,8 +56,9 @@ class DoctorController extends BaseController {
 
 	public function addPat() {
 		$history = Request::input('diabetes') . Request::input('glaucoma') . Request::input('asthma') . Request::input('highblood') . Request::input('goiter') . Request::input('kidneyprob'); 	
-		$complaints = Request::input('BOVfar') . Request::input('BOVnear') . Request::input('headache') . Request::input('dizziness') . Request::input('glare') . Request::input('vomitting'); 	
-		$oldrx = Request::input('OD') . '-' . Request::input('ODAdd') . ',' . Request::input('OS') . '-' . Request::input('OSAdd') . '/' . Request::input('CLOD') . '-' . Request::input('CLOS');
+		//$complaints = Request::input('BOVfar') . Request::input('BOVnear') . Request::input('headache') . Request::input('dizziness') . Request::input('glare') . Request::input('vomitting'); 	
+		
+		//$oldrx = Request::input('OD') . '-' . Request::input('ODAdd') . ',' . Request::input('OS') . '-' . Request::input('OSAdd') . '/' . Request::input('CLOD') . '-' . Request::input('CLOS');
 
 		$ct = 1 + DB::table('tblPatientInfo')
 			->count();
@@ -81,8 +82,12 @@ class DoctorController extends BaseController {
 		DB::table('tblPatientRX')
 		->insert([
 			'intRXPatID' 	=> $ct,
-			'strPatComplaints' => $complaints,
-			'strPatOldRX' => $oldrx,
+			'strSOD' => Request::input('OD'),
+			'strSODAdd' => Request::input('ODAdd'),
+			'strSOS' => Request::input('OS'),
+			'strSOSAdd' => Request::input('OSAdd'),
+			'strCLOD' => Request::input('CLOD'),
+			'strCLOS' => Request::input('CLOS'),
 			'intRXPatStatus' => 1
 		]);
 
@@ -132,7 +137,7 @@ class DoctorController extends BaseController {
 
 		$data = DB::table('tblServiceHeader')
 			->join('tblPatientInfo', 'tblServiceHeader.intSHPatID','=','tblPatientInfo.intPatID')
-			//->join('tblDocInfo', 'tblServiceHeader.intSHDocID','=','tblDocInfo.intDocID')
+			->join('tblDocInfo', 'tblServiceHeader.intSHDocID','=','tblDocInfo.intDocID')
 			->join('tblServices', 'tblServiceHeader.intSHServiceID','=','tblServices.intServID')
 			->join('tblPayType', 'tblServiceHeader.intSHPaymentType','=','tblPayType.intPayTID')
 			->join('tblServiceStatus', 'tblServiceHeader.intSHStatus','=','tblServiceStatus.intServStatID')
@@ -184,11 +189,27 @@ class DoctorController extends BaseController {
 
 	public function saveServ() {
 		
+		/* $complaints = "";
+		if(Request::input('BOVfar') == 1)
+		$complaints = $complaints . "Farsighted";
+		if(Request::input('BOVnear') == 1)
+		$complaints = $complaints . ", Nearsighted";
+		if(Request::input('headache') == 1)
+		$complaints = $complaints . ", Headache";
+		if(Request::input('dizziness') == 1)
+		$complaints = $complaints . ", Dizziness";
+		if(Request::input('glare') == 1)
+		$complaints = $complaints . ", Glare";
+		if(Request::input('vomitting') == 1)
+		$complaints = $complaints . ", Vomitting"; 	
+		*/
+
+		$complaints = Request::input('BOVfar') . Request::input('BOVnear') . Request::input('headache') . Request::input('dizziness') . Request::input('glare') . Request::input('vomitting');
+
 		DB::table('tblServiceHeader')
 		->insert([
 			'strSHCode' => Request::input('user_id'),
 			'intSHPatID' 	=> Request::input('patient'),
-			'intSHDocID' 	=> Request::input('doc'),
 			'intSHServiceID' => Request::input('service'),
 			'intSHPaymentType' => NULL,
 			'intSHStatus' => NULL
@@ -198,20 +219,12 @@ class DoctorController extends BaseController {
 		DB::table('tblConsultationRecords')
 		->insert([
 			'strCRHeaderCode' => Request::input('user_id'),
+			'intCRDocID' 	=> Request::input('doc'),
+			'strPatComplaints' => $complaints,
     		'strCRDiagnosis' => Request::input('desc'),
-    		'strCRPresciptions' => Request::input('asc')
+    		'strCRPrescriptions' => Request::input('asc')
 		]);
 	
-		$complaints = Request::input('BOVfar') . Request::input('BOVnear') . Request::input('headache') . Request::input('dizziness') . Request::input('glare') . Request::input('vomitting'); 	
-		$oldrx = Request::input('OD') . '-' . Request::input('ODAdd') . ',' . Request::input('OS') . '-' . Request::input('OSAdd') . '/' . Request::input('CLOD') . '-' . Request::input('CLOS');
-
-		DB::table('tblPatientRX')
-		->insert([
-			'intRXPatID' 	=> Request::input('patient'),
-			'strPatComplaints' => $complaints,
-			'strPatOldRX' => $oldrx,
-			'intRXPatStatus' => 1
-		]);
 
 		/*
 		DB::table('tblServiceDetails')

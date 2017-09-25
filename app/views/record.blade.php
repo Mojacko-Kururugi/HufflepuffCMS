@@ -152,35 +152,6 @@
                                                       </p>
                                                     </form>
                                                   </div>
-                                                   <div class="col s12 m6 l4">
-                                                    <h5>Complaints:</h5>
-                                                      <form action="#" style="font-color: black;">
-                                                        <p>
-                                                          <input type="checkbox" id="BOVfar" name="BOVfar" value="1"  @if(strpos($data->strPatComplaints , '1') !== false) checked @endif/>
-                                                          <label for="BOVfar">BOV Far</label>
-                                                        </p>
-                                                        <p>
-                                                          <input type="checkbox" id="BOVnear" name="BOVnear" value="2" @if(strpos($data->strPatComplaints , '2') !== false) checked @endif/>
-                                                          <label for="BOVnear">BOV Near</label>
-                                                        </p>
-                                                        <p>
-                                                          <input type="checkbox" id="headache" name="headache" value="3" @if(strpos($data->strPatComplaints , '3') !== false) checked @endif/>
-                                                          <label for="headache">Headache</label>
-                                                        </p>
-                                                        <p>
-                                                          <input type="checkbox" id="dizziness" name="dizziness" value="4" @if(strpos($data->strPatComplaints , '4') !== false) checked @endif/>
-                                                          <label for="dizziness">Dizziness</label>
-                                                        </p>
-                                                        <p>
-                                                          <input type="checkbox" id="glare" name="glare" value="5" @if(strpos($data->strPatComplaints , '5') !== false) checked @endif/>
-                                                          <label for="glare">Glare</label>
-                                                        </p>
-                                                        <p>
-                                                          <input type="checkbox" id="vomitting" name="vomitting" value="6" @if(strpos($data->strPatComplaints , '6') !== false) checked @endif/>
-                                                          <label for="vomitting">Vomitting</label>
-                                                        </p>
-                                                      </form>
-                                                  </div>
                                                 </div>
                                             </div>
                                           </div>
@@ -197,19 +168,19 @@
                                               </div>
                                               <div class="input-field col l6 m6 s12">
                                                 <label for="OD">OD:</label>
-                                                <input id="OD" name="OD" type="number" class="validate" value="" />
+                                                <input id="OD" name="OD" type="number" class="validate" value="{{$data->strSOD}}" />
                                               </div>
                                               <div class="input-field col l6 m6 s12">
                                                 <label  for="ODAdd">Add:</label>
-                                                <input id="ODAdd" name="ODAdd" type="number" class="validate" value=""/>
+                                                <input id="ODAdd" name="ODAdd" type="number" class="validate" value="{{$data->strSODAdd}}"/>
                                               </div>
                                               <div class="input-field col l6 m6 s12">
                                                 <label for="OS">OS:</label>
-                                                <input id="OS" name="OS" type="number" class="validate" value="" />
+                                                <input id="OS" name="OS" type="number" class="validate" value="{{$data->strSOS}}" />
                                               </div>
                                               <div class="input-field col l6 m6 s12">
                                                   <label  for="OSAdd">Add:</label>
-                                                  <input id="OSAdd" name="OSAdd" type="number" class="validate" value=""/>
+                                                  <input id="OSAdd" name="OSAdd" type="number" class="validate" value="{{$data->strSOSAdd}}"/>
                                               </div>
                                           </div>
                                           <div class="row">
@@ -218,11 +189,11 @@
                                             </div>
                                             <div class="input-field col l6 m6 s12">
                                               <label for="CLOD">OD:</label>
-                                              <input id="CLOD" name="OD" type="number" class="validate" value="" />
+                                              <input id="CLOD" name="OD" type="number" class="validate" value="{{$data->strCLOD}}" />
                                             </div>
                                             <div class="input-field col l6 m6 s12">
                                               <label  for="CLOS">OS:</label>
-                                              <input id="CLOS" name="CLOS" type="number" class="validate" value=""/>
+                                              <input id="CLOS" name="CLOS" type="number" class="validate" value="{{$data->strCLOS}}"/>
                                             </div>
                                           </div>
                                             

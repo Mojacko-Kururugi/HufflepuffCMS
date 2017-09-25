@@ -130,7 +130,7 @@
                     </p>
                 </div>
                  <div class="col s12 m6 l4">
-                  <h5>Complaints:</h5>
+                  <!-- <h5>Complaints:</h5>
                       <p>
                         <input type="checkbox" id="BOVfar" name="BOVfar" value="1"/>
                         <label for="BOVfar">BOV Far</label>
@@ -155,6 +155,7 @@
                         <input type="checkbox" id="vomitting" name="vomitting" value="6"/>
                         <label for="vomitting">Vomitting</label>
                       </p>
+                      -->
                     </form>
                 </div>
               </div>

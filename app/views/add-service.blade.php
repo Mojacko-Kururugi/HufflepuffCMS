@@ -51,27 +51,27 @@
                  <div class="col s12 m6 l4">
                   <h5>Complaints:</h5>
                       <p>
-                        <input type="checkbox" id="BOVfar" />
+                        <input type="checkbox" id="BOVfar" name="BOVfar" value="1"/>
                         <label for="BOVfar">BOV Far</label>
                       </p>
                       <p>
-                        <input type="checkbox" id="BOVnear" />
+                        <input type="checkbox" id="BOVnear" name="BOVnear" value="2"/>
                         <label for="BOVnear">BOV Near</label>
                       </p>
                       <p>
-                        <input type="checkbox" id="headache" />
+                        <input type="checkbox" id="headache" name="headache" value="3"/>
                         <label for="headache">Headache</label>
                       </p>
                       <p>
-                        <input type="checkbox" id="dizziness" />
+                        <input type="checkbox" id="dizziness" name="dizziness" value="4"/>
                         <label for="dizziness">Dizziness</label>
                       </p>
                       <p>
-                        <input type="checkbox" id="glare" />
+                        <input type="checkbox" id="glare" name="glare" value="5"/>
                         <label for="glare">Glare</label>
                       </p>
                       <p>
-                        <input type="checkbox" id="vomitting" />
+                        <input type="checkbox" id="vomitting" name="vomitting" value="6"/>
                         <label for="vomitting">Vomitting</label>
                       </p>
                 </div>
