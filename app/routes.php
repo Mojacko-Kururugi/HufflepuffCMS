@@ -129,6 +129,8 @@ Route::get('/expired', 'SecController@openExp');
 Route::get('/sec-add-payment', 'SecController@showPayment');
 Route::get('/sec-job-order', 'SecController@openJO');
 
+Route::post('/sec-purch/add-to-list', 'SecController@addPurchToList');
+
 
 
 //for patient

@@ -31,10 +31,6 @@ class SecController extends BaseController {
 			->groupby('tblInventory.intInvPID')
 			->get();
 
-		$data2 = DB::table('tblSales')
-			->where('tblSales.intSStatus','!=',1)
-			->get();
-
 		$type = DB::table('tblItemType')
 			->where('tblItemType.intITSType', '=', 1)
 			->where('tblItemType.intITStatus', '=', 1)
@@ -45,11 +41,66 @@ class SecController extends BaseController {
 			->where('tblPatientInfo.intPatStatus', '=', 1)
 			->get();
 
+		$ct = 1 + DB::table('tblServiceHeader')
+			->count();
+
+		if($ct < 10)
+			$count = "SRV00" . $ct;
+		else if($ct < 100)
+			$count = "SRV0" . $ct;
+		else if($ct < 1000)
+			$count = "SRV" . $ct;
+
+		Session::put('purch_sess',$count);
+
+		$list = DB::table('tblServiceHeader')
+			->join('tblServiceDetails', 'tblServiceDetails.strHeaderCode', '=', 'tblServiceHeader.strSHCode')
+			->join('tblInventory', 'tblServiceDetails.intHInvID', '=', 'tblInventory.intInvID')
+			->join('tblItems', 'tblInventory.intInvPID', '=', 'tblItems.intItemID')
+			->where('tblInventory.intInvBranch', '=', Session::get('user_bc'))
+			->where('tblServiceHeader.strSHCode', '=', Session::get('purch_sess'))
+			->where('tblServiceDetails.intSDStatus', '=', 3)		
+			->get();
+
 		return View::make('sec-add-payment')
 		->with('data',$data)
-		->with('data2',$data2)
 		->with('type',$type)
-		->with('pat',$pat);
+		->with('list',$list)
+		->with('pat',$pat)
+		->with('count',$count);
+	}
+
+	public function addPurchToList()
+	{
+		$sess = DB::table('tblServiceHeader')
+			->join('tblServiceDetails', 'tblServiceDetails.strHeaderCode', '=', 'tblServiceHeader.strSHCode')
+			->where('tblServiceHeader.strSHCode', '=', Session::get('purch_sess'))
+			->where('tblServiceDetails.intSDStatus', '=', 3)		
+			->first();
+
+		if($sess == NULL)
+		{
+		DB::table('tblServiceHeader')
+		->insert([
+			'strSHCode' => Session::get('purch_sess'),
+			'intSHPatID' 	=> Request::input('patient'),
+			'intSHServiceID' => NULL,
+			'intSHPaymentType' => NULL,
+			'intSHStatus' => NULL
+		]);
+		}
+
+		DB::table('tblServiceDetails')
+		->insert([
+			'strHeaderCode' => Session::get('purch_sess'),
+    		'intHInvID' => Request::input('name'),
+    		'intQty' => Request::input('qty'),
+    		'intClaimStatus' => Request::input('claim'),
+    		'intHWarranty' => 1,
+    		'intSDStatus' => 3
+		]); 
+
+		return Redirect::to('/sec-add-payment');
 	}
 
 	public function openSec() {

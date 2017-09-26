@@ -218,6 +218,7 @@
                 </thead>
                 @foreach($mats as $data)
                       <tr>
+                        <td>{{ $data->strInvCode }}</td>
                         <td>{{ $data->strItemName }}</td>
                         <td>{{ $data->strItemModel }}</td>
                         <td>{{ $data->strITDesc }}</td>
