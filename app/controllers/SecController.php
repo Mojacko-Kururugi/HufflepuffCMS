@@ -42,6 +42,7 @@ class SecController extends BaseController {
 			->get();
 
 		$ct = 1 + DB::table('tblServiceHeader')
+			->where('tblServiceHeader.intSHStatus', '=', null)
 			->count();
 
 		if($ct < 10)
@@ -73,9 +74,8 @@ class SecController extends BaseController {
 	public function addPurchToList()
 	{
 		$sess = DB::table('tblServiceHeader')
-			->join('tblServiceDetails', 'tblServiceDetails.strHeaderCode', '=', 'tblServiceHeader.strSHCode')
 			->where('tblServiceHeader.strSHCode', '=', Session::get('purch_sess'))
-			->where('tblServiceDetails.intSDStatus', '=', 3)		
+			->where('tblServiceHeader.intSHStatus', '=', 2)		
 			->first();
 
 		if($sess == NULL)
@@ -86,7 +86,7 @@ class SecController extends BaseController {
 			'intSHPatID' 	=> Request::input('patient'),
 			'intSHServiceID' => NULL,
 			'intSHPaymentType' => NULL,
-			'intSHStatus' => NULL
+			'intSHStatus' => 2
 		]);
 		}
 

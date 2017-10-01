@@ -143,25 +143,29 @@
           <table class="table cart-table table-hover" v-show="!isCartEmpty">
               <thead>
                 <tr class="register-items-header">
-                  <th class="text-center"></th>
-                  <th>Product Name</th>
+                  <th>Product Name and Desc</th>
                   <th class="text-center">Qty.</th>
                   <th class="text-center">Price</th>
+                  <th>Action</th>
                 </tr>
               </thead>
               <tbody>
+                <?php $total = 0 ?>
                  @foreach($list as $l)
                                     <tr>
-                                      <td>{{$l->strItemName}}</td>
-                                      <td>{{$l->strItemModel}}</td>
-                                      <td>{{$l->intQty}}</td>
-                                      <td><button class="waves-effect waves-light btn btn-green modal-btn">REMOVE</button></td>
+                                      <td>{{$l->strItemName . " - " . $l->strItemModel}}</td>
+                                      <?php $qty = $l->intQty ?>
+                                      <?php $subtotal = $l->dcInvPPrice * $qty ?>
+                                      <td>{{$qty}}</td>
+                                      <td>{{$subtotal}}</td>
+                                      <td><a class="waves-effect waves-light btn btn-small red center-text">REMOVE</a></td>
                                     </tr>
+                  <?php $total += $subtotal ?>    
                  @endforeach
               </tbody>
               <tr class="dashed" id="summary-grand-total">
                   <td>
-                      <h6 class="sales-info">TOTAL: </h6>
+                      <h6 class="sales-info">TOTAL: {{$total}}</h6>
                       <strong class="text-success"></strong>
                   </td>
               </tr>  

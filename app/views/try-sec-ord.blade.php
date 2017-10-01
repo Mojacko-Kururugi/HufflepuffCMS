@@ -96,7 +96,7 @@
                                       <td>{{$l->strItemName}}</td>
                                       <td>{{$l->strItemModel}}</td>
                                       <td>{{$l->intOQty}}</td>
-                                      <td><button class="waves-effect waves-light btn btn-green modal-btn">REMOVE</button></td>
+                                      <td><a class="waves-effect waves-light btn btn-small red center-text">REMOVE</a></td>
                                     </tr>
                                     @endforeach
                                     </tbody>
