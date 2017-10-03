@@ -28,7 +28,7 @@
                     <tr>
                         <th>Service Ref #</th>
                         <th>Patient Name</th>
-                        <th>Product Name & Model</th>
+                        <th>Product Name & Desc</th>
                         <th>Qty</th>
                         <th>Status</th>
                         <th>Date of Service</th>
@@ -40,7 +40,7 @@
                       <tr>
                         <td>{{ $data->strSHCode }}</td>
                         <td>{{ $data->strPatLast . ', ' . $data->strPatFirst . ' ' . $data->strPatMiddle }}</td>
-                        <td>{{ $data->strProdName .' - ' . $data->strProdModel }}</td>
+                        <td>{{ $data->strItemName .' - ' . $data->strItemModel }}</td>
                         <td>{{ $data->intQty }}</td>
                         @if($data->intClaimStatus == 1)
                         <td class="green-text bold">CLAIMED</td>

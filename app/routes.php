@@ -130,6 +130,8 @@ Route::get('/sec-add-payment', 'SecController@showPayment');
 Route::get('/sec-job-order', 'SecController@openJO');
 
 Route::post('/sec-purch/add-to-list', 'SecController@addPurchToList');
+Route::get('/sec-purch/payment', 'SecController@showPayPurch');
+Route::post('/sec-purch/addPayF', 'SecController@addPurchPay');
 
 
 

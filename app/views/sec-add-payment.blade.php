@@ -89,47 +89,12 @@
                 </div>
               </div>
   </form>
-    <div class="card-panel">
-      <span class="card-title">Payment</span>
-        <hr>
-        <div class="card-content">
-          <div class="col s6">
-                <label for="payment-mode">Payment Mode:</label>
-                <select name="payment-mode">
-                   <option value="2" disabled selected>- Choose your option -</option>
-                   <option value="installment">Installment</option>
-                   <option value="full">Full</option>
-                </select>
-          </div>
-
-          <div class="col s6">
-              <label for="payment-status">Payment Status:</label>
-              <select name="payment-status">
-                 <option value="1" disabled selected>- Choose your option -</option>
-                 <option value="installment">Ongoing</option>
-                 <option value="full">Fully paid</option>
-              </select>
-          </div>
-
-          <div class="row">
-            <div class="col s6 m6 l6">
-              <h5>Amnt. Received:</h5><br>
-              <h5>Change:</h5>
-            </div>
-            <div class="col s6 m6 l6">
-              <input type="number" name="amount-received">
-              <input type="number" name="change" placeholder="(disabled)">
-            </div>
-          </div>
-
             <div class="row">
               <div class="input-field col l12 s12 center">
-                <button type="submit" class="waves-effect waves-light btn btn-green modal-btn">PAY</button>
+                <a class="waves-effect waves-light btn btn-green modal-btn" href="/sec-purch/payment">PROCEED TO PAYMENT</a>
                 <a href="{{ URL::to('/sec-home') }}" class="waves-effect waves-light btn btn-green modal-btn" style="margin-right:20px;">Cancel</a>
               </div>
             </div>
-        </div>
-      </div>
   </div>
 
     <div class="col s12 m12 l5">

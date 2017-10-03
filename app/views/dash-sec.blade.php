@@ -39,7 +39,7 @@
                                     <td>{{ $data->strSHCode }}</td>
                                     <td>{{ $data->strPatLast . ', ' . $data->strPatFirst . ' ' . $data->strPatMiddle }}</td>
                                     <td>{{ $data->intSHDateTime }}</td>
-                                    <td>{{ $data->strServDesc}}</td>
+                                    <td></td>
                                     <td>
                                         <div class="center-btn">
                                          <a class="modal-trigger waves-effect waves-light btn blue lighten-1 btn-small center-text" href="#{{$data->intSHID}}">VIEW DETAILS</a>
@@ -52,12 +52,7 @@
                                 <div class="modal-content col 6">
                                   <h4>Service Details</h4>
                                   <p>
-                                     <div class="row">
-                                          <div class="col s12">
-                                          <label for="desc">Consultation Details:</label>
-                                          <textarea id="desc" name="desc" class="materialize-textarea" readonly>{{$data->strCRDiagnosis}}</textarea>
-                                          </div>
-                                    </div> 
+
 
 <!-- just copy mga nawala sa services.blade -->
                                   </p>

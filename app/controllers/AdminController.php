@@ -205,6 +205,39 @@ class AdminController extends BaseController {
 		return Redirect::to('/admin/ord');
 	}
 
+	public function removeToList()
+	{
+		//dd(Request::input('qty'));
+		$sess = DB::table('tblOrders')
+			->where('tblOrders.strOCode', '=', Session::get('ord_sess'))
+			->where('tblOrders.intStatus', '=', 5)		
+			->first();
+
+		if($sess == NULL)
+		{
+		DB::table('tblOrders')
+		->insert([
+			'strOCode'			=> Session::get('ord_sess'),
+			'dtOReceived'	=> null,
+			'intOBranch'	=> 1,			
+			'intStatus' => 5
+		]);
+		}
+
+		$data = DB::table('tblOrders')
+			->where('tblOrders.strOCode', '=',Request::input('user_id'))
+			->first();
+
+		DB::table('tblOrderDetails')
+		->insert([
+			'intOProdID' 		=> Request::input('name'),
+			'intODCode'			=> $data->intOID,
+			'intOQty' 	=> Request::input('qty'),
+		]);
+
+		return Redirect::to('/admin/ord');
+	}
+
 	public function addItem() {
 		$ord = DB::table('tblOrders')
 			->join('tblOrderDetails', 'tblOrderDetails.intODCode', '=', 'tblOrders.intOID')

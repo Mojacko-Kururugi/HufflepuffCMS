@@ -4,7 +4,7 @@
 
   <div class="row"><br>
     <div class="center col l12 m12 s12">
-      <h5>Add New Order</h5>
+      <h5>Add New Stock</h5>
     </div>
   </div>
 
@@ -96,7 +96,7 @@
                                       <td>{{$l->strItemName}}</td>
                                       <td>{{$l->strItemModel}}</td>
                                       <td>{{$l->intOQty}}</td>
-                                      <td><a class="waves-effect waves-light btn btn-small red center-text">REMOVE</a></td>
+                                      <td><a class="waves-effect waves-light btn btn-small red center-text" href="/admin/rem-to-list/{{$l->intOProdID}}">REMOVE</a></td>
                                     </tr>
                                     @endforeach
                                     </tbody>

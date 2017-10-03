@@ -42,7 +42,7 @@ class SecController extends BaseController {
 			->get();
 
 		$ct = 1 + DB::table('tblServiceHeader')
-			->where('tblServiceHeader.intSHStatus', '=', null)
+			->where('tblServiceHeader.intSHStatus', '!=', 2)
 			->count();
 
 		if($ct < 10)
@@ -84,7 +84,7 @@ class SecController extends BaseController {
 		->insert([
 			'strSHCode' => Session::get('purch_sess'),
 			'intSHPatID' 	=> Request::input('patient'),
-			'intSHServiceID' => NULL,
+			'intSHServiceID' => 4,
 			'intSHPaymentType' => NULL,
 			'intSHStatus' => 2
 		]);
@@ -95,12 +95,105 @@ class SecController extends BaseController {
 			'strHeaderCode' => Session::get('purch_sess'),
     		'intHInvID' => Request::input('name'),
     		'intQty' => Request::input('qty'),
-    		'intClaimStatus' => Request::input('claim'),
+    		'intClaimStatus' => 2,
     		'intHWarranty' => 1,
     		'intSDStatus' => 3
 		]); 
 
 		return Redirect::to('/sec-add-payment');
+	}
+
+	public function showPayPurch() 
+	{
+		$lists = DB::table('tblServiceHeader')
+			->join('tblServiceDetails', 'tblServiceDetails.strHeaderCode', '=', 'tblServiceHeader.strSHCode')
+			->join('tblInventory', 'tblServiceDetails.intHInvID', '=', 'tblInventory.intInvID')
+			->join('tblItems', 'tblInventory.intInvPID', '=', 'tblItems.intItemID')
+			->where('tblInventory.intInvBranch', '=', Session::get('user_bc'))
+			->where('tblServiceHeader.strSHCode', '=', Session::get('purch_sess'))
+			->where('tblServiceDetails.intSDStatus', '=', 3)		
+			->get();
+
+		$total = 0;
+		$subtotal = 0;
+
+		foreach($lists as $list)
+		{
+			$subtotal = $list->dcInvPPrice * $list->intQty;
+			$total = $total + $subtotal;
+		}
+
+		return View::make('pro-payment')->with('total',$total);
+	}
+
+	public function addPurchPay()
+	{
+
+		$lists = DB::table('tblServiceHeader')
+			->join('tblServiceDetails', 'tblServiceDetails.strHeaderCode', '=', 'tblServiceHeader.strSHCode')
+			->join('tblInventory', 'tblServiceDetails.intHInvID', '=', 'tblInventory.intInvID')
+			->join('tblItems', 'tblInventory.intInvPID', '=', 'tblItems.intItemID')
+			->where('tblInventory.intInvBranch', '=', Session::get('user_bc'))
+			->where('tblServiceHeader.strSHCode', '=', Session::get('purch_sess'))
+			->where('tblServiceDetails.intSDStatus', '=', 3)		
+			->get();
+
+		$total = 0;
+		$subtotal = 0;
+
+		foreach($lists as $list)
+		{
+				$subtotal = $list->dcInvPPrice * $list->intQty;
+				$total = $total + $subtotal;
+
+				$data = DB::table('tblInventory')
+						->where('tblInventory.intInvID', '=', $list->intHInvID)
+						->first();
+
+				$new_qty = $list->intQty;
+				$curr_qty =  $data->intInvQty;
+				$total_qty;
+
+				$total_qty = $curr_qty - $new_qty;
+
+				DB::table('tblInventory')
+				->where('tblInventory.intInvID', '=', $list->intHInvID)
+				->update([
+					'intInvQty' => $total_qty,
+				]);
+		}
+
+
+		DB::table('tblSales')
+				->insert([
+		    		'strSServCode' => Session::get('purch_sess'),
+		    		'dcmSBalance' => $total,
+		    		'intSStatus' => 2
+				]);
+				
+		$ct = DB::table('tblSales')
+			->count();
+
+		DB::table('tblPayment')
+				->insert([
+		    		'intPymServID' => $ct,
+		    		'dcmPymPayment' => Request::input('amount-received')
+				]);
+
+		DB::table('tblServiceHeader')
+				->where('tblServiceHeader.strSHCode', '=', Session::get('purch_sess'))
+				->update([
+					'intSHStatus' => 1,
+				]);
+
+		DB::table('tblServiceDetails')
+				->where('tblServiceDetails.strHeaderCode', '=', Session::get('purch_sess'))
+				->update([
+					'intSDStatus' => 1,
+				]);
+
+
+		return Redirect::to('/sec-home');
 	}
 
 	public function openSec() {
@@ -133,9 +226,9 @@ class SecController extends BaseController {
 
 			$serv = DB::table('tblServiceHeader')
 			->join('tblPatientInfo', 'tblServiceHeader.intSHPatID','=','tblPatientInfo.intPatID')
-			->join('tblServices', 'tblServiceHeader.intSHServiceID','=','tblServices.intServID')
-			->join('tblConsultationRecords', 'tblServiceHeader.strSHCode','=','tblConsultationRecords.strCRHeaderCode')
-			->join('tblDocInfo', 'tblConsultationRecords.intCRDocID','=','tblDocInfo.intDocID')
+			//->join('tblServices', 'tblServiceHeader.intSHServiceID','=','tblServices.intServID')
+			//->join('tblConsultationRecords', 'tblServiceHeader.strSHCode','=','tblConsultationRecords.strCRHeaderCode')
+			//->join('tblDocInfo', 'tblConsultationRecords.intCRDocID','=','tblDocInfo.intDocID')
 			->get();
 
 

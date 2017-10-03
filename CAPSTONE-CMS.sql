@@ -200,6 +200,7 @@ CREATE TABLE tblUnits(
 CREATE TABLE tblInventory(
 	intInvID int NOT NULL AUTO_INCREMENT,
     strInvCode VARCHAR(25),
+    strInvLotNum VARCHAR(25),
 	intInvPID INT,
     intInvQty INT(100),
     dtInvExpiry DATE,
@@ -294,6 +295,7 @@ CREATE TABLE tblServiceDetails(
 	strHeaderCode VARCHAR(25),
     intHInvID INT,
     intQty INT,
+    dcTotPrice DECIMAL(18,2),
     intClaimStatus INT,
     intHWarranty INT,
 	intSDStatus INT,
@@ -378,13 +380,15 @@ INSERT INTO tblFrequencyType(intFID,strFDesc) VALUES ('5','Week before');
 INSERT INTO tblWarranty(intWID,strWDesc) VALUES ('1','Active');
 INSERT INTO tblWarranty(intWID,strWDesc) VALUES ('2','Inactive');
 INSERT INTO tblWarranty(intWID,strWDesc) VALUES ('3','Replaced');
+INSERT INTO tblWarranty(intWID,strWDesc) VALUES ('4','Repaired');
 
 INSERT INTO tblPayType(intPayTID,strPayTDesc) VALUES ('1','Full Payment');
 INSERT INTO tblPayType(intPayTID,strPayTDesc) VALUES ('2','2 Gives - every 15 days');
 INSERT INTO tblPayType(intPayTID,strPayTDesc) VALUES ('3','Quarterly - every 7 days');
 
 INSERT INTO tblServiceStatus(intServStatID,strServStatDesc) VALUES ('1','DONE');
-INSERT INTO tblServiceStatus(intServStatID,strServStatDesc) VALUES ('2','WITH FOLLOW UP');
+INSERT INTO tblServiceStatus(intServStatID,strServStatDesc) VALUES ('2','ON SESSION');
+INSERT INTO tblServiceStatus(intServStatID,strServStatDesc) VALUES ('3','WITH FOLLOW UP');
 
 INSERT INTO tblSalesStatus(intSaleSID,strSaleSDesc) VALUES ('1','PAID');
 INSERT INTO tblSalesStatus(intSaleSID,strSaleSDesc) VALUES	 ('2','ONGOING');
@@ -423,6 +427,7 @@ INSERT INTO tblUserType(intUTID,strUTDesc) VALUES ('4','Patient');
 INSERT INTO tblServices(strServName,strServDesc,intServStatus) VALUES ('Eye Refraction','refraction for the eye','1');
 INSERT INTO tblServices(strServName,strServDesc,intServStatus) VALUES ('Eye Check Up','check up for the eye','1');
 INSERT INTO tblServices(strServName,strServDesc,intServStatus) VALUES ('Glass/Lens Assignment','assigning of lens or glasses','1');
+INSERT INTO tblServices(strServName,strServDesc,intServStatus) VALUES ('Product Selling','selling of raw products','1');
 
 INSERT INTO tblUserAccounts (strUEmail,strUPassword,intUID,intUType) VALUES ('admin@hufflepuff','admin123','0','1');
 

@@ -29,7 +29,7 @@
                     <tr>
                         <th>Serial Code</th>
                         <th>Product Name</th>
-                        <th>Product Model</th>
+                        <th>Product Desc</th>
                         <th>Product Type</th>
                         <th>Price</th>
                         <th>Available Stock</th>
@@ -40,8 +40,8 @@
                 @foreach($data as $data)
                       <tr>
                         <td>{{ $data->strInvCode }}</td>
-                        <td>{{ $data->strProdName }}</td>
-                        <td>{{ $data->strProdModel }}</td>
+                        <td>{{ $data->strItemName }}</td>
+                        <td>{{ $data->strItemModel }}</td>
                         <td>{{ $data->strPTDesc }}</td>
                         <td>{{ $data->dcInvPPrice }}</td>
                         <td>{{ $data->intInvQty }}</td>
