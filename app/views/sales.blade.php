@@ -32,7 +32,7 @@
                                     <th>Total</th>
                                     <th>Balance Paid</th>
                                     <th>Payment Mode</th> 
-                                    <th>Status</th>
+                                  <!--  <th>Status</th> -->
                                     <th>Actions</th>
                                 </tr>
                             </thead>
@@ -44,7 +44,7 @@
                                     <td>{{ $data->dcmSBalance }}</td>
                                     <td>{{ $data->sum }}</td>
                                     <td>{{ $data->strPayTDesc }}</td>
-                                    <td>{{ $data->strSaleSDesc }}</td>
+                                   <!-- <td>{{ $data->strSaleSDesc }}</td> -->
                                     <td>
                                         <div class="center-btn">
                                          <a class="modal-trigger waves-effect waves-light btn blue lighten-1 btn-small center-text" href="#{{$data->intSHID}}">VIEW DETAILS</a>

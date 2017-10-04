@@ -39,10 +39,10 @@
                                     <td>{{ $data->strSHCode }}</td>
                                     <td>{{ $data->strPatLast . ', ' . $data->strPatFirst . ' ' . $data->strPatMiddle }}</td>
                                     <td>{{ $data->intSHDateTime }}</td>
-                                    <td></td>
+                                    <td>{{ $data->strServDesc }}</td>
                                     <td>
                                         <div class="center-btn">
-                                         <a class="modal-trigger waves-effect waves-light btn blue lighten-1 btn-small center-text" href="#{{$data->intSHID}}">VIEW DETAILS</a>
+                                         <a class="modal-trigger waves-effect waves-light btn blue lighten-1 btn-small center-text" href="/sec-patient/view-service/{{$data->intSHID}}">VIEW DETAILS</a>
                                         </div>
                                     </td>
                                 </tr>

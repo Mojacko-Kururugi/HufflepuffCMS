@@ -112,7 +112,7 @@
           </div>
           <div class="input-field col l6 m6 s12">
             <label for="CLOD">OD:</label>
-            <input id="CLOD" name="OD" type="number" class="" value="" />
+            <input id="CLOD" name="CLOD" type="number" class="" value="" />
           </div>
           <div class="input-field col l6 m6 s12">
             <label  for="CLOS">OS:</label>

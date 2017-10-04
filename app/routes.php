@@ -112,6 +112,10 @@ Route::post('/save-payment-for-existing', 'DoctorController@addPaymentForExistin
 
 
 //for sceretary
+Route::get('/sec-patient/view/{id}', 'SecController@openPatView');
+Route::get('/sec-patient/view-service/{id}', 'SecController@openServView');
+
+
 Route::get('/sec-home', 'SecController@openSec');
 Route::get('/sec-inv', 'SecController@openSecInv');
 Route::get('/sec-order/ord', 'SecController@openAddOrd');

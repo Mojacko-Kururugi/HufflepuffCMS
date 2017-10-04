@@ -42,7 +42,7 @@ class DoctorController extends BaseController {
 
 	public function showPat() {
 		$data = DB::table('tblPatientInfo')
-			->join('tblPatientRX', 'tblPatientRX.intRXPatID', '=', 'tblPatientInfo.intPatID')
+			//->join('tblPatientRX', 'tblPatientRX.intRXPatID', '=', 'tblPatientInfo.intPatID')
 			->where('tblPatientInfo.intPatStatus', '=', 1)
 			->get();
 		
@@ -175,6 +175,7 @@ class DoctorController extends BaseController {
 		
 
 		$ct = 1 + DB::table('tblServiceHeader')
+			->where('tblServiceHeader.intSHStatus', '!=', 2)
 			->count();
 
 		if($ct < 10)
@@ -212,7 +213,7 @@ class DoctorController extends BaseController {
 			'intSHPatID' 	=> Request::input('patient'),
 			'intSHServiceID' => Request::input('service'),
 			'intSHPaymentType' => NULL,
-			'intSHStatus' => NULL
+			'intSHStatus' => 1
 		]);
 
 
@@ -224,7 +225,21 @@ class DoctorController extends BaseController {
     		'strCRDiagnosis' => Request::input('desc'),
     		'strCRPrescriptions' => Request::input('asc')
 		]);
-	
+		
+		if(Request::input('OD') != "" && Request::input('ODAdd') != "" && Request::input('OS') != "" && Request::input('OSAdd') != "" && Request::input('CLOD') != "" && Request::input('CLOS') != "")
+		{
+		DB::table('tblPatientRX')
+		->insert([
+			'intRXPatID' 	=> Request::input('patient'),
+			'strSOD' => Request::input('OD'),
+			'strSODAdd' => Request::input('ODAdd'),
+			'strSOS' => Request::input('OS'),
+			'strSOSAdd' => Request::input('OSAdd'),
+			'strCLOD' => Request::input('CLOD'),
+			'strCLOS' => Request::input('CLOS'),
+			'intRXPatStatus' => 1
+		]);
+		}
 
 		/*
 		DB::table('tblServiceDetails')

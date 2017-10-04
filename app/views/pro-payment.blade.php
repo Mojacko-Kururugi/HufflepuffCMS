@@ -13,19 +13,20 @@
         <div class="card-content">
           <div class="col s6">
                 <label for="payment-mode">Payment Mode:</label>
-                <select name="payment-mode">
-                   <option value="2" disabled selected>- Choose your option -</option>
-                   <option value="installment">Installment</option>
-                   <option value="full">Full</option>
+                <select name="payment-mode" id="payment-mode">
+                   <option value="" disabled selected>- Choose your option -</option>
+                   <option value="1">Full Payment</option>
+                   <option value="2">2 Gives - every 15 days</option>
+                   <option value="3">Quarterly - every 7 days</option>
                 </select>
           </div>
 
           <div class="col s6">
               <label for="claim">Will Claim The Products?</label>
-              <select name="claim">
-                 <option value="0" disabled selected>- Choose your option -</option>
+              <select name="claim" id="claim">
+                 <option value="" disabled selected>- Choose your option -</option>
                  <option value="1">Yes</option>
-                 <option value="0">No</option>
+                 <option value="2">No</option>
               </select>
           </div>
           

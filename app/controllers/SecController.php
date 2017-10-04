@@ -22,6 +22,63 @@ class SecController extends BaseController {
 		return View::make('sec-job-order');
 	}
 
+
+	public function openServView($id) {
+		$data = DB::table('tblServiceHeader')
+			->where('tblServiceHeader.intSHID', '=', $id)
+			->first();
+
+		$serv_id = $data->strSHCode;
+
+		$rx = DB::table('tblPatientRX')
+				->where('tblPatientRX.created_at', '<=', $data->intSHDateTime)
+				->where('tblPatientRX.intRXPatID', '=', $data->intSHPatID)
+				->orderby('tblPatientRX.intRXID','desc')
+				->first();
+
+		$med = DB::table('tblServiceHeader')
+			->join('tblPatientInfo', 'tblServiceHeader.intSHPatID','=','tblPatientInfo.intPatID')
+			->join('tblServices', 'tblServiceHeader.intSHServiceID','=','tblServices.intServID')
+			->join('tblConsultationRecords', 'tblServiceHeader.strSHCode','=','tblConsultationRecords.strCRHeaderCode')
+			->join('tblDocInfo', 'tblConsultationRecords.intCRDocID','=','tblDocInfo.intDocID')
+			->where('tblServiceHeader.intSHID', '=', $id)
+			->first();
+
+		$purch = DB::table('tblServiceHeader')
+			->join('tblServiceDetails', 'tblServiceDetails.strHeaderCode', '=', 'tblServiceHeader.strSHCode')
+			->join('tblInventory', 'tblServiceDetails.intHInvID','=','tblInventory.intInvID')
+			->join('tblItems','tblInventory.intInvPID','=','tblItems.intItemID')
+			->where('tblInventory.intInvBranch', '=', Session::get('user_bc'))
+			->where('tblServiceHeader.intSHID', '=', $id)
+			->get();
+
+		return View::make('sec-serv-detail')->with('med',$med)->with('purch',$purch)->with('serv_id',$serv_id)->with('rx',$rx);
+	}
+
+	public function openPatView($id) {
+
+		$data = DB::table('tblPatientInfo')
+			//->join('tblPatientRX', 'tblPatientRX.intRXPatID', '=', 'tblPatientInfo.intPatID')
+			->where('tblPatientInfo.intPatID', '=', $id)
+			->first();
+
+		$rx = DB::table('tblPatientRX')
+			->where('tblPatientRX.intRXPatID', '=', $id)
+			->get();
+
+		$serv = DB::table('tblServiceHeader')
+			->join('tblPatientInfo', 'tblServiceHeader.intSHPatID','=','tblPatientInfo.intPatID')
+			->join('tblServices', 'tblServiceHeader.intSHServiceID','=','tblServices.intServID')
+			->where('tblPatientInfo.intPatID', '=', $id)
+			->get();
+
+
+		return View::make('pat-view-details')
+		->with('data',$data)
+		->with('rx',$rx)
+		->with('serv',$serv);
+	}
+
 	public function showPayment() {
 		$data = DB::table('tblItems')
 			->join('tblItemType', 'tblItems.intItemType', '=', 'tblItemType.intITID')
@@ -37,7 +94,7 @@ class SecController extends BaseController {
 			->get();
 
 		$pat = DB::table('tblPatientInfo')
-			->join('tblPatientRX', 'tblPatientRX.intRXPatID', '=', 'tblPatientInfo.intPatID')
+			//->join('tblPatientRX', 'tblPatientRX.intRXPatID', '=', 'tblPatientInfo.intPatID')
 			->where('tblPatientInfo.intPatStatus', '=', 1)
 			->get();
 
@@ -183,13 +240,15 @@ class SecController extends BaseController {
 		DB::table('tblServiceHeader')
 				->where('tblServiceHeader.strSHCode', '=', Session::get('purch_sess'))
 				->update([
-					'intSHStatus' => 1,
+					'intSHPaymentType' => Request::input('payment-mode'),
+					'intSHStatus' => 1
 				]);
 
 		DB::table('tblServiceDetails')
 				->where('tblServiceDetails.strHeaderCode', '=', Session::get('purch_sess'))
 				->update([
-					'intSDStatus' => 1,
+					'intClaimStatus' => Request::input('claim'),
+					'intSDStatus' => 1
 				]);
 
 
@@ -226,7 +285,8 @@ class SecController extends BaseController {
 
 			$serv = DB::table('tblServiceHeader')
 			->join('tblPatientInfo', 'tblServiceHeader.intSHPatID','=','tblPatientInfo.intPatID')
-			//->join('tblServices', 'tblServiceHeader.intSHServiceID','=','tblServices.intServID')
+			->join('tblServices', 'tblServiceHeader.intSHServiceID','=','tblServices.intServID')
+			//->where('tblServiceHeader.intSHStatus', '!=', 2)
 			//->join('tblConsultationRecords', 'tblServiceHeader.strSHCode','=','tblConsultationRecords.strCRHeaderCode')
 			//->join('tblDocInfo', 'tblConsultationRecords.intCRDocID','=','tblDocInfo.intDocID')
 			->get();

@@ -23,7 +23,7 @@
                                     <th>Total</th>
                                     <th>Balance Paid</th>
                                     <th>Payment Mode</th> 
-                                    <th>Status</th>
+                                    <!--<th>Status</th> -->
                                 </tr>
                             </thead>
                             <tbody>
@@ -33,7 +33,7 @@
                                     <td>{{ $data->dcmSBalance }}</td>
                                     <td>{{ $data->sum }}</td>
                                     <td>{{ $data->strPayTDesc }}</td>
-                                    <td>{{ $data->strSaleSDesc }}</td>
+                                  <!--  <td>{{ $data->strSaleSDesc }}</td> -->
                                 </tr>
 
 
