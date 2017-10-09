@@ -132,6 +132,7 @@ Route::post('/adjust/{id}', 'SecController@adjInv');
 Route::get('/expired', 'SecController@openExp');
 Route::get('/sec-add-payment', 'SecController@showPayment');
 Route::get('/sec-job-order', 'SecController@openJO');
+Route::post('/sec-joborder-add', 'SecController@addJOtoList');
 
 Route::post('/sec-purch/add-to-list', 'SecController@addPurchToList');
 Route::get('/sec-purch/payment', 'SecController@showPayPurch');

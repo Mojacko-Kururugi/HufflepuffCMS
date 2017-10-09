@@ -349,8 +349,18 @@ class DoctorController extends BaseController {
 	}
 
 	public function openJO() {
+		$ct = 1 + DB::table('tblServiceHeader')
+			->where('tblServiceHeader.intSHStatus', '!=', 2)
+			->count();
 
-		return View::make('job-order');
+		if($ct < 10)
+			$count = "SRV00" . $ct;
+		else if($ct < 100)
+			$count = "SRV0" . $ct;
+		else if($ct < 1000)
+			$count = "SRV" . $ct;
+
+		return View::make('job-order')->with('count',$count);
 	}
 
 	public function showSched() {

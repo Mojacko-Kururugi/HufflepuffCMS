@@ -292,7 +292,7 @@ CREATE TABLE tblServiceHeader(
 )Engine=InnoDb;
 
 CREATE TABLE tblServiceDetails(
-	strHeaderCode VARCHAR(25),
+    strHeaderCode VARCHAR(25),
     intHInvID INT,
     intQty INT,
     dcTotPrice DECIMAL(18,2),
@@ -306,6 +306,24 @@ CREATE TABLE tblServiceDetails(
     REFERENCES tblWarranty(intWID)
 )Engine=InnoDb;
 
+CREATE TABLE tblJobOrder(
+	strJOHC VARCHAR(25),
+    strJODetails VARCHAR(50),
+    intJOFrame INT,
+    intJOLens INT,
+	intJOAOD INT,
+	intJOAOS INT,
+    strJOODSC VARCHAR(25),
+    strJOODA VARCHAR(25),
+    strJOODBC VARCHAR(25),
+    strJOODPD VARCHAR(25),
+    strJOOSSC VARCHAR(25),
+    strJOOSA VARCHAR(25),
+    strJOOSBC VARCHAR(25),
+    strJOOSPD VARCHAR(25),
+    intJOType INT,
+    intJOStat INT
+)Engine=InnoDB;
 
 CREATE TABLE tblConsultationRecords(
 	strCRHeaderCode VARCHAR(25),

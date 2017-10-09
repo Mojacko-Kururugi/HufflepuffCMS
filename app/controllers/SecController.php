@@ -18,8 +18,50 @@ class SecController extends BaseController {
 	}
 
 	public function openJO() {
+		$data = DB::table('tblItems')
+			->join('tblItemType', 'tblItems.intItemType', '=', 'tblItemType.intITID')
+			->join('tblInventory', 'tblInventory.intInvPID', '=', 'tblItems.intItemID')
+			->where('tblItems.intItemStatus', '=', 1)
+			->where('tblInventory.intInvBranch', '=', Session::get('user_bc'))
+			->where('tblItems.intItemType', '=', 1)
+			->groupby('tblInventory.intInvPID')
+			->get();
 
-		return View::make('sec-job-order');
+		$data2 = DB::table('tblItems')
+			->join('tblItemType', 'tblItems.intItemType', '=', 'tblItemType.intITID')
+			->join('tblInventory', 'tblInventory.intInvPID', '=', 'tblItems.intItemID')
+			->where('tblItems.intItemStatus', '=', 1)
+			->where('tblInventory.intInvBranch', '=', Session::get('user_bc'))
+			->where('tblItems.intItemType', '=', 2)
+			->groupby('tblInventory.intInvPID')
+			->get();
+
+		return View::make('sec-job-order')->with('data',$data)->with('data2',$data2);
+	}
+
+	public function addJOtoList() {
+		
+		DB::table('tblJobOrder')
+		->insert([
+			'strJOHC' => Session::get('purch_sess'),
+    		'strJODetails' => "",
+    		'intJOFrame' => Request::input('frames'),
+    		'intJOLens' => Request::input('lens'),
+    		'intJOAOD' => Request::input('addod'),
+    		'intJOAOS' => Request::input('addos'),
+    		'strJOODSC' => Request::input('odsc'),
+		    'strJOODA' => Request::input('odax'),
+		    'strJOODBC' => Request::input('odbc'),
+		    'strJOODPD' => Request::input('odpd'),
+		    'strJOOSSC' => Request::input('ossc'),
+		    'strJOOSA' => Request::input('osax'),
+		    'strJOOSBC' => Request::input('osbc'),
+		    'strJOOSPD' => Request::input('ospd'),
+		    'intJOType' => 1,
+		    'intJOStat' => 3
+		]);
+
+		return Redirect::to('/sec-add-payment');		
 	}
 
 
