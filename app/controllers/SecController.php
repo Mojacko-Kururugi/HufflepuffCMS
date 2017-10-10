@@ -17,6 +17,26 @@ class SecController extends BaseController {
 		}
 	}
 
+	public function doPayCheck() {
+		$paid = DB::table('tblSales')
+			->join('tblPayment', 'tblSales.intSaleID','=','tblPayment.intPymServID')
+			->groupby('tblSales.intSaleID')
+			->selectRaw('*, sum(dcmPymPayment) as sum')
+			->get();
+
+		foreach($paid as $paid)
+		{
+			if($paid->dcmSBalance <= $paid->sum)
+			{
+				DB::table('tblSales')
+						->where('tblSales.intSaleID', '=', $paid->intSaleID)
+						->update([
+							'intSStatus' => 1,
+						]);
+			}
+		}
+	}
+
 	public function openJO() {
 		$data = DB::table('tblItems')
 			->join('tblItemType', 'tblItems.intItemType', '=', 'tblItemType.intITID')
@@ -42,7 +62,12 @@ class SecController extends BaseController {
 			->where('tblServiceHeader.intSHStatus', '=', 2)		
 			->first();
 
-		return View::make('sec-job-order')->with('data',$data)->with('data2',$data2)->with('data3',$data3);
+		$pat = DB::table('tblPatientInfo')
+			//->join('tblPatientRX', 'tblPatientRX.intRXPatID', '=', 'tblPatientInfo.intPatID')
+			->where('tblPatientInfo.intPatStatus', '=', 1)
+			->get();
+
+		return View::make('sec-job-order')->with('data',$data)->with('data2',$data2)->with('data3',$data3)->with('pat',$pat);
 	}
 
 	public function addJOtoList() {
@@ -57,7 +82,7 @@ class SecController extends BaseController {
 		DB::table('tblServiceHeader')
 		->insert([
 			'strSHCode' => Session::get('purch_sess'),
-			'intSHPatID' 	=> 1,
+			'intSHPatID' 	=> Request::input('patient'),
 			'intSHServiceID' => 4,
 			'intSHPaymentType' => NULL,
 			'intSHStatus' => 2
@@ -432,6 +457,37 @@ class SecController extends BaseController {
 		return Redirect::to('/sec-home');
 	}
 
+	public function addPaymentE($id) {
+
+		$data = DB::table('tblSales')
+			->join('tblPayment', 'tblSales.intSaleID','=','tblPayment.intPymServID')
+			->where('tblSales.strSServCode','=',$id)
+			->first();
+
+		$bal = DB::table('tblPayment')
+			->where('tblPayment.intPymServID','=',$data->intSaleID)
+			->groupby('tblPayment.intPymServID')
+			->selectRaw('*, sum(dcmPymPayment) as sum')
+			->get();
+
+		Session::put('sess_payex',$data->intSaleID);
+
+		return View::make('pay-existing')->with('data',$data)->with('bal',$bal);
+	}
+
+	public function addPaymentEF()
+	{
+
+		DB::table('tblPayment')
+				->insert([
+		    		'intPymServID' => Session::get('sess_payex'),
+		    		'dcmPymPayment' => Request::input('amount-received')
+				]);
+
+		return Redirect::to('/sec-home');
+	}
+
+
 	public function openSec() {
 		
 		$data = DB::table('tblEmployeeInfo')
@@ -468,8 +524,22 @@ class SecController extends BaseController {
 			//->join('tblDocInfo', 'tblConsultationRecords.intCRDocID','=','tblDocInfo.intDocID')
 			->get();
 
+		$this->doPayCheck();
 
-			return View::make('dash-sec')->with('data',$data)->with('serv',$serv);
+		$data2 = DB::table('tblSales')
+			->join('tblServiceHeader','tblSales.strSServCode','=','tblServiceHeader.strSHCode')
+			->join('tblPatientInfo', 'tblServiceHeader.intSHPatID','=','tblPatientInfo.intPatID')
+			->join('tblPayType', 'tblServiceHeader.intSHPaymentType','=','tblPayType.intPayTID')
+			->join('tblSalesStatus', 'tblSales.intSStatus','=','tblSalesStatus.intSaleSID')
+			->join('tblPayment', 'tblSales.intSaleID','=','tblPayment.intPymServID')
+			->where('tblSales.intSStatus','=',2)
+			->groupby('tblSales.intSaleID')
+			->selectRaw('*, sum(dcmPymPayment) as sum')
+			->get();
+
+
+
+			return View::make('dash-sec')->with('data',$data)->with('data2',$data2)->with('serv',$serv);
 	}
 
 	public function openSecInv() {

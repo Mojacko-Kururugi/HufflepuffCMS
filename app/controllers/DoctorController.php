@@ -342,7 +342,15 @@ class DoctorController extends BaseController {
 		if((Request::input('fee') == ""))
 			return Redirect::to('/sec-home');
 		else
-			return Redirect::to('/sec-home');
+			{
+				DB::table('tblSales')
+				->insert([
+		    		'strSServCode' => Request::input('user_id'),
+		    		'dcmSBalance' => Request::input('fee'),
+		    		'intSStatus' => 2
+				]);
+				return Redirect::to('/sec/payment/' . Request::input('user_id'));
+			}
 		}
 		else
 		{
@@ -553,7 +561,7 @@ class DoctorController extends BaseController {
 
 		foreach($paid as $paid)
 		{
-			if($paid->dcmSBalance == $paid->sum)
+			if($paid->dcmSBalance <= $paid->sum)
 			{
 				DB::table('tblSales')
 						->where('tblSales.intSaleID', '=', $paid->intSaleID)

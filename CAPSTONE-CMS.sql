@@ -338,6 +338,7 @@ CREATE TABLE tblConsultationRecords(
     REFERENCES tblDocInfo(intDocID)
 )Engine=InnoDb;
 
+select * from tblsales;
 CREATE TABLE tblSales(
 	intSaleID int NOT NULL AUTO_INCREMENT,
     strSServCode VARCHAR(25),
@@ -389,7 +390,6 @@ CREATE TABLE tblSchedules(
     FOREIGN KEY(intSchedStatus)
     REFERENCES tblSchedStatus(intSSID)
 )Engine=InnoDb;
-
 
 INSERT INTO tblFrequencyType(intFID,strFDesc) VALUES ('1','Every 30 mins');
 INSERT INTO tblFrequencyType(intFID,strFDesc) VALUES ('2','Every 1 hour');
