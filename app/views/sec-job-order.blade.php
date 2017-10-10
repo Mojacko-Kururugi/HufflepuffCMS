@@ -14,7 +14,7 @@
   <form action="{{ URL::to('/sec-joborder-add') }}" method="POST" id="signup_validate" enctype="multipart/form-data">
        <div class="row">
             <div class="input-field col s12 m4 l4">
-                <input type="text" id="search" >
+                <input type="text" id="search" @if($data3 != null)value="{{$data3->strPatLast . ', ' . $data3->strPatFirst}}@endif">
                 <label class="label-icon" for="search">Customer</label>
             </div>
 
@@ -206,15 +206,15 @@
                     <div class="row">
                       <div class="input-field">
                         <label for="sales">Sales-in-Charge:</label>
-                        <input id="sales" name="sales" type="text" value="" />
+                        <input id="sales" name="sales" type="text" value="{{Session::get('user_name')}}" />
                       </div>
                     </div>
                 </div>
                 <div class="col s12 m6 l6">
                     <div class="row">
                       <div class="input-field"> 
-                        <label for="amount">Amount:</label>
-                        <input type="number" name="amount" id="amount" disabled="disable">
+                        <label for="amount" name="amount" id="amount">Amount:</label>
+                        <input type="number" name="amount" id="amount">
                       </div>
                     </div>
                     <div class="row">

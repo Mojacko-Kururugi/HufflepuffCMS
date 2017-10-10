@@ -54,6 +54,7 @@ class PatientController extends BaseController {
 
 
 	public function showRec() {
+		/*
 		$data = DB::table('tblServiceHeader')
 			->join('tblPatientInfo', 'tblServiceHeader.intSHPatID','=','tblPatientInfo.intPatID')
 			//->join('tblDocInfo', 'tblServiceHeader.intSHDocID','=','tblDocInfo.intDocID')
@@ -66,10 +67,70 @@ class PatientController extends BaseController {
 			->join('tblProducts','tblInventory.intInvPID','=','tblProducts.intProdID')
 			->where('tblPatientInfo.intPatID', '=',  Session::get('user_code'))
 			->get();
+			*/
+
+				$data = DB::table('tblPatientInfo')
+			//->join('tblPatientRX', 'tblPatientRX.intRXPatID', '=', 'tblPatientInfo.intPatID')
+			->where('tblPatientInfo.intPatID', '=', Session::get('user_code'))
+			->first();
+
+		$rx = DB::table('tblPatientRX')
+			->where('tblPatientRX.intRXPatID', '=', Session::get('user_code'))
+			->get();
+
+		$serv = DB::table('tblServiceHeader')
+			->join('tblPatientInfo', 'tblServiceHeader.intSHPatID','=','tblPatientInfo.intPatID')
+			->join('tblServices', 'tblServiceHeader.intSHServiceID','=','tblServices.intServID')
+			->where('tblPatientInfo.intPatID', '=', Session::get('user_code'))
+			->orderby('tblServiceHeader.intSHID','asc')
+			->get();
 
 		
-			return View::make('patient-record')->with('data',$data);
+			return View::make('patient-records')
+			->with('data',$data)
+			->with('rx',$rx)
+			->with('serv',$serv);
 	}
+
+	public function openServView($id) {
+		$data = DB::table('tblServiceHeader')
+			->where('tblServiceHeader.intSHID', '=', $id)
+			->first();
+
+		$serv_id = $data->strSHCode;
+
+		$rx = DB::table('tblPatientRX')
+				->where('tblPatientRX.created_at', '<=', $data->intSHDateTime)
+				->where('tblPatientRX.intRXPatID', '=', $data->intSHPatID)
+				->orderby('tblPatientRX.intRXID','desc')
+				->first();
+
+		$med = DB::table('tblServiceHeader')
+			->join('tblPatientInfo', 'tblServiceHeader.intSHPatID','=','tblPatientInfo.intPatID')
+			->join('tblServices', 'tblServiceHeader.intSHServiceID','=','tblServices.intServID')
+			->join('tblConsultationRecords', 'tblServiceHeader.strSHCode','=','tblConsultationRecords.strCRHeaderCode')
+			->join('tblDocInfo', 'tblConsultationRecords.intCRDocID','=','tblDocInfo.intDocID')
+			->where('tblServiceHeader.intSHID', '=', $id)
+			->first();
+
+		$purch = DB::table('tblServiceHeader')
+			->join('tblServiceDetails', 'tblServiceDetails.strHeaderCode', '=', 'tblServiceHeader.strSHCode')
+			->join('tblInventory', 'tblServiceDetails.intHInvID','=','tblInventory.intInvID')
+			->join('tblItems','tblInventory.intInvPID','=','tblItems.intItemID')
+			->where('tblServiceHeader.intSHID', '=', $id)
+			->get();
+
+		$list2 = DB::table('tblJobOrder')
+			->where('tblJobOrder.strJOHC','=',$serv_id)
+			->get();
+
+		$list3 = DB::table('tblConsultationRecords')
+			->where('tblConsultationRecords.strCRHeaderCode','=',$serv_id)
+			->get();
+
+		return View::make('pat-serv-detail')->with('med',$med)->with('purch',$purch)->with('serv_id',$serv_id)->with('rx',$rx)->with('list2',$list2)->with('list3',$list3);
+	}
+
 
 	public function showAcc() {
 		

@@ -122,15 +122,37 @@
                                       <?php $qty = $l->intQty ?>
                                       <?php $subtotal = $l->dcInvPPrice * $qty ?>
                                       <td>{{$qty}}</td>
-                                      <td>{{$subtotal}}</td>
+                                      <td>P {{$subtotal}}</td>
                                       <td><a class="waves-effect waves-light btn btn-small red center-text">REMOVE</a></td>
                                     </tr>
                   <?php $total += $subtotal ?>    
                  @endforeach
+                 @foreach($list2 as $l2)
+                        <tr>
+                          <td>{{$l2->strJODetails}}</td>
+                          <td>1</td>
+                          <?php $subtotal = $l2->dcJOFee ?>
+                          <td>P {{$subtotal}}</td>
+                          <td><a class="waves-effect waves-light btn btn-small red center-text">REMOVE</a></td>
+                        </tr>
+                        <?php $total += $subtotal ?>
+                 @endforeach
+                @foreach($list3 as $l3)
+                        <tr>
+                          <td>Medical Fee</td>
+                          <td></td>
+                          <?php $subtotal = $l3->dcCRFee ?>
+                          <td>P {{$subtotal}}</td>
+                          <td></td>
+                        </tr>
+                        <?php $total += $subtotal ?>
+                 @endforeach
               </tbody>
               <tr class="dashed" id="summary-grand-total">
+                  <td><h6 class="sales-info">TOTAL: </h6></td>
+                  <td></td>
                   <td>
-                      <h6 class="sales-info">TOTAL: {{$total}}</h6>
+                      <h6 class="sales-info">P {{$total}}</h6>
                       <strong class="text-success"></strong>
                   </td>
               </tr>  

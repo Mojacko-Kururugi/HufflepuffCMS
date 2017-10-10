@@ -1,4 +1,4 @@
-@extends('layouts.secretary-master')
+@extends('layouts.master')
 
 @section('content')
 

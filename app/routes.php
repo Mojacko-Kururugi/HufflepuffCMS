@@ -105,6 +105,8 @@ Route::get('/job-order', 'DoctorController@openJO');
 Route::post('/save-payment', 'DoctorController@addPayment');
 Route::get('/reports', 'DoctorController@generateReport');
 
+Route::get('/service/view-service/{id}', 'DoctorController@openServView');
+
 //Dagdag ni tonet
 Route::get('/add-payment-for-existing', 'DoctorController@showPaymentForExisting');
 Route::post('/save-payment-for-existing', 'DoctorController@addPaymentForExisting');
@@ -147,6 +149,8 @@ Route::get('/patient-schedules/req', 'PatientController@showReqSched');
 Route::post('/patient-schedules/save', 'PatientController@saveReqSched');
 Route::get('/patient-records', 'PatientController@showRec');
 Route::get('/patient-sales', 'PatientController@showAcc');
+
+Route::get('/patient-records/view-service/{id}', 'PatientController@openServView');
 
 
 

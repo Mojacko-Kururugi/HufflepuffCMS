@@ -321,6 +321,7 @@ CREATE TABLE tblJobOrder(
     strJOOSA VARCHAR(25),
     strJOOSBC VARCHAR(25),
     strJOOSPD VARCHAR(25),
+    dcJOFee DECIMAL(18,2),
     intJOType INT,
     intJOStat INT
 )Engine=InnoDB;
@@ -331,6 +332,7 @@ CREATE TABLE tblConsultationRecords(
 	strPatComplaints VARCHAR(7),
     strCRDiagnosis TEXT,
     strCRPrescriptions TEXT,
+    dcCRFee DECIMAL(18,2),
     
 	FOREIGN KEY(intCRDocID)
     REFERENCES tblDocInfo(intDocID)

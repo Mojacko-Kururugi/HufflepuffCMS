@@ -36,15 +36,38 @@ class SecController extends BaseController {
 			->groupby('tblInventory.intInvPID')
 			->get();
 
-		return View::make('sec-job-order')->with('data',$data)->with('data2',$data2);
+		$data3 = DB::table('tblServiceHeader')
+			->join('tblPatientInfo', 'tblServiceHeader.intSHPatID','=','tblPatientInfo.intPatID')
+			->where('tblServiceHeader.strSHCode', '=', Session::get('purch_sess'))
+			->where('tblServiceHeader.intSHStatus', '=', 2)		
+			->first();
+
+		return View::make('sec-job-order')->with('data',$data)->with('data2',$data2)->with('data3',$data3);
 	}
 
 	public function addJOtoList() {
 		
+		$sess = DB::table('tblServiceHeader')
+			->where('tblServiceHeader.strSHCode', '=', Session::get('purch_sess'))
+			->where('tblServiceHeader.intSHStatus', '=', 2)		
+			->first();
+
+		if($sess == NULL)
+		{
+		DB::table('tblServiceHeader')
+		->insert([
+			'strSHCode' => Session::get('purch_sess'),
+			'intSHPatID' 	=> 1,
+			'intSHServiceID' => 4,
+			'intSHPaymentType' => NULL,
+			'intSHStatus' => 2
+		]);
+		}
+
 		DB::table('tblJobOrder')
 		->insert([
 			'strJOHC' => Session::get('purch_sess'),
-    		'strJODetails' => "",
+    		'strJODetails' => "JOB ORDER",
     		'intJOFrame' => Request::input('frames'),
     		'intJOLens' => Request::input('lens'),
     		'intJOAOD' => Request::input('addod'),
@@ -57,6 +80,7 @@ class SecController extends BaseController {
 		    'strJOOSA' => Request::input('osax'),
 		    'strJOOSBC' => Request::input('osbc'),
 		    'strJOOSPD' => Request::input('ospd'),
+		    'dcJOFee' =>  Request::input('amount'),
 		    'intJOType' => 1,
 		    'intJOStat' => 3
 		]);
@@ -94,7 +118,15 @@ class SecController extends BaseController {
 			->where('tblServiceHeader.intSHID', '=', $id)
 			->get();
 
-		return View::make('sec-serv-detail')->with('med',$med)->with('purch',$purch)->with('serv_id',$serv_id)->with('rx',$rx);
+		$list2 = DB::table('tblJobOrder')
+			->where('tblJobOrder.strJOHC','=',$serv_id)
+			->get();
+
+		$list3 = DB::table('tblConsultationRecords')
+			->where('tblConsultationRecords.strCRHeaderCode','=',$serv_id)
+			->get();
+
+		return View::make('sec-serv-detail')->with('med',$med)->with('purch',$purch)->with('serv_id',$serv_id)->with('rx',$rx)->with('list2',$list2)->with('list3',$list3);
 	}
 
 	public function openPatView($id) {
@@ -112,6 +144,7 @@ class SecController extends BaseController {
 			->join('tblPatientInfo', 'tblServiceHeader.intSHPatID','=','tblPatientInfo.intPatID')
 			->join('tblServices', 'tblServiceHeader.intSHServiceID','=','tblServices.intServID')
 			->where('tblPatientInfo.intPatID', '=', $id)
+			->orderby('tblServiceHeader.intSHID','asc')
 			->get();
 
 
@@ -162,10 +195,21 @@ class SecController extends BaseController {
 			->where('tblServiceDetails.intSDStatus', '=', 3)		
 			->get();
 
+		$list2 = DB::table('tblJobOrder')
+			->where('tblJobOrder.strJOHC','=',Session::get('purch_sess'))
+			->where('tblJobOrder.intJOStat','=', 3)
+			->get();
+
+		$list3 = DB::table('tblConsultationRecords')
+			->where('tblConsultationRecords.strCRHeaderCode','=',Session::get('purch_sess'))
+			->get();
+
 		return View::make('sec-add-payment')
 		->with('data',$data)
 		->with('type',$type)
 		->with('list',$list)
+		->with('list2',$list2)
+		->with('list3',$list3)
 		->with('pat',$pat)
 		->with('count',$count);
 	}
@@ -222,6 +266,33 @@ class SecController extends BaseController {
 			$total = $total + $subtotal;
 		}
 
+		$list2 = DB::table('tblJobOrder')
+			->where('tblJobOrder.strJOHC','=',Session::get('purch_sess'))
+			->where('tblJobOrder.intJOStat','=', 3)
+			->get();
+
+		if($list2 != Null)
+		{
+			foreach($list2 as $list2)
+			{
+				$subtotal = $list2->dcJOFee;
+				$total = $total + $subtotal;
+			}
+		}
+
+		$list3 = DB::table('tblConsultationRecords')
+			->where('tblConsultationRecords.strCRHeaderCode','=',Session::get('purch_sess'))
+			->get();
+
+		if($list3 != Null)
+		{
+			foreach($list3 as $list3)
+			{
+				$subtotal = $list3->dcCRFee;
+				$total = $total + $subtotal;
+			}
+		}
+
 		return View::make('pro-payment')->with('total',$total);
 	}
 
@@ -262,6 +333,70 @@ class SecController extends BaseController {
 				]);
 		}
 
+		$list2 = DB::table('tblJobOrder')
+			->where('tblJobOrder.strJOHC','=',Session::get('purch_sess'))
+			->where('tblJobOrder.intJOStat','=', 3)
+			->get();
+
+		if($list2 != NUll)
+		{
+			foreach($list2 as $list2)
+			{
+				$subtotal = $list2->dcJOFee;
+				$total = $total + $subtotal;
+
+				$data = DB::table('tblInventory')
+						->where('tblInventory.intInvID', '=', $list2->intJOFrame)
+						->first();
+
+				$new_qty = 1;
+				$curr_qty =  $data->intInvQty;
+				$total_qty;
+
+				$total_qty = $curr_qty - $new_qty;
+
+				DB::table('tblInventory')
+				->where('tblInventory.intInvID', '=', $list2->intJOFrame)
+				->update([
+					'intInvQty' => $total_qty,
+				]);
+
+				$data = DB::table('tblInventory')
+						->where('tblInventory.intInvID', '=', $list2->intJOLens)
+						->first();
+
+				$new_qty = 1;
+				$curr_qty =  $data->intInvQty;
+				$total_qty;
+
+				$total_qty = $curr_qty - $new_qty;
+
+				DB::table('tblInventory')
+				->where('tblInventory.intInvID', '=', $list2->intJOLens)
+				->update([
+					'intInvQty' => $total_qty,
+				]);
+			}
+
+			DB::table('tblJobOrder')
+				->where('tblJobOrder.strJOHC', '=', Session::get('purch_sess'))
+				->update([
+					'intJOStat' => Request::input('claim')
+				]);
+		}
+
+		$list3 = DB::table('tblConsultationRecords')
+			->where('tblConsultationRecords.strCRHeaderCode','=',Session::get('purch_sess'))
+			->get();
+
+		if($list3 != null)
+		{
+			foreach($list3 as $list3)
+			{
+				$subtotal = $list3->dcCRFee;
+				$total = $total + $subtotal;
+			}
+		}
 
 		DB::table('tblSales')
 				->insert([

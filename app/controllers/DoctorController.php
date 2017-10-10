@@ -133,8 +133,9 @@ class DoctorController extends BaseController {
 	    return Redirect::to('/records');
 	}
 
-	public function showServ() {
 
+	public function showServ() {
+		/*
 		$data = DB::table('tblServiceHeader')
 			->join('tblPatientInfo', 'tblServiceHeader.intSHPatID','=','tblPatientInfo.intPatID')
 			->join('tblDocInfo', 'tblServiceHeader.intSHDocID','=','tblDocInfo.intDocID')
@@ -147,10 +148,63 @@ class DoctorController extends BaseController {
 			->join('tblItems','tblInventory.intInvPID','=','tblItems.intItemID')
 			->where('tblInventory.intInvBranch', '=', Session::get('user_bc'))
 			->get();
-
+	
 
 				return View::make('services')->with('data',$data);
+		*/
+
+		$serv = DB::table('tblServiceHeader')
+			->join('tblPatientInfo', 'tblServiceHeader.intSHPatID','=','tblPatientInfo.intPatID')
+			->join('tblServices', 'tblServiceHeader.intSHServiceID','=','tblServices.intServID')
+			//->where('tblServiceHeader.intSHStatus', '!=', 2)
+			//->join('tblConsultationRecords', 'tblServiceHeader.strSHCode','=','tblConsultationRecords.strCRHeaderCode')
+			//->join('tblDocInfo', 'tblConsultationRecords.intCRDocID','=','tblDocInfo.intDocID')
+			->get();
+
+
+			return View::make('doc-services')->with('serv',$serv);
 	}
+
+	public function openServView($id) {
+		$data = DB::table('tblServiceHeader')
+			->where('tblServiceHeader.intSHID', '=', $id)
+			->first();
+
+		$serv_id = $data->strSHCode;
+
+		$rx = DB::table('tblPatientRX')
+				->where('tblPatientRX.created_at', '<=', $data->intSHDateTime)
+				->where('tblPatientRX.intRXPatID', '=', $data->intSHPatID)
+				->orderby('tblPatientRX.intRXID','desc')
+				->first();
+
+		$med = DB::table('tblServiceHeader')
+			->join('tblPatientInfo', 'tblServiceHeader.intSHPatID','=','tblPatientInfo.intPatID')
+			->join('tblServices', 'tblServiceHeader.intSHServiceID','=','tblServices.intServID')
+			->join('tblConsultationRecords', 'tblServiceHeader.strSHCode','=','tblConsultationRecords.strCRHeaderCode')
+			->join('tblDocInfo', 'tblConsultationRecords.intCRDocID','=','tblDocInfo.intDocID')
+			->where('tblServiceHeader.intSHID', '=', $id)
+			->first();
+
+		$purch = DB::table('tblServiceHeader')
+			->join('tblServiceDetails', 'tblServiceDetails.strHeaderCode', '=', 'tblServiceHeader.strSHCode')
+			->join('tblInventory', 'tblServiceDetails.intHInvID','=','tblInventory.intInvID')
+			->join('tblItems','tblInventory.intInvPID','=','tblItems.intItemID')
+			->where('tblInventory.intInvBranch', '=', Session::get('user_bc'))
+			->where('tblServiceHeader.intSHID', '=', $id)
+			->get();
+
+		$list2 = DB::table('tblJobOrder')
+			->where('tblJobOrder.strJOHC','=',$serv_id)
+			->get();
+
+		$list3 = DB::table('tblConsultationRecords')
+			->where('tblConsultationRecords.strCRHeaderCode','=',$serv_id)
+			->get();
+
+		return View::make('doc-serv-detail')->with('med',$med)->with('purch',$purch)->with('serv_id',$serv_id)->with('rx',$rx)->with('list2',$list2)->with('list3',$list3);
+	}
+
 
 	public function showAddServ() {
 
@@ -205,42 +259,6 @@ class DoctorController extends BaseController {
 		$complaints = $complaints . ", Vomitting"; 	
 		*/
 
-		$complaints = Request::input('BOVfar') . Request::input('BOVnear') . Request::input('headache') . Request::input('dizziness') . Request::input('glare') . Request::input('vomitting');
-
-		DB::table('tblServiceHeader')
-		->insert([
-			'strSHCode' => Request::input('user_id'),
-			'intSHPatID' 	=> Request::input('patient'),
-			'intSHServiceID' => Request::input('service'),
-			'intSHPaymentType' => NULL,
-			'intSHStatus' => 1
-		]);
-
-
-		DB::table('tblConsultationRecords')
-		->insert([
-			'strCRHeaderCode' => Request::input('user_id'),
-			'intCRDocID' 	=> Request::input('doc'),
-			'strPatComplaints' => $complaints,
-    		'strCRDiagnosis' => Request::input('desc'),
-    		'strCRPrescriptions' => Request::input('asc')
-		]);
-		
-		if(Request::input('OD') != "" && Request::input('ODAdd') != "" && Request::input('OS') != "" && Request::input('OSAdd') != "" && Request::input('CLOD') != "" && Request::input('CLOS') != "")
-		{
-		DB::table('tblPatientRX')
-		->insert([
-			'intRXPatID' 	=> Request::input('patient'),
-			'strSOD' => Request::input('OD'),
-			'strSODAdd' => Request::input('ODAdd'),
-			'strSOS' => Request::input('OS'),
-			'strSOSAdd' => Request::input('OSAdd'),
-			'strCLOD' => Request::input('CLOD'),
-			'strCLOS' => Request::input('CLOS'),
-			'intRXPatStatus' => 1
-		]);
-		}
-
 		/*
 		DB::table('tblServiceDetails')
 		->insert([
@@ -281,8 +299,91 @@ class DoctorController extends BaseController {
 			'intInvQty' => $total,
 		]);
 		*/
+		if(Request::input('claim') == 2)
+		{
+
+		$complaints = Request::input('BOVfar') . Request::input('BOVnear') . Request::input('headache') . Request::input('dizziness') . Request::input('glare') . Request::input('vomitting');
+
+		DB::table('tblServiceHeader')
+		->insert([
+			'strSHCode' => Request::input('user_id'),
+			'intSHPatID' 	=> Request::input('patient'),
+			'intSHServiceID' => Request::input('service'),
+			'intSHPaymentType' => NULL,
+			'intSHStatus' => 1
+		]);
+
+
+		DB::table('tblConsultationRecords')
+		->insert([
+			'strCRHeaderCode' => Request::input('user_id'),
+			'intCRDocID' 	=> Request::input('doc'),
+			'strPatComplaints' => $complaints,
+    		'strCRDiagnosis' => Request::input('desc'),
+    		'strCRPrescriptions' => Request::input('asc'),
+    		'dcCRFee' => Request::input('fee')
+		]);
 		
-		return Redirect::to('/sec-home');
+		if(Request::input('OD') != "" && Request::input('ODAdd') != "" && Request::input('OS') != "" && Request::input('OSAdd') != "" && Request::input('CLOD') != "" && Request::input('CLOS') != "")
+		{
+		DB::table('tblPatientRX')
+		->insert([
+			'intRXPatID' 	=> Request::input('patient'),
+			'strSOD' => Request::input('OD'),
+			'strSODAdd' => Request::input('ODAdd'),
+			'strSOS' => Request::input('OS'),
+			'strSOSAdd' => Request::input('OSAdd'),
+			'strCLOD' => Request::input('CLOD'),
+			'strCLOS' => Request::input('CLOS'),
+			'intRXPatStatus' => 1
+		]);
+		}
+
+		if((Request::input('fee') == ""))
+			return Redirect::to('/sec-home');
+		else
+			return Redirect::to('/sec-home');
+		}
+		else
+		{
+			$complaints = Request::input('BOVfar') . Request::input('BOVnear') . Request::input('headache') . Request::input('dizziness') . Request::input('glare') . Request::input('vomitting');
+
+		DB::table('tblServiceHeader')
+		->insert([
+			'strSHCode' => Request::input('user_id'),
+			'intSHPatID' 	=> Request::input('patient'),
+			'intSHServiceID' => Request::input('service'),
+			'intSHPaymentType' => NULL,
+			'intSHStatus' => 2
+		]);
+
+
+		DB::table('tblConsultationRecords')
+		->insert([
+			'strCRHeaderCode' => Request::input('user_id'),
+			'intCRDocID' 	=> Request::input('doc'),
+			'strPatComplaints' => $complaints,
+    		'strCRDiagnosis' => Request::input('desc'),
+    		'strCRPrescriptions' => Request::input('asc'),
+    		'dcCRFee' => Request::input('fee')
+		]);
+		
+		if(Request::input('OD') != "" && Request::input('ODAdd') != "" && Request::input('OS') != "" && Request::input('OSAdd') != "" && Request::input('CLOD') != "" && Request::input('CLOS') != "")
+		{
+		DB::table('tblPatientRX')
+		->insert([
+			'intRXPatID' 	=> Request::input('patient'),
+			'strSOD' => Request::input('OD'),
+			'strSODAdd' => Request::input('ODAdd'),
+			'strSOS' => Request::input('OS'),
+			'strSOSAdd' => Request::input('OSAdd'),
+			'strCLOD' => Request::input('CLOD'),
+			'strCLOS' => Request::input('CLOS'),
+			'intRXPatStatus' => 1
+		]);
+		}
+		return Redirect::to('/sec-add-payment');
+		}
 	}
 
 	public function showInv() {

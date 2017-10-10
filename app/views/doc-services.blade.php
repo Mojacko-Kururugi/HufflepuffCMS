@@ -1,10 +1,10 @@
-@extends('layouts.secretary-master')
+@extends('layouts.master')
 
 @section('content')
 
 <div class="row page-title">
   <div class="col s12 m12 l12">
-    <h5>Logs for Today</h5>
+    <h5>SERVICE HISTORY</h5>
   </div>
 </div>
 
@@ -13,14 +13,6 @@
     <div class="container-fluid">
         <div class="card">
             <div class="card-content">
-
-                <div class="row">
-                    <div class="col s12 m12 l10">
-                        <a class="waves-effect waves-light btn blue darken-1 btn-small center-text" href="/service/add-service">NEW MEDICAL SERVICE</a>
-                        <a class="waves-effect waves-light btn blue darken-1 btn-small center-text" href="/sec-add-payment">SELL PRODUCT(POS)</a>
-                        <a class="waves-effect waves-light btn blue darken-1 btn-small center-text" href="">PAY REMAINING BALANCE</a>
-                    </div>
-                 </div>
 
                 <div class="nav-wrapper">
                     <div class="container-fluid">
@@ -43,7 +35,7 @@
                                     <td>{{ $data->strServDesc }}</td>
                                     <td>
                                         <div class="center-btn">
-                                         <a class="modal-trigger waves-effect waves-light btn blue lighten-1 btn-small center-text" href="/sec-patient/view-service/{{$data->intSHID}}">VIEW DETAILS</a>
+                                         <a class="modal-trigger waves-effect waves-light btn blue lighten-1 btn-small center-text" href="/service/view-service/{{$data->intSHID}}">VIEW DETAILS</a>
                                         </div>
                                     </td>
                                 </tr>
