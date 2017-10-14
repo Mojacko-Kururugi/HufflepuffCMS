@@ -128,7 +128,7 @@
         <div class="carousel-inner" role="listbox">
 
             <!-- First slide -->
-            <div class="carousel-item active view hm-black-light" style="background-image: url('img/bg1.jpg'); background-repeat: no-repeat; background-size: cover;">
+            <div class="carousel-item active view hm-black-light" style="background-image: url('img/bg1.jpg'); background-repeat: no-repeat; background-size: cover ; position: absolute;">
 
                 <!-- Caption -->
                 <div class="full-bg-img flex-center white-text">
@@ -146,7 +146,7 @@
             <!-- /.First slide -->
 
             <!-- Second slide -->
-            <div class="carousel-item view hm-black-light" style="background-image: url('img/Slider4.jpg'); background-repeat: no-repeat; background-size: cover;">
+            <div class="carousel-item view hm-black-light" style="background-image: url('img/Slider4.jpg'); background-repeat: no-repeat; background-size: cover; position: absolute;">
 
                 <!-- Caption -->
                 <div class="full-bg-img flex-center white-text">
@@ -168,7 +168,7 @@
             <!-- /.Second slide -->
 
             <!-- Third slide -->
-            <div class="carousel-item view hm-black-light" style="background-image: url('img/checkup2.jpg'); background-repeat: no-repeat; background-size: cover;">
+            <div class="carousel-item view hm-black-light" style="background-image: url('img/checkup2.jpg'); background-repeat: no-repeat; background-size: cover; position: absolute;">
 
                 <!-- Caption -->
                 <div class="full-bg-img flex-center white-text">
@@ -238,30 +238,7 @@
         <div class="col l6 s12">
           <h5 class="white-text">About the Developers</h5>
           <p class="grey-text text-lighten-4">We are a team of college students working on this project for our subjects System Analysis and Design/Capstone Project.</p>
-
-
         </div>
-        <!--
-        <div class="col l3 s12">
-          <h5 class="white-text">Settings</h5>
-          <ul>
-            <li><a class="white-text" href="#!">Link 1</a></li>
-            <li><a class="white-text" href="#!">Link 2</a></li>
-            <li><a class="white-text" href="#!">Link 3</a></li>
-            <li><a class="white-text" href="#!">Link 4</a></li>
-          </ul>
-        </div>
-
-        <div class="col l3 s12">
-          <h5 class="white-text">Connect</h5>
-          <ul>
-            <li><a class="white-text" href="#!">Link 1</a></li>
-            <li><a class="white-text" href="#!">Link 2</a></li>
-            <li><a class="white-text" href="#!">Link 3</a></li>
-            <li><a class="white-text" href="#!">Link 4</a></li>
-          </ul>
-        </div>
-        -->
       </div>
     </div>
     <div class="footer-copyright">
