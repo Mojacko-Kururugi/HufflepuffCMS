@@ -3,7 +3,50 @@
 @section('content')
 
   <?php Session::put('upId', $id); ?>             
-
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script src="js/jquery.validate.min.js"></script>
+<script>
+  $(document).ready(function(){
+    $("#contact_number").keypress(function(e){
+      if (e.which != 8 && e.which !=0 && (e.which <48 || e.which> 57)){
+        alert ("digits only");
+        return false;
+      }
+    })
+    $('#updateBranch').validate({
+      rules: {
+        'branchname': {
+              required : true,
+              minlength: 5
+        },
+        'address': {
+              required: true,
+        },
+        'contact_number': {
+              required: true,
+              minlength: 11,
+              maxlengh: 11
+        }
+      },
+      messages: {
+        'branchname':{
+          required: "Please enter branchname",
+        },
+        'address': {
+          required: "Please enter Branch address",
+        },
+     
+      },
+       submitHandler: function (form) {
+            alert("New Updated Added!");
+            return true;
+        },
+        invalidHandler: function () {
+            alert("Form is invalid. Please input data");
+        }
+    });
+  });
+</script>
   <div class="row"><br>
     <div class="center col l12 m12 s12">
       <h3>Update Branch</h3>
@@ -13,23 +56,24 @@
 
   <div class="contents z-depth-1">
     <div class="container">
-      <form action="{{ URL::to('/update-branch') }}" method="POST" id="signup_validate" enctype="multipart/form-data"><br><br>
+      <form action="{{ URL::to('/update-branch') }}" method="POST" id="updateBranch"><br><br>
         <div class="row">
               <div class="input-field col l12 m8 s12">
                 <label for="email">Branch Name</label>
-                <input id="number" name="number" type="text" class="validate" value="{{ $data->strBranchName }}" />
+                <input id="branchname" name="branchname" type="text" value="{{ $data->strBranchName }}" class="required specialChar" />
               </div>
         </div>
             <div class="row">
               <div class="input-field col s12 m12 l12">
-                <input id="address" name="address" type="text" class="validate" value="{{ $data->strBranchAddress }}">
-                <label for="address">Address</label>
+              <label for="address">Address</label>
+                <input id="address" name="address" type="text"  value="{{ $data->strBranchAddress }}">
               </div>
             </div>
             <div class="row">
               <div class="input-field col s12 m8 l6">
-                <input id="stud_id_no" name="stud_id_no" type="text" class="validate" value="{{ $data->strBContactNumb }}">
-                <label for="stud_id_no">Contact Number</label>
+               <label for="contact_number">Contact Number</label>
+                <input id="contact_number" name="contact_number" type="text" value="{{ $data->strBContactNumb }}">
+               
               </div>
             </div>
             <div class="row">
@@ -46,82 +90,10 @@
 
 {{-- Scripts START --}}
 <script type="text/javascript">
-  var date = new Date();
-  var nameRegex = /^([ \u00c0-\u01ffa-zA-Z'\-])+$/;
-  var contactRegex = /((\+63)|0)\d{10}/;
-
-  $(document).ready(function() {
-    $('#b_day').pickadate({
-      format: "yyyy-mm-dd",
-      selectYears: true,
-      selectMonths: true,
-      selectYears: 100, // scroll shits of years
-      min: new Date(1929,12,31),
-      max: new Date(2009,12,01)
-    });
-
-    $('#user_image_input').on('change', function() {
-      var reader = new FileReader();
-
-      reader.onload = function(e) {
-        $('#image_div').attr('src', e.target.result);
-      };
-
-      reader.readAsDataURL(this.files[0]);
-    });
-
-    $.validator.addMethod("regex", function(value, element, regexp) {
-      return regexp.test(value);
-    }, "Please enter a valid format.");
-
-    $('#signup_validate').validate({
-      rules: {
-        stud_id_no: {
-          required: true
-        },
-        
-        user_type: "required",
-
-        first_name_sa: {
-          required: true,
-          regex: nameRegex
-        },
-
-        // middle_name_sa: {
-        //   regex: nameRegex
-        // },
-
-        last_name_sa: {
-          required: true,
-          regex: nameRegex
-        },
-
-        school: "required",
-
-        gender: "required",
-
-        b_day: {
-          required: true
-        },
-
-        number: {
-          required: true,
-          regex: contactRegex
-        },
-
-        address: {
-          required: true
-        },
-
-      },
-      errorElement: 'div'
-    });
-  });
-
-// function alphaOnly(event) {
-//   var key = event.keyCode;
-//   return ((key >= 65 && key <= 90) || key == 8 || key == 32);
-// };
+ $("#updateBranch").validate();
+    jQuery.validator.addMethod("specialChar", function(value, element) {
+     return this.optional(element) || /([0-9a-zA-Z\s])$/.test(value);
+  }, "Please Fill Correct Value in Field.");
 </script>
 {{-- Scripts END --}}
 @endsection

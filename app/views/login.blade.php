@@ -20,16 +20,16 @@
       <form class="login-form" action="/login" method="post">
         <div class="input-field">
           <i class="prefix mdi-social-person"></i>
-          <input id="username" type="text" name="username">
+          <input id="usernameTxt" type="text" name="username">
           <label for="username">Username</label>
         </div>
         <div class="input-field">
           <i class="prefix mdi-action-lock"></i>
-          <input id="password" type="password" name="password">
+          <input id="passwordTxt" type="password" name="password">
           <label for="password">Password</label>
         </div>
           <div class="center-btn">
-            <button class="btn waves-effect waves-light blue" type="submit" name="action" >Login</button>
+            <button class="btn waves-effect waves-light blue" type="submit" name="action" id="loginbtn">Login</button>
           </div>
       </form>
     </div>
@@ -37,6 +37,37 @@
     <!-- SCRIPTS START -->
     <script src="js/jquery-2.1.4.min.js" type="text/javascript"></script>
     <script src="js/materialize.min.js" type="text/javascript"></script>
+
+    <script type="text/javascript">
+      var uname = document.getElementById('usernameTxt');
+      var pass = document.getElementById('passwordTxt');
+      
+     // alert("HAHAHAHAHA GAGO!");
+
+      $(this).ready(function()
+      {
+        $("#loginbtn").click(function()
+        {
+          if(uname.value == "" && pass.value == "")
+          {
+            alert("Both fields have no input! Please enter your email and password.");
+          }
+          else if ((uname.value != "" && pass.value == "") || (uname.value == "" && pass.value != "")) 
+          {
+            if (uname.value != "" && pass.value == "") 
+            {
+              alert("Please enter your password.");
+            }
+            else if (uname.value == "" && pass.value != "") 
+            {
+              alert ("Please enter your email.");
+            }
+          }
+        });
+      });
+    </script>
     <!-- SCRIPTS END -->
   </body>
 </html>
+
+

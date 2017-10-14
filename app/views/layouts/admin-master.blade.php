@@ -9,6 +9,8 @@
     {{ HTML::style('css/datatables.min.css') }}
     {{ HTML::style('css/style.css') }}
     <!-- STYLES END -->
+    <script src="js/jquery.min.js"></script>
+    <script src="js/jquery.validate.min.js" type="text/javascript"></script>
   </head>
   <body>
     <header>
@@ -101,6 +103,11 @@
     {{ HTML::script('js/materialize.min.js') }}
     {{ HTML::script('js/datatables.min.js') }}
     {{ HTML::script('js/app.js') }}
+    {{ HTML::script('js/jquery.min.js')}}
+    {{ HTML::script('js/jquery.validate.min.js')}}
+    {{ HTML::script('js/jquery.maskedinput.js')}}
+    {{ HTML::script('js/validation.js')}}
+
     <!-- SCRIPTS END -->
 
     @yield('scripts')

@@ -13,7 +13,7 @@
       <form action="{{ URL::to('/admin/add-order') }}" method="POST" id="signup_validate" enctype="multipart/form-data"><br><br>
               <div class="row">
                 <div class="input-field col l6 m6 s12">
-                  <input id="user_id" name="user_id" type="text" class="validate" data-error=".id_error" value="{{ $count }}" readonly />
+                  <input id="user_id" name="user_id" type="text" class="validate" data-error=".id_error" value="{{ $count }}" readonly disabled />
                   <label for="user_id">Serial Code #:</label>
                   <div class="id_error"></div>
                 </div>
@@ -21,7 +21,7 @@
 
                   <div class="row">
                     <div class="input-field col l6 m6 s12">
-                        <select class="initialized browser-default" name="name" id="name" data-error=".school_error">
+                        <select class="initialized browser-default" name="name" id="name">
                           <option value="" disabled selected>Product Name</option>
                           @foreach($data as $data)
                             <option value="{{ $data->intItemID}}" @if(Input::old('product') == $data->intItemID) selected="selected" @endif>{{ $data->strItemName . ' - ' . $data->strItemModel}}</option>

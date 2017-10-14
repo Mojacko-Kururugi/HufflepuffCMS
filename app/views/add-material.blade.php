@@ -13,15 +13,14 @@
     <div class="container">
       <form action="{{ URL::to('/products/add-prod') }}" method="POST" id="signup_validate" enctype="multipart/form-data"><br><br>
 
-                           <div class="input-field col l6 m6 s12">
-                        <select class="initialized browser-default" name="type" id="type" data-error=".school_error">
-                          <option value="" disabled selected>Type</option>
-                          @foreach($data as $data)
-                            <option value="{{ $data->intITID}}" @if(Input::old('type') == $data->intITID) selected="selected" @endif>{{ $data->strITDesc}}</option>
-                          @endforeach
-                        </select>
-                       <div class="school_error"></div>
-                    </div>
+        <div class="input-field col l6 m6 s12">
+            <select class="initialized browser-default" name="type" id="type" required>
+                <option value="" disabled selected>Type</option>
+                 @foreach($data as $data)
+                <option value="{{ $data->intITID}}" @if(Input::old('type') == $data->intITID) selected="selected" @endif>{{ $data->strITDesc}}</option>
+                @endforeach
+            </select>
+        </div>
 
         <div class="row">
               <div class="input-field col l12 m8 s12">

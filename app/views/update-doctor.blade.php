@@ -18,7 +18,7 @@
             <form action="{{ URL::to('/update-doc') }}" method="POST" id="signup_validate" enctype="multipart/form-data">
               <div class="row">
                 <div class="input-field col l6 m6 s12">
-                  <input id="user_id" name="user_id" type="text" class="validate" data-error=".id_error" value="{{ $data->strDocLicNumb }}" readonly/>
+                  <input id="license_id" name="license_id" type="text" class="validate" data-error=".id_error" value="{{ $data->strDocLicNumb }}" readonly/>
                   <label for="user_id">License ID:</label>
                   <div class="id_error"></div>
                 </div>
@@ -63,8 +63,8 @@
                   </div>
                   <div class="row">
                     <div class="input-field col s12 m8 l6">
-                      <input id="stud_id_no" name="stud_id_no" type="text" class="validate" value="{{ $data->strDocContactNumb }}">
-                      <label for="stud_id_no">Contact Number</label>
+                      <input id="contact_number" name="contact_number" type="text" class="validate" value="{{ $data->strDocContactNumb }}">
+                      <label for="contact_number">Contact Number</label>
                     </div>
                   </div>
                   <div class="row">

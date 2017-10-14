@@ -407,8 +407,8 @@ class AdminController extends BaseController {
 		DB::table('tblBranch')
 		->insert([
 			'strBranchAddress' 		=> Request::input('address'),
-			'strBContactNumb' 	=> Request::input('stud_id_no'),
-			'strBranchName'	=> Request::input('number'),
+			'strBContactNumb' 	=> Request::input('contact_number'),
+			'strBranchName'	=> Request::input('branchname'),
 			'intBStatus' => 1
 		]);
 
@@ -444,8 +444,8 @@ class AdminController extends BaseController {
 				->where('tblBranch.intBranchID', '=', Session::get('upId'))
 				->update([
 				'strBranchAddress' 		=> Request::input('address'),
-				'strBContactNumb' 	=> Request::input('stud_id_no'),
-				'strBranchName'	=> Request::input('number')
+				'strBContactNumb' 	=> Request::input('contact_number'),
+				'strBranchName'	=> Request::input('branchname')
 				]);
 
 		return Redirect::to('/branches');
@@ -484,12 +484,12 @@ class AdminController extends BaseController {
 
 		DB::table('tblDocInfo')
 		->insert([
-			'strDocLicNumb' 	=> Request::input('user_id'),
+			'strDocLicNumb' 	=> Request::input('license_id'),
 			'strDocLast' 	=> Request::input('last_name_sa'),
 			'strDocFirst' => Request::input('first_name_sa'),
 			'strDocMiddle' => Request::input('middle_name_sa'),
 			'intDocGender' => Request::input('gender'),
-			'strDocContactNumb' => Request::input('stud_id_no'),
+			'strDocContactNumb' => Request::input('contact_number'),
 			'intDocBranch' => Request::input('branch'),
 			'strDocImagePath' => "",
 			'strDocEmail' 	=> Request::input('email'),
@@ -524,12 +524,12 @@ class AdminController extends BaseController {
 			DB::table('tblDocInfo')
 				->where('tblDocInfo.intDocID', '=', Session::get('upId'))
 				->update([
-					'strDocLicNumb' 	=> Request::input('user_id'),
+					'strDocLicNumb' 	=> Request::input('license_id'),
 					'strDocLast' 	=> Request::input('last_name_sa'),
 					'strDocFirst' => Request::input('first_name_sa'),
 					'strDocMiddle' => Request::input('middle_name_sa'),
 					'intDocGender' => Request::input('gender'),
-					'strDocContactNumb' => Request::input('stud_id_no'),
+					'strDocContactNumb' => Request::input('contact_number'),
 					'intDocBranch' => Request::input('branch')
 				]);
 

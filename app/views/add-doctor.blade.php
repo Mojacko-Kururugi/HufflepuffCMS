@@ -1,5 +1,17 @@
 @extends('layouts.admin-master')
+@section('javascript')
 
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script src="js/jquery.validate.min.js"></script>
+@stop
+<style type="text/css">
+  div.error {
+  color: red;
+  margin-top: -15px;
+  padding: 0;
+  font-size: 0.9em;
+}
+</style>
 @section('content')
 
 <div class="row page-title">
@@ -11,13 +23,13 @@
 <div class="container-fluid">
   <div class="card">
     <div class="card-content">
-        <div class="contents">
+      
           <div class="container-fluid">
-            <form action="{{ URL::to('/save-doctor') }}" method="POST" id="signup_validate" enctype="multipart/form-data">
+            <form action="{{ URL::to('/save-doctor') }}" method="post" id="addDoctor_validate"><br><br>
               <div class="row">
                 <div class="input-field col l6 m6 s12">
-                  <input id="user_id" name="user_id" type="text" class="" data-error=".id_error" value=""/>
-                  <label for="user_id">License ID:</label>
+                  <input id="license_id" name="license_id" type="text" class="validate" />
+                  <label for="license_id">License ID:</label>
                   <div class="id_error"></div>
                 </div>
               </div>
@@ -27,22 +39,21 @@
                       <label for="role">User Type</label>
                     </div>
               </div>
-              <div class="row">
                 <div class="col s12"><br>
                   <div class="row" style="padding:0px; margin:0px;">
                     <p style="padding:0px; margin:0px;">Name:</p>
                   </div>
                   <div class="row">
                     <div class="input-field col s12 m4 l4">
-                      <input id="last_name_sa" name="last_name_sa" type="text" class="validate">
+                      <input id="last_name_sa" name="last_name_sa" type="text" class="required specialChar">
                       <label for="last_name_sa">Last Name</label>
                     </div>
                     <div class="input-field col s12 m4 l4">
-                      <input id="first_name_sa" name="first_name_sa" type="text" class="validate">
+                      <input id="first_name_sa" name="first_name_sa" type="text" class="required specialChar">
                       <label for="first_name_sa">First Name</label>
                     </div>
                     <div class="input-field col s12 m4 l4">
-                      <input id="middle_name_sa" name="middle_name_sa" type="text" class="validate" value="" pattern="[A-Za-z]+" onkeydown="return alphaOnly(event);">
+                      <input id="middle_name_sa" name="middle_name_sa" type="text">
                       <label for="middle_name_sa">Middle Name</label>
                     </div>
                   </div>
@@ -61,19 +72,19 @@
                   </div>
                   <div class="row">
                     <div class="input-field col s12 m12 l12">
-                      <input id="address" name="address" type="text" class="validate" value="">
+                      <input id="address" name="address" type="text">
                       <label for="address">Address</label>
                     </div>
                   </div>
                   <div class="row">
                     <div class="input-field col s12 m8 l6">
-                      <input id="stud_id_no" name="stud_id_no" type="text" class="validate" value="">
-                      <label for="stud_id_no">Contact Number</label>
+                      <input id="contact_number" name="contact_number" type="text" >
+                      <label for="contact_number">Contact Number</label>
                     </div>
                   </div>
                   <div class="row">
                     <div class="input-field col l6 m6 s12">
-                        <select class="initialized browser-default" name="branch" id="branch" data-error=".school_error">
+                        <select class="required initialized browser-default" name="branch" id="branch">
                           <option value="" disabled selected>Branch</option>
                           @foreach($branch as $branch)
                             <option value="{{ $branch->intBranchID}}" @if(Input::old('branch') == $branch->intBranchID) selected="selected" @endif>{{ $branch->strBranchName}}</option>
@@ -82,33 +93,31 @@
                        <div class="school_error"></div>
                     </div>
                   </div>
-
-        <div class="row">
-            <div class="input-field col l6 m8 s12">
-                  <label for="email">Email</label>
-                  <input id="email" name="email" type="email" class="validate" data-error=".email_error" />
-                  <div class="email_error">
+                  <div class="row">
+                      <div class="input-field col l6 m8 s12">
+                            <label for="email">Email</label>
+                            <input id="email" name="email" type="email"/>
+                            <div class="email_error">
+                            </div>
+                        </div>
+                        <div class="input-field col l6 m8 s12">
+                            <label for="con_email">Confirm Email</label>
+                            <input id="con_email" name="con_email" type="email"/>
+                            <div class="confirm_email_error"></div>
+                        </div>
                   </div>
-              </div>
-              <div class="input-field col l6 m8 s12">
-                  <label for="con-email">Confirm Email</label>
-                  <input id="con_email" name="con_email" type="email" class="validate" data-error=".confirm_email_error" />
-                  <div class="confirm_email_error"></div>
-              </div>
-        </div>
-        <div class="row">
-              <div class="input-field col l6 m8 s12">
-                      <label for="password">Password</label>
-                      <input id="password" name="password" type="password" class="validate" data-error=".password_error" />
-                      <div class="password_error"></div>
+                  <div class="row">
+                        <div class="input-field col l6 m8 s12">
+                                <label for="password">Password</label>
+                                <input id="password" name="password" type="password" class="required specialChar"/>
+                                <div class="password_error"></div>
+                            </div>
+                          <div class="input-field col l6 m8 s12">
+                            <label for="con_pass">Confirm Password</label>
+                            <input id="con_pass" name="con_pass" type="password" class="required specialChar"/>
+                            <div class="confirm_password_error"></div>
+                        </div>
                   </div>
-                <div class="input-field col l6 m8 s12">
-                  <label for="con_pass">Confirm Password</label>
-                  <input id="con_pass" name="con_pass" type="password" class="validate" data-error=".confirm_password_error" />
-                  <div class="confirm_password_error"></div>
-              </div>
-        </div>
-
                   <div class="row">
                     <div class="input-field col s12 center">
                       <button type="submit" class="waves-effect waves-light btn blue darken-1 modal-btn">Save</button>
@@ -116,120 +125,130 @@
                     </div>
                   </div>
                 </div>
-              </div>
             </form>
           </div> 
-        </div>
     </div>
   </div>
 </div>
+  <script type="text/javascript">
+    $(document).ready(function(){
+
+      jQuery.validator.addMethod("specialChar", function(value, element) {
+     return this.optional(element) || /([0-9a-zA-Z\s])$/.test(value);
+  }, "Please Fill Correct Value in Field.");
+
+    $("#contact_number").mask("(9999) 999-9999");
 
 
-
-{{-- Scripts START --}}
-<script type="text/javascript">
-  var date = new Date();
-  var nameRegex = /^([ \u00c0-\u01ffa-zA-Z'\-])+$/;
-  var contactRegex = /((\+63)|0)\d{10}/;
-  
-  
-
-  $(document).ready(function() {
-    $('#b_day').pickadate({
-      format: "yyyy-mm-dd",
-      selectYears: true,
-      selectMonths: true,
-      selectYears: 100, // scroll shits of years
-      min: new Date(1929,12,31),
-      max: new Date(2009,12,01)
-    });
-
-    $('#user_image_input').on('change', function() {
-      var reader = new FileReader();
-
-      reader.onload = function(e) {
-        $('#image_div').attr('src', e.target.result);
-      };
-
-      reader.readAsDataURL(this.files[0]);
-    });
-
-    $.validator.addMethod("regex", function(value, element, regexp) {
-      return regexp.test(value);
-    }, "Please enter a valid format.");
-
-    $('#signup_validate').validate({
-      rules: {
-        stud_id_no: {
-          required: true
-        },
+$("#contact_number").on("blur", function() {
+    var last = $(this).val().substr( $(this).val().indexOf("-") + 1 );
+    
+    if( last.length == 3 ) {
+        var move = $(this).val().substr( $(this).val().indexOf("-") - 1, 1 );
+        var lastfour = move + last;
         
-        user_type: "required",
+        var first = $(this).val().substr( 0, 9 );
+        
+        $(this).val( first + '-' + lastfour );
+    }
+});
 
-        first_name_sa: {
-          required: true
-        },
-
-        // middle_name_sa: {
-        //   regex: nameRegex
-        // },
-
-        last_name_sa: {
-          required: true
-        },
-
-        school: "required",
-
-        gender: "required",
-
-        b_day: {
-          required: true
-        },
-
-        number: {
+      $('#addDoctor_validate').validate({
+      rules:{
+        'license_id': {
           required: true,
-          regex: contactRegex
+          minlength: 7
         },
-
-        address: {
+        'last_name_sa':
+        {
+          required: true,
+          specialChar: true
+        },
+        'first_name_sa':
+        {
+          required: true,
+          specialChar: true
+        },
+        'address': {
           required: true
         },
-		
-		strUserLastName: {
-			required: true,
-			regex: nameRegex
-		},
-
-		email: {
-			required: true,
-			email: true
-		}
-		
-		con_email: {
-			email: true,
-			equalTo: "#email",
-			required: true
-		}
-		
-		password: {
-			required: true,
-			minlength: 6
-		}
-		
-		con_pass: {
-			required: true,
-			equalTo: "#password"
-		}
-		
+        'contact_number': {
+          required: true,
+          minlength: 11
+        },
+        'email': {
+          required: true,
+          email: true
+        },
+        'con_email': {
+          required: true,
+          equalTo: "#email"
+        },
+        'password': {
+          required: true,
+          minlength: 5,
+          specialChar: true
+        },
+        'con_pass': {
+          required: true,
+          equalTo: "#password",
+          specialChar: true
+        }
       },
-      errorElement: 'div'
-    });
-  });
+      messages: {
+        'license_id': {
+          required: "Please enter license id",},
+        'last_name_sa': {
+          required: "Please enter last name",
+        },
+        'first_name_sa': {
+          required: "Please enter first name",
+        },
+        'address': {
+          required: "Please enter address"
+        },
+        'contact_number':{
+          required: "Please provide contact number",
+          minlength: "please enter 11-digit contact number"
+        },
+        'email': {
+          required: "Please enter email address",
+          email: "Please enter valid email address"
+        },
+        'con_email':{
+          required: "Please re-enter email address",
+          equalTo: "Please enter the same email address"
+        },
+        'password': {
+          required: "Please enter password",
+          minlength: "Please enter minimum of 5 character"
+        },
+        'con_pass': {
+          required: "Please re-enter password",
+          equalTo: "Password didn't match! Please enter the same password"
+        }
+      },
 
-// function alphaOnly(event) {
-//   var key = event.keyCode;
-//   return ((key >= 65 && key <= 90) || key == 8 || key == 32);
-// };
-</script>
-{{-- Scripts END --}}
+      errorElement: "div",
+
+    errorPlacement : function(error, element) {
+      var placement = $(element).data('error');
+      if (placement) {
+        $(placement).append(error)
+      } else {
+        error.insertAfter(element);
+      }
+    },
+      submitHandler: function (form) {
+            alert("New Optometrist Added!");
+            return true;
+        },
+        invalidHandler: function () {
+            alert("Form is invalid. Please input data");
+        }
+    });
+
+    });
+    
+  </script>
 @endsection

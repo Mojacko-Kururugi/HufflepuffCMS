@@ -1,101 +1,122 @@
 @extends('layouts.admin-master')
+@section('javascript')
 
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script src="js/jquery.validate.min.js"></script>
+@stop
+<style type="text/css">
+  div.error {
+  color: red;
+  margin-top: -15px;
+  padding: 0;
+  font-size: 0.9em;
+}
+</style>
 @section('content')
 
   <div class="row"><br>
     <div class="center col l12 m12 s12">
       <h3>Add New Branch</h3>
-
     </div>
   </div>
 
   <div class="contents z-depth-1">
     <div class="container">
-      <form action="{{ URL::to('/save-branch') }}" method="POST" id="signup_validate" enctype="multipart/form-data"><br><br>
-        <div class="row">
-              <div class="input-field col l12 m8 s12">
-                <label for="number">Branch Name</label>
-                <input id="number" name="number" type="text" class="validate" value="" />
-              </div>
-        </div>
+      <form action="{{ URL::to('/save-branch') }}" method="post" id="addbranch_validate"><br><br>
             <div class="row">
-              <div class="input-field col s12 m12 l12">
-                <input id="address" name="address" type="text" class="validate" value="">
+                  <div class="input-field col l12 m8 s12">
+                    <label for="branchname">Branch Name</label>
+                    <input id="branchname" name="branchname" type="text" class="required specialChar" >
+                  </div>
+            </div>
+            <div class="row">
+              <div class="input-field col s12 m12 l12"> 
                 <label for="address">Address</label>
+                <input id="address" name="address" type="text" class=" required specialChar" >
               </div>
             </div>
             <div class="row">
               <div class="input-field col s12 m8 l6">
-                <input id="stud_id_no" name="stud_id_no" type="text" class="validate" value="">
-                <label for="stud_id_no">Contact Number</label>
+                <label for="contact_number">Contact Number</label>
+                <input id="contact_number" name="contact_number" type="text">
               </div>
             </div>
             <div class="row">
               <div class="input-field col l12 s12 center">
-                <button type="submit" class="waves-effect waves-light btn btn-green modal-btn">Save</button>
+                <button type="submit" class="waves-effect waves-light btn btn-green modal-btn" id="savebranchbtn">Save</button>
                 <a href="{{ URL::to('/branches') }}" class="waves-effect waves-light btn btn-green modal-btn" style="margin-right:20px;">Cancel</a>
               </div>
             </div>
             <br><br>
-            </form>
-          </div>
-        </div>
+      </form>
+    </div>
+  </div>
+
+  <script type="text/javascript">
+
+  $(document).ready(function(){
+
+     jQuery.validator.addMethod("specialChar", function(value, element) {
+     return this.optional(element) || /([0-9a-zA-Z\s])$/.test(value);
+  }, "Please Fill Correct Value in Field.");
+
+  $("#contact_number").mask("(9999) 999-9999");
 
 
-{{-- Scripts START --}}
-<script type="text/javascript">
-  var date = new Date();
-  var nameRegex = /^([ \u00c0-\u01ffa-zA-Z'\-])+$/;
-  var contactRegex = /((\+63)|0)\d{10}/;
-
-  $(document).ready(function() {
-    $('#b_day').pickadate({
-      format: "yyyy-mm-dd",
-      selectYears: true,
-      selectMonths: true,
-      selectYears: 100, // scroll shits of years
-      min: new Date(1929,12,31),
-      max: new Date(2009,12,01)
-    });
-
-    $('#user_image_input').on('change', function() {
-      var reader = new FileReader();
-
-      reader.onload = function(e) {
-        $('#image_div').attr('src', e.target.result);
-      };
-
-      reader.readAsDataURL(this.files[0]);
-    });
-
-    $.validator.addMethod("regex", function(value, element, regexp) {
-      return regexp.test(value);
-    }, "Please enter a valid format.");
-
-    $('#signup_validate').validate({
-      rules: {
-        stud_id_no: {
-          required: true
-          regex: contactRegex
-        },
+$("#contact_number").on("blur", function() {
+    var last = $(this).val().substr( $(this).val().indexOf("-") + 1 );
+    
+    if( last.length == 3 ) {
+        var move = $(this).val().substr( $(this).val().indexOf("-") - 1, 1 );
+        var lastfour = move + last;
         
-        number: {
-          required: true,
+        var first = $(this).val().substr( 0, 9 );
+        
+        $(this).val( first + '-' + lastfour );
+    }
+});
+    $('#addbranch_validate').validate({
+      rules: {
+        'branchname': {
+              required : true,
+              minlength: 5
         },
-
-        address: {
-          required: true
+        'address': {
+              required: true,
         },
-
+        'contact_number': {
+              required: true,
+              minlength: 11
+             
+        }
       },
-      errorElement: 'div'
+      messages: {
+        'branchname':{
+          required: "Please enter branchname",
+        },
+        'address': {
+          required: "Please enter Branch address",
+        },
+      },
+
+      errorElement: "div",
+
+    errorPlacement : function(error, element) {
+      var placement = $(element).data('error');
+      if (placement) {
+        $(placement).append(error)
+      } else {
+        error.insertAfter(element);
+      }
+    },
+       submitHandler: function (form) {
+            alert("New Branch Added!");
+            return true;
+        },
+        invalidHandler: function () {
+            alert("Form is invalid. Please input data");
+        }
     });
   });
-
-// function alphaOnly(event) {
-//   var key = event.keyCode;
-//   return ((key >= 65 && key <= 90) || key == 8 || key == 32);
-// };
-</script>
-{{-- Scripts END --}}
+  </script>
 @endsection

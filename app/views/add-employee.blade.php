@@ -1,6 +1,8 @@
 @extends('layouts.admin-master')
 
 @section('content')
+<!--<script type="text/javascript" src="js/jquery.js"></script>-->
+<script scr="js/jquery.validate.min.js"></script>
 
 <div class="row page-title">
   <div class="col s12 m12 l12">
@@ -93,22 +95,13 @@
 </div>
 
 
-
 {{-- Scripts START --}}
-<script type="text/javascript">
-  var date = new Date();
+<script>
+$("signup_validate").validate();
   var nameRegex = /^([ \u00c0-\u01ffa-zA-Z'\-])+$/;
   var contactRegex = /((\+63)|0)\d{10}/;
 
   $(document).ready(function() {
-    $('#b_day').pickadate({
-      format: "yyyy-mm-dd",
-      selectYears: true,
-      selectMonths: true,
-      selectYears: 100, // scroll shits of years
-      min: new Date(1929,12,31),
-      max: new Date(2009,12,01)
-    });
 
     $('#user_image_input').on('change', function() {
       var reader = new FileReader();
@@ -137,10 +130,6 @@
           regex: nameRegex
         },
 
-        // middle_name_sa: {
-        //   regex: nameRegex
-        // },
-
         last_name_sa: {
           required: true,
           regex: nameRegex
@@ -161,10 +150,15 @@
 
         address: {
           required: true
-        },
-
+        }
       },
-      errorElement: 'div'
+      submitHandler: function (form) {
+            alert("New Branch Added!");
+            return true;
+        },
+        invalidHandler: function () {
+            alert("Form is invalid. Please input data");
+        }
     });
   });
 
