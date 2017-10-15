@@ -701,12 +701,30 @@ class SecController extends BaseController {
 			->where('tblOrders.strOCode', '=',Request::input('user_id'))
 			->first();
 
-		DB::table('tblOrderDetails')
-		->insert([
-			'intOProdID' 		=> Request::input('name'),
-			'intODCode'			=> $data->intOID,
-			'intOQty' 	=> Request::input('qty'),
-		]);
+		$ex = DB::table('tblOrders')
+			->join('tblOrderDetails', 'tblOrderDetails.intODCode', '=', 'tblOrders.intOID')
+			->where('tblOrderDetails.intODCode', '=', $data->intOID)
+			->where('tblOrderDetails.intOProdID', '=', Request::input('name'))
+			->first();
+
+		if($ex !=null)
+		{
+			DB::table('tblOrderDetails')
+			->where('tblOrderDetails.intODCode', '=', $data->intOID)
+			->where('tblOrderDetails.intOProdID', '=', Request::input('name'))
+			->update([
+				'intOQty' 	=> $ex->intOQty + Request::input('qty'),
+			]);
+		}
+		else
+		{
+			DB::table('tblOrderDetails')
+			->insert([
+				'intOProdID' 		=> Request::input('name'),
+				'intODCode'			=> $data->intOID,
+				'intOQty' 	=> Request::input('qty'),
+			]);
+		}
 
 		return Redirect::to('/sec-order/ord');
 	}
@@ -738,6 +756,25 @@ class SecController extends BaseController {
 		
 			return View::make('sec-order')->with('data',$data)->with('test',$test)->with('list',$list);
 	}
+
+	public function removeToList($id)
+	{
+		//dd(Request::input('qty'));
+		$sess = DB::table('tblOrders')
+			->where('tblOrders.strOCode', '=', Session::get('ord_sess'))
+			->where('tblOrders.intStatus', '=', 5)		
+			->first();
+
+
+		DB::table('tblOrderDetails')
+					->join('tblOrders', 'tblOrderDetails.intODCode', '=', 'tblOrders.intOID')
+					->where('tblOrderDetails.intODCode', '=', $sess->intOID)
+					->where('tblOrderDetails.intOProdID', '=', $id)
+					->delete();
+
+		return Redirect::to('/sec-order/ord');
+	}
+
 
 	public function addOrd() {
 		/*

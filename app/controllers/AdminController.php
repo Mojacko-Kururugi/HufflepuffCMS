@@ -199,17 +199,35 @@ class AdminController extends BaseController {
 			->where('tblOrders.strOCode', '=',Request::input('user_id'))
 			->first();
 
-		DB::table('tblOrderDetails')
-		->insert([
-			'intOProdID' 		=> Request::input('name'),
-			'intODCode'			=> $data->intOID,
-			'intOQty' 	=> Request::input('qty'),
-		]);
+		$ex = DB::table('tblOrders')
+			->join('tblOrderDetails', 'tblOrderDetails.intODCode', '=', 'tblOrders.intOID')
+			->where('tblOrderDetails.intODCode', '=', $data->intOID)
+			->where('tblOrderDetails.intOProdID', '=', Request::input('name'))
+			->first();
+
+		if($ex !=null)
+		{
+			DB::table('tblOrderDetails')
+			->where('tblOrderDetails.intODCode', '=', $data->intOID)
+			->where('tblOrderDetails.intOProdID', '=', Request::input('name'))
+			->update([
+				'intOQty' 	=> $ex->intOQty + Request::input('qty'),
+			]);
+		}
+		else
+		{
+			DB::table('tblOrderDetails')
+			->insert([
+				'intOProdID' 		=> Request::input('name'),
+				'intODCode'			=> $data->intOID,
+				'intOQty' 	=> Request::input('qty'),
+			]);
+		}
 
 		return Redirect::to('/admin/ord');
 	}
 
-	public function removeToList()
+	public function removeToList($id)
 	{
 		//dd(Request::input('qty'));
 		$sess = DB::table('tblOrders')
@@ -217,27 +235,12 @@ class AdminController extends BaseController {
 			->where('tblOrders.intStatus', '=', 5)		
 			->first();
 
-		if($sess == NULL)
-		{
-		DB::table('tblOrders')
-		->insert([
-			'strOCode'			=> Session::get('ord_sess'),
-			'dtOReceived'	=> null,
-			'intOBranch'	=> 1,			
-			'intStatus' => 5
-		]);
-		}
-
-		$data = DB::table('tblOrders')
-			->where('tblOrders.strOCode', '=',Request::input('user_id'))
-			->first();
 
 		DB::table('tblOrderDetails')
-		->insert([
-			'intOProdID' 		=> Request::input('name'),
-			'intODCode'			=> $data->intOID,
-			'intOQty' 	=> Request::input('qty'),
-		]);
+					->join('tblOrders', 'tblOrderDetails.intODCode', '=', 'tblOrders.intOID')
+					->where('tblOrderDetails.intODCode', '=', $sess->intOID)
+					->where('tblOrderDetails.intOProdID', '=', $id)
+					->delete();
 
 		return Redirect::to('/admin/ord');
 	}

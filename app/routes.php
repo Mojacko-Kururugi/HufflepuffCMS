@@ -33,6 +33,7 @@ Route::get('/admin', 'AdminController@openAdmin');
 Route::post('/set-exp/{id}', 'AdminController@setExp');
 Route::get('/admin/ord', 'AdminController@openAddItem');
 Route::post('/admin/add-to-list', 'AdminController@addToList');
+Route::get('/admin/rem-to-list/{id}', 'AdminController@removeToList');
 Route::get('/admin/add-order', 'AdminController@addItem');
 Route::get('/admin/deliver/{id}', 'AdminController@deliverOrd');
 
@@ -123,6 +124,7 @@ Route::get('/sec-inv', 'SecController@openSecInv');
 Route::get('/sec-order/ord', 'SecController@openAddOrd');
 Route::get('/sec-order', 'SecController@openOrdList');
 Route::post('/sec-order/add-to-list', 'SecController@addToList');
+Route::get('/sec-order/rem-to-list/{id}', 'SecController@removeToList');
 Route::get('/sec-inv/add-order', 'SecController@addOrd');
 Route::post('/sec-inv/ord/{id}', 'SecController@receiveOrd');
 Route::get('/adjustments', 'SecController@openSecAdj');

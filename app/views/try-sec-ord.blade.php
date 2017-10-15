@@ -96,7 +96,7 @@
                                       <td>{{$l->strItemName}}</td>
                                       <td>{{$l->strItemDesc}}</td>
                                       <td>{{$l->intOQty}}</td>
-                                      <td><a class="waves-effect waves-light btn btn-small red center-text">REMOVE</a></td>
+                                      <td><a class="waves-effect waves-light btn btn-small red center-text" href="/sec-order/rem-to-list/{{$l->intOProdID}}">REMOVE</a></td>
                                     </tr>
                                     @endforeach
                                     </tbody>
