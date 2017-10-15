@@ -286,6 +286,7 @@ CREATE TABLE tblServiceHeader(
 	intSHID int NOT NULL AUTO_INCREMENT,
 	strSHCode VARCHAR(25),
     intSHPatID INT,
+    SHEmpID INT,
     intSHServiceID INT,
     intSHPaymentType INT,
     intSHStatus INT,

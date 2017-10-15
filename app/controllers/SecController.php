@@ -546,7 +546,8 @@ class SecController extends BaseController {
 			$serv = DB::table('tblServiceHeader')
 			->join('tblPatientInfo', 'tblServiceHeader.intSHPatID','=','tblPatientInfo.intPatID')
 			->join('tblServices', 'tblServiceHeader.intSHServiceID','=','tblServices.intServID')
-			//->where('tblServiceHeader.intSHStatus', '!=', 2)
+			->join('tblEmployeeInfo', 'tblServiceHeader.SHEmpID','=','tblEmployeeInfo.intEmpID')
+			->where('tblEmployeeInfo.intEmpBranch', '=', Session::get('user_bc'))
 			//->join('tblConsultationRecords', 'tblServiceHeader.strSHCode','=','tblConsultationRecords.strCRHeaderCode')
 			//->join('tblDocInfo', 'tblConsultationRecords.intCRDocID','=','tblDocInfo.intDocID')
 			->get();

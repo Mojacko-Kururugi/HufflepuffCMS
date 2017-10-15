@@ -2,13 +2,20 @@
 
 @section('content')
 
-  <div class="row"><br>
+<!--   <div class="row"><br>
     <div class="center col l12 m12 s12">
       <h5>Add New Order</h5>
     </div>
-  </div>
+  </div> -->
 
-  <div class="contents z-depth-1">
+<div class="row page-title">
+  <div class="col s12 m12 l12">
+    <h5>Add New Order</h5>
+  </div>
+</div>
+
+
+  <div class="contents">
       <form action="{{ URL::to('/sec-order/add-to-list') }}" method="POST" id="signup_validate" enctype="multipart/form-data"><br><br>
               <div class="row">
                 <div class="input-field col l6 m6 s12">

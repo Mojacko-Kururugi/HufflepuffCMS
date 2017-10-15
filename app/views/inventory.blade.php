@@ -27,7 +27,7 @@
               <table id="example" class="mdl-data-table" cellspacing="0" width="100%">
                 <thead>
                     <tr>
-                        <th>Serial Code</th>
+                        <th>Batch Code</th>
                         <th>Product Name</th>
                         <th>Product Model</th>
                         <th>Product Type</th>
@@ -40,11 +40,11 @@
                 </thead>
                 @foreach($data as $data)
                       <tr>
-                        <td>{{ $data->strInvCode }}</td>
+                        <td>{{ $data->strInvBatCode }}</td>
                         <td>{{ $data->strItemName }}</td>
-                        <td>{{ $data->strItemModel }}</td>
+                        <td>{{ $data->strItemDesc }}</td>
                         <td>{{ $data->strITDesc }}</td>
-                        <td>{{ $data->dcInvPPrice }}</td>
+                        <td>{{ $data->dcPrice }}</td>
                         <td>{{ $data->intInvQty }}</td>
                         @if($data->dtInvExpiry == NULL)
                         <td>N/A</td>
