@@ -2,13 +2,19 @@
 
 @section('content')
 
-  <div class="row"><br>
+<!--   <div class="row"><br>
     <div class="center col l12 m12 s12">
       <h5>Add New Stock</h5>
     </div>
-  </div>
+  </div> -->
 
-  <div class="contents z-depth-1">
+<div class="row page-title">
+  <div class="col s12 m12 l12">
+    <h5>Add New Stock</h5>
+  </div>
+</div>
+
+  <div class="contents ">
       <form action="{{ URL::to('/admin/add-to-list') }}" method="POST" id="signup_validate" enctype="multipart/form-data"><br><br>
               <div class="row">
                 <div class="input-field col l6 m6 s12">
@@ -24,22 +30,32 @@
                       <span class="card-title">Products and Materials</span>
                       <hr>
                         <div class="card-content">
-                             <div class="card-tabs">
+                             <!-- <div class="card-tabs">
                                 <ul class="tabs tabs-fixed-width">
                                 @foreach($type as $stype)
                                   <li class="tab"><a href="#{{ $stype->intITID }}">{{ $stype->strITDesc }}</a></li>
                                 @endforeach
                                 </ul>
-                            </div>
+                            </div> -->
+                            
+                                @foreach($type as $stype)
+                                 <p>
+                                    <input name="group1" type="radio" class="radioProducts" id="#{{ $stype->intITID }}" value="{{ $stype->strITDesc }}"/>
+                                    <label for="#{{ $stype->intITID }}">{{ $stype->strITDesc }}</label>
+                                 </p>
+                                  <!-- <li class="tab"><a href="#{{ $stype->intITID }}">{{ $stype->strITDesc }}</a></li> -->
+                                @endforeach
+                                
                         </div>
-
+                        <br/>
+                        <br/>
                       @foreach($type as $subt)
-                        <div class="card-content">
-                               <div id="{{ $subt->intITID }}">
+                        <div class="card-content something" id="id{{ $subt->intITID }}">
+                               <div id="#{{ $subt->intITID }}" class="viewSelect">
                                  <div class="row">
-                                  <label for="payment-mode">Products:</label>
-                                    <select name="name" id="name">
-                                     <option value="0" disabled selected>- Select {{$subt->strITDesc}} -</option>
+                                  <label for="payment-mode">Products*:</label>
+                                    <select name="name" id="name" class="validate" required>
+                                     <option value="" disabled selected>- Select {{$subt->strITDesc}} -</option>
                                      @foreach($data as $prod)
                                      @if($prod->intItemType == $subt->intITID)
                                      <option value="{{$prod->intItemID}}">{{$prod->strItemName}}</option>
@@ -58,18 +74,20 @@
                                 @endif
                                 -->
                                </div>
-                        </div>
+                               </div>
+                       
                       @endforeach  
                     </div>
-                                                  <div class="row">
-                                  <div class="input-field col l6 m6 s6">
-                                          <label for="qty">Quantity</label>
-                                          <input id="qty" name="qty" type="text" class="validate" value="" />
-                                  </div>
-                                  <div class="col s6 m6 s6 middle">
-                                      <button type="submit" class="waves-effect waves-light btn btn-green modal-btn">Add</button>
-                                  </div>
-                              </div> 
+                      <div class="row">
+                          <div class="input-field col l6 m6 s6">
+                                  <label for="qty">Quantity*</label>
+                                  <input id="qty" name="qty" type="number" class="validate" value="" data-error=".qty_error"/>
+                                  <div class="qty_error"></div>
+                          </div>
+                          <div class="col s6 m6 s6 middle">
+                              <button type="submit" class="waves-effect waves-light btn btn-green modal-btn" id="addBtn">Add</button>
+                          </div>
+                      </div> 
                   </div>
                   </form>
 
@@ -138,83 +156,41 @@
 
 
 {{-- Scripts START --}}
+ <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/jquery.validate.min.js"></script>
 <script type="text/javascript">
-  var date = new Date();
-  var nameRegex = /^([ \u00c0-\u01ffa-zA-Z'\-])+$/;
-  var contactRegex = /((\+63)|0)\d{10}/;
-
-  $(document).ready(function() {
-    $('#b_day').pickadate({
-      format: "yyyy-mm-dd",
-      selectYears: true,
-      selectMonths: true,
-      selectYears: 100, // scroll shits of years
-      min: new Date(1929,12,31),
-      max: new Date(2009,12,01)
-    });
-
-    $('#user_image_input').on('change', function() {
-      var reader = new FileReader();
-
-      reader.onload = function(e) {
-        $('#image_div').attr('src', e.target.result);
-      };
-
-      reader.readAsDataURL(this.files[0]);
-    });
-
-    $.validator.addMethod("regex", function(value, element, regexp) {
-      return regexp.test(value);
-    }, "Please enter a valid format.");
-
-    $('#signup_validate').validate({
+  $().ready(function() {
+    $("#signup_validate").validate({
       rules: {
-        stud_id_no: {
-          required: true
-        },
-        
-        user_type: "required",
-
-        first_name_sa: {
-          required: true,
-          regex: nameRegex
-        },
-
-        // middle_name_sa: {
-        //   regex: nameRegex
-        // },
-
-        last_name_sa: {
-          required: true,
-          regex: nameRegex
-        },
-
-        school: "required",
-
-        gender: "required",
-
-        b_day: {
-          required: true
-        },
-
-        number: {
-          required: true,
-          regex: contactRegex
-        },
-
-        address: {
-          required: true
-        },
-
+        qty: "required",
+        // name: "required",
       },
       errorElement: 'div'
     });
   });
 
-// function alphaOnly(event) {
-//   var key = event.keyCode;
-//   return ((key >= 65 && key <= 90) || key == 8 || key == 32);
-// };
+$(".something").addClass("hide");
+
+$(document).ready(function() {
+    $("input[name$='group1']").click(function() {
+        var radio = $(this).attr('id');
+        var s = radio.replace("#", "")
+        var x = parseInt(s)
+        var z = x - 1
+        var lol = ("#id").concat(s)
+        var localStore = localStorage.getItem("selected");
+
+        $(".something").addClass("hide");
+        $(lol).removeClass("hide");
+
+
+        console.log(radio)
+
+        // $("div.desc").hide();
+        // $("#Cars" + test).show();
+    });
+});
+
 </script>
 {{-- Scripts END --}}
 @endsection

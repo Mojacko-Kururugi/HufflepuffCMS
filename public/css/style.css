@@ -170,3 +170,9 @@ header, main, footer {
 hr{
   border: 1px solid lightblue;
 }
+
+
+.error{
+  color: red;
+  font-size: 12px;
+}

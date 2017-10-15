@@ -18,14 +18,14 @@
              <!-- Date & Time -->
             <div class="row">
                   <div class="col s12 m8 l6">
-                        Select a time:
+                        Select a time*:
                         <input type="time" name="time" id="time">
                   </div>
             </div>
 
             <div class="row">
               <div class="col s12 m8 l6">
-                <label for="date">Choose Date</label>
+                <label for="date">Choose Date*</label>
                 <input id="date" name="date" type="date" class="datepicker" style="height:39px" value="">
               </div>
             </div>  
@@ -35,7 +35,7 @@
                    <div class="row">
                     <div class="input-field col l6 m6 s12">
                         <select class="initialized browser-default" name="patient" id="patient" data-error=".school_error">
-                          <option value="" disabled selected>Patient Name</option>
+                          <option value="" disabled selected>Patient Name*</option>
                           @foreach($data as $data)
                             <option value="{{ $data->intPatID}}" @if(Input::old('patient') == $data->intPatID) selected="selected" @endif>{{ $data->strPatLast . ',' . $data->strPatFirst }}</option>
                           @endforeach
@@ -47,7 +47,7 @@
 
         <div class="row">
               <div class="input-field col l12 m8 s12">
-                <label for="name">Schedule Header</label>
+                <label for="name">Schedule Header*</label>
                 <input id="name" name="name" type="text" class="validate" value="" />
               </div>
         </div>
@@ -63,14 +63,14 @@
 
                 <div class="row">
                   <div class="col s12">
-                    <label for="time_frequency">Time Frequency of Reminder</label>
-                    <select name="time_frequency" id="time_frequency">
-    				     <option value="" selected disabled>- Choose Option -</option>
-    				     <option value="1">Every 30 mins</option>
-    					 <option value="2">Every 1 hour</option>
-    					 <option value="3">Every 4 hours</option>
-    					 <option value="4">Day before</option>
-    					 <option value="5">Week before</option>
+                    <label for="time_frequency">Time Frequency of Reminder*</label>
+                    <select class="browser-default" name="time_frequency" id="time_frequency">
+          				     <option value="" selected disabled>- Choose Option -</option>
+          				     <option value="1">Every 30 mins</option>
+            					 <option value="2">Every 1 hour</option>
+            					 <option value="3">Every 4 hours</option>
+            					 <option value="4">Day before</option>
+            					 <option value="5">Week before</option>
     				       </select>
                   </div>
                 </div>
@@ -92,8 +92,10 @@
 </div>
 
 {{-- Scripts START --}}
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/jquery.validate.min.js"></script>
 <script src="js/materialize.js"></script>
-<script type="text/javascript" src="js/jquery.js">
+<script type="text/javascript">
   var date = new Date();
   var nameRegex = /^([ \u00c0-\u01ffa-zA-Z'\-])+$/;
   var contactRegex = /((\+63)|0)\d{10}/;
@@ -119,49 +121,14 @@
       reader.readAsDataURL(this.files[0]);
     });
 
-    $.validator.addMethod("regex", function(value, element, regexp) {
-      return regexp.test(value);
-    }, "Please enter a valid format.");
-
+    
     $('#signup_validate').validate({
       rules: {
-        stud_id_no: {
-          required: true
-        },
-        
-        user_type: "required",
-
-        first_name_sa: {
-          required: true,
-          regex: nameRegex
-        },
-
-        // middle_name_sa: {
-        //   regex: nameRegex
-        // },
-
-        last_name_sa: {
-          required: true,
-          regex: nameRegex
-        },
-
-        school: "required",
-
-        gender: "required",
-
-        b_day: {
-          required: true
-        },
-
-        number: {
-          required: true,
-          regex: contactRegex
-        },
-
-        address: {
-          required: true
-        },
-
+        time: "required",
+        date: "required",
+        patient: "required",
+        name: "required",
+        time_frequency: "required"
       },
       errorElement: 'div'
     });

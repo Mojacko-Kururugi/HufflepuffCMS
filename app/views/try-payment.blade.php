@@ -3,11 +3,11 @@
 @section('content')
  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
-  <div class="row">
-    <div class="center col l12 m12 s12">
-      <h5>New Payment</h5>
-    </div>
+<div class="row page-title">
+  <div class="col s12 m12 l12">
+    <h5>New Payment</h5>
   </div>
+</div>
 
   <div class="main-wrapper">
   <!-- ACTUAL PAGE CONTENT GOES HERE -->
@@ -31,7 +31,7 @@
  </div>
 
   <div class="row">
-    <div class="col s12 m12 l7">
+    <div class="col s12 m12 l6">
       <div class="card-panel">
         <span class="card-title">Products</span>
         <hr>
@@ -147,7 +147,7 @@
       </div>
   </div>
 
-    <div class="col s12 m12 l5">
+    <div class="col s12 m12 l6">
       <div class="card-panel">
         <span class="card-title">Purchase</span>
         <hr>
