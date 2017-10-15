@@ -349,6 +349,7 @@ class DoctorController extends BaseController {
 		    		'dcmSBalance' => Request::input('fee'),
 		    		'intSStatus' => 2
 				]);
+
 				return Redirect::to('/sec/payment/' . Request::input('user_id'));
 			}
 		}

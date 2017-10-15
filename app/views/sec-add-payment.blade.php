@@ -118,11 +118,10 @@
                 <?php $total = 0 ?>
                  @foreach($list as $l)
                                     <tr>
-                                      <td>{{$l->strItemName . " - " . $l->strItemModel}}</td>
-                                      <?php $qty = $l->intQty ?>
-                                      <?php $subtotal = $l->dcInvPPrice * $qty ?>
-                                      <td>{{$qty}}</td>
-                                      <td>P {{$subtotal}}</td>
+                                      <td>{{$l->strItemName . " - " . $l->strItemDesc}}</td>
+                                      <?php $subtotal = $l->dcTotPrice?>
+                                      <td>{{$l->intQty}}</td>
+                                      <td>P {{$l->dcTotPrice}}</td>
                                       <td><a class="waves-effect waves-light btn btn-small red center-text">REMOVE</a></td>
                                     </tr>
                   <?php $total += $subtotal ?>    

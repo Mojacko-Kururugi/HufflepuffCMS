@@ -94,6 +94,9 @@
                                         <div class="center-btn">
                                          <a class="modal-trigger waves-effect waves-light btn blue lighten-1 btn-small center-text" href="/sec-patient/view-service/{{$data->intSHID}}">VIEW DETAILS</a>
                                         </div>
+                                        <div class="center-btn">
+                                         <a class="modal-trigger waves-effect waves-light btn blue lighten-1 btn-small center-text" href="/receipt/{{$data->intSHID}}">RECEIPT</a>
+                                        </div>
                                     </td>
                                 </tr>
 

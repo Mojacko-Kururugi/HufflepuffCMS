@@ -14,8 +14,8 @@
   <form action="{{ URL::to('/') }}" method="POST" id="signup_validate" enctype="multipart/form-data">
        <div class="row">
             <div class="input-field col s12 m4 l4">
-                <input type="text" id="search" required="">
-                <label class="label-icon" for="search">Customer</label>
+                <input type="text" id="patient" name="patient" required="">
+                <label class="label-icon" for="patient">Customer</label>
             </div>
 
             <div class="input-field col s12 m4 l4">

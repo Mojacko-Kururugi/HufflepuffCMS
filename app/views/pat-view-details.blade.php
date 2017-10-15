@@ -195,7 +195,42 @@
             </div>
           </div>
 
+<div class="nav-wrapper">
+                    <div class="container-fluid">
+                    <h5>Account Ledger</h5>
+                        <table id="example2" class="mdl-data-table" cellspacing="0" width="100%">
+                            <thead>
+                                <tr>
+                                    <th>Service Ref #</th>
+                                    <th>Total</th>
+                                    <th>Balance Paid</th>
+                                    <th>Date of Service</th> 
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                 @foreach($pay as $pay)
+                                <tr>
+                                    <td>{{ $pay->strSHCode }}</td>
+                                    <td>{{ $pay->dcmSBalance }}</td>
+                                    <td>{{ $pay->sum }}</td>
+                                    <td>{{ $pay->intSHDateTime }}</td>
+                                    <td>
+                                        <div class="center-btn">
+                                         <a class="waves-effect waves-light btn blue lighten-1 btn-small center-text" href="/sec/payment/{{ $pay->strSHCode }}">PAY</a>
+                                        </div>
+                                    </td>
+                                </tr>
 
+
+
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                <!-- dito naman yung mga susunod na shits kung may idadagdag pa ^_^ -->
+
+              </div>
 
       </div>
     </div>
@@ -235,6 +270,22 @@ $(document).ready(function() {
         "info":     true
 
     } );
+
+        $('#example2').DataTable( {
+        columnDefs: [
+            {
+                targets: [ 0, 1, 2 ],
+                className: 'mdl-data-table__cell--non-numeric'
+            }
+        ],
+        "aLengthMenu": [[25, 50, 75, -1], [25, 50, 75, "All"]],
+        "iDisplayLength": 25,
+        "paging":   true,
+        "ordering": true,
+        "info":     true
+
+    } );
+
 } );
   </script>
 @stop

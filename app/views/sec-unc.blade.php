@@ -5,7 +5,7 @@
 <!-- header -->
 <div class="row page-title">
   <div class="col s12 m12 l12">
-    <h5>Unclaimed and Claimed Sold Products</h5>
+    <h5>Unclaimed and Claimed Purchases</h5>
   </div>
 </div>
 
@@ -23,6 +23,7 @@
         <div class="row">
           <div class="nav-wrapper">
             <div class="container-fluid">
+            <h5>Sold Products</h5>
               <table id="example" class="mdl-data-table" cellspacing="0" width="100%">
                 <thead>
                     <tr>
@@ -63,6 +64,37 @@
             <!-- dito naman yung mga susunod na shits kung may idadagdag pa ^_^ -->
           </div>
         </div>
+
+
+
+        <div class="row">
+          <div class="nav-wrapper">
+            <div class="container-fluid">
+            <h5>Sold Job Orders</h5>
+              <table id="example2" class="mdl-data-table" cellspacing="0" width="100%">
+                <thead>
+                    <tr>
+                        <th>Service Ref #</th>
+                    </tr>
+                    <tr></tr>
+                </thead>
+                <tbody>
+                @foreach($jo as $jo)
+                      <tr>
+                        <td>{{ $jo->strJOHC }}</td>
+                        <td>
+                            <a class="waves-effect waves-light btn green darken-1 btn-small center-text" href="claim/{{$jo->strJOHC}}">CLAIM</a>
+                        </td>
+                    </tr>
+                  @endforeach 
+                </tbody>
+              </table>
+            <br>
+            <br>
+            </div>
+            <!-- dito naman yung mga susunod na shits kung may idadagdag pa ^_^ -->
+          </div>
+        </div>
       </div>
     </div>
 
@@ -81,6 +113,21 @@
   <script type="text/javascript">
 $(document).ready(function() {
     $('#example').DataTable( {
+        columnDefs: [
+            {
+                targets: [ 0, 1, 2 ],
+                className: 'mdl-data-table__cell--non-numeric'
+            }
+        ],
+        "aLengthMenu": [[25, 50, 75, -1], [25, 50, 75, "All"]],
+        "iDisplayLength": 25,
+        "paging":   true,
+        "ordering": true,
+        "info":     true
+
+    } );
+
+        $('#example2').DataTable( {
         columnDefs: [
             {
                 targets: [ 0, 1, 2 ],

@@ -6,6 +6,7 @@ class AdminController extends BaseController {
 
 		$data = DB::table('tblInventory')
 			->join('tblItems', 'tblInventory.intInvPID', '=', 'tblItems.intItemID')
+			->join('tblPrice', 'tblItems.intItemID', '=', 'tblPrice.intPriceItemID')
 			->join('tblInvStatus', 'tblInventory.intInvStatus', '=', 'tblInvStatus.intISID')
 			->join('tblItemType', 'tblItems.intItemType', '=', 'tblItemType.intITID')
 			->where('tblInventory.intInvBranch', '=', 1)
@@ -18,6 +19,7 @@ class AdminController extends BaseController {
 
 		$data2 = DB::table('tblInventory')
 			->join('tblItems', 'tblInventory.intInvPID', '=', 'tblItems.intItemID')
+			->join('tblPrice', 'tblItems.intItemID', '=', 'tblPrice.intPriceItemID')
 			->join('tblInvStatus', 'tblInventory.intInvStatus', '=', 'tblInvStatus.intISID')
 			->join('tblItemType', 'tblItems.intItemType', '=', 'tblItemType.intITID')
 			->where('tblInventory.intInvBranch', '=', 1)
@@ -30,6 +32,7 @@ class AdminController extends BaseController {
 
 		$mat = DB::table('tblInventory')
 			->join('tblItems', 'tblInventory.intInvPID', '=', 'tblItems.intItemID')
+			->join('tblPrice', 'tblItems.intItemID', '=', 'tblPrice.intPriceItemID')
 			->join('tblInvStatus', 'tblInventory.intInvStatus', '=', 'tblInvStatus.intISID')
 			->join('tblItemType', 'tblItems.intItemType', '=', 'tblItemType.intITID')
 			->where('tblInventory.intInvBranch', '=', 1)
@@ -41,6 +44,7 @@ class AdminController extends BaseController {
 
 		$alls = DB::table('tblInventory')
 			->join('tblItems', 'tblInventory.intInvPID', '=', 'tblItems.intItemID')
+			->join('tblPrice', 'tblItems.intItemID', '=', 'tblPrice.intPriceItemID')
 			->join('tblInvStatus', 'tblInventory.intInvStatus', '=', 'tblInvStatus.intISID')
 			->join('tblItemType', 'tblItems.intItemType', '=', 'tblItemType.intITID')
 			->where('tblInventory.intInvBranch', '!=', 1)
@@ -151,11 +155,11 @@ class AdminController extends BaseController {
 			->count();
 
 		if($ct < 10)
-			$count = "AMN00" . $ct;
+			$count = "BAT00" . $ct;
 		else if($ct < 100)
-			$count = "AMN0" . $ct;
+			$count = "BAT0" . $ct;
 		else if($ct < 1000)
-			$count = "AMN" . $ct;
+			$count = "BAT" . $ct;
 
 		Session::put('ord_sess',$count);
 
@@ -255,16 +259,17 @@ class AdminController extends BaseController {
 							->count();
 
 					if($ct < 10)
-						$count = "MN00" . $ct;
+						$count = "INV00" . $ct;
 					else if($ct < 100)
-						$count = "MN0" . $ct;
+						$count = "INV0" . $ct;
 					else if($ct < 1000)
-						$count = "MN" . $ct;
+						$count = "INV" . $ct;
 
 					DB::table('tblInventory')
 						->insert([
 							'intInvPID' => $o->intOProdID,
-							'strInvCode' => $count,
+							'strInvBatCode' => Session::get('ord_sess'),
+							'strInvLotNum' => $count,
 						    'intInvQty' => $o->intOQty,
 						    'dtInvExpiry' => NULL,
 						    'intInvStatus' => 1,
@@ -275,7 +280,7 @@ class AdminController extends BaseController {
 						->where('tblInventory.intInvPID', '=', $o->intOProdID)
 						->where('tblInventory.intInvBranch', '=', 1)
 						->where('tblInventory.intInvStatus','!=',3)
-						->where('tblInventory.strInvCode','=',$count)
+						->where('tblInventory.strInvLotNum','=',$count)
 						->first();
 
 					DB::table('tblAdjustments')
@@ -307,6 +312,7 @@ class AdminController extends BaseController {
 					DB::table('tblInventory')
 							->where('tblInventory.intInvID', '=', $inv->intInvID)
 							->update([
+								'strInvBatCode' => Session::get('ord_sess'),
 								'intInvQty' => $total,
 							]);
 
@@ -355,11 +361,11 @@ class AdminController extends BaseController {
 			->count();
 
 		if($ct < 10)
-			$count = "MMN00" . $ct;
+			$count = "REL00" . $ct;
 		else if($ct < 100)
-			$count = "MMN0" . $ct;
+			$count = "REL0" . $ct;
 		else if($ct < 1000)
-			$count = "MMN" . $ct;
+			$count = "REL" . $ct;
 
 		foreach($data as $data)
 		{
@@ -396,6 +402,13 @@ class AdminController extends BaseController {
 						->update([
 							'intInvQty' => $total,
 						]);
+
+				DB::table('tblOrderDetails')
+					->where('tblOrderDetails.intODCode', '=', $id)
+					->where('tblOrderDetails.intOProdID', '=', $inv->intInvPID)
+					->update([
+						'strOLotNum' => $inv->strInvLotNum
+					]);
 				}
 			}//foreach
 
@@ -727,21 +740,27 @@ class AdminController extends BaseController {
 			->count();
 
 		if($ct < 10)
-			$count = "MN00" . $ct;
+			$count = "INV00" . $ct;
 		else if($ct < 100)
-			$count = "MN0" . $ct;
+			$count = "INV0" . $ct;
 		else if($ct < 1000)
-			$count = "MN" . $ct;
+			$count = "INV" . $ct;
 
 
 		DB::table('tblItems')
 		->insert([
 			'strItemName' 		=> Request::input('name'),
-			'strItemModel' 	=> Request::input('model'),
+			'strItemDesc' 	=> Request::input('model'),
 			'strItemBrand' =>  Request::input('brand'),
 			'intItemType'	=> Request::input('type'),
-			'dcInvPPrice' => Request::input('price'),
 			'intItemStatus' => 1
+		]);
+
+
+		DB::table('tblPrice')
+		->insert([
+			'intPriceItemID' 	=> $it,
+			'dcPrice' => Request::input('price')
 		]);
 
 		$data = DB::table('tblItemType')
@@ -753,7 +772,8 @@ class AdminController extends BaseController {
 		DB::table('tblInventory')
 			->insert([
 				'intInvPID' => $it,
-				'strInvCode' => $count,
+				'strInvBatCode' => NULL,
+				'strInvLotNum' => $count,
 			    'intInvQty' => 0,
 			    'dtInvExpiry' => NULL,
 			    'intInvStatus' => 1,
@@ -765,6 +785,7 @@ class AdminController extends BaseController {
 
 	public function showUpProd($id) {
 		$prod = DB::table('tblItems')
+			->join('tblPrice', 'tblItems.intItemID', '=', 'tblPrice.intPriceItemID')
 			->where('tblItems.intItemID', '=', $id)
 			->first();
 
@@ -779,7 +800,7 @@ class AdminController extends BaseController {
 				->where('tblItems.intItemID', '=', Session::get('upId'))
 				->update([
 					'strItemName' 		=> Request::input('name'),
-					'strItemModel' 	=> Request::input('model'),
+					'strItemDesc' 	=> Request::input('model'),
 					'strItemBrand' =>  Request::input('brand'),
 					'intItemType'	=> Request::input('type'),
 					'dcInvPPrice' => Request::input('price')

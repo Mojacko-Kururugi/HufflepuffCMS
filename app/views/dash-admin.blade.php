@@ -47,9 +47,9 @@
                                                          <tr>
                                                               <td>{{ $all->strItemBrand}}</td>
                                                               <td>{{ $all->strItemName }}</td>
-                                                              <td>{{ $all->strItemModel }}</td>
+                                                              <td>{{ $all->strItemDesc }}</td>
                                                               <td>{{ $all->strITDesc }}</td>
-                                                              <td>{{ $all->dcInvPPrice }}</td>
+                                                              <td>{{ $all->dcPrice }}</td>
                                                               <td>{{ $all->sum }}</td>
                                                               @if($all->dtInvExpiry == NULL)
                                                               <td>N/A</td>
@@ -97,9 +97,9 @@
                       <tr>
                         <td>{{$data->strItemBrand}}</td>
                         <td>{{ $data->strItemName }}</td>
-                        <td>{{ $data->strItemModel }}</td>
+                        <td>{{ $data->strItemDesc }}</td>
                         <td>{{ $data->strITDesc }}</td>
-                        <td>{{ $data->dcInvPPrice }}</td>
+                        <td>{{ $data->dcPrice }}</td>
                         <td>{{ $data->sum }}</td>
                         <td>
                             @if($data->intIsPerishable == 1)
@@ -112,7 +112,7 @@
                               <!-- Modal Structure -->
                               <div id="{{$data->intInvID}}" class="modal modal-fixed-footer">
                                 <div class="modal-content col 6">
-                                  <h4>Expiration for {{$data->strItemName}} - {{$data->strInvCode}}</h4>
+                                  <h4>Expiration for {{$data->strItemName}} - {{$data->strInvLotNum}}</h4>
                                   <p>
                                   <form action="/adjust/{{$data->intInvID}}" method="POST">
                                              <br>
@@ -155,9 +155,9 @@
                       <tr>
                         <td>{{ $data->strItemBrand }}</td>
                         <td>{{ $data->strItemName }}</td>
-                        <td>{{ $data->strItemModel }}</td>
+                        <td>{{ $data->strItemDesc }}</td>
                         <td>{{ $data->strITDesc }}</td>
-                        <td>{{ $data->dcInvPPrice }}</td>
+                        <td>{{ $data->dcPrice }}</td>
                         <td>{{ $data->intInvQty }}</td>
                         @if($data->dtInvExpiry != null)
                         <td>{{ $data->dtInvExpiry }}</td>
@@ -177,7 +177,7 @@
                               <!-- Modal Structure -->
                               <div id="{{$data->intInvID}}" class="modal modal-fixed-footer">
                                 <div class="modal-content col 6">
-                                  <h4>Expiration for {{$data->strItemName}} - {{$data->strInvCode}}</h4>
+                                  <h4>Expiration for {{$data->strItemName}} - {{$data->strInvLotNum}}</h4>
                                   <p>
                                   <form action="/set-exp/{{$data->intInvID}}" method="POST">
                                              <br>
@@ -217,9 +217,9 @@
                 @foreach($mat as $data)
                       <tr>
                         <td>{{ $data->strItemName }}</td>
-                        <td>{{ $data->strItemModel }}</td>
+                        <td>{{ $data->strItemDesc }}</td>
                         <td>{{ $data->strITDesc }}</td>
-                        <td>{{ $data->dcInvPPrice }}</td>
+                        <td>{{ $data->dcPrice }}</td>
                         <td>{{ $data->sum }}</td>
                         <td>
                              <a class="modal-trigger waves-effect waves-light btn green darken-1 btn-small center-text" href="#{{$data->intInvID}}/stocks">STOCK CARD</a>
@@ -233,7 +233,7 @@
                                                         <!-- Modal Structure -->
                               <div id="{{$prod->intInvID}}/stocks" class="modal modal-fixed-footer">
                                 <div class="modal-content col 6">
-                                  <h4>Stock Card for {{$prod->strItemName}} - {{$prod->strItemModel}}</h4>
+                                  <h4>Stock Card for {{$prod->strItemName}} - {{$prod->strItemDesc}}</h4>
                                   <p>
                                                       <table class="centered table-fixed">
                                                       <thead>
@@ -252,7 +252,7 @@
                                                             <tr>
                                                               <td>{{ $data->dtAdjDate }}</td>
                                                               <td>{{ $data->strAdjCode }}</td>
-                                                              <td>{{ $data->strInvCode }}</td>
+                                                              <td>{{ $data->strInvLotNum }}</td>
                                                               <td>{{ $data->intAdjQty }}</td>
                                                               @if($data->intAdjStatus == 1)
                                                               <td class="blue-text bold">Acquired</td>
@@ -346,7 +346,7 @@
                                                             @if($listi->intODCode == $test->intOID)
                                                             <tr>
                                                               <td>{{ $listi->strItemName }}</td>
-                                                              <td>{{ $listi->strItemModel }}</td>
+                                                              <td>{{ $listi->strItemDesc }}</td>
                                                               <td>{{ $listi->intOQty }}</td>
                                                           </tr>
                                                           @endif

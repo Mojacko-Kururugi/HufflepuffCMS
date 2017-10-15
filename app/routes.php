@@ -142,6 +142,8 @@ Route::post('/sec-purch/addPayF', 'SecController@addPurchPay');
 Route::get('/sec/payment/{id}', 'SecController@addPaymentE');
 Route::post('/sec-purch/addPayEF', 'SecController@addPaymentEF');
 
+Route::get('/receipt/{id}', 'SecController@generateReceipt');
+
 
 
 //for patient

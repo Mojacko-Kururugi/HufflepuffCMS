@@ -94,7 +94,7 @@
                                     @foreach($list as $l)
                                     <tr>
                                       <td>{{$l->strItemName}}</td>
-                                      <td>{{$l->strItemModel}}</td>
+                                      <td>{{$l->strItemDesc}}</td>
                                       <td>{{$l->intOQty}}</td>
                                       <td><a class="waves-effect waves-light btn btn-small red center-text">REMOVE</a></td>
                                     </tr>
@@ -114,7 +114,7 @@
                         <select class="initialized browser-default" name="name" id="name" data-error=".school_error">
                           <option value="" disabled selected>Product Name</option>
                           @foreach($data as $data)
-                            <option value="{{ $data->intItemID}}" @if(Input::old('product') == $data->intItemID) selected="selected" @endif>{{ $data->strItemName . ' - ' . $data->strItemModel}}</option>
+                            <option value="{{ $data->intItemID}}" @if(Input::old('product') == $data->intItemID) selected="selected" @endif>{{ $data->strItemName . ' - ' . $data->strItemDesc}}</option>
                           @endforeach
                         </select>
                        <div class="school_error"></div>

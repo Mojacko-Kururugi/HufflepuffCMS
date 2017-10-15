@@ -37,7 +37,7 @@
                       <tr>
                         <td>{{ $data->strItemName }}</td>
                         <td>{{ $data->strItemBrand }}</td>
-                        <td>{{ $data->strItemModel }}</td>
+                        <td>{{ $data->strItemDesc }}</td>
                         <td>{{ $data->strITDesc }}</td>
                         <td>
                             <div class="center-btn">
@@ -81,7 +81,7 @@
                 @foreach($mat as $data)
                       <tr>
                         <td>{{ $data->strItemName }}</td>
-                        <td>{{ $data->strItemModel }}</td>
+                        <td>{{ $data->strItemDesc }}</td>
                         <td>{{ $data->strITDesc }}</td>
                         <td>
                             <div class="center-btn">

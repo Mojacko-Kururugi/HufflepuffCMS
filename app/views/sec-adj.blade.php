@@ -27,7 +27,7 @@
                 <thead>
                     <tr>
                         <th>Adjusment Code</th>
-                        <th>Serial Code</th>
+                        <th>Lot Number</th>
                         <th>Product Name & Desc</th>
                         <th>Qty Adjusted</th>
                         <th>Date Adjusted</th>
@@ -39,8 +39,8 @@
                 @foreach($data as $data)
                       <tr>
                         <td>{{ $data->strAdjCode }}</td>
-                        <td>{{ $data->strInvCode }}</td>
-                        <td>{{ $data->strItemName .' - ' . $data->strItemModel }}</td>
+                        <td>{{ $data->strInvLotNum }}</td>
+                        <td>{{ $data->strItemName .' - ' . $data->strItemDesc }}</td>
                         <td>{{ $data->intAdjQty }}</td>
                         <td>{{ $data->dtAdjDate }}</td>
                         @if($data->intAdjStatus == 1)

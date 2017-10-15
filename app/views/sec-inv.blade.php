@@ -40,11 +40,11 @@
                 </thead>
                 @foreach($data as $data)
                       <tr>
-                        <td>{{ $data->strInvCode }}</td>
+                        <td>{{ $data->strInvLotNum }}</td>
                         <td>{{ $data->strItemName }}</td>
-                        <td>{{ $data->strItemModel }}</td>
+                        <td>{{ $data->strItemDesc }}</td>
                         <td>{{ $data->strITDesc }}</td>
-                        <td>{{ $data->dcInvPPrice }}</td>
+                        <td>{{ $data->dcPrice }}</td>
                         <td>{{ $data->sum }}</td>
                         @if($data->intISID == 1)
                         <td class="green-text bold">{{ $data->strISDesc }}</td>
@@ -61,7 +61,7 @@
                               <!-- Modal Structure -->
                               <div id="{{$data->intInvID}}" class="modal modal-fixed-footer">
                                 <div class="modal-content col 6">
-                                  <h4>Adjustments for {{$data->strItemName}} - {{$data->strInvCode}}</h4>
+                                  <h4>Adjustments for {{$data->strItemName}} - {{$data->strInvLotNum}}</h4>
                                   <p>
                                   <form action="/adjust/{{$data->intInvID}}" method="POST">
                                             <div class="row">
@@ -113,10 +113,9 @@
             <table id="example1" class="mdl-data-table" cellspacing="0" width="100%">
                 <thead>
                     <tr>
+                        <th>Batch Number</th>
                         <th>Lot Number</th>
-                        <th>Product Brand</th>
-                        <th>Product Name</th>
-                        <th>Product Description</th>
+                        <th>Product Brand, Name, Description</th>
                         <th>Product Type</th>
                         <th>Price</th>
                         <th>Available Stock</th>
@@ -127,12 +126,11 @@
                 </thead>
                 @foreach($data2 as $data)
                       <tr>
-                        <td>{{ $data->strInvCode }}</td>
-                        <td>{{ $data->strItemBrand }}</td>
-                        <td>{{ $data->strItemName }}</td>
-                        <td>{{ $data->strItemModel }}</td>
+                        <td>{{ $data->strInvBatCode }}</td>
+                        <td>{{ $data->strInvLotNum }}</td>
+                        <td>{{ $data->strItemBrand }} -- {{ $data->strItemName }} -- {{ $data->strItemDesc }}</td>
                         <td>{{ $data->strITDesc }}</td>
-                        <td>{{ $data->dcInvPPrice }}</td>
+                        <td>{{ $data->dcPrice }}</td>
                         <td>{{ $data->intInvQty }}</td>
                         @if($data->dtInvExpiry != null)
                         <td>{{ $data->dtInvExpiry }}</td>
@@ -154,7 +152,7 @@
                               <!-- Modal Structure -->
                               <div id="{{$data->intInvID}}" class="modal modal-fixed-footer">
                                 <div class="modal-content col 6">
-                                  <h4>Adjustments for {{$data->strItemName}} - {{$data->strInvCode}}</h4>
+                                  <h4>Adjustments for {{$data->strItemName}} - {{$data->strInvLotNum}}</h4>
                                   <p>
                                   <form action="/adjust/{{$data->intInvID}}" method="POST">
                                             <div class="row">
@@ -218,11 +216,11 @@
                 </thead>
                 @foreach($mats as $data)
                       <tr>
-                        <td>{{ $data->strInvCode }}</td>
+                        <td>{{ $data->strLotNum }}</td>
                         <td>{{ $data->strItemName }}</td>
-                        <td>{{ $data->strItemModel }}</td>
+                        <td>{{ $data->strItemDesc }}</td>
                         <td>{{ $data->strITDesc }}</td>
-                        <td>{{ $data->dcInvPPrice }}</td>
+                        <td>{{ $data->dcPrice }}</td>
                         <td>{{ $data->sum }}</td> 
                         @if($data->intISID == 1)
                         <td class="green-text bold">{{ $data->strISDesc }}</td>
@@ -239,7 +237,7 @@
                               <!-- Modal Structure -->
                               <div id="{{$data->intInvID}}" class="modal modal-fixed-footer">
                                 <div class="modal-content col 6">
-                                  <h4>Adjustments for {{$data->strItemName}} - {{$data->strInvCode}}</h4>
+                                  <h4>Adjustments for {{$data->strItemName}} - {{$data->strInvLotNum}}</h4>
                                   <p>
                                   <form action="/adjust/{{$data->intInvID}}" method="POST">
                                             <div class="row">

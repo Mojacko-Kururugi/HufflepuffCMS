@@ -13,7 +13,7 @@
               <div class="row">
                 <div class="input-field col l6 m6 s12">
                   <input id="user_id" name="user_id" type="text" class="validate" data-error=".id_error" value="{{ $count }}" readonly />
-                  <label for="user_id">Serial Code #:</label>
+                  <label for="user_id">Batch Code #:</label>
                   <div class="id_error"></div>
                 </div>
               </div>
@@ -94,7 +94,7 @@
                                     @foreach($list as $l)
                                     <tr>
                                       <td>{{$l->strItemName}}</td>
-                                      <td>{{$l->strItemModel}}</td>
+                                      <td>{{$l->strItemDesc}}</td>
                                       <td>{{$l->intOQty}}</td>
                                       <td><a class="waves-effect waves-light btn btn-small red center-text" href="/admin/rem-to-list/{{$l->intOProdID}}">REMOVE</a></td>
                                     </tr>
@@ -114,7 +114,7 @@
                         <select class="initialized browser-default" name="name" id="name" data-error=".school_error">
                           <option value="" disabled selected>Product Name</option>
                           @foreach($data as $data)
-                            <option value="{{ $data->intItemID}}" @if(Input::old('product') == $data->intItemID) selected="selected" @endif>{{ $data->strItemName . ' - ' . $data->strItemModel}}</option>
+                            <option value="{{ $data->intItemID}}" @if(Input::old('product') == $data->intItemID) selected="selected" @endif>{{ $data->strItemName . ' - ' . $data->strItemDesc}}</option>
                           @endforeach
                         </select>
                        <div class="school_error"></div>

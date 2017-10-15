@@ -174,19 +174,19 @@
             </div>
             <div class="input-field col l6 m6 s12">
               <label for="OD">OD:</label>
-              <input id="OD" name="OD" type="number" class="validate" value="" />
+              <input id="OD" name="OD" type="text" class="validate" value="" />
             </div>
             <div class="input-field col l6 m6 s12">
               <label  for="ODAdd">Add:</label>
-              <input id="ODAdd" name="ODAdd" type="number" class="validate" value=""/>
+              <input id="ODAdd" name="ODAdd" type="text" class="validate" value=""/>
             </div>
             <div class="input-field col l6 m6 s12">
               <label for="OS">OS:</label>
-              <input id="OS" name="OS" type="number" class="validate" value="" />
+              <input id="OS" name="OS" type="text" class="validate" value="" />
             </div>
             <div class="input-field col l6 m6 s12">
                 <label  for="OSAdd">Add:</label>
-                <input id="OSAdd" name="OSAdd" type="number" class="validate" value=""/>
+                <input id="OSAdd" name="OSAdd" type="text" class="validate" value=""/>
             </div>
         </div>
         <div class="row">
@@ -195,11 +195,11 @@
           </div>
           <div class="input-field col l6 m6 s12">
             <label for="CLOD">OD:</label>
-            <input id="CLOD" name="CLOD" type="number" class="validate" value="" />
+            <input id="CLOD" name="CLOD" type="text" class="validate" value="" />
           </div>
           <div class="input-field col l6 m6 s12">
             <label  for="CLOS">OS:</label>
-            <input id="CLOS" name="CLOS" type="number" class="validate" value=""/>
+            <input id="CLOS" name="CLOS" type="text" class="validate" value=""/>
           </div>
         </div>
           

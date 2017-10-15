@@ -1,4 +1,5 @@
 <?php
+use Barryvdh\DomPDF\Facade as PDF;
 
 class SecController extends BaseController {
 
@@ -172,11 +173,23 @@ class SecController extends BaseController {
 			->orderby('tblServiceHeader.intSHID','asc')
 			->get();
 
+		$pay = DB::table('tblSales')
+			->join('tblServiceHeader','tblSales.strSServCode','=','tblServiceHeader.strSHCode')
+			->join('tblPatientInfo', 'tblServiceHeader.intSHPatID','=','tblPatientInfo.intPatID')
+			->join('tblPayType', 'tblServiceHeader.intSHPaymentType','=','tblPayType.intPayTID')
+			->join('tblSalesStatus', 'tblSales.intSStatus','=','tblSalesStatus.intSaleSID')
+			->join('tblPayment', 'tblSales.intSaleID','=','tblPayment.intPymServID')
+			->where('tblPatientInfo.intPatID', '=', $id)
+			->groupby('tblSales.intSaleID')
+			->selectRaw('*, sum(dcmPymPayment) as sum')
+			->get();
+
 
 		return View::make('pat-view-details')
 		->with('data',$data)
 		->with('rx',$rx)
-		->with('serv',$serv);
+		->with('serv',$serv)
+		->with('pay',$pay);
 	}
 
 	public function showPayment() {
@@ -258,11 +271,24 @@ class SecController extends BaseController {
 		]);
 		}
 
+		$price = DB::table('tblInventory')
+			->join('tblItems', 'tblInventory.intInvPID', '=', 'tblItems.intItemID')
+			->join('tblPrice', 'tblItems.intItemID', '=', 'tblPrice.intPriceItemID')
+			->where('tblInventory.intInvID','=', Request::input('name'))
+			->first();
+
+		$total = 0;
+		$subtotal = 0;
+
+		$subtotal = $price->dcPrice * Request::input('qty');
+		$total = $total + $subtotal;
+
 		DB::table('tblServiceDetails')
 		->insert([
 			'strHeaderCode' => Session::get('purch_sess'),
     		'intHInvID' => Request::input('name'),
     		'intQty' => Request::input('qty'),
+    		'dcTotPrice' => $total,
     		'intClaimStatus' => 2,
     		'intHWarranty' => 1,
     		'intSDStatus' => 3
@@ -287,7 +313,7 @@ class SecController extends BaseController {
 
 		foreach($lists as $list)
 		{
-			$subtotal = $list->dcInvPPrice * $list->intQty;
+			$subtotal = $list->dcTotPrice;
 			$total = $total + $subtotal;
 		}
 
@@ -338,7 +364,7 @@ class SecController extends BaseController {
 
 		foreach($lists as $list)
 		{
-				$subtotal = $list->dcInvPPrice * $list->intQty;
+				$subtotal = $list->dcTotPrice;
 				$total = $total + $subtotal;
 
 				$data = DB::table('tblInventory')
@@ -473,6 +499,7 @@ class SecController extends BaseController {
 		Session::put('sess_payex',$data->intSaleID);
 
 		return View::make('pay-existing')->with('data',$data)->with('bal',$bal);
+
 	}
 
 	public function addPaymentEF()
@@ -547,6 +574,7 @@ class SecController extends BaseController {
 
 		$data = DB::table('tblInventory')
 			->join('tblItems', 'tblInventory.intInvPID', '=', 'tblItems.intItemID')
+			->join('tblPrice', 'tblItems.intItemID', '=', 'tblPrice.intPriceItemID')
 			->join('tblInvStatus', 'tblInventory.intInvStatus', '=', 'tblInvStatus.intISID')
 			->join('tblItemType', 'tblItems.intItemType', '=', 'tblItemType.intITID')
 			->where('tblInventory.intInvBranch', '=', Session::get('user_bc'))
@@ -559,6 +587,7 @@ class SecController extends BaseController {
 
 		$data2 = DB::table('tblInventory')
 			->join('tblItems', 'tblInventory.intInvPID', '=', 'tblItems.intItemID')
+			->join('tblPrice', 'tblItems.intItemID', '=', 'tblPrice.intPriceItemID')
 			->join('tblInvStatus', 'tblInventory.intInvStatus', '=', 'tblInvStatus.intISID')
 			->join('tblItemType', 'tblItems.intItemType', '=', 'tblItemType.intITID')
 			->where('tblInventory.intInvBranch', '=', Session::get('user_bc'))
@@ -571,6 +600,7 @@ class SecController extends BaseController {
 
 		$mats = DB::table('tblInventory')
 			->join('tblItems', 'tblInventory.intInvPID', '=', 'tblItems.intItemID')
+			->join('tblPrice', 'tblItems.intItemID', '=', 'tblPrice.intPriceItemID')
 			->join('tblInvStatus', 'tblInventory.intInvStatus', '=', 'tblInvStatus.intISID')
 			->join('tblItemType', 'tblItems.intItemType', '=', 'tblItemType.intITID')
 			->where('tblInventory.intInvBranch', '=', Session::get('user_bc'))
@@ -753,6 +783,7 @@ class SecController extends BaseController {
 
 		$data1 = DB::table('tblOrders')
 			->join('tblOrderDetails', 'tblOrderDetails.intODCode', '=', 'tblOrders.intOID')
+			->join('tblInventory', 'tblOrderDetails.strOLotNum', '=', 'tblInventory.strInvLotNum')
 			->join('tblItems', 'tblOrderDetails.intOProdID', '=', 'tblItems.intItemID')
 			->where('tblOrders.intOID', '=', $id)
 			->get();
@@ -762,9 +793,10 @@ class SecController extends BaseController {
 		DB::table('tblInventory')
 			->insert([
 				'intInvPID' => $data->intOProdID,
-				'strInvCode' => $data->strOCode,
+				'strInvBatCode' => $data->strOCode,
+				'strInvLotNum' => $data->strOLotNum,
 			    'intInvQty' => $data->intOQty,
-			    'dtInvExpiry' => NULL,
+			    'dtInvExpiry' => $data->dtInvExpiry,
 			    'intInvStatus' => 1,
 				'intInvBranch' => Session::get('user_bc')
 			]);
@@ -850,7 +882,11 @@ class SecController extends BaseController {
 			->where('tblInventory.intInvBranch', '=', Session::get('user_bc'))
 			->get();
 
-		return View::make('sec-unc')->with('data',$data);	
+		$jo = DB::table('tblJobOrder')
+			//->where('tblJobOrder.strJOHC','=',$serv_id)
+			->get();
+
+		return View::make('sec-unc')->with('data',$data)->with('jo',$jo);	
 	}
 
 	public function prodClaim($id) {
@@ -933,6 +969,28 @@ class SecController extends BaseController {
 			->get();
 		
 			return View::make('sec-exp')->with('data',$data);
+	}
+
+	public function generateReceipt($id)
+	{
+		$qr= DB::table('tblServiceHeader')
+			->join('tblServiceDetails', 'tblServiceDetails.strHeaderCode', '=', 'tblServiceHeader.strSHCode')
+			->join('tblInventory', 'tblServiceDetails.intHInvID','=','tblInventory.intInvID')
+			->join('tblItems','tblInventory.intInvPID','=','tblItems.intItemID')
+			->where('tblInventory.intInvBranch', '=', Session::get('user_bc'))
+			->where('tblServiceHeader.intSHID', '=', $id)
+			->get();
+
+		//dd($data);
+		$total = 0;
+		foreach($qr as $data)
+		{
+			$total=$total + $data->dcTotPrice;
+		}
+		Session::put('rec-total',$total);
+		$pdf = PDF::loadView('receipt', array('data'=>$qr));
+		return $pdf->stream();
+		//return View::make('reports');
 	}
 
 }

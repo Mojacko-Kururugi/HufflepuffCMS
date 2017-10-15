@@ -177,15 +177,25 @@ CREATE TABLE tblServices(
 CREATE TABLE tblItems(
 	intItemID int NOT NULL AUTO_INCREMENT,
     strItemName VARCHAR(50),
-    strItemModel VARCHAR(50),
+    strItemDesc VARCHAR(50),
     strItemBrand VARCHAR(50),
     intItemType INT(3),
-	dcInvPPrice DECIMAL(18,2),
     intItemStatus INT(2),
     
     PRIMARY KEY (intItemID),
 	FOREIGN KEY(intItemType)
     REFERENCES tblItemType(intITID)
+)Engine=InnoDb;
+
+CREATE TABLE tblPrice(
+	intPriceID int NOT NULL AUTO_INCREMENT,
+    intPriceItemID INT,
+    dcPrice DECIMAL(18,2),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    
+    PRIMARY KEY (intPriceID),
+    FOREIGN KEY(intPriceItemID)
+    REFERENCES tblItems(intItemID)
 )Engine=InnoDb;
 
 CREATE TABLE tblUnits(
@@ -199,7 +209,7 @@ CREATE TABLE tblUnits(
 
 CREATE TABLE tblInventory(
 	intInvID int NOT NULL AUTO_INCREMENT,
-    strInvCode VARCHAR(25),
+    strInvBatCode VARCHAR(25),
     strInvLotNum VARCHAR(25),
 	intInvPID INT,
     intInvQty INT(100),
@@ -264,6 +274,7 @@ CREATE TABLE tblOrderDetails(
 	intODCode INT,
     intOProdID INT,
     intOQty INT(100),
+    strOLotNum VARCHAR(25),
     
     FOREIGN KEY(intOProdID)
     REFERENCES tblItems(intItemID),
@@ -308,11 +319,12 @@ CREATE TABLE tblServiceDetails(
 
 CREATE TABLE tblJobOrder(
 	strJOHC VARCHAR(25),
+    strJOName VARCHAR(50),
     strJODetails VARCHAR(50),
     intJOFrame INT,
     intJOLens INT,
-	intJOAOD INT,
-	intJOAOS INT,
+	intJOAOD VARCHAR(25),
+	intJOAOS VARCHAR(25),
     strJOODSC VARCHAR(25),
     strJOODA VARCHAR(25),
     strJOODBC VARCHAR(25),
@@ -338,7 +350,6 @@ CREATE TABLE tblConsultationRecords(
     REFERENCES tblDocInfo(intDocID)
 )Engine=InnoDb;
 
-select * from tblsales;
 CREATE TABLE tblSales(
 	intSaleID int NOT NULL AUTO_INCREMENT,
     strSServCode VARCHAR(25),

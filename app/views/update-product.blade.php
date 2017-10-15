@@ -22,8 +22,8 @@
         </div>
         <div class="row">
               <div class="input-field col l12 m8 s12">
-                <label for="model">Product Model</label>
-                <input id="model" name="model" type="text" class="validate" value="{{ $prod->strItemModel }}" />
+                <label for="model">Product Description</label>
+                <input id="model" name="model" type="text" class="validate" value="{{ $prod->strItemDesc }}" />
               </div>
         </div>
         <div class="row">
@@ -35,7 +35,7 @@
         <div class="row">
               <div class="form-group col l6 ">
                 <label for="price">Price per piece</label>
-                <input type="number" class="form-control" name="price" id="price" value="{{ $prod->dcInvPPrice }}">
+                <input type="number" class="form-control" name="price" id="price" value="{{ $prod->dcPrice }}">
               </div>
         </div>
                     <div class="input-field col l6 m6 s12">

@@ -144,10 +144,9 @@
                 @foreach($purch as $data)
                       <tr>
                         <td>{{ $data->strItemName }}</td>
-                        <td>{{ $data->strItemModel }}</td>
+                        <td>{{ $data->strItemDesc }}</td>
                         <td>{{ $data->intQty }}</td>
-                         <?php $qty = $data->intQty ?>
-                         <?php $subtotal = $data->dcInvPPrice * $qty ?>
+                         <?php $subtotal = $data->dcTotPrice ?>
                         <td>P {{ $subtotal }}</td>
                       </tr>
                       <?php $total += $subtotal ?> 

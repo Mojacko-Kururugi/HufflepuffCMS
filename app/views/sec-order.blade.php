@@ -89,7 +89,7 @@
                                                             @if($listi->intODCode == $test->intOID)
                                                             <tr>
                                                               <td>{{ $listi->strItemName }}</td>
-                                                              <td>{{ $listi->strItemModel }}</td>
+                                                              <td>{{ $listi->strItemDesc }}</td>
                                                               <td>{{ $listi->intOQty }}</td>
                                                           </tr>
                                                           @endif
