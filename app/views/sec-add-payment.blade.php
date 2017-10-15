@@ -3,11 +3,17 @@
 @section('content')
  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
-  <div class="row">
+<!--   <div class="row">
     <div class="center col l12 m12 s12">
       <h5>POS</h5>
     </div>
+  </div> -->
+
+<div class="row page-title">
+  <div class="col s12 m12 l12">
+    <h5>POS</h5>
   </div>
+</div>
 
   <div class="main-wrapper">
   <!-- ACTUAL PAGE CONTENT GOES HERE -->
@@ -36,7 +42,7 @@
  </div>
 
   <div class="row">
-    <div class="col s12 m12 l7">
+    <div class="col s12 m12 l6">
       <div class="card-panel">
         <span class="card-title">Products</span>
         <hr>
@@ -89,6 +95,10 @@
                 </div>
               </div>
   </form>
+          <br/>
+          <br/>
+          <br/>
+          <br/>
             <div class="row">
               <div class="input-field col l12 s12 center">
                 <a class="waves-effect waves-light btn btn-green modal-btn" href="/sec-purch/payment">PROCEED TO PAYMENT</a>
@@ -97,7 +107,7 @@
             </div>
   </div>
 
-    <div class="col s12 m12 l5">
+    <div class="col s12 m12 l6">
       <div class="card-panel">
         <span class="card-title">Purchase</span>
         <hr>
@@ -166,59 +176,19 @@
 
 
 {{-- Scripts START --}}
-<!--<script type="text/javascript">
-  var date = new Date();
-  var nameRegex = /^([ \u00c0-\u01ffa-zA-Z'\-])+$/;
-  var contactRegex = /((\+63)|0)\d{10}/;
-
-  $(document).ready(function() {
-    $('#b_day').pickadate({
-      format: "yyyy-mm-dd",
-      selectYears: true,
-      selectMonths: true,
-      selectYears: 100, // scroll shits of years
-      min: new Date(1929,12,31),
-      max: new Date(2009,12,01)
-    });
-
-    $('#user_image_input').on('change', function() {
-      var reader = new FileReader();
-
-      reader.onload = function(e) {
-        $('#image_div').attr('src', e.target.result);
-      };
-
-      reader.readAsDataURL(this.files[0]);
-    });
-
-    $.validator.addMethod("regex", function(value, element, regexp) {
-      return regexp.test(value);
-    }, "Please enter a valid format.");
-
-    $('#signup_validate').validate({
+ <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/jquery.validate.min.js"></script>
+<script type="text/javascript">
+  $().ready(function() {
+    $("#signup_validate").validate({
       rules: {
-        stud_id_no: {
-          required: true
-          regex: contactRegex
-        },
-        
-        number: {
-          required: true,
-        },
-
-        address: {
-          required: true
-        },
-
+        qty: "required",
+        // name: "required",
       },
       errorElement: 'div'
     });
   });
 
-// function alphaOnly(event) {
-//   var key = event.keyCode;
-//   return ((key >= 65 && key <= 90) || key == 8 || key == 32);
-// };
-</script>-->
+</script>
 {{-- Scripts END --}}
 @endsection

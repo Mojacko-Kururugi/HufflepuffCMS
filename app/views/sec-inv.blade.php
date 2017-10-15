@@ -216,7 +216,7 @@
                 </thead>
                 @foreach($mats as $data)
                       <tr>
-                        <td>{{ $data->strLotNum }}</td>
+                        <td>{{ $data->strInvLotNum }}</td>
                         <td>{{ $data->strItemName }}</td>
                         <td>{{ $data->strItemDesc }}</td>
                         <td>{{ $data->strITDesc }}</td>

@@ -399,6 +399,7 @@ class DoctorController extends BaseController {
 		$data = DB::table('tblInventory')
 			->join('tblInvStatus', 'tblInventory.intInvStatus', '=', 'tblInvStatus.intISID')
 			->join('tblItems', 'tblInventory.intInvPID', '=', 'tblItems.intItemID')
+			->join('tblPrice', 'tblItems.intItemID', '=', 'tblPrice.intPriceItemID')
 			->join('tblItemType', 'tblItems.intItemType', '=', 'tblItemType.intITID')
 			->where('tblInventory.intInvBranch', '=', Session::get('user_bc'))
 			->get();

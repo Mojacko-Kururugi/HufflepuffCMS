@@ -3,11 +3,19 @@
 @section('content')
  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
-  <div class="row">
+<!--   <div class="row">
     <div class="center col l12 m12 s12">
       <h3>Job Order</h3>
     </div>
   </div>
+ -->
+
+<div class="row page-title">
+  <div class="col s12 m12 l12">
+    <h5>Job Order</h5>
+  </div>
+</div>
+
 
 <div class="main-wrapper">
   <!-- ACTUAL PAGE CONTENT GOES HERE -->
@@ -20,9 +28,9 @@
             </div>
       @else
             <div class="input-field col s12 m4 l4">
-            <i class=" material-icons prefix">search</i>
+            <!-- <i class=" material-icons prefix">search</i> -->
               <label class="label-icon" for="search"></label>
-              <select name="patient" id="patient">
+              <select name="patient" id="patient" class="browser-default">
               <option value="0" disabled selected>- Select Customer Name -</option>
               @foreach($pat as $pat)
               <option value="{{$pat->intPatID}}">{{$pat->strPatLast . ", " . $pat->strPatFirst}}</option>
@@ -42,85 +50,108 @@
             <div class="row">
               <div class="col l12 m6 s6">
                   <div class="row">
-                      <div class="col s12 m6 l4">
+                      <div class="col s12">
 
                               <p>
                                   <input type="checkbox" class="filled-in" id="eyeglass" />
                                   <label for="eyeglass" class="black-text bold">EYE GLASS</label>
                               </p>
                               <p>
-                                  <input type="checkbox" id="single">
+                                  <input type="radio" name="group1" id="single">
                                   <label for="single" class="light-blue-text text-darken-4 bold">SINGLE</label>
                               </p>
-                              <p style="text-indent: 20px">
-                                  <input type="checkbox" id="lhi">
-                                  <label for="lhi">LHI MULTI</label>
-                              </p>
-                              <p style="text-indent: 20px">
-                                  <input type="checkbox" id="multi">
-                                  <label for="multi">MULTI</label>
-                              </p>
-                              <p style="text-indent: 20px">
-                                  <input type="checkbox" id="multi">
-                                  <label for="multi">MULTI</label>
-                              </p>
-                              <p style="text-indent: 20px">
-                                  <input type="checkbox" id="hc">
-                                  <label for="hc">H.C.</label>
-                              </p>
-                              <p style="text-indent: 20px">
-                                  <input type="checkbox" id="cr39">
-                                  <label for="cr39">CR39</label>
-                              </p>
+                              <div id="divSingle" class="row">
+                                <div class="col l4 s12">
+                                  <p style="text-indent: 20px">
+                                    <input type="checkbox" id="lhi">
+                                    <label for="lhi">LHI MULTI</label>
+                                  </p>
+                                  <p style="text-indent: 20px">
+                                      <input type="checkbox" id="multi">
+                                      <label for="multi">MULTI</label>
+                                  </p>
+                                </div>
+                                <div class="col l4 s12">
+                                  <p style="text-indent: 20px">
+                                    <input type="checkbox" id="hc">
+                                    <label for="hc">H.C.</label>
+                                  </p>
+                                  <p style="text-indent: 20px">
+                                      <input type="checkbox" id="cr39">
+                                      <label for="cr39">CR39</label>
+                                  </p>
+                                </div>
+                                <div class="col l4 s12"></div>
+                              </div>
 
                       </div>
-                      <div class="col s12 m6 l4">
+                      <div class="col s12">
 
-                              <p style="padding-top:35px">
-                                  <input type="checkbox" id="double">
+                              <p style="">
+                                  <input type="radio"  name="group1" id="double">
                                   <label for="double" class="light-blue-text text-darken-4 bold">DOUBLE</label>
                               </p>
-                              <p style="text-indent: 20px">
-                                  <input type="checkbox" id="kk">
-                                  <label for="kk">KK</label>
-                              </p>
-                              <p style="text-indent: 20px">
-                                  <input type="checkbox" id="flattop">
-                                  <label for="flattop">FLAT TOP</label>
-                              </p>
-                              <p style="text-indent: 20px">
-                                  <input type="checkbox" id="progressive">
-                                  <label for="progressive">PROGRESSIVE</label>
-                              </p>
-                              <p style="text-indent: 20px">
-                                  <input type="checkbox" id="exec">
-                                  <label for="exec">EXEC</label>
-                              </p>
-                              <p style="text-indent: 20px">
-                                  <input type="checkbox" id="noline">
-                                  <label for="noline">NOLINE</label>
-                              </p>
-
-                      </div>
-                      <div class="col s12 m6 l4" style="top-margin:50px">
-
-                              <br> <br> <br> <br> <br>
-                              <p style="text-indent: 20px">
-                                  <input type="checkbox" id="hoyanm">
-                                  <label for="hoyanm">HOYA NM</label>
-                              </p>
-                              <p style="text-indent: 20px">
-                                  <input type="checkbox" id="hoyamlti">
-                                  <label for="multi">HOYA MLTI</label>
-                              </p>
-                              <p style="text-indent: 20px">
-                                  <input type="checkbox" id="vrx">
-                                  <label for="vrx">VRX</label>
-                              </p>
-                              <p style="text-indent: 20px">
-                                  <input type="checkbox" id="pentax">
-                                  <label for="pentax">PENTAX</label>
-                              </p>
+                              <div id="divDouble">
+                                <div class="row">
+                                  <div class="col l4 s12">
+                                    <p style="text-indent: 20px">
+                                      <input type="checkbox" id="kk">
+                                      <label for="kk">KK</label>
+                                    </p>
+                                    <p style="text-indent: 20px">
+                                        <input type="checkbox" id="flattop">
+                                        <label for="flattop">FLAT TOP</label>
+                                    </p>
+                                    <p style="text-indent: 20px">
+                                        <input type="checkbox" id="progressive">
+                                        <label for="progressive">PROGRESSIVE</label>
+                                    </p>
+                                  </div>
+                                  <div class="col l4 s12">
+                                      <p style="text-indent: 20px">
+                                          <input type="checkbox" id="exec">
+                                          <label for="exec">EXEC</label>
+                                      </p>
+                                      <p style="text-indent: 20px">
+                                          <input type="checkbox" id="noline">
+                                          <label for="noline">NOLINE</label>
+                                      </p>
+                                  </div>
+                                  <div class="col l4 s12"></div>
+                                </div>
+                                <div class="row">
+                                  <div class="col l4 s12">
+                                     <p style="text-indent: 20px; margin-left: 30px">
+                                        <input type="checkbox" id="hoyanm">
+                                        <label for="hoyanm">HOYA NM</label>
+                                      </p>
+                                  </div>
+                                  <div class="col l4 s12">
+                                    <p style="text-indent: 20px">
+                                        <input type="checkbox" id="vrx">
+                                        <label for="vrx">VRX</label>
+                                    </p>
+                                  </div>
+                                  <div class="col l4 s12"></div>
+                                  
+                                </div>
+                                
+                                <div class="row">
+                                  <div class="col l4 s12">
+                                    <p style="text-indent: 20px">
+                                        <input type="checkbox" id="hoyamlti">
+                                        <label for="hoyamlti">HOYA MLTI</label>
+                                    </p>
+                                  </div>
+                                  <div class="col l4 s12">
+                                    <p style="text-indent: 20px">
+                                        <input type="checkbox" id="pentax">
+                                        <label for="pentax">PENTAX</label>
+                                    </p>
+                                  </div>
+                                  <div class="col l4 s12"></div>
+                                </div>
+                              </div>
 
                       </div>
                   </div>
@@ -151,10 +182,10 @@
                   <thead>
                     <tr>
                       <th></th>
-                      <th>Sph. Cyl</th>
-                      <th>Axiz</th>
-                      <th>B.C.</th>
-                      <th>P.D.</th>
+                      <th>Sph. Cyl*</th>
+                      <th>Axiz*</th>
+                      <th>B.C.*</th>
+                      <th>P.D.*</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -176,23 +207,27 @@
               </table>
               <div class="row">
                  <div class="col l4">
-                Frame:
-                  <select name="frames" id="frames">
+                <label class="label-icon" for="frames">Frame:</label>
+                  <select class="browser-default" name="frames" id="frames" data-error=".frames_error">
                       @foreach($data as $data)
                       <option value="{{$data->intInvID}}">{{$data->strItemName}}</option>
                       @endforeach
                   </select> 
-                    Lens:
-                  <select name="lens" id="lens">
+                  <div class="frames_error"></div>
+                  <br/>
+                <label class="label-icon" for="lens">Lens:</label>
+                    
+                  <select class="browser-default" name="lens" id="lens" data-error=".lens_error">
                       @foreach($data2 as $data2)
                       <option value="{{$data2->intInvID}}">{{$data2->strItemName}}</option>
                       @endforeach
                   </select> 
+                  <div class="lens_error"></div>
                 </div>
 
                 <div class="col l4">
-                Add OD:<input type="text" name="addod" id="addod">
-                Add OS:<input type="text" name="addos" id="addos">
+                Add OD*:<input type="text" name="addod" id="addod">
+                Add OS*:<input type="text" name="addos" id="addos">
                 </div>
               </div>
              
@@ -225,7 +260,7 @@
                 <div class="col s12 m6 l6">
                     <div class="row">
                       <div class="input-field"> 
-                        <label for="amount" name="amount" id="amount">Amount:</label>
+                        <label for="amount" name="amount" id="amount">Amount*:</label>
                         <input type="number" name="amount" id="amount">
                       </div>
                     </div>
@@ -258,6 +293,50 @@
 
 
 {{-- Scripts START --}}
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/jquery.validate.min.js"></script>
+<script type="text/javascript">
+    $().ready(function() {
+    $("#signup_validate").validate({
+      rules: {
+        odsc: "required",
+        odax: "required",
+        odbc: "required",
+        odpd: "required",
+        ossc: "required",
+        osax: "required",
+        osbc: "required",
+        ospd: "required",
+        frames: "required",
+        lens: "required",
+        addod: "required",
+        addos: "required",
+        // patient: "required",
+        amount: "required",
+      },
+      errorElement: 'div'
+    });
+  });
 
+
+  $(document).ready(function() {
+
+    $("#divSingle").hide();
+    $("#divDouble").hide();
+    $("input[name$='group1']").click(function() {
+        var radio = $(this).attr('id');
+        if(radio == "single"){
+          $("#divSingle").show();
+          $("#divDouble").hide();
+          $('#lhi, #multi, #hc, #cr39').attr('checked', false);
+        }else{
+          $("#divSingle").hide();
+          $("#divDouble").show();
+          $('#kk, #flattop, #progressive, #exec, #noline, #hoyanm, #hoyamlti, #vrx, #pentax ').attr('checked', false);
+        }
+    });
+});
+
+</script>
 {{-- Scripts END --}}
 @endsection

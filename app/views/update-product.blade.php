@@ -49,7 +49,7 @@
         <div class="row">
               <div class="form-group col l6 ">
                 <label for="price">Price per piece*</label>
-                <input type="number" class="form-control" name="price" id="price" value="{{ $prod->dcInvPPrice }}" data-error=".price_error">
+                <input type="number" class="form-control" name="price" id="price" value="{{ $prod->dcPrice }}" data-error=".price_error">
                 <div class="price_error"></div>
               </div>
         </div>
