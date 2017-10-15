@@ -37,11 +37,11 @@
                   <div class="row">
                     <div class="input-field col s12 m4 l4">
                       <input id="last_name_sa" name="last_name_sa" type="text" class="validate" value="{{ $data->strDocLast }}" pattern="[A-Za-z]+" onkeydown="return alphaOnly(event);">
-                      <label for="last_name_sa">Last Name</label>
+                      <label for="last_name_sa">Last Name*</label>
                     </div>
                     <div class="input-field col s12 m4 l4">
                       <input id="first_name_sa" name="first_name_sa" type="text" class="validate" value="{{ $data->strDocFirst }}" pattern="[A-Za-z]+" onkeydown="return alphaOnly(event);">
-                      <label for="first_name_sa">First Name</label>
+                      <label for="first_name_sa">First Name*</label>
                     </div>
                     <div class="input-field col s12 m4 l4">
                       <input id="middle_name_sa" name="middle_name_sa" type="text" class="validate" value="{{ $data->strDocMiddle }}" pattern="[A-Za-z]+" onkeydown="return alphaOnly(event);">
@@ -50,7 +50,7 @@
                   </div>
                   <div class="row">
                     <div class="col s12">
-                      <label for="gender_select">Gender</label>
+                      <label for="gender_select">Gender*</label>
                       <p>
                         <input name="gender" type="radio" id="male" value="1"/>
                         <label for="male">Male</label>
@@ -64,13 +64,13 @@
                   <div class="row">
                     <div class="input-field col s12 m8 l6">
                       <input id="stud_id_no" name="stud_id_no" type="text" class="validate" value="{{ $data->strDocContactNumb }}">
-                      <label for="stud_id_no">Contact Number</label>
+                      <label for="stud_id_no">Contact Number*</label>
                     </div>
                   </div>
                   <div class="row">
                     <div class="input-field col l6 m6 s12">
                         <select class="initialized browser-default" name="branch" id="branch" data-error=".school_error">
-                          <option value="" disabled selected>Branch</option>
+                          <option value="" disabled selected>Branch*</option>
                           @foreach($branch as $branch)
                             <option value="{{ $branch->intBranchID}}" @if(Input::old('branch') == $branch->intBranchID) selected="selected" @endif>{{ $branch->strBranchName}}</option>
                           @endforeach
@@ -96,46 +96,51 @@
 
 
 {{-- Scripts START --}}
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/jquery.validate.min.js"></script>
 <script type="text/javascript">
   var date = new Date();
   var nameRegex = /^([ \u00c0-\u01ffa-zA-Z'\-])+$/;
   var contactRegex = /((\+63)|0)\d{10}/;
+  
+  
 
   $(document).ready(function() {
-    $('#b_day').pickadate({
-      format: "yyyy-mm-dd",
-      selectYears: true,
-      selectMonths: true,
-      selectYears: 100, // scroll shits of years
-      min: new Date(1929,12,31),
-      max: new Date(2009,12,01)
-    });
+    // $('#b_day').pickadate({
+    //   format: "yyyy-mm-dd",
+    //   selectYears: true,
+    //   selectMonths: true,
+    //   selectYears: 100, // scroll shits of years
+    //   min: new Date(1929,12,31),
+    //   max: new Date(2009,12,01)
+    // });
 
-    $('#user_image_input').on('change', function() {
-      var reader = new FileReader();
+    // $('#user_image_input').on('change', function() {
+    //   var reader = new FileReader();
 
-      reader.onload = function(e) {
-        $('#image_div').attr('src', e.target.result);
-      };
+    //   reader.onload = function(e) {
+    //     $('#image_div').attr('src', e.target.result);
+    //   };
 
-      reader.readAsDataURL(this.files[0]);
-    });
+    //   reader.readAsDataURL(this.files[0]);
+    // });
 
-    $.validator.addMethod("regex", function(value, element, regexp) {
-      return regexp.test(value);
-    }, "Please enter a valid format.");
+    // $.validator.addMethod("regex", function(value, element, regexp) {
+    //   return regexp.test(value);
+    // }, "Please enter a valid format.");
 
     $('#signup_validate').validate({
       rules: {
-        stud_id_no: {
+        user_id: {
           required: true
         },
+
+        branch: "required",
         
         user_type: "required",
 
         first_name_sa: {
-          required: true,
-          regex: nameRegex
+          required: true
         },
 
         // middle_name_sa: {
@@ -143,36 +148,51 @@
         // },
 
         last_name_sa: {
+          required: true
+        },
+
+
+        gender: "required",
+
+        // number: {
+        //   required: true,
+        //   regex: contactRegex
+        // },
+
+        strUserLastName: {
           required: true,
           regex: nameRegex
         },
 
-        school: "required",
-
-        gender: "required",
-
-        b_day: {
-          required: true
-        },
-
-        number: {
+        email: {
           required: true,
-          regex: contactRegex
+          email: true
         },
-
-        address: {
+        
+        con_email: {
+          email: true,
+          equalTo: "#email",
           required: true
         },
-
+        
+        password: {
+          required: true,
+          minlength: 6
+        },
+        
+        con_pass: {
+          required: true,
+          equalTo: "#password"
+        }
+    
       },
+      // messages: {
+      //   user_id: "This field is Required."
+      // },
       errorElement: 'div'
     });
   });
 
-// function alphaOnly(event) {
-//   var key = event.keyCode;
-//   return ((key >= 65 && key <= 90) || key == 8 || key == 32);
-// };
 </script>
 {{-- Scripts END --}}
 @endsection

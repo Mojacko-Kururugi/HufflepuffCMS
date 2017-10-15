@@ -16,7 +16,7 @@
             <form action="{{ URL::to('/save-doctor') }}" method="POST" id="signup_validate" enctype="multipart/form-data">
               <div class="row">
                 <div class="input-field col l6 m6 s12">
-                  <input id="user_id" name="user_id" type="text" class="" data-error=".id_error" value=""/>
+                  <input id="user_id" name="user_id" type="text" class="" data-error=".id_error" value=""  data-error=".id_error"/>
                   <label for="user_id">License ID:</label>
                   <div class="id_error"></div>
                 </div>
@@ -35,11 +35,11 @@
                   <div class="row">
                     <div class="input-field col s12 m4 l4">
                       <input id="last_name_sa" name="last_name_sa" type="text" class="validate">
-                      <label for="last_name_sa">Last Name</label>
+                      <label for="last_name_sa">Last Name*</label>
                     </div>
                     <div class="input-field col s12 m4 l4">
                       <input id="first_name_sa" name="first_name_sa" type="text" class="validate">
-                      <label for="first_name_sa">First Name</label>
+                      <label for="first_name_sa">First Name*</label>
                     </div>
                     <div class="input-field col s12 m4 l4">
                       <input id="middle_name_sa" name="middle_name_sa" type="text" class="validate" value="" pattern="[A-Za-z]+" onkeydown="return alphaOnly(event);">
@@ -49,12 +49,12 @@
                   <div class="row">
                     <div class="col s12">
                       <label for="gender_select">Gender</label>
-                      <p>
-                        <input name="gender" type="radio" id="male" value="1"/>
+                      <p> 
+                        <input name="gender" type="radio" id="male" value="1" checked/>
                         <label for="male">Male</label>
                       </p>                         
                       <p>
-                        <input name="gender" type="radio" id="female" value="2" checked/>
+                        <input name="gender" type="radio" id="female" value="2"/>
                         <label for="female">Female</label>
                       </p>
                     </div>
@@ -67,7 +67,7 @@
                   </div>
                   <div class="row">
                     <div class="input-field col s12 m8 l6">
-                      <input id="stud_id_no" name="stud_id_no" type="text" class="validate" value="">
+                      <input id="stud_id_no" name="stud_id_no" type="number" class="validate" value="">
                       <label for="stud_id_no">Contact Number</label>
                     </div>
                   </div>
@@ -83,31 +83,30 @@
                     </div>
                   </div>
 
-        <div class="row">
-            <div class="input-field col l6 m8 s12">
-                  <label for="email">Email</label>
-                  <input id="email" name="email" type="email" class="validate" data-error=".email_error" />
-                  <div class="email_error">
+                  <div class="row">
+                      <div class="input-field col l6 m8 s12">
+                            <label for="email">Email</label>
+                            <input id="email" name="email" type="email" class="validate" data-error=".email_error" />
+                            <div class="email_error"></div>
+                        </div>
+                        <div class="input-field col l6 m8 s12">
+                            <label for="con-email">Confirm Email</label>
+                            <input id="con_email" name="con_email" type="email" class="validate" data-error=".confirm_email_error" />
+                            <div class="confirm_email_error"></div>
+                        </div>
                   </div>
-              </div>
-              <div class="input-field col l6 m8 s12">
-                  <label for="con-email">Confirm Email</label>
-                  <input id="con_email" name="con_email" type="email" class="validate" data-error=".confirm_email_error" />
-                  <div class="confirm_email_error"></div>
-              </div>
-        </div>
-        <div class="row">
-              <div class="input-field col l6 m8 s12">
-                      <label for="password">Password</label>
-                      <input id="password" name="password" type="password" class="validate" data-error=".password_error" />
-                      <div class="password_error"></div>
+                  <div class="row">
+                        <div class="input-field col l6 m8 s12">
+                                <label for="password">Password</label>
+                                <input id="password" name="password" type="password" class="validate" data-error=".password_error" />
+                                <div class="password_error"></div>
+                            </div>
+                          <div class="input-field col l6 m8 s12">
+                            <label for="con_pass">Confirm Password</label>
+                            <input id="con_pass" name="con_pass" type="password" class="validate" data-error=".confirm_password_error" />
+                            <div class="confirm_password_error"></div>
+                        </div>
                   </div>
-                <div class="input-field col l6 m8 s12">
-                  <label for="con_pass">Confirm Password</label>
-                  <input id="con_pass" name="con_pass" type="password" class="validate" data-error=".confirm_password_error" />
-                  <div class="confirm_password_error"></div>
-              </div>
-        </div>
 
                   <div class="row">
                     <div class="input-field col s12 center">
@@ -127,6 +126,8 @@
 
 
 {{-- Scripts START --}}
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/jquery.validate.min.js"></script>
 <script type="text/javascript">
   var date = new Date();
   var nameRegex = /^([ \u00c0-\u01ffa-zA-Z'\-])+$/;
@@ -135,34 +136,36 @@
   
 
   $(document).ready(function() {
-    $('#b_day').pickadate({
-      format: "yyyy-mm-dd",
-      selectYears: true,
-      selectMonths: true,
-      selectYears: 100, // scroll shits of years
-      min: new Date(1929,12,31),
-      max: new Date(2009,12,01)
-    });
+    // $('#b_day').pickadate({
+    //   format: "yyyy-mm-dd",
+    //   selectYears: true,
+    //   selectMonths: true,
+    //   selectYears: 100, // scroll shits of years
+    //   min: new Date(1929,12,31),
+    //   max: new Date(2009,12,01)
+    // });
 
-    $('#user_image_input').on('change', function() {
-      var reader = new FileReader();
+    // $('#user_image_input').on('change', function() {
+    //   var reader = new FileReader();
 
-      reader.onload = function(e) {
-        $('#image_div').attr('src', e.target.result);
-      };
+    //   reader.onload = function(e) {
+    //     $('#image_div').attr('src', e.target.result);
+    //   };
 
-      reader.readAsDataURL(this.files[0]);
-    });
+    //   reader.readAsDataURL(this.files[0]);
+    // });
 
-    $.validator.addMethod("regex", function(value, element, regexp) {
-      return regexp.test(value);
-    }, "Please enter a valid format.");
+    // $.validator.addMethod("regex", function(value, element, regexp) {
+    //   return regexp.test(value);
+    // }, "Please enter a valid format.");
 
     $('#signup_validate').validate({
       rules: {
-        stud_id_no: {
+        user_id: {
           required: true
         },
+
+        branch: "required",
         
         user_type: "required",
 
@@ -178,58 +181,48 @@
           required: true
         },
 
-        school: "required",
 
         gender: "required",
 
-        b_day: {
-          required: true
-        },
+        // number: {
+        //   required: true,
+        //   regex: contactRegex
+        // },
 
-        number: {
-          required: true,
-          regex: contactRegex
-        },
+    		strUserLastName: {
+    			required: true,
+    			regex: nameRegex
+    		},
 
-        address: {
-          required: true
-        },
-		
-		strUserLastName: {
-			required: true,
-			regex: nameRegex
-		},
-
-		email: {
-			required: true,
-			email: true
-		}
-		
-		con_email: {
-			email: true,
-			equalTo: "#email",
-			required: true
-		}
-		
-		password: {
-			required: true,
-			minlength: 6
-		}
-		
-		con_pass: {
-			required: true,
-			equalTo: "#password"
-		}
+    		email: {
+    			required: true,
+    			email: true
+    		},
+    		
+    		con_email: {
+    			email: true,
+    			equalTo: "#email",
+    			required: true
+    		},
+    		
+    		password: {
+    			required: true,
+    			minlength: 6
+    		},
+    		
+    		con_pass: {
+    			required: true,
+    			equalTo: "#password"
+    		}
 		
       },
+      // messages: {
+      //   user_id: "This field is Required."
+      // },
       errorElement: 'div'
     });
   });
 
-// function alphaOnly(event) {
-//   var key = event.keyCode;
-//   return ((key >= 65 && key <= 90) || key == 8 || key == 32);
-// };
 </script>
 {{-- Scripts END --}}
 @endsection
