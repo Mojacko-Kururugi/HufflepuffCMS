@@ -12,8 +12,7 @@
 <div class="main-wrapper">
   <!-- ACTUAL PAGE CONTENT GOES HERE -->
   <div class="container-fluid">
-    <div class="card">
-      <div class="card-content">
+
         <div class="row">
           <div class="col s12 m12 l12">
                 <a class="modal-trigger waves-effect waves-light btn btn-flat right btn-small center-text" href="{{ URL::to('/reports') }}">Generate Report</a>
@@ -24,7 +23,11 @@
         <div class="row">
           <div class="nav-wrapper">
             <div class="container-fluid">
-            <h5>Non Expiring Products</h5>
+              <div class="card">
+                <div class="card-content">
+                <div class="row">
+                  <div class="col s12">
+                                <h5>Non Expiring Products</h5>
               <table id="example" class="mdl-data-table" cellspacing="0" width="100%">
                 <thead>
                     <tr>
@@ -107,8 +110,16 @@
                    @endforeach 
                 </tbody>
               </table>
+                  </div>
+                </div>
+                </div>
+              </div>
+
             <br>
-            <br>
+                          <div class="card">
+                <div class="card-content">
+                <div class="row">
+                  <div class="col s12">
             <h5>Expirables</h5>
             <table id="example1" class="mdl-data-table" cellspacing="0" width="100%">
                 <thead>
@@ -198,7 +209,15 @@
                    @endforeach 
                 </tbody>
               </table>
+              </div>
+              </div>
+              </div>
+              </div>
               <br>
+                            <div class="card">
+                <div class="card-content">
+                <div class="row">
+                  <div class="col s12">
               <h5>Materials</h5>
               <br>
               <table id="example2" class="mdl-data-table" cellspacing="0" width="100%">
@@ -284,12 +303,13 @@
                 </tbody>
               </table>
             </div>
+            </div>
+            </div>
+            </div>
+            </div>
             <!-- dito naman yung mga susunod na shits kung may idadagdag pa ^_^ -->
           </div>
         </div>
-      </div>
-    </div>
-
   </div>
 </div>
 

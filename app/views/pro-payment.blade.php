@@ -12,35 +12,37 @@
         <hr>
         <div class="card-content">
           <div class="col s6">
-                <label for="payment-mode">Payment Mode:</label>
-                <select name="payment-mode" id="payment-mode">
+                <label for="payment-mode">Payment Mode*:</label>
+                <select class="browser-default" name="payment-mode" id="payment-mode" data-error=".pay_error">
                    <option value="" disabled selected>- Choose your option -</option>
                    <option value="1">Full Payment</option>
                    <option value="2">2 Gives - every 15 days</option>
                    <option value="3">Quarterly - every 7 days</option>
                 </select>
+                <div class="pay_error"></div>
           </div>
 
           <div class="col s6">
-              <label for="claim">Will Claim The Products?</label>
-              <select name="claim" id="claim">
+              <label for="claim">Will Claim The Products?*</label>
+              <select class="browser-default" name="claim" id="claim" data-error=".claim_error">
                  <option value="" disabled selected>- Choose your option -</option>
                  <option value="1">Yes</option>
                  <option value="2">No</option>
               </select>
+              <div class="claim_error"></div>
           </div>
           
 
           <div class="row">
             <div class="col s6 m6 l6">
               <h5>Total:</h5><br>
-              <h5>Amnt. Received:</h5><br>
-              <h5>Change:</h5>
+              <h5>Amnt. Received*:</h5><br>
+              <!-- <h5>Change:</h5> -->
             </div>
             <div class="col s6 m6 l6">
               <input type="number" name="total" id="total" value="{{$total}}" readonly>
-              <input type="number" name="amount-received" id="amount-received">
-              <input type="number" name="change" placeholder="(disabled)">
+              <input type="text" name="amount-received" id="amount-received">
+              <!-- <input type="number" name="change" placeholder="(disabled)"> -->
             </div>
           </div>
 
@@ -59,59 +61,54 @@
 
 
 {{-- Scripts START --}}
-<!--<script type="text/javascript">
-  var date = new Date();
-  var nameRegex = /^([ \u00c0-\u01ffa-zA-Z'\-])+$/;
-  var contactRegex = /((\+63)|0)\d{10}/;
-
-  $(document).ready(function() {
-    $('#b_day').pickadate({
-      format: "yyyy-mm-dd",
-      selectYears: true,
-      selectMonths: true,
-      selectYears: 100, // scroll shits of years
-      min: new Date(1929,12,31),
-      max: new Date(2009,12,01)
-    });
-
-    $('#user_image_input').on('change', function() {
-      var reader = new FileReader();
-
-      reader.onload = function(e) {
-        $('#image_div').attr('src', e.target.result);
-      };
-
-      reader.readAsDataURL(this.files[0]);
-    });
-
-    $.validator.addMethod("regex", function(value, element, regexp) {
-      return regexp.test(value);
-    }, "Please enter a valid format.");
-
-    $('#signup_validate').validate({
+ <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/jquery.validate.min.js"></script>
+<script type="text/javascript">
+  $().ready(function() {
+    $("#signup_validate").validate({
       rules: {
-        stud_id_no: {
-          required: true
-          regex: contactRegex
-        },
-        
-        number: {
-          required: true,
-        },
-
-        address: {
-          required: true
-        },
-
+        'amount-received': "required",
+        'claim': "required",
+        'payment-mode': "required",
+        // name: "required",
       },
       errorElement: 'div'
     });
-  });
 
-// function alphaOnly(event) {
-//   var key = event.keyCode;
-//   return ((key >= 65 && key <= 90) || key == 8 || key == 32);
-// };
-</script>-->
+  //  var total = $("#total").val()
+  //  console.log(total)
+  //  $('#payment-mode').on('change', function() {
+  //   if (this.value == "1"){
+  //     var val = parseFloat(total)
+  //     console.log("1",val);
+  //     $( "#signup_validate" ).validate({
+  //         rules: {
+  //           'amount-received': {
+  //             required: true,
+  //             min: val
+  //           }, 
+  //     errorElement: 'div'
+
+  //         }
+  //       });
+  //   }else if (this.value == "2" || this.value == "3"){
+  //     var val = parseFloat(total)
+  //     console.log("23",val - 1);
+  //       $( "#signup_validate" ).validate({
+  //         rules: {
+  //           'amount-received': {
+  //             required: true,
+  //             max: val
+  //           },
+  //     errorElement: 'div'
+            
+  //         }
+  //       });
+  //   }
+  //   })
+  // });
+
+
+</script>
 {{-- Scripts END --}}
 @endsection

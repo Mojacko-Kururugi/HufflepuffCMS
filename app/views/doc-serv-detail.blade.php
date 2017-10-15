@@ -2,15 +2,23 @@
 
 @section('content')
 
-  <div class="row"><br>
+<!--   <div class="row"><br>
     <div class="center col l12 m12 s12">
       <h3>Service Details</h3>
     </div>
+  </div> -->
+
+
+<div class="row page-title">
+  <div class="col s12 m12 l12">
+    <h5>Service Details</h5>
   </div>
+</div>
 
-  <div class="contents z-depth-1">
+  <div class="contents">
     <div class="container">
-
+  <div class="card">
+    <div class="card-content">
               <div class="row">
                 <div class="input-field col l6 m6 s12">
                   <input id="user_id" name="user_id" type="text" class="validate" data-error=".id_error" value="{{$serv_id}}" readonly/>
@@ -189,6 +197,8 @@
           <br>
           @endif
 
+          </div>
+          </div>
           </div>
         </div>
 

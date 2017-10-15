@@ -18,14 +18,14 @@
              <!-- Date & Time -->
             <div class="row">
                   <div class="col s12 m8 l6">
-                        Select a time:
+                        Select a time*:
                         <input type="time" name="time" id="time">
                   </div>
             </div>
 
             <div class="row">
               <div class="col s12 m8 l6">
-                <label for="date">Choose Date</label>
+                <label for="date">Choose Date*</label>
                 <input id="date" name="date" type="date" class="datepicker" style="height:39px" value="">
               </div>
             </div>  
@@ -35,7 +35,7 @@
                    <div class="row">
                     <div class="input-field col l6 m6 s12">
                         <select class="initialized browser-default" name="doctor" id="doctor" data-error=".school_error">
-                          <option value="" disabled selected>Doctor Name</option>
+                          <option value="" disabled selected>Doctor Name*</option>
                           @foreach($data as $data)
                             <option value="{{ $data->intDocID}}" @if(Input::old('doctor') == $data->intDocID) selected="selected" @endif>{{ $data->strDocLast . ',' . $data->strDocFirst . ' (' . $data->strBranchName . ')' }}</option>
                           @endforeach
@@ -47,7 +47,7 @@
 
         <div class="row">
               <div class="input-field col l12 m8 s12">
-                <label for="name">Schedule Header</label>
+                <label for="name">Schedule Header*</label>
                 <input id="name" name="name" type="text" class="validate" value="" />
               </div>
         </div>
@@ -93,84 +93,36 @@
 
 {{-- Scripts START --}}
 <script src="js/materialize.js"></script>
-<script type="text/javascript" src="js/jquery.js">
-  var date = new Date();
-  var nameRegex = /^([ \u00c0-\u01ffa-zA-Z'\-])+$/;
-  var contactRegex = /((\+63)|0)\d{10}/;
-
-  $(document).ready(function() {
-    $('#b_day').pickadate({
-      format: "yyyy-mm-dd",
-      selectYears: true,
-      selectMonths: true,
-      selectYears: 100, // scroll shits of years
-      min: new Date(1929,12,31),
-      max: new Date(2009,12,01)
-    });
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/jquery.validate.min.js"></script>
+<script type="text/javascript">
 
 
-    $('#user_image_input').on('change', function() {
-      var reader = new FileReader();
+  $().ready(function() {
 
-      reader.onload = function(e) {
-        $('#image_div').attr('src', e.target.result);
-      };
+    jQuery.validator.addMethod("timey", function(value, element) {
+        var hour = parseInt(value.substring(0,2));
+        return hour > 8 && hour < 21;
+    }, "Invalid time");
 
-      reader.readAsDataURL(this.files[0]);
-    });
-
-    $.validator.addMethod("regex", function(value, element, regexp) {
-      return regexp.test(value);
-    }, "Please enter a valid format.");
-
-    $('#signup_validate').validate({
+    $("#signup_validate").validate({
       rules: {
-        stud_id_no: {
-          required: true
-        },
-        
-        user_type: "required",
-
-        first_name_sa: {
+        time: {
+          timey: true,
           required: true,
-          regex: nameRegex
-        },
-
-        // middle_name_sa: {
-        //   regex: nameRegex
-        // },
-
-        last_name_sa: {
-          required: true,
-          regex: nameRegex
-        },
-
-        school: "required",
-
-        gender: "required",
-
-        b_day: {
-          required: true
-        },
-
-        number: {
-          required: true,
-          regex: contactRegex
-        },
-
-        address: {
-          required: true
-        },
+          rangelength: [2, 6]
+          },  
+          date: {
+            required: true,
+          },
+          doctor: 'required',
+          name: 'required'
 
       },
       errorElement: 'div'
     });
   });
 
-// function alphaOnly(event) {
-//   var key = event.keyCode;
-//   return ((key >= 65 && key <= 90) || key == 8 || key == 32);
-// };
 </script>
 {{-- Scripts END --}}
 @endsection

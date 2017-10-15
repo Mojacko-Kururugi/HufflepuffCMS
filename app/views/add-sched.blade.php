@@ -121,10 +121,18 @@
       reader.readAsDataURL(this.files[0]);
     });
 
+    jQuery.validator.addMethod("timey", function(value, element) {
+        var hour = parseInt(value.substring(0,2));
+        return hour > 8 && hour < 21;
+    }, "Invalid time");
     
     $('#signup_validate').validate({
       rules: {
-        time: "required",
+        time: {
+          timey: true,
+          required: true,
+          rangelength: [2, 6]
+          },  
         date: "required",
         patient: "required",
         name: "required",

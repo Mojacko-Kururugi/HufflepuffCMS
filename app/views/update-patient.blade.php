@@ -1,4 +1,4 @@
-@extends('layouts.master')
+@extends('layouts.secretary-master')
 
 @section('content')
 
@@ -30,11 +30,11 @@
                   <div class="row">
                     <div class="input-field col s12 m4 l4">
                       <input id="last_name_sa" name="last_name_sa" type="text" class="validate" value="{{ $data->strPatLast }}" pattern="[A-Za-z]+" onkeydown="return alphaOnly(event);">
-                      <label for="last_name_sa">Last Name</label>
+                      <label for="last_name_sa">Last Name*</label>
                     </div>
                     <div class="input-field col s12 m4 l4">
                       <input id="first_name_sa" name="first_name_sa" type="text" class="validate" value="{{ $data->strPatFirst }}" pattern="[A-Za-z]+" onkeydown="return alphaOnly(event);">
-                      <label for="first_name_sa">First Name</label>
+                      <label for="first_name_sa">First Name*</label>
                     </div>
                     <div class="input-field col s12 m4 l4">
                       <input id="middle_name_sa" name="middle_name_sa" type="text" class="validate" value="{{ $data->strPatMiddle }}" pattern="[A-Za-z]+" onkeydown="return alphaOnly(event);">
@@ -73,83 +73,19 @@
 
 
 {{-- Scripts START --}}
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/jquery.validate.min.js"></script>
 <script type="text/javascript">
-  var date = new Date();
-  var nameRegex = /^([ \u00c0-\u01ffa-zA-Z'\-])+$/;
-  var contactRegex = /((\+63)|0)\d{10}/;
-
-  $(document).ready(function() {
-    $('#b_day').pickadate({
-      format: "yyyy-mm-dd",
-      selectYears: true,
-      selectMonths: true,
-      selectYears: 100, // scroll shits of years
-      min: new Date(1929,12,31),
-      max: new Date(2009,12,01)
-    });
-
-    $('#user_image_input').on('change', function() {
-      var reader = new FileReader();
-
-      reader.onload = function(e) {
-        $('#image_div').attr('src', e.target.result);
-      };
-
-      reader.readAsDataURL(this.files[0]);
-    });
-
-    $.validator.addMethod("regex", function(value, element, regexp) {
-      return regexp.test(value);
-    }, "Please enter a valid format.");
-
-    $('#signup_validate').validate({
+  $().ready(function() {
+    $("#signup_validate").validate({
       rules: {
-        stud_id_no: {
-          required: true
-        },
-        
-        user_type: "required",
-
-        first_name_sa: {
-          required: true,
-          regex: nameRegex
-        },
-
-        // middle_name_sa: {
-        //   regex: nameRegex
-        // },
-
-        last_name_sa: {
-          required: true,
-          regex: nameRegex
-        },
-
-        school: "required",
-
-        gender: "required",
-
-        b_day: {
-          required: true
-        },
-
-        number: {
-          required: true,
-          regex: contactRegex
-        },
-
-        address: {
-          required: true
-        },
-
+        last_name_sa: "required",
+        first_name_sa: "required",
       },
       errorElement: 'div'
     });
   });
 
-// function alphaOnly(event) {
-//   var key = event.keyCode;
-//   return ((key >= 65 && key <= 90) || key == 8 || key == 32);
-// };
 </script>
 {{-- Scripts END --}}
 @endsection

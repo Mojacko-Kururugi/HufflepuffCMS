@@ -81,6 +81,7 @@
 
     <!-- SCRIPTS START -->
     {{ HTML::script('js/jquery-2.1.4.min.js') }}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/jquery.validate.min.js"></script>
     {{ HTML::script('js/materialize.min.js') }}
     {{ HTML::script('js/datatables.min.js') }}
     {{ HTML::script('js/app.js') }}
