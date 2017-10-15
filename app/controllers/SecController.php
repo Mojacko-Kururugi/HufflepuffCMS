@@ -72,7 +72,8 @@ class SecController extends BaseController {
 	}
 
 	public function addJOtoList() {
-		
+		$details = Request::input('eyeglass') . Request::input('single') ; 	
+
 		$sess = DB::table('tblServiceHeader')
 			->where('tblServiceHeader.strSHCode', '=', Session::get('purch_sess'))
 			->where('tblServiceHeader.intSHStatus', '=', 2)		
@@ -84,16 +85,28 @@ class SecController extends BaseController {
 		->insert([
 			'strSHCode' => Session::get('purch_sess'),
 			'intSHPatID' 	=> Request::input('patient'),
+			'SHEmpID' => Session::get('user_code'),
 			'intSHServiceID' => 4,
 			'intSHPaymentType' => NULL,
 			'intSHStatus' => 2
 		]);
 		}
 
+		$ct = 1 + DB::table('tblJobOrder')
+			->count();
+
+		if($ct < 10)
+			$count = "JO#00" . $ct;
+		else if($ct < 100)
+			$count = "JO#0" . $ct;
+		else if($ct < 1000)
+			$count = "JO#" . $ct;
+
 		DB::table('tblJobOrder')
 		->insert([
 			'strJOHC' => Session::get('purch_sess'),
-    		'strJODetails' => "JOB ORDER",
+			'strJOName' => $count,
+    		'strJODetails' => $details,
     		'intJOFrame' => Request::input('frames'),
     		'intJOLens' => Request::input('lens'),
     		'intJOAOD' => Request::input('addod'),
@@ -265,6 +278,7 @@ class SecController extends BaseController {
 		->insert([
 			'strSHCode' => Session::get('purch_sess'),
 			'intSHPatID' 	=> Request::input('patient'),
+			'SHEmpID' => Session::get('user_code'),
 			'intSHServiceID' => 4,
 			'intSHPaymentType' => NULL,
 			'intSHStatus' => 2
@@ -522,6 +536,7 @@ class SecController extends BaseController {
 			->where('tblEmployeeInfo.strEmpEmail', '=', Session::get('user_type'))
 			->first();
 
+		Session::put('user_code',$data->intEmpID);
 		Session::put('user_name',$data->strEmpLast . ', ' . $data->strEmpFirst);
 		Session::put('user_b',$data->strBranchName);
 		Session::put('user_bc',$data->intBranchID);
@@ -826,18 +841,25 @@ class SecController extends BaseController {
 			->where('tblOrders.intOID', '=', $id)
 			->get();
 
+
 		foreach($data1 as $data)
 		{
-		DB::table('tblInventory')
-			->insert([
-				'intInvPID' => $data->intOProdID,
-				'strInvBatCode' => $data->strOCode,
-				'strInvLotNum' => $data->strOLotNum,
-			    'intInvQty' => $data->intOQty,
-			    'dtInvExpiry' => $data->dtInvExpiry,
-			    'intInvStatus' => 1,
-				'intInvBranch' => Session::get('user_bc')
-			]);
+			$inv = DB::table('tblInventory')
+			->where('tblInventory.strInvLotNum', '=', $data->strOLotNum)
+			->where('tblInventory.intInvBranch', '=', 1)
+			->where('tblInventory.intInvStatus','!=',3)
+			->first();
+
+			DB::table('tblInventory')
+				->insert([
+					'intInvPID' => $data->intOProdID,
+					'strInvBatCode' => $data->strOCode,
+					'strInvLotNum' => $data->strOLotNum,
+				    'intInvQty' => $data->intOQty,
+				    'dtInvExpiry' => $inv->dtInvExpiry,
+				    'intInvStatus' => 1,
+					'intInvBranch' => Session::get('user_bc')
+				]);
 		}
 	/*	if($data->intProdType == 1)
 		{
@@ -1011,12 +1033,26 @@ class SecController extends BaseController {
 
 	public function generateReceipt($id)
 	{
+		$data = DB::table('tblServiceHeader')
+			->where('tblServiceHeader.intSHID', '=', $id)
+			->first();
+
+		$serv_id = $data->strSHCode;
+
 		$qr= DB::table('tblServiceHeader')
 			->join('tblServiceDetails', 'tblServiceDetails.strHeaderCode', '=', 'tblServiceHeader.strSHCode')
 			->join('tblInventory', 'tblServiceDetails.intHInvID','=','tblInventory.intInvID')
 			->join('tblItems','tblInventory.intInvPID','=','tblItems.intItemID')
 			->where('tblInventory.intInvBranch', '=', Session::get('user_bc'))
 			->where('tblServiceHeader.intSHID', '=', $id)
+			->get();
+
+		$list2 = DB::table('tblJobOrder')
+			->where('tblJobOrder.strJOHC','=',$serv_id)
+			->get();
+
+		$list3 = DB::table('tblConsultationRecords')
+			->where('tblConsultationRecords.strCRHeaderCode','=',$serv_id)
 			->get();
 
 		//dd($data);

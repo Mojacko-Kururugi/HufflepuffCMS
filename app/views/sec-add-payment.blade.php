@@ -138,7 +138,7 @@
                  @endforeach
                  @foreach($list2 as $l2)
                         <tr>
-                          <td>{{$l2->strJODetails}}</td>
+                          <td>{{$l2->strJOName}}</td>
                           <td>1</td>
                           <?php $subtotal = $l2->dcJOFee ?>
                           <td>P {{$subtotal}}</td>
