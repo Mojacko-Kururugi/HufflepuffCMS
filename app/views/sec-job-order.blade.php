@@ -53,11 +53,11 @@
                       <div class="col s12">
 
                               <p>
-                                  <input type="checkbox" class="filled-in" id="eyeglass" value='1'/>
+                                  <input type="checkbox" class="filled-in" id="eyeglass" name="eyeglass" value='eyeglass'/>
                                   <label for="eyeglass" class="black-text bold">EYE GLASS</label>
                               </p>
                               <p>
-                                  <input type="radio" name="group1" id="single" value='1'>
+                                  <input type="radio" name="group1" id="single" name="single" value='single'>
                                   <label for="single" class="light-blue-text text-darken-4 bold">SINGLE</label>
                               </p>
                               <div id="divSingle" class="row">

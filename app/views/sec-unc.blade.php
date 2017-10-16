@@ -41,7 +41,7 @@
                       <tr>
                         <td>{{ $data->strSHCode }}</td>
                         <td>{{ $data->strPatLast . ', ' . $data->strPatFirst . ' ' . $data->strPatMiddle }}</td>
-                        <td>{{ $data->strItemName .' - ' . $data->strItemModel }}</td>
+                        <td>{{ $data->strItemName .' - ' . $data->strItemDesc }}</td>
                         <td>{{ $data->intQty }}</td>
                         @if($data->intClaimStatus == 1)
                         <td class="green-text bold">CLAIMED</td>
@@ -75,6 +75,7 @@
                 <thead>
                     <tr>
                         <th>Service Ref #</th>
+                        <th></th>
                     </tr>
                     <tr></tr>
                 </thead>

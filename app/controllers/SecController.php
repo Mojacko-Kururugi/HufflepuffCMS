@@ -72,7 +72,7 @@ class SecController extends BaseController {
 	}
 
 	public function addJOtoList() {
-		$details = Request::input('eyeglass') . Request::input('single') ; 	
+		$details = Request::input('eyeglass') . ", " . Request::input('single') ; 	
 
 		$sess = DB::table('tblServiceHeader')
 			->where('tblServiceHeader.strSHCode', '=', Session::get('purch_sess'))
