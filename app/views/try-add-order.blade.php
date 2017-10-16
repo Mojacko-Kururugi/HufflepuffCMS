@@ -81,7 +81,7 @@
                       <div class="row">
                           <div class="input-field col l6 m6 s6">
                                   <label for="qty">Quantity*</label>
-                                  <input id="qty" name="qty" type="number" class="validate" value="" data-error=".qty_error"/>
+                                  <input id="qty" name="qty" type="number" class="validate" value="" min="1" data-error=".qty_error"/>
                                   <div class="qty_error"></div>
                           </div>
                           <div class="col s6 m6 s6 middle">
@@ -159,16 +159,7 @@
  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/jquery.validate.min.js"></script>
 <script type="text/javascript">
-  $().ready(function() {
-    $("#signup_validate").validate({
-      rules: {
-        qty: "required",
-        // name: "required",
-      },
-      errorElement: 'div'
-    });
-  });
-
+  var qtyRegex = /^[0-9]{1,4}$/;
 $(".something").addClass("hide");
 
 $(document).ready(function() {
@@ -189,6 +180,21 @@ $(document).ready(function() {
         // $("div.desc").hide();
         // $("#Cars" + test).show();
     });
+
+    $.validator.addMethod("regex", function(value, element, regexpr) {          
+     return regexpr.test(value);
+    }, "Acceptable quantity is only up to 4 digits"); 
+    $("#signup_validate").validate({          
+      rules: {
+        name: "required",
+        qty: {
+          required: true,
+          regex: qtyRegex
+        } 
+      },
+      errorElement: 'div'
+    });
+
 });
 
 </script>

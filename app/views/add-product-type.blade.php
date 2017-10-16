@@ -35,7 +35,7 @@
                       <div class="col s6">
                         <label for="stype">Item Super Type*:</label>
                         <select class="browser-default" name="stype" id="stype" data-error=".stype_error">
-                           <option value="0" disabled selected>- select -</option>
+                           <option value="" disabled selected>- select -</option>
                            <option value="1">Product</option>
                            <option value="2">Raw Material</option>
                         </select>
@@ -46,7 +46,7 @@
                       <div class="col s6">
                         <label for="exp">Is Expirable?*:</label>
                         <select class="browser-default" name="exp" id="exp" data-error=".exp_error">
-                           <option value="2" disabled selected>- select -</option>
+                           <option value="" disabled selected>- select -</option>
                            <option value="1">Yes</option>
                            <option value="0">No</option>
                         </select>

@@ -85,10 +85,16 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/jquery.validate.min.js"></script>
 <script type="text/javascript">
   $().ready(function() {
+    var price = document.getElementById("price");
+       
+       $("#price").blur(function(){
+          price.value = parseFloat(price.value).toFixed(2);
+          //alert(price.value); 
+       });
+
     $("#signup_validate").validate({
       rules: {
         type: "required",
-        brand: "required",
         name: "required",
         price: "required"
       },

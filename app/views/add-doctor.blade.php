@@ -67,7 +67,7 @@
                   </div>
                   <div class="row">
                     <div class="input-field col s12 m8 l6">
-                      <input id="stud_id_no" name="stud_id_no" type="number" class="validate" value="">
+                      <input id="stud_id_no" name="stud_id_no" type="text" class="validate" value="">
                       <label for="stud_id_no">Contact Number</label>
                     </div>
                   </div>
@@ -131,9 +131,10 @@
 <script type="text/javascript">
   var date = new Date();
   var nameRegex = /^([ \u00c0-\u01ffa-zA-Z'\-])+$/;
-  var contactRegex = /((\+63)|0)\d{10}/;
-  
-  
+  var contactRegex = /^(09|\+639)\d{9}$|^$/i;
+  var addRegex = /^[a-zA-Z0-9\s.,'-]*$/i;
+  var passRegex = /^[a-zA-Z0-9]{6,16}$/;
+  var licenseRegex = /^[0-9]{7}$/;
 
   $(document).ready(function() {
     // $('#b_day').pickadate({
@@ -155,14 +156,15 @@
     //   reader.readAsDataURL(this.files[0]);
     // });
 
-    // $.validator.addMethod("regex", function(value, element, regexp) {
-    //   return regexp.test(value);
-    // }, "Please enter a valid format.");
+     $.validator.addMethod("regex", function(value, element, regexp) {
+       return regexp.test(value);
+     }, "Please enter a valid format.");
 
     $('#signup_validate').validate({
       rules: {
         user_id: {
-          required: true
+          required: true,
+          regex: licenseRegex
         },
 
         branch: "required",
@@ -189,32 +191,45 @@
         //   regex: contactRegex
         // },
 
-    		strUserLastName: {
-    			required: true,
-    			regex: nameRegex
-    		},
+        strUserLastName: {
+          required: true,
+          regex: nameRegex
+        },
 
-    		email: {
-    			required: true,
-    			email: true
-    		},
-    		
-    		con_email: {
-    			email: true,
-    			equalTo: "#email",
-    			required: true
-    		},
-    		
-    		password: {
-    			required: true,
-    			minlength: 6
-    		},
-    		
-    		con_pass: {
-    			required: true,
-    			equalTo: "#password"
-    		}
-		
+        address: {
+          //required: true,
+          regex: addRegex
+        },
+
+        stud_id_no: {
+          //required: true,
+          //maxlength: 11,
+         // minlength: 11,
+          regex: contactRegex
+        },
+
+        email: {
+          required: true,
+          email: true
+        },
+        
+        con_email: {
+          email: true,
+          equalTo: "#email",
+          required: true
+        },
+        
+        password: {
+          required: true,
+          minlength: 6,
+          regex: passRegex
+        },
+        
+        con_pass: {
+          required: true,
+          equalTo: "#password"
+        }
+    
       },
       // messages: {
       //   user_id: "This field is Required."
