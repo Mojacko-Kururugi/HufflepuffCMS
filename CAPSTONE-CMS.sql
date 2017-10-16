@@ -274,7 +274,6 @@ CREATE TABLE tblOrderDetails(
 	intODCode INT,
     intOProdID INT,
     intOQty INT(100),
-    strOLotNum VARCHAR(25),
     
     FOREIGN KEY(intOProdID)
     REFERENCES tblItems(intItemID),
