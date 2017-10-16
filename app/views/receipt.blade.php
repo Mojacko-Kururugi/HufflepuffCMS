@@ -49,16 +49,17 @@
 
 	<body>
 		<h5 class="header small">Coonnie Optical Clinic</h5>
-		<h5 class="header small">Barangay Sangandaan, Quezon City</h5>
-		<h5 class="header small">#contactNo</h5>
+		<h5 class="header small">{{Session::get('rec-bn')}}</h5>
+		<h5 class="header small">{{Session::get('rec-ba')}}</h5>
+		<h5 class="header small">{{Session::get('rec-bc')}}</h5>
 		<br/>
-		<h2 class="header small">Receipt</h2>
+		<h2 class="header small">Receipt # {{Session::get('rec-code')}} </h2>
 		<br/>
 		<br/>
 		<div class="row">
-			<p><strong>Recieved from:</strong> #name <span class="text-right"></span></p>
-			<p><strong>Recieved to:</strong> #name <span class="text-right"></span></p>
-			<p><strong>Date & Time: </strong> {{date('Y-m-d ')}}</p>
+			<p><strong>Recieved from:</strong> {{Session::get('rec-emp')}} <span class="text-right"></span></p>
+			<p><strong>Recieved by:</strong> {{Session::get('rec-pat')}} <span class="text-right"></span></p>
+			<p><strong>Date: </strong> {{date('Y-m-d')}}</p>
 		</div>
 		<br/>
 		<br/>
@@ -74,6 +75,14 @@
 			</thead>
 
 			<tbody>
+				@if(Session::get('rec-med') != NULL)
+					<tr>
+					<td>MEDICAL FEE</td>
+					<td></td>
+					<td></td>
+					<td>P {{Session::get('rec-med')}}</td>
+					</tr>
+				@endif
 				 @foreach($data as $data)
                       <tr>
                         <td>{{ $data->strItemName }}</td>
@@ -82,17 +91,30 @@
                         <td>P {{ $data->dcTotPrice }}</td>
                       </tr>
                 @endforeach
+                @if(Session::get('rec-jo') != NULL)
+					<tr>
+					<td>{{Session::get('rec-jon')}}</td>
+					<td></td>
+					<td></td>
+					<td>P {{Session::get('rec-jo')}}</td>
+					</tr>
+				@endif
                 <tr>
 	                <td colspan="3" class="text-left"><b>Total<b></td>
                 	<td><b>P {{Session::get('rec-total')}} </b></td>
                 </tr>
                 <tr>
 	                <td colspan="3" class="text-left"><b>Amount Paid<b></td>
-                	<td><b>P  </b></td>
+                	<td><b>P {{Session::get('rec-total-bal')}} </b></td>
                 </tr>
                 <tr>
 	                <td colspan="3" class="text-left"><b>Change<b></td>
-                	<td><b>P  </b></td>
+	                @if(Session::get('rec-total') <= Session::get('rec-total-bal'))
+	                <?php $x = Session::get('rec-total-bal') - Session::get('rec-total') ?>
+                	<td><b>P {{$x}} </b></td>
+                	@else
+                	<td><b>P </b></td>
+                	@endif
                 </tr>
 			</tbody>
 		</table>

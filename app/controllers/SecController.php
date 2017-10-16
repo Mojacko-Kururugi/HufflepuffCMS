@@ -1084,13 +1084,19 @@ class SecController extends BaseController {
 
 	public function generateReceipt($id)
 	{
-		$data = DB::table('tblServiceHeader')
-			->where('tblServiceHeader.intSHID', '=', $id)
-			->first();
+		Session::forget('rec-code');
+		Session::forget('rec-bn');
+		Session::forget('rec-ba');
+		Session::forget('rec-bc');
+		Session::forget('rec-emp');
+		Session::forget('rec-jon');
+		Session::forget('rec-jo');
+		Session::forget('rec-pat');
+		Session::forget('rec-med');
+		Session::forget('rec-total');
+		Session::forget('rec-total-bal');
 
-		$serv_id = $data->strSHCode;
-
-		$data= DB::table('tblServiceHeader')
+		$qr= DB::table('tblServiceHeader')
 			->join('tblServiceDetails', 'tblServiceDetails.strHeaderCode', '=', 'tblServiceHeader.strSHCode')
 			->join('tblInventory', 'tblServiceDetails.intHInvID','=','tblInventory.intInvID')
 			->join('tblItems','tblInventory.intInvPID','=','tblItems.intItemID')
@@ -1098,22 +1104,58 @@ class SecController extends BaseController {
 			->where('tblServiceHeader.intSHID', '=', $id)
 			->get();
 
+		$serv_id = $qr[0]->strSHCode;
+		
 		$list2 = DB::table('tblJobOrder')
 			->where('tblJobOrder.strJOHC','=',$serv_id)
-			->get();
+			->first();
 
 		$list3 = DB::table('tblConsultationRecords')
 			->where('tblConsultationRecords.strCRHeaderCode','=',$serv_id)
-			->get();
+			->first();
 
-		//dd($data);
+		$bal = DB::table('tblPayment')
+			->join('tblSales','tblSales.intSaleID','=','tblPayment.intPymServID')
+			->where('tblSales.strSServCode','=',$serv_id)
+			//->groupby('tblPayment.intPymServID')
+			//->selectRaw('*, sum(dcmPymPayment) as sum')
+			->first();
+
+		$branch = DB::table('tblEmployeeInfo')
+			->join('tblBranch', 'tblEmployeeInfo.intEmpBranch', '=', 'tblBranch.intBranchID')
+			->where('tblEmployeeInfo.intEmpID', '=', $qr[0]->intSHEmpID)
+			->first(); 
+
+		$pat = DB::table('tblPatientInfo')
+			->where('tblPatientInfo.intPatID', '=', $qr[0]->intSHPatID)
+			->first();
+
+		//dd($data);*/
 		$total = 0;
 		foreach($qr as $data)
 		{
 			$total=$total + $data->dcTotPrice;
 		}
+		if($list2 != NULL)
+		{
+		$total = $total + $list2->dcJOFee;
+		Session::put('rec-jon',$list2->strJOName);
+		Session::put('rec-jo',$list2->dcJOFee);
+		}
+		if($list3 != NULL)
+		{
+		$total = $total + $list3->dcCRFee;
+		Session::put('rec-med',$list3->dcCRFee);
+		}
+		Session::put('rec-code',$serv_id);
+		Session::put('rec-bn',$branch->strBranchName);
+		Session::put('rec-ba',$branch->strBranchAddress);
+		Session::put('rec-bc',$branch->strBContactNumb);
+		Session::put('rec-emp',$branch->strEmpLast . ", " . $branch->strEmpFirst);
+		Session::put('rec-pat',$pat->strPatLast . ", " . $pat->strPatFirst);
 		Session::put('rec-total',$total);
-		$pdf = PDF::loadView('receipt', array('data'=>$data));
+		Session::put('rec-total-bal',$bal->dcmPymPayment);
+		$pdf = PDF::loadView('receipt', array('data'=>$qr));
 		return $pdf->stream();
 		//return View::make('reports');
 	}
