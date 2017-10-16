@@ -411,35 +411,118 @@ class DoctorController extends BaseController {
 	}
 
 	public function openOrdList() {
-			$data = DB::table('tblItems')
-						->where('tblItems.intItemStatus', '=', 1)
-						->get();
+		$data = DB::table('tblItems')
+			->join('tblItemType', 'tblItems.intItemType', '=', 'tblItemType.intITID')
+			->where('tblItems.intItemStatus', '=', 1)
+			->get();
 
-					$ct = 1 + DB::table('tblOrders')
-						->count();
+		$type = DB::table('tblItemType')
+			->where('tblItemType.intITStatus', '=', 1)
+			->get();
 
-					if($ct < 10)
-						$count = "BTH00" . $ct;
-					else if($ct < 100)
-						$count = "BTH0" . $ct;
-					else if($ct < 1000)
-						$count = "BTH" . $ct;
+		$ct = 1 + DB::table('tblOrders')
+			->where('tblOrders.intStatus', '!=', 5)
+			->count();
 
+
+		if($ct < 10)
+			$count = "BTH00" . $ct;
+		else if($ct < 100)
+			$count = "BTH0" . $ct;
+		else if($ct < 1000)
+			$count = "BTH" . $ct;
+
+		Session::put('ord_sess',$count);
+
+		$list = DB::table('tblOrders')
+			->join('tblOrderDetails', 'tblOrderDetails.intODCode', '=', 'tblOrders.intOID')
+			->join('tblItems', 'tblOrderDetails.intOProdID', '=', 'tblItems.intItemID')
+			->join('tblOrdStatus', 'tblOrders.intStatus', '=', 'tblOrdStatus.intOSID')
+			->where('tblOrders.intOBranch', '=', Session::get('user_bc'))
+			->where('tblOrders.strOCode', '=', Session::get('ord_sess'))
+			->where('tblOrders.intStatus', '=', 5)		
+			->get();
 					
-			return View::make('order')->with('data',$data)->with('count',$count);
+			return View::make('order')->with('data',$data)->with('count',$count)->with('type',$type)->with('list',$list);
 	}
+
+	public function addToList()
+	{
+		//dd(Request::input('qty'));
+		$sess = DB::table('tblOrders')
+			->where('tblOrders.strOCode', '=', Session::get('ord_sess'))
+			->where('tblOrders.intStatus', '=', 5)		
+			->first();
+
+		if($sess == NULL)
+		{
+		DB::table('tblOrders')
+		->insert([
+			'strOCode'			=> Session::get('ord_sess'),
+			'dtOReceived'	=> null,
+			'intOBranch'	=> Session::get('user_bc'),			
+			'intStatus' => 5
+		]);
+		}
+
+		$data = DB::table('tblOrders')
+			->where('tblOrders.strOCode', '=',Request::input('user_id'))
+			->first();
+
+		$ex = DB::table('tblOrders')
+			->join('tblOrderDetails', 'tblOrderDetails.intODCode', '=', 'tblOrders.intOID')
+			->where('tblOrderDetails.intODCode', '=', $data->intOID)
+			->where('tblOrderDetails.intOProdID', '=', Request::input('name'))
+			->first();
+
+		if($ex !=null)
+		{
+			DB::table('tblOrderDetails')
+			->where('tblOrderDetails.intODCode', '=', $data->intOID)
+			->where('tblOrderDetails.intOProdID', '=', Request::input('name'))
+			->update([
+				'intOQty' 	=> $ex->intOQty + Request::input('qty'),
+			]);
+		}
+		else
+		{
+			DB::table('tblOrderDetails')
+			->insert([
+				'intOProdID' 		=> Request::input('name'),
+				'intODCode'			=> $data->intOID,
+				'intOQty' 	=> Request::input('qty'),
+			]);
+		}
+
+		return Redirect::to('/inventory/order');
+	}
+
+	public function removeToList($id)
+	{
+		//dd(Request::input('qty'));
+		$sess = DB::table('tblOrders')
+			->where('tblOrders.strOCode', '=', Session::get('ord_sess'))
+			->where('tblOrders.intStatus', '=', 5)		
+			->first();
+
+
+		DB::table('tblOrderDetails')
+					->join('tblOrders', 'tblOrderDetails.intODCode', '=', 'tblOrders.intOID')
+					->where('tblOrderDetails.intODCode', '=', $sess->intOID)
+					->where('tblOrderDetails.intOProdID', '=', $id)
+					->delete();
+
+		return Redirect::to('/inventory/order');
+	}
+
 
 	public function addOrd() {
 
 		DB::table('tblOrders')
-		->insert([
-			'intOProdID' 		=> Request::input('name'),
-			'strOCode'			=> Request::input('user_id'),
-			'intOQty' 	=> Request::input('qty'),
-			'dtOReceived'	=> null,
-			'intOBranch'	=> Session::get('user_bc'),			
-			'intStatus' => 2
-		]);
+				->where('tblOrders.strOCode', '=', Session::get('ord_sess'))
+				->update([
+					'intStatus' => 2,
+				]);
 
 		return Redirect::to('/inventory');
 	}
@@ -591,8 +674,11 @@ class DoctorController extends BaseController {
 
 		$total = 0;
 		foreach($queryResult as $data)
-		{
+		{	
+			if($data->dcmSBalance > $data->sum)
 			$total=$total + $data->sum;
+			else if($data->dcmSBalance <= $data->sum)
+			$total=$total + $data->dcmSBalance;
 		}
 		Session::put('sales-total',$total);
 		$pdf = PDF::loadView('reports-test', array('data'=>$queryResult));

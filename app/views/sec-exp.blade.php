@@ -41,9 +41,9 @@
                       <tr>
                         <td>{{ $data->strInvCode }}</td>
                         <td>{{ $data->strItemName }}</td>
-                        <td>{{ $data->strItemModel }}</td>
+                        <td>{{ $data->strItemDesc }}</td>
                         <td>{{ $data->strPTDesc }}</td>
-                        <td>{{ $data->dcInvPPrice }}</td>
+                        <td>{{ $data->dcPrice }}</td>
                         <td>{{ $data->intInvQty }}</td>
                         <td>{{ $data->dtInvExpiry }}</td>
                         @if($data->intISID == 1)

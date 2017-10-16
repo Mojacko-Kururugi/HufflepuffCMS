@@ -282,6 +282,18 @@ CREATE TABLE tblOrderDetails(
     REFERENCES tblOrders(intOID)
 )Engine=InnoDb;
 
+CREATE TABLE tblDelivery(
+	intDelCode INT,
+    intDelProdID INT,
+    intDelQty INT(100),
+    strDelLotNum VARCHAR(25),
+    
+    FOREIGN KEY(intDelProdID)
+    REFERENCES tblItems(intItemID),
+	FOREIGN KEY(intDelCode)
+    REFERENCES tblOrders(intOID)
+)Engine=InnoDb;
+
 CREATE TABLE tblServiceHeader(
 	intSHID int NOT NULL AUTO_INCREMENT,
 	strSHCode VARCHAR(25),
