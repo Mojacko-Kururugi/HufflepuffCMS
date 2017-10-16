@@ -163,8 +163,8 @@
                 @endforeach
                  @foreach($list2 as $l2)
                         <tr>
-                          <td>{{$l2->strJODetails}}</td>
-                          <td><a class="waves-effect waves-light btn btn-small red center-text">DETAILS</a></td>
+                          <td>{{$l2->strJOName}}</td>
+                          <td><a class="waves-effect waves-light btn btn-small red center-text" href="/sec-patient/view-joborder/{{$l2->strJOHC}}">DETAILS</a></td>
                           <?php $subtotal = $l2->dcJOFee ?>
                           <td>1</td>
                           <td>P {{$subtotal}}</td>

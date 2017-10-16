@@ -72,7 +72,7 @@ class SecController extends BaseController {
 	}
 
 	public function addJOtoList() {
-		$details = Request::input('eyeglass') . ", " . Request::input('single') ; 	
+		$details = Request::input('eyeglass') . Request::input('single') . Request::input('lhi') . Request::input('multi') . Request::input('hc') . Request::input('c39') . Request::input('double') . Request::input('kk') . Request::input('flattop') . Request::input('progressive') . Request::input('exec') . Request::input('noline') . Request::input('hoyanm') . Request::input('vrx') . Request::input('hoyamlti') . Request::input('pentax') . Request::input('glass') . Request::input('plastic') ; 	
 
 		$sess = DB::table('tblServiceHeader')
 			->where('tblServiceHeader.strSHCode', '=', Session::get('purch_sess'))
@@ -85,7 +85,7 @@ class SecController extends BaseController {
 		->insert([
 			'strSHCode' => Session::get('purch_sess'),
 			'intSHPatID' 	=> Request::input('patient'),
-			'SHEmpID' => Session::get('user_code'),
+			'intSHEmpID' => Session::get('user_code'),
 			'intSHServiceID' => 4,
 			'intSHPaymentType' => NULL,
 			'intSHStatus' => 2
@@ -125,6 +125,14 @@ class SecController extends BaseController {
 		]);
 
 		return Redirect::to('/sec-add-payment');		
+	}
+
+	public function openJOView($id) {
+		$data = DB::table('tblJobOrder')
+			->where('tblJobOrder.strJOHC', '=', $id)
+			->first();
+
+		return View::make('sec-jo-detail')->with('data',$data);
 	}
 
 
@@ -278,7 +286,7 @@ class SecController extends BaseController {
 		->insert([
 			'strSHCode' => Session::get('purch_sess'),
 			'intSHPatID' 	=> Request::input('patient'),
-			'SHEmpID' => Session::get('user_code'),
+			'intSHEmpID' => Session::get('user_code'),
 			'intSHServiceID' => 4,
 			'intSHPaymentType' => NULL,
 			'intSHStatus' => 2
@@ -294,19 +302,51 @@ class SecController extends BaseController {
 		$total = 0;
 		$subtotal = 0;
 
-		$subtotal = $price->dcPrice * Request::input('qty');
-		$total = $total + $subtotal;
+		$ex = DB::table('tblServiceDetails')
+			->where('tblServiceDetails.intHInvID','=', Request::input('name'))
+			->where('tblServiceDetails.strHeaderCode', '=', Session::get('purch_sess'))
+			->first();
+
+		if($ex != null)
+		{
+			$subtotal = $price->dcPrice * ($ex->intQty + Request::input('qty'));
+			$total = $total + $subtotal;
+
+			DB::table('tblServiceDetails')
+			->where('tblServiceDetails.intHInvID','=', Request::input('name'))
+			->update([
+					'intQty' => $ex->intQty + Request::input('qty'),
+					'dcTotPrice' => $total
+				]);
+		}
+		else
+		{
+			$subtotal = $price->dcPrice * Request::input('qty');
+			$total = $total + $subtotal;
+
+			DB::table('tblServiceDetails')
+			->insert([
+				'strHeaderCode' => Session::get('purch_sess'),
+	    		'intHInvID' => Request::input('name'),
+	    		'intQty' => Request::input('qty'),
+	    		'dcTotPrice' => $total,
+	    		'intClaimStatus' => 2,
+	    		'intHWarranty' => 1,
+	    		'intSDStatus' => 3
+			]);
+		} 
+
+		return Redirect::to('/sec-add-payment');
+	}
+
+
+	public function remPurchToList($id)
+	{
 
 		DB::table('tblServiceDetails')
-		->insert([
-			'strHeaderCode' => Session::get('purch_sess'),
-    		'intHInvID' => Request::input('name'),
-    		'intQty' => Request::input('qty'),
-    		'dcTotPrice' => $total,
-    		'intClaimStatus' => 2,
-    		'intHWarranty' => 1,
-    		'intSDStatus' => 3
-		]); 
+					->where('tblServiceDetails.strHeaderCode', '=', Session::get('purch_sess'))
+					->where('tblServiceDetails.intHInvID', '=', $id)
+					->delete();
 
 		return Redirect::to('/sec-add-payment');
 	}
@@ -561,7 +601,7 @@ class SecController extends BaseController {
 			$serv = DB::table('tblServiceHeader')
 			->join('tblPatientInfo', 'tblServiceHeader.intSHPatID','=','tblPatientInfo.intPatID')
 			->join('tblServices', 'tblServiceHeader.intSHServiceID','=','tblServices.intServID')
-			->join('tblEmployeeInfo', 'tblServiceHeader.SHEmpID','=','tblEmployeeInfo.intEmpID')
+			->join('tblEmployeeInfo', 'tblServiceHeader.intSHEmpID','=','tblEmployeeInfo.intEmpID')
 			->where('tblEmployeeInfo.intEmpBranch', '=', Session::get('user_bc'))
 			//->join('tblConsultationRecords', 'tblServiceHeader.strSHCode','=','tblConsultationRecords.strCRHeaderCode')
 			//->join('tblDocInfo', 'tblConsultationRecords.intCRDocID','=','tblDocInfo.intDocID')
@@ -949,10 +989,11 @@ class SecController extends BaseController {
 		return View::make('sec-unc')->with('data',$data)->with('jo',$jo);	
 	}
 
-	public function prodClaim($id) {
+	public function prodClaim($serv_id,$id) {
 		
 		DB::table('tblServiceDetails')
-			->where('tblServiceDetails.strHeaderCode', '=', $id)
+			->where('tblServiceDetails.strHeaderCode', '=', $serv_id)
+			->where('tblServiceDetails.intHInvID', '=', $id)
 			->update([
     			'intClaimStatus' => 1
 			]);
@@ -960,6 +1001,16 @@ class SecController extends BaseController {
 		return Redirect::to('/unclaimed');
 	}
 
+	public function joClaim($id) {
+		
+		DB::table('tblJObOrder')
+			->where('tblJobOrder.strJOHC', '=', $id)
+			->update([
+    			'intJOStat' => 1
+			]);
+
+		return Redirect::to('/unclaimed');
+	}
 
 	public function adjInv($id) {
 		$data = DB::table('tblInventory')
@@ -1039,7 +1090,7 @@ class SecController extends BaseController {
 
 		$serv_id = $data->strSHCode;
 
-		$qr= DB::table('tblServiceHeader')
+		$data= DB::table('tblServiceHeader')
 			->join('tblServiceDetails', 'tblServiceDetails.strHeaderCode', '=', 'tblServiceHeader.strSHCode')
 			->join('tblInventory', 'tblServiceDetails.intHInvID','=','tblInventory.intInvID')
 			->join('tblItems','tblInventory.intInvPID','=','tblItems.intItemID')
@@ -1062,7 +1113,7 @@ class SecController extends BaseController {
 			$total=$total + $data->dcTotPrice;
 		}
 		Session::put('rec-total',$total);
-		$pdf = PDF::loadView('receipt', array('data'=>$qr));
+		$pdf = PDF::loadView('receipt', array('data'=>$data));
 		return $pdf->stream();
 		//return View::make('reports');
 	}

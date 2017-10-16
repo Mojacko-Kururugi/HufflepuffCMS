@@ -286,7 +286,7 @@ CREATE TABLE tblServiceHeader(
 	intSHID int NOT NULL AUTO_INCREMENT,
 	strSHCode VARCHAR(25),
     intSHPatID INT,
-    SHEmpID INT,
+    intSHEmpID INT,
     intSHServiceID INT,
     intSHPaymentType INT,
     intSHStatus INT,
@@ -317,7 +317,7 @@ CREATE TABLE tblServiceDetails(
     FOREIGN KEY(intHWarranty)
     REFERENCES tblWarranty(intWID)
 )Engine=InnoDb;
-
+ 
 CREATE TABLE tblJobOrder(
 	strJOHC VARCHAR(25),
     strJOName VARCHAR(50),
@@ -444,9 +444,6 @@ INSERT INTO tblInvStatus(intISID,strISDesc) VALUES ('4','EMPTY');
 
 INSERT INTO tblItemType(strITDesc,intITSType,intITStatus,intIsPerishable) VALUES ('Frames','2','1','0');
 INSERT INTO tblItemType(strITDesc,intITSType,intITStatus,intIsPerishable) VALUES ('Lenses','2','1','0');
-INSERT INTO tblItemType(strITDesc,intITSType,intITStatus,intIsPerishable) VALUES ('Screws','2','1','0');
-INSERT INTO tblItemType(strITDesc,intITSType,intITStatus,intIsPerishable) VALUES ('Nose Pads','2','1','0');
-INSERT INTO tblItemType(strITDesc,intITSType,intITStatus,intIsPerishable) VALUES ('Temples','2','1','0');
 INSERT INTO tblItemType(strITDesc,intITSType,intITStatus,intIsPerishable) VALUES ('Glasses','1','1','0');
 INSERT INTO tblItemType(strITDesc,intITSType,intITStatus,intIsPerishable) VALUES ('Contact Lens','1','1','1');
 INSERT INTO tblItemType(strITDesc,intITSType,intITStatus,intIsPerishable) VALUES ('Solution','1','1','1');
@@ -459,7 +456,7 @@ INSERT INTO tblUserType(intUTID,strUTDesc) VALUES ('4','Patient');
 INSERT INTO tblServices(strServName,strServDesc,intServStatus) VALUES ('Eye Refraction','refraction for the eye','1');
 INSERT INTO tblServices(strServName,strServDesc,intServStatus) VALUES ('Eye Check Up','check up for the eye','1');
 INSERT INTO tblServices(strServName,strServDesc,intServStatus) VALUES ('Glass/Lens Assignment','assigning of lens or glasses','1');
-INSERT INTO tblServices(strServName,strServDesc,intServStatus) VALUES ('Product Selling','selling of raw products','1');
+INSERT INTO tblServices(strServName,strServDesc,intServStatus) VALUES ('Product Selling','selling of products','1');
 
 INSERT INTO tblUserAccounts (strUEmail,strUPassword,intUID,intUType) VALUES ('admin@hufflepuff','admin123','0','1');
 

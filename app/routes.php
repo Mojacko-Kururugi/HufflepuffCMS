@@ -117,6 +117,7 @@ Route::post('/save-payment-for-existing', 'DoctorController@addPaymentForExistin
 //for sceretary
 Route::get('/sec-patient/view/{id}', 'SecController@openPatView');
 Route::get('/sec-patient/view-service/{id}', 'SecController@openServView');
+Route::get('/sec-patient/view-joborder/{id}', 'SecController@openJOView');
 
 
 Route::get('/sec-home', 'SecController@openSec');
@@ -131,7 +132,8 @@ Route::get('/adjustments', 'SecController@openSecAdj');
 Route::get('/warranty', 'SecController@openSecWar');
 Route::get('/replace/{id}', 'SecController@replaceWar');
 Route::get('/unclaimed', 'SecController@openSecUnc');
-Route::get('/claim/{id}', 'SecController@prodClaim');
+Route::get('/claim/{serv_id}/{id}', 'SecController@prodClaim');
+Route::get('/claim-jo/{id}', 'SecController@joClaim');
 Route::post('/adjust/{id}', 'SecController@adjInv');
 Route::get('/expired', 'SecController@openExp');
 Route::get('/sec-add-payment', 'SecController@showPayment');
@@ -139,6 +141,9 @@ Route::get('/sec-job-order', 'SecController@openJO');
 Route::post('/sec-joborder-add', 'SecController@addJOtoList');
 
 Route::post('/sec-purch/add-to-list', 'SecController@addPurchToList');
+
+Route::get('/sec-purch/rem-to-list/{id}', 'SecController@remPurchToList');
+
 Route::get('/sec-purch/payment', 'SecController@showPayPurch');
 Route::post('/sec-purch/addPayF', 'SecController@addPurchPay');
 Route::get('/sec/payment/{id}', 'SecController@addPaymentE');

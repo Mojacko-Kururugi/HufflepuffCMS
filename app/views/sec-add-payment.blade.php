@@ -132,7 +132,7 @@
                                       <?php $subtotal = $l->dcTotPrice?>
                                       <td>{{$l->intQty}}</td>
                                       <td>P {{$l->dcTotPrice}}</td>
-                                      <td><a class="waves-effect waves-light btn btn-small red center-text">REMOVE</a></td>
+                                      <td><a class="waves-effect waves-light btn btn-small red center-text" href="/sec-purch/rem-to-list/{{$l->intHInvID}}">REMOVE</a></td>
                                     </tr>
                   <?php $total += $subtotal ?>    
                  @endforeach

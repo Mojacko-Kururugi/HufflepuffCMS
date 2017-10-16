@@ -51,7 +51,7 @@
                         <td>{{ $data->intSHDateTime }}</td>
                         @if($data->intClaimStatus == 2)
                         <td>
-                            <a class="waves-effect waves-light btn green darken-1 btn-small center-text" href="claim/{{$data->strSHCode}}">CLAIM</a>
+                            <a class="waves-effect waves-light btn green darken-1 btn-small center-text" href="claim/{{ $data->strSHCode }}/{{$data->intHInvID}}">CLAIM</a>
                         </td>
                         @endif
                     </tr>
@@ -75,17 +75,26 @@
                 <thead>
                     <tr>
                         <th>Service Ref #</th>
+                        <th>Description</th>
+                        <th>Status</th>
                         <th></th>
                     </tr>
-                    <tr></tr>
                 </thead>
                 <tbody>
                 @foreach($jo as $jo)
                       <tr>
                         <td>{{ $jo->strJOHC }}</td>
+                        <td><a class="waves-effect waves-light btn btn-small red center-text" href="/sec-patient/view-joborder/{{$jo->strJOHC}}">DETAILS</a></td>
+                        @if($jo->intJOStat == 1)
+                        <td class="green-text bold">CLAIMED</td>
+                        @else
+                        <td class="orange-text bold">UNCLAIMED</td>
+                        @endif
+                        @if($jo->intJOStat == 2)
                         <td>
-                            <a class="waves-effect waves-light btn green darken-1 btn-small center-text" href="claim/{{$jo->strJOHC}}">CLAIM</a>
+                            <a class="waves-effect waves-light btn green darken-1 btn-small center-text" href="claim-jo/{{$jo->strJOHC}}">CLAIM</a>
                         </td>
+                        @endif
                     </tr>
                   @endforeach 
                 </tbody>

@@ -308,6 +308,7 @@ class DoctorController extends BaseController {
 		->insert([
 			'strSHCode' => Request::input('user_id'),
 			'intSHPatID' 	=> Request::input('patient'),
+			'intSHEmpID' => Session::get('user_code'),
 			'intSHServiceID' => Request::input('service'),
 			'intSHPaymentType' => NULL,
 			'intSHStatus' => 1
