@@ -100,9 +100,12 @@
 <script type="text/javascript">
   var date = new Date();
   var nameRegex = /^([ \u00c0-\u01ffa-zA-Z'\-])+$/;
-  var contactRegex = /((\+63)|0)\d{10}/;
-
+  var passRegex = /^[a-zA-Z0-9]{6,16}$/;
+  
   $(document).ready(function() {
+    $.validator.addMethod("regex", function(value, element, regexp) {
+       return regexp.test(value);
+     }, "Please enter a valid format.");
     $('#signup_validate').validate({
       rules: {
         first_name_sa: {
@@ -134,7 +137,8 @@
         
         password: {
           required: true,
-          minlength: 6
+          minlength: 6,
+          regex: passRegex
         },
         
         con_pass: {

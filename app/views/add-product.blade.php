@@ -57,7 +57,7 @@
                 <div class="row">
                       <div class="form-group col l6 ">
                         <label for="price">Price per piece*</label>
-                        <input type="number" class="form-control" name="price" id="price" value="1"  data-error=".price_error"/>
+                        <input type="number" class="form-control" name="price" id="price" value="" min="0" data-error=".price_error"/>
                         <div class="price_error"></div>
                       </div>
                 </div>
@@ -83,6 +83,14 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/jquery.validate.min.js"></script>
 <script type="text/javascript">
   $().ready(function() {
+
+    var price = document.getElementById("price");
+       
+       $("#price").blur(function(){
+          price.value = parseFloat(price.value).toFixed(2);
+          //alert(price.value); 
+       });
+
     $("#signup_validate").validate({
       rules: {
         type: "required",

@@ -67,12 +67,84 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/jquery.validate.min.js"></script>
 <script type="text/javascript">
   $().ready(function() {
-    $("#signup_validate").validate({
+    $.validator.addMethod("regex", function(value, element, regexp) {
+       return regexp.test(value);
+     }, "Please enter a valid format.");
+
+    $('#signup_validate').validate({
       rules: {
-        number: "required",
-        address: "required",
-        stud_id_no: "required",
+        user_id: {
+          required: true,
+          regex: licenseRegex
+        },
+
+        branch: "required",
+        
+        user_type: "required",
+
+        first_name_sa: {
+          required: true
+        },
+
+        // middle_name_sa: {
+        //   regex: nameRegex
+        // },
+
+        last_name_sa: {
+          required: true
+        },
+
+
+        gender: "required",
+
+        // number: {
+        //   required: true,
+        //   regex: contactRegex
+        // },
+
+        strUserLastName: {
+          required: true,
+          regex: nameRegex
+        },
+
+        address: {
+          //required: true,
+          regex: addRegex
+        },
+
+        stud_id_no: {
+          //required: true,
+          //maxlength: 11,
+         // minlength: 11,
+          regex: contactRegex
+        },
+
+        email: {
+          required: true,
+          email: true
+        },
+        
+        con_email: {
+          email: true,
+          equalTo: "#email",
+          required: true
+        },
+        
+        password: {
+          required: true,
+          minlength: 6,
+          regex: passRegex
+        },
+        
+        con_pass: {
+          required: true,
+          equalTo: "#password"
+        }
+    
       },
+      // messages: {
+      //   user_id: "This field is Required."
+      // },
       errorElement: 'div'
     });
   });

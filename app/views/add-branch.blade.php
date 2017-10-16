@@ -41,7 +41,7 @@
                       </div>
                       <div class="row">
                         <div class="input-field col s12 m8 l6">
-                          <input id="stud_id_no" name="stud_id_no" type="number" class="validate" value=""  data-error=".num_error">
+                          <input id="stud_id_no" name="stud_id_no" type="text" class="validate" value="" placeholder="(09)/(+63) + 9 digits"  data-error=".num_error">
                           <label for="stud_id_no">Contact Number*</label>
                           <div class="num_error"></div>
                         </div>
@@ -67,11 +67,22 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/jquery.validate.min.js"></script>
 <script type="text/javascript">
   $().ready(function() {
-    $("#signup_validate").validate({
+    $.validator.addMethod("regex", function(value, element, regexpr) {          
+     return regexpr.test(value);
+    }, "Please enter the valid format"); 
+    $("#signup_validate").validate({          
       rules: {
         number: "required",
-        address: "required",
-        stud_id_no: "required",
+        address: {
+          required: true,
+          regex: /^[a-zA-Z0-9\s.,'-]*$/
+        },
+        stud_id_no: {
+          required: true,
+          //maxlength: 11,
+         // minlength: 11,
+          regex: /^(09|\+639)\d{9}$/
+        } 
       },
       errorElement: 'div'
     });
