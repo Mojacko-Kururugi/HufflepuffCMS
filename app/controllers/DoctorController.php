@@ -351,7 +351,30 @@ class DoctorController extends BaseController {
 		    		'intSStatus' => 2
 				]);
 
-				return Redirect::to('/sec/payment/' . Request::input('user_id'));
+				DB::table('tblServiceHeader')
+				->where('tblServiceHeader.strSHCode', '=', Request::input('user_id'))
+				->update([
+					'intSHPaymentType' => 1,
+				]);
+
+				$id = Request::input('user_id');
+
+				$data = DB::table('tblSales')
+					//->join('tblPayment', 'tblSales.intSaleID','=','tblPayment.intPymServID')
+					->where('tblSales.strSServCode','=',$id)
+					->first();
+
+				/*$bal = DB::table('tblPayment')
+					->where('tblPayment.intPymServID','=',$data->intSaleID)
+					->groupby('tblPayment.intPymServID')
+					->selectRaw('*, sum(dcmPymPayment) as sum')
+					->get();*/
+
+				Session::put('sess_payex',$data->intSaleID);
+
+				return View::make('pay-to-med')->with('data',$data);
+
+				//return Redirect::to('/sec/payment/' . Request::input('user_id'));
 			}
 		}
 		else
@@ -592,6 +615,25 @@ class DoctorController extends BaseController {
 
 		return Redirect::to('/schedules');
 	}
+
+	public function appSched() {
+
+	DB::table('tblSchedules')
+		->insert([
+			'dtSchedDate' 		=> Request::input('date'),
+			'tmSchedTime'			=> Request::input('time'),
+			'strSchedHeader' 	=> Request::input('name'),
+			'strSchedDetails'	=> Request::input('desc'),
+			'intSchedPatient'	=> Request::input('patient'),			
+			'intSchedDoctor' => Session::get('user_code'),
+			'intSchedFrequencyType' => Request::input('time_frequency'),
+			'intSchedType' => 2,
+			'intSchedStatus' => 1,
+		]);
+
+		return Redirect::to('/schedules');
+	}
+
 
 	public function showPayment() {
 

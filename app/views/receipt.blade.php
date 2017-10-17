@@ -83,6 +83,7 @@
 					<td>P {{Session::get('rec-med')}}</td>
 					</tr>
 				@endif
+				@if($data != null)
 				 @foreach($data as $data)
                       <tr>
                         <td>{{ $data->strItemName }}</td>
@@ -91,6 +92,7 @@
                         <td>P {{ $data->dcTotPrice }}</td>
                       </tr>
                 @endforeach
+                @endif
                 @if(Session::get('rec-jo') != NULL)
 					<tr>
 					<td>{{Session::get('rec-jon')}}</td>

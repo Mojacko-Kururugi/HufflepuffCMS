@@ -141,8 +141,8 @@ class PatientController extends BaseController {
 			->join('tblSalesStatus', 'tblSales.intSStatus','=','tblSalesStatus.intSaleSID')
 			->join('tblPayment', 'tblSales.intSaleID','=','tblPayment.intPymServID')
 			->where('tblPatientInfo.intPatID', '=',  Session::get('user_code'))
-			->groupby('tblSales.intSaleID')
-			->selectRaw('*, sum(dcmPymPayment) as sum')
+			//->groupby('tblSales.intSaleID')
+			//->selectRaw('*, sum(dcmPymPayment) as sum')
 			->get();
 
 			return View::make('patient-sales')->with('data',$data);

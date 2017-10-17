@@ -407,13 +407,14 @@ class AdminController extends BaseController {
 							'intInvQty' => $total,
 						]);
 
-				DB::table('tblOrderDetails')
-					->where('tblOrderDetails.intODCode', '=', $id)
-					->where('tblOrderDetails.intOProdID', '=', $inv->intInvPID)
-					->update([
-						'strOLotNum' => $inv->strInvLotNum
+				DB::table('tblDelivery')
+					->insert([
+						'intDelCode' => $id,
+					    'intDelProdID' => $inv->intInvPID,
+					    'intDelQty' => $data->intOQty,
+						'strDelLotNum' => $inv->strInvLotNum
 					]);
-				}
+				}//sundan ng else para sa CONDITION
 			}//foreach
 
 		return Redirect::to('/admin');

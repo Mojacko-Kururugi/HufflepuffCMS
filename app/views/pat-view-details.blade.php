@@ -205,7 +205,6 @@
                                     <th>Total</th>
                                     <th>Balance Paid</th>
                                     <th>Date of Service</th> 
-                                    <th>Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -215,11 +214,6 @@
                                     <td>{{ $pay->dcmSBalance }}</td>
                                     <td>{{ $pay->sum }}</td>
                                     <td>{{ $pay->intSHDateTime }}</td>
-                                    <td>
-                                        <div class="center-btn">
-                                         <a class="waves-effect waves-light btn blue lighten-1 btn-small center-text" href="/sec/payment/{{ $pay->strSHCode }}">PAY</a>
-                                        </div>
-                                    </td>
                                 </tr>
 
 

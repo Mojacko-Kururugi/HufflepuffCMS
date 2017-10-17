@@ -125,7 +125,7 @@
         @endif
 
 
-        @if($purch != null || $list2 != null)
+        @if($purch != null || $list2 != null || $list3 != null)
         <div class="row">
           <div class="nav-wrapper">
             <div class="container-fluid">

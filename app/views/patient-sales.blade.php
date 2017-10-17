@@ -20,7 +20,7 @@
                             <thead>
                                 <tr>
                                     <th>Service Ref #</th>
-                                    <th>Total</th>
+                                    <th>Total Amount</th>
                                     <th>Balance Paid</th>
                                     <th>Payment Mode</th> 
                                     <!--<th>Status</th> -->
@@ -31,7 +31,7 @@
                                 <tr>
                                     <td>{{ $data->strSHCode }}</td>
                                     <td>{{ $data->dcmSBalance }}</td>
-                                    <td>{{ $data->sum }}</td>
+                                    <td>{{ $data->dcmPymPayment }}</td>
                                     <td>{{ $data->strPayTDesc }}</td>
                                   <!--  <td>{{ $data->strSaleSDesc }}</td> -->
                                 </tr>

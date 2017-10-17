@@ -874,32 +874,78 @@ class SecController extends BaseController {
 					'intStatus' => 1,
 				]);
 
-		$data1 = DB::table('tblOrders')
+		/*$data1 = DB::table('tblOrders')
 			->join('tblOrderDetails', 'tblOrderDetails.intODCode', '=', 'tblOrders.intOID')
 			->join('tblInventory', 'tblOrderDetails.strOLotNum', '=', 'tblInventory.strInvLotNum')
 			->join('tblItems', 'tblOrderDetails.intOProdID', '=', 'tblItems.intItemID')
 			->where('tblOrders.intOID', '=', $id)
-			->get();
+			->get();*/
 
+		$data1 = DB::table('tblOrders')
+			->join('tblDelivery', 'tblDelivery.intDelCode', '=', 'tblOrders.intOID')
+			->join('tblItems', 'tblDelivery.intDelProdID', '=', 'tblItems.intItemID')
+			->join('tblItemType', 'tblItems.intItemType', '=', 'tblItemType.intITID')
+			->where('tblOrders.intOID', '=', $id)
+			->get();
 
 		foreach($data1 as $data)
 		{
 			$inv = DB::table('tblInventory')
-			->where('tblInventory.strInvLotNum', '=', $data->strOLotNum)
+			->where('tblInventory.strInvLotNum', '=', $data->strDelLotNum)
 			->where('tblInventory.intInvBranch', '=', 1)
 			->where('tblInventory.intInvStatus','!=',3)
 			->first();
 
+			if($data->intIsPerishable == 1)
+			{
 			DB::table('tblInventory')
 				->insert([
-					'intInvPID' => $data->intOProdID,
+					'intInvPID' => $data->intDelProdID,
 					'strInvBatCode' => $data->strOCode,
-					'strInvLotNum' => $data->strOLotNum,
-				    'intInvQty' => $data->intOQty,
+					'strInvLotNum' => $data->strDelLotNum,
+				    'intInvQty' => $data->intDelQty,
 				    'dtInvExpiry' => $inv->dtInvExpiry,
 				    'intInvStatus' => 1,
 					'intInvBranch' => Session::get('user_bc')
 				]);
+			}
+			else
+			{
+			$ex = DB::table('tblInventory')
+				->where('tblInventory.intInvPID', '=', $data->intDelProdID)
+				->where('tblInventory.intInvBranch', '=', Session::get('user_bc'))
+				->where('tblInventory.intInvStatus','!=',3)
+				->first();
+
+				if($ex != NULL)
+				{
+						$new_qty = $data->intDelQty;
+						$curr_qty =  $ex->intInvQty;
+						$total;
+
+						$total = $curr_qty + $new_qty;		
+
+								DB::table('tblInventory')
+										->where('tblInventory.intInvID', '=', $ex->intInvID)
+										->update([
+											'strInvBatCode' => $data->strOCode,
+											'intInvQty' => $total,
+										]);
+				}
+				else
+				{
+					DB::table('tblInventory')
+						->insert([
+						'intInvPID' => $data->intDelProdID,
+						'strInvBatCode' => $data->strOCode,
+						'strInvLotNum' => $data->strDelLotNum,
+					    'intInvQty' => $data->intDelQty,
+					    'dtInvExpiry' => $inv->dtInvExpiry,
+					    'intInvStatus' => 1,
+						'intInvBranch' => Session::get('user_bc')
+						]);
+				}
+			}
 		}
 	/*	if($data->intProdType == 1)
 		{
@@ -1105,7 +1151,34 @@ class SecController extends BaseController {
 			->where('tblServiceHeader.intSHID', '=', $id)
 			->get();
 
-		$serv_id = $qr[0]->strSHCode;
+		$total = 0;
+		$emp;
+		$pat;
+
+		if($qr == null)
+		{
+			$qr= DB::table('tblServiceHeader')
+			->where('tblServiceHeader.intSHID', '=', $id)
+			->get();
+
+			$serv_id = $qr[0]->strSHCode;
+			$emp = $qr[0]->intSHEmpID;
+			$pat = $qr[0]->intSHPatID;
+
+			$qr = null;
+		}
+		else
+		{
+			$serv_id = $qr[0]->strSHCode;
+			$emp = $qr[0]->intSHEmpID;
+			$pat = $qr[0]->intSHPatID;
+
+			foreach($qr as $data)
+			{
+				$total=$total + $data->dcTotPrice;
+			}
+		}
+
 		
 		$list2 = DB::table('tblJobOrder')
 			->where('tblJobOrder.strJOHC','=',$serv_id)
@@ -1124,19 +1197,13 @@ class SecController extends BaseController {
 
 		$branch = DB::table('tblEmployeeInfo')
 			->join('tblBranch', 'tblEmployeeInfo.intEmpBranch', '=', 'tblBranch.intBranchID')
-			->where('tblEmployeeInfo.intEmpID', '=', $qr[0]->intSHEmpID)
+			->where('tblEmployeeInfo.intEmpID', '=', $emp)
 			->first(); 
 
 		$pat = DB::table('tblPatientInfo')
-			->where('tblPatientInfo.intPatID', '=', $qr[0]->intSHPatID)
+			->where('tblPatientInfo.intPatID', '=', $pat)
 			->first();
 
-		//dd($data);*/
-		$total = 0;
-		foreach($qr as $data)
-		{
-			$total=$total + $data->dcTotPrice;
-		}
 		if($list2 != NULL)
 		{
 		$total = $total + $list2->dcJOFee;
