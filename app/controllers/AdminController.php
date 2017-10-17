@@ -13,6 +13,7 @@ class AdminController extends BaseController {
 			->where('tblInventory.intInvStatus','!=',3)
 			->where('tblItemType.intITSType', '=', 1)
 			->where('tblItemType.intIsPerishable', '!=', 1)
+			->where('tblItems.intItemStatus', '=', 1)
 			->groupby('tblInventory.intInvPID')
 			->selectRaw('*, sum(intInvQty) as sum')
 			->get();
@@ -26,6 +27,7 @@ class AdminController extends BaseController {
 			->where('tblInventory.intInvStatus','!=',3)
 			->where('tblItemType.intITSType', '=', 1)
 			->where('tblItemType.intIsPerishable', '=', 1)
+			->where('tblItems.intItemStatus', '=', 1)
 			//->groupby('tblInventory.intInvPID')
 			//->selectRaw('*, sum(intInvQty) as sum')
 			->get();
@@ -38,6 +40,7 @@ class AdminController extends BaseController {
 			->where('tblInventory.intInvBranch', '=', 1)
 			->where('tblInventory.intInvStatus','!=',3)
 			->where('tblItemType.intITSType', '=', 2)
+			->where('tblItems.intItemStatus', '=', 1)
 			->groupby('tblInventory.intInvPID')
 			->selectRaw('*, sum(intInvQty) as sum')
 			->get();
@@ -378,8 +381,9 @@ class AdminController extends BaseController {
 			->where('tblInventory.intInvPID', '=', $data->intOProdID)
 			->where('tblInventory.intInvBranch', '=', 1)
 			->where('tblInventory.intInvStatus','!=',3)
-			->groupby('tblInventory.intInvPID')
-			->selectRaw('*, sum(intInvQty) as sum')
+			->orderBy('tblInventory.dtInvExpiry', 'ASC')
+			//->groupby('tblInventory.intInvPID')
+			//->selectRaw('*, sum(intInvQty) as sum')
 			->first();
 
 		$new_qty = $data->intOQty;
@@ -388,7 +392,7 @@ class AdminController extends BaseController {
 		//$string = "ORDER BY BRANCH";
 		$string = "ORDER BY " . $data->strBranchName . "(" . $data->strOCode . ")";
 		//$string =  $data->intODCode;
-			if($new_qty <= $inv->sum)
+			if($new_qty <= $inv->intInvQty)
 				{
 				$total = $curr_qty - $new_qty;
 				DB::table('tblAdjustments')
@@ -415,6 +419,33 @@ class AdminController extends BaseController {
 						'strDelLotNum' => $inv->strInvLotNum
 					]);
 				}//sundan ng else para sa CONDITION
+			else
+			{
+				$total = $curr_qty;
+				DB::table('tblAdjustments')
+					->insert([
+						'strAdjCode'  => $count,
+						'intAdjInvID' => $inv->intInvID,
+					    'intAdjQty' => $total,
+					    'strAdjReason' => $string,
+					    'intAdjStatus' => 2,
+					    'intAdjBranch' => 1
+					]);		
+
+				DB::table('tblInventory')
+						->where('tblInventory.intInvID', '=', $inv->intInvID)
+						->update([
+							'intInvQty' => 0,
+						]);
+
+				DB::table('tblDelivery')
+					->insert([
+						'intDelCode' => $id,
+					    'intDelProdID' => $inv->intInvPID,
+					    'intDelQty' => $total,
+						'strDelLotNum' => $inv->strInvLotNum
+					]);
+			}
 			}//foreach
 
 		return Redirect::to('/admin');
@@ -795,9 +826,25 @@ class AdminController extends BaseController {
 			->first();
 
 		$data = DB::table('tblItemType')
+			->where('tblItemType.intITStatus', '=', 1)
+			->where('tblItemType.intITSType', '=', 1)
 			->get();
 
 	    return View::make('update-product')->with('data',$data)->with('prod',$prod)->with('id',$id);
+	}
+
+	public function showUpMat($id) {
+		$prod = DB::table('tblItems')
+			->join('tblPrice', 'tblItems.intItemID', '=', 'tblPrice.intPriceItemID')
+			->where('tblItems.intItemID', '=', $id)
+			->first();
+
+		$data = DB::table('tblItemType')
+			->where('tblItemType.intITStatus', '=', 1)
+			->where('tblItemType.intITSType', '=', 2)
+			->get();
+
+	    return View::make('update-material')->with('data',$data)->with('prod',$prod)->with('id',$id);
 	}
 
 	public function updateProd() {
@@ -808,7 +855,6 @@ class AdminController extends BaseController {
 					'strItemDesc' 	=> Request::input('model'),
 					'strItemBrand' =>  Request::input('brand'),
 					'intItemType'	=> Request::input('type'),
-					'dcInvPPrice' => Request::input('price')
 				]);
 
 		return Redirect::to('/products');

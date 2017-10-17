@@ -11,16 +11,6 @@
       <span class="card-title">Payment</span>
         <hr>
         <div class="card-content">
-          <div class="col s6">
-                <label for="payment-mode">Payment Mode*:</label>
-                <select class="browser-default" name="payment-mode" id="payment-mode" data-error=".pay_error">
-                   <option value="" disabled selected>- Choose your option -</option>
-                   <option value="1">Full Payment</option>
-                   <option value="2">2 Gives - every 15 days</option>
-                   <option value="3">Quarterly - every 7 days</option>
-                </select>
-                <div class="pay_error"></div>
-          </div>
 
           <div class="col s6">
               <label for="claim">Will Claim The Products?*</label>

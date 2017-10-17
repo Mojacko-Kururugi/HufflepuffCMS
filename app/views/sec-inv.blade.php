@@ -15,7 +15,7 @@
 
         <div class="row">
           <div class="col s12 m12 l12">
-                <a class="modal-trigger waves-effect waves-light btn btn-flat right btn-small center-text" href="{{ URL::to('/reports') }}">Generate Report</a>
+                <a class="modal-trigger waves-effect waves-light btn btn-flat right btn-small center-text" href="{{ URL::to('/reports-inv') }}">Generate Report</a>
           </div>
         </div>
 
@@ -49,12 +49,12 @@
                         <td>{{ $data->strITDesc }}</td>
                         <td>{{ $data->dcPrice }}</td>
                         <td>{{ $data->sum }}</td>
-                        @if($data->intISID == 1)
-                        <td class="green-text bold">{{ $data->strISDesc }}</td>
-                        @elseif($data->intISID == 2)
-                        <td class="yellow-text bold">{{ $data->strISDesc }}</td>
-                        @elseif($data->intISID == 3)
-                        <td class="red-text bold">{{ $data->strISDesc }}</td>
+                        @if($data->sum > 10)
+                        <td class="green-text bold">GOOD</td>
+                        @elseif($data->sum <= 10)
+                        <td class="yellow-text bold">CRITICAL</td>
+                        @elseif($data->sum == 0)
+                        <td class="red-text bold">DEPLETED</td>
                         @endif
                         <td>
                             <a class="modal-trigger waves-effect waves-light btn yellow darken-1 btn-small center-text" href="#{{$data->intInvID}}">ADJUST</a>
@@ -148,12 +148,12 @@
                         @else
                         <td>PLEASE SET AN EXPIRY</td>
                         @endif 
-                        @if($data->intISID == 1)
-                        <td class="green-text bold">{{ $data->strISDesc }}</td>
-                        @elseif($data->intISID == 2)
-                        <td class="yellow-text bold">{{ $data->strISDesc }}</td>
-                        @elseif($data->intISID == 3)
-                        <td class="red-text bold">{{ $data->strISDesc }}</td>
+                        @if($data->intInvQty > 10)
+                        <td class="green-text bold">GOOD</td>
+                        @elseif($data->intInvQty <= 10)
+                        <td class="yellow-text bold">CRITICAL</td>
+                        @elseif($data->intInvQty == 0)
+                        <td class="red-text bold">DEPLETED</td>
                         @endif
                         <td>
                             <a class="modal-trigger waves-effect waves-light btn yellow darken-1 btn-small center-text" href="#{{$data->intInvID}}">ADJUST</a>
@@ -241,12 +241,12 @@
                         <td>{{ $data->strITDesc }}</td>
                         <td>{{ $data->dcPrice }}</td>
                         <td>{{ $data->sum }}</td> 
-                        @if($data->intISID == 1)
-                        <td class="green-text bold">{{ $data->strISDesc }}</td>
-                        @elseif($data->intISID == 2)
-                        <td class="yellow-text bold">{{ $data->strISDesc }}</td>
-                        @elseif($data->intISID == 3)
-                        <td class="red-text bold">{{ $data->strISDesc }}</td>
+                        @if($data->sum > 10)
+                        <td class="green-text bold">GOOD</td>
+                        @elseif($data->sum <= 10)
+                        <td class="yellow-text bold">CRITICAL</td>
+                        @elseif($data->sum == 0)
+                        <td class="red-text bold">DEPLETED</td>
                         @endif
                         <td>
                             <a class="modal-trigger waves-effect waves-light btn yellow darken-1 btn-small center-text" href="#{{$data->intInvID}}">ADJUST</a>

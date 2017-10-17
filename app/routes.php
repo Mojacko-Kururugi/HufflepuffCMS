@@ -69,6 +69,7 @@ Route::get('/products', 'AdminController@openProd');
 Route::get('/products/add', 'AdminController@openAddProd');
 Route::post('/products/add-prod', 'AdminController@addProd');
 Route::get('/products/{id}', 'AdminController@showUpProd');
+Route::get('/materials/{id}', 'AdminController@showUpMat');
 Route::post('/products/update-prod','AdminController@updateProd' );
 Route::get('delete-prod/{id}','AdminController@deactProd');
 
@@ -104,10 +105,14 @@ Route::get('/inventory/rem-to-list/{id}', 'DoctorController@removeToList');
 Route::get('/inventory/add-order', 'DoctorController@addOrd');
 Route::get('/sales', 'DoctorController@showSales');
 Route::get('/add-sched', 'DoctorController@addSched');
+Route::get('/app-sched/{id}', 'DoctorController@appSched');
+Route::get('/dec-sched/{id}', 'DoctorController@decSched');
+Route::get('/cano-sched/{id}', 'DoctorController@canSched');
 Route::get('/add-payment', 'DoctorController@showPayment');
 Route::get('/job-order', 'DoctorController@openJO');
 Route::post('/save-payment', 'DoctorController@addPayment');
 Route::get('/reports', 'DoctorController@generateReport');
+Route::get('/reports-inv', 'DoctorController@generateInv');
 
 Route::get('/service/view-service/{id}', 'DoctorController@openServView');
 
@@ -133,7 +138,7 @@ Route::get('/sec-inv/add-order', 'SecController@addOrd');
 Route::post('/sec-inv/ord/{id}', 'SecController@receiveOrd');
 Route::get('/adjustments', 'SecController@openSecAdj');
 Route::get('/warranty', 'SecController@openSecWar');
-Route::get('/replace/{id}', 'SecController@replaceWar');
+Route::get('/replace/{serv_id}/{id}', 'SecController@replaceWar');
 Route::get('/unclaimed', 'SecController@openSecUnc');
 Route::get('/claim/{serv_id}/{id}', 'SecController@prodClaim');
 Route::get('/claim-jo/{id}', 'SecController@joClaim');
@@ -153,6 +158,8 @@ Route::get('/sec/payment/{id}', 'SecController@addPaymentE');
 Route::post('/sec-purch/addPayEF', 'SecController@addPaymentEF');
 
 Route::get('/receipt/{id}', 'SecController@generateReceipt');
+Route::get('/reports-ord', 'SecController@generateOrd');
+Route::get('/reports-adj', 'SecController@generateAdj');
 
 
 
@@ -165,6 +172,9 @@ Route::get('/patient-records', 'PatientController@showRec');
 Route::get('/patient-sales', 'PatientController@showAcc');
 
 Route::get('/patient-records/view-service/{id}', 'PatientController@openServView');
+Route::get('/can-sched/{id}', 'PatientController@canSched');
+Route::get('/ed-sched/{id}', 'PatientController@edSched');
+Route::post('/patient-schedules/update', 'PatientController@updateReqSched');
 
 
 

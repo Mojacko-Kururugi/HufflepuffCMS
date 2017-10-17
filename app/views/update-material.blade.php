@@ -2,6 +2,8 @@
 
 @section('content')
 
+  <?php Session::put('upId', $id); ?>  
+
 <!--   <div class="row"><br>
     <div class="center col l12 m12 s12">
       <h3>Add New Material</h3>
@@ -20,7 +22,7 @@
         <div class="col s12">
           <div class="card">
             <div class="card-content">
-                    <form action="{{ URL::to('/products/add-prod') }}" method="POST" id="signup_validate" enctype="multipart/form-data"><br><br>
+                    <form action="{{ URL::to('/products/update-prod') }}" method="POST" id="signup_validate" enctype="multipart/form-data"><br><br>
 
                            <div class="input-field col l6 m6 s12">
                         <select class="initialized browser-default" name="type" id="type" data-error=".type_error">
@@ -35,14 +37,14 @@
               <div class="row">
                     <div class="input-field col l12 m8 s12">
                       <label for="name">Material Name*</label>
-                      <input id="name" name="name" type="text" class="validate" value=""  data-error=".name_error"/>
+                      <input id="name" name="name" type="text" class="validate" value="{{ $prod->strItemName }}"  data-error=".name_error"/>
                        <div class="name_error"></div>
                     </div>
               </div>
               <div class="row">
                     <div class="input-field col l12 m8 s12">
                       <label for="model">Material Description</label>
-                      <input id="model" name="model" type="text" class="validate" value=""/>
+                      <input id="model" name="model" type="text" class="validate" value="{{ $prod->strItemDesc }}"/>
                     </div>
               </div>
 <!--

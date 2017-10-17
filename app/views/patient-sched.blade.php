@@ -59,7 +59,19 @@
         var evt = [
             <?php foreach ($data as $data): ?>
                     {
-                       <?php if ($data->intSchedStatus == 2 && $data->intSchedPatient != Session::get('user_code')): ?>
+                       <?php if ($data->intSchedStatus == 2  && $data->intSchedPatient != Session::get('user_code')): ?>
+                          resourceId: 'c',
+                        title  : ' ',
+                        start  : ' '
+                        <?php elseif ($data->intSchedStatus == 3  && $data->intSchedPatient != Session::get('user_code')): ?>
+                          resourceId: 'c',
+                        title  : ' ',
+                        start  : ' '
+                        <?php elseif ($data->intSchedStatus == 5  && $data->intSchedPatient != Session::get('user_code')): ?>
+                          resourceId: 'c',
+                        title  : ' ',
+                        start  : ' '
+                        <?php elseif ($data->intSchedStatus == 6  && $data->intSchedPatient != Session::get('user_code')): ?>
                           resourceId: 'c',
                         title  : ' ',
                         start  : ' '
@@ -73,6 +85,18 @@
                         start  : '<?php echo $data->dtSchedDate ?>T<?php echo $data->tmSchedTime ?>'
                         <?php elseif ($data->intSchedStatus == 1 && $data->intSchedPatient == Session::get('user_code')): ?>
                         resourceId: 'a',
+                        title  : '<?php echo $data->strSchedHeader ?>',
+                        start  : '<?php echo $data->dtSchedDate ?>T<?php echo $data->tmSchedTime ?>'
+                         <?php elseif ($data->intSchedStatus == 3 && $data->intSchedPatient == Session::get('user_code')): ?>
+                        resourceId: 'd',
+                        title  : '<?php echo $data->strSchedHeader ?>',
+                        start  : '<?php echo $data->dtSchedDate ?>T<?php echo $data->tmSchedTime ?>'
+                         <?php elseif ($data->intSchedStatus == 5 && $data->intSchedPatient == Session::get('user_code')): ?>
+                        resourceId: 'e',
+                        title  : '<?php echo $data->strSchedHeader ?>',
+                        start  : '<?php echo $data->dtSchedDate ?>T<?php echo $data->tmSchedTime ?>'
+                        <?php elseif ($data->intSchedStatus == 6 && $data->intSchedPatient == Session::get('user_code')): ?>
+                        resourceId: 'e',
                         title  : '<?php echo $data->strSchedHeader ?>',
                         start  : '<?php echo $data->dtSchedDate ?>T<?php echo $data->tmSchedTime ?>'
                       <?php endif; ?>
@@ -101,9 +125,11 @@
                 { id: 'a', title: 'Reserved Check Ups', eventColor: 'green' },
                 { id: 'b', title: 'Follow-Up Check Ups', eventColor: 'orange' },
                 { id: 'c', title: 'Doctor is Out', eventColor: 'black' },
-                { id: 'd', title: 'Repairs', children: [
-                    { id: 'd1', title: 'Repairs with Check-up', eventColor: 'blue' },
-                    { id: 'd2', title: 'Repairs only', eventColor: 'blue' }
+                { id: 'd', title: 'Rejected', eventColor: 'red' },
+                { id: 'e', title: 'Cancelled', eventColor: 'grey' },
+                { id: 'z', title: 'Repairs', children: [
+                    { id: 'z1', title: 'Repairs with Check-up', eventColor: 'blue' },
+                    { id: 'z2', title: 'Repairs only', eventColor: 'blue' }
                 ] },
             ],
             events: evt

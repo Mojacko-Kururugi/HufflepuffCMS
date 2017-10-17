@@ -37,6 +37,7 @@
                       <th>Date</th>
                       <th>Time</th>
                       <th>Status</th>
+                      <th></th>
                     </tr>
                   </thead>
 
@@ -53,6 +54,17 @@
                       <td class="orange-text bold">Pending</td>
                       @elseif($app->intSchedStatus == 3)
                       <td class="red-text bold">Declined</td>
+                      @elseif($app->intSchedStatus == 5)
+                      <td class="red-text bold">You Cancelled</td>
+                      @elseif($app->intSchedStatus == 6)
+                      <td class="red-text bold">Optometrist Cancelled</td>
+                      @endif
+                      @if($app->intSchedStatus == 1)
+                      <td><a class="waves-effect waves-light btn btn-small red center-text" href="/can-sched/{{$app->intSchedID}}">Cancel</a></td>
+                      @elseif($app->intSchedStatus == 2)
+                      <td><a class="waves-effect waves-light btn btn-small blue center-text" href="/ed-sched/{{$app->intSchedID}}">Edit</a></td>
+                      @elseif($app->intSchedStatus == 3)
+                      <td></td>
                       @endif
                     </tr>
               @endforeach

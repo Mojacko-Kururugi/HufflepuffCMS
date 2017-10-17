@@ -135,7 +135,7 @@
         @endif
 
 
-        @if($purch != null || $list2 != null || $list3 != null)
+        @if($purch != null || $list2 != null || $list3[0]->dcCRFee != 0)
         <div class="row">
           <div class="nav-wrapper">
             <div class="container-fluid">
@@ -196,6 +196,9 @@
             </div>
           </div>
           <br>
+                                                 <div class="center-btn">
+                                         <a class="modal-trigger waves-effect waves-light btn blue lighten-1 btn-small center-text" href="/receipt/{{$id}}">VIEW RECEIPT</a>
+                                        </div>
           @endif
 
           </div>

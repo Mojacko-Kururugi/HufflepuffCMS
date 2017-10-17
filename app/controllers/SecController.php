@@ -5,7 +5,7 @@ class SecController extends BaseController {
 
 	public function doExpiryCheck() {
 		$exp = DB::table('tblInventory')
-				->where('tblInventory.dtInvExpiry', '<', Carbon\Carbon::now())
+				->where('tblInventory.dtInvExpiry', '=<', Carbon\Carbon::now())
 				->get();
 
 		foreach($exp as $exp)
@@ -87,7 +87,7 @@ class SecController extends BaseController {
 			'intSHPatID' 	=> Request::input('patient'),
 			'intSHEmpID' => Session::get('user_code'),
 			'intSHServiceID' => 4,
-			'intSHPaymentType' => NULL,
+			'intSHPaymentType' => Request::input('payment-mode'),
 			'intSHStatus' => 2
 		]);
 		}
@@ -121,6 +121,7 @@ class SecController extends BaseController {
 		    'strJOOSPD' => Request::input('ospd'),
 		    'dcJOFee' =>  Request::input('amount'),
 		    'intJOType' => 1,
+		    'intJOWarranty' => 1,
 		    'intJOStat' => 3
 		]);
 
@@ -129,10 +130,20 @@ class SecController extends BaseController {
 
 	public function openJOView($id) {
 		$data = DB::table('tblJobOrder')
+			->join('tblInventory', 'tblJobOrder.intJOFrame','=','tblInventory.intInvID')
+			->join('tblItems','tblInventory.intInvPID','=','tblItems.intItemID')
+			->where('tblInventory.intInvBranch', '=', Session::get('user_bc'))
 			->where('tblJobOrder.strJOHC', '=', $id)
 			->first();
 
-		return View::make('sec-jo-detail')->with('data',$data);
+		$data2 = DB::table('tblJobOrder')
+			->join('tblInventory', 'tblJobOrder.intJOLens','=','tblInventory.intInvID')
+			->join('tblItems','tblInventory.intInvPID','=','tblItems.intItemID')
+			->where('tblInventory.intInvBranch', '=', Session::get('user_bc'))
+			->where('tblJobOrder.strJOHC', '=', $id)
+			->first();
+
+		return View::make('sec-jo-detail')->with('data',$data)->with('data2',$data2);
 	}
 
 
@@ -173,7 +184,7 @@ class SecController extends BaseController {
 			->where('tblConsultationRecords.strCRHeaderCode','=',$serv_id)
 			->get();
 
-		return View::make('sec-serv-detail')->with('med',$med)->with('purch',$purch)->with('serv_id',$serv_id)->with('rx',$rx)->with('list2',$list2)->with('list3',$list3);
+		return View::make('sec-serv-detail')->with('med',$med)->with('purch',$purch)->with('serv_id',$serv_id)->with('rx',$rx)->with('list2',$list2)->with('list3',$list3)->with('id',$id);
 	}
 
 	public function openPatView($id) {
@@ -219,7 +230,7 @@ class SecController extends BaseController {
 			->join('tblInventory', 'tblInventory.intInvPID', '=', 'tblItems.intItemID')
 			->where('tblItems.intItemStatus', '=', 1)
 			->where('tblInventory.intInvBranch', '=', Session::get('user_bc'))
-			->groupby('tblInventory.intInvPID')
+			//->groupby('tblInventory.intInvPID')
 			->get();
 
 		$type = DB::table('tblItemType')
@@ -263,8 +274,15 @@ class SecController extends BaseController {
 			->where('tblConsultationRecords.strCRHeaderCode','=',Session::get('purch_sess'))
 			->get();
 
+		$data3 = DB::table('tblServiceHeader')
+			->join('tblPatientInfo', 'tblServiceHeader.intSHPatID','=','tblPatientInfo.intPatID')
+			->where('tblServiceHeader.strSHCode', '=', Session::get('purch_sess'))
+			->where('tblServiceHeader.intSHStatus', '=', 2)		
+			->first();
+
 		return View::make('sec-add-payment')
 		->with('data',$data)
+		->with('data3',$data3)
 		->with('type',$type)
 		->with('list',$list)
 		->with('list2',$list2)
@@ -288,7 +306,7 @@ class SecController extends BaseController {
 			'intSHPatID' 	=> Request::input('patient'),
 			'intSHEmpID' => Session::get('user_code'),
 			'intSHServiceID' => 4,
-			'intSHPaymentType' => NULL,
+			'intSHPaymentType' => 1,
 			'intSHStatus' => 2
 		]);
 		}
@@ -522,7 +540,6 @@ class SecController extends BaseController {
 		DB::table('tblServiceHeader')
 				->where('tblServiceHeader.strSHCode', '=', Session::get('purch_sess'))
 				->update([
-					'intSHPaymentType' => Request::input('payment-mode'),
 					'intSHStatus' => 1
 				]);
 
@@ -1000,15 +1017,43 @@ class SecController extends BaseController {
 			->join('tblInventory', 'tblServiceDetails.intHInvID','=','tblInventory.intInvID')
 			->join('tblItems','tblInventory.intInvPID','=','tblItems.intItemID')
 			->where('tblInventory.intInvBranch', '=', Session::get('user_bc'))
+			->where('tblServiceDetails.intClaimStatus', '=', 1)
 			->get();
 
 		return View::make('sec-warranty')->with('data',$data);	
 	}
 
-	public function replaceWar($id) {
+	public function replaceWar($serv_id,$id) {
 		
+		$data = DB::table('tblInventory')
+				->where('tblInventory.intInvID', '=', $id)
+				->first();
+
+		$new_qty = 1;
+		$curr_qty =  $data->intInvQty;
+		$total;
+
+				$total = $curr_qty - $new_qty;
+				DB::table('tblAdjustments')
+					->insert([
+						'strAdjCode'  => $serv_id,
+						'intAdjInvID' => $id,
+					    'intAdjQty' => 1,
+					    'strAdjReason' => "Warranty Replacement",
+					    'intAdjStatus' => 2,
+					    'intAdjBranch' => Session::get('user_bc')
+					]);		
+
+				DB::table('tblInventory')
+						->where('tblInventory.intInvID', '=', $id)
+						->update([
+							'intInvQty' => $total,
+						]);
+
+
 		DB::table('tblServiceDetails')
-			->where('tblServiceDetails.strHeaderCode', '=', $id)
+			->where('tblServiceDetails.strHeaderCode', '=', $serv_id)
+			->where('tblServiceDetails.intHInvID', '=', $id)
 			->update([
     			'intHWarranty' => 3
 			]);
@@ -1029,7 +1074,8 @@ class SecController extends BaseController {
 			->get();
 
 		$jo = DB::table('tblJobOrder')
-			//->where('tblJobOrder.strJOHC','=',$serv_id)
+			->join('tblInventory', 'tblJobOrder.intJOFrame','=','tblInventory.intInvID')
+			->where('tblInventory.intInvBranch', '=', Session::get('user_bc'))
 			->get();
 
 		return View::make('sec-unc')->with('data',$data)->with('jo',$jo);	
@@ -1224,6 +1270,61 @@ class SecController extends BaseController {
 		Session::put('rec-total',$total);
 		Session::put('rec-total-bal',$bal->dcmPymPayment);
 		$pdf = PDF::loadView('receipt', array('data'=>$qr));
+		return $pdf->stream();
+		//return View::make('reports');
+	}
+
+	public function generateOrd()
+	{
+		Session::forget('rec-bn');
+		Session::forget('rec-ba');
+		Session::forget('rec-bc');
+
+		$queryResult = DB::table('tblOrders')
+			->join('tblOrderDetails', 'tblOrderDetails.intODCode', '=', 'tblOrders.intOID')
+			->join('tblItems', 'tblOrderDetails.intOProdID', '=', 'tblItems.intItemID')
+			->join('tblOrdStatus', 'tblOrders.intStatus', '=', 'tblOrdStatus.intOSID')
+			->where('tblOrders.intOBranch', '=', Session::get('user_bc'))
+			->where('tblOrders.intStatus', '!=', 5)			
+			->get();
+
+		$branch = DB::table('tblDocInfo')
+			->join('tblBranch', 'tblDocInfo.intDocBranch', '=', 'tblBranch.intBranchID')
+			->where('tblDocInfo.intDocID', '=', Session::get('user_code'))
+			->first(); 
+
+		Session::put('rec-bn',$branch->strBranchName);
+		Session::put('rec-ba',$branch->strBranchAddress);
+		Session::put('rec-bc',$branch->strBContactNumb);
+
+		$pdf = PDF::loadView('reports-ord', array('data'=>$queryResult));
+		return $pdf->stream();
+		//return View::make('reports');
+	}
+
+		public function generateAdj()
+	{
+		Session::forget('rec-bn');
+		Session::forget('rec-ba');
+		Session::forget('rec-bc');
+
+		$queryResult = DB::table('tblInventory')
+			->join('tblInvStatus', 'tblInventory.intInvStatus', '=', 'tblInvStatus.intISID')
+			->join('tblItems', 'tblInventory.intInvPID', '=', 'tblItems.intItemID')
+			->join('tblAdjustments', 'tblInventory.intInvID', '=', 'tblAdjustments.intAdjInvID')
+			->where('tblInventory.intInvBranch', '=', Session::get('user_bc'))
+			->get();
+
+		$branch = DB::table('tblDocInfo')
+			->join('tblBranch', 'tblDocInfo.intDocBranch', '=', 'tblBranch.intBranchID')
+			->where('tblDocInfo.intDocID', '=', Session::get('user_code'))
+			->first(); 
+
+		Session::put('rec-bn',$branch->strBranchName);
+		Session::put('rec-ba',$branch->strBranchAddress);
+		Session::put('rec-bc',$branch->strBContactNumb);
+
+		$pdf = PDF::loadView('reports-adj', array('data'=>$queryResult));
 		return $pdf->stream();
 		//return View::make('reports');
 	}

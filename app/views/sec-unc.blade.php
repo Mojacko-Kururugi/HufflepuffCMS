@@ -16,7 +16,7 @@
       <div class="card-content">
         <div class="row">
           <div class="col s12 m12 l12">
-                <a class="modal-trigger waves-effect waves-light btn btn-flat right btn-small center-text" href="{{ URL::to('/reports') }}">Generate Report</a>
+              <!--  <a class="modal-trigger waves-effect waves-light btn btn-flat right btn-small center-text" href="{{ URL::to('/reports') }}">Generate Report</a> -->
           </div>
         </div>
 
@@ -49,7 +49,7 @@
                         <td class="orange-text bold">UNCLAIMED</td>
                         @endif
                         <td>{{ $data->intSHDateTime }}</td>
-                        @if($data->intClaimStatus == 2)
+                        @if($data->intClaimStatus != 1)
                         <td>
                             <a class="waves-effect waves-light btn green darken-1 btn-small center-text" href="claim/{{ $data->strSHCode }}/{{$data->intHInvID}}">CLAIM</a>
                         </td>
@@ -75,6 +75,7 @@
                 <thead>
                     <tr>
                         <th>Service Ref #</th>
+                        <th>Job Order</th>
                         <th>Description</th>
                         <th>Status</th>
                         <th></th>
@@ -84,13 +85,14 @@
                 @foreach($jo as $jo)
                       <tr>
                         <td>{{ $jo->strJOHC }}</td>
+                        <td>{{ $jo->strJOName}}</td>
                         <td><a class="waves-effect waves-light btn btn-small red center-text" href="/sec-patient/view-joborder/{{$jo->strJOHC}}">DETAILS</a></td>
                         @if($jo->intJOStat == 1)
                         <td class="green-text bold">CLAIMED</td>
                         @else
                         <td class="orange-text bold">UNCLAIMED</td>
                         @endif
-                        @if($jo->intJOStat == 2)
+                        @if($jo->intJOStat != 1)
                         <td>
                             <a class="waves-effect waves-light btn green darken-1 btn-small center-text" href="claim-jo/{{$jo->strJOHC}}">CLAIM</a>
                         </td>

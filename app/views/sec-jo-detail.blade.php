@@ -190,8 +190,8 @@
               </table>
               <div class="row">
                 <div class="col l4">
-                Frame:<input type="text" name="addod" id="addod" value="{{$data->intJOFrame}}">
-                Lens:<input type="text" name="addos" id="addos" value="{{$data->intJOLens}}">
+                Frame:<input type="text" name="addod" id="addod" value="{{$data->strItemName}} - {{$data->strItemDesc}} ">
+                Lens:<input type="text" name="addos" id="addos" value="{{$data->strItemName}} - {{$data->strItemDesc}}">
                 </div>
 
                 <div class="col l4">
@@ -230,7 +230,7 @@
                     <div class="row">
                       <div class="input-field"> 
                         <label for="amount" name="amount" id="amount">Amount*:</label>
-                        <input type="number" name="amount" id="amount">
+                        <input type="number" name="amount" id="amount" value="$data[0]->dcJOFee">
                       </div>
                     </div>
                     <div class="row">

@@ -347,6 +347,7 @@ CREATE TABLE tblJobOrder(
     strJOOSPD VARCHAR(25),
     dcJOFee DECIMAL(18,2),
     intJOType INT,
+    intJOWarranty INT,
     intJOStat INT
 )Engine=InnoDB;
 
@@ -441,6 +442,8 @@ INSERT INTO tblSchedStatus(intSSID,strSSDesc) VALUES ('1','CONFIRMED');
 INSERT INTO tblSchedStatus(intSSID,strSSDesc) VALUES ('2','PENDING');
 INSERT INTO tblSchedStatus(intSSID,strSSDesc) VALUES ('3','CANCELLED');
 INSERT INTO tblSchedStatus(intSSID,strSSDesc) VALUES ('4','DONE');
+INSERT INTO tblSchedStatus(intSSID,strSSDesc) VALUES ('5','USER CANCEL');
+INSERT INTO tblSchedStatus(intSSID,strSSDesc) VALUES ('6','DOC CANCEL');
 
 INSERT INTO tblOrdStatus(intOSID,strOSDesc) VALUES ('1','RECEIVED');
 INSERT INTO tblOrdStatus(intOSID,strOSDesc) VALUES ('2','PENDING');
@@ -455,7 +458,7 @@ INSERT INTO tblInvStatus(intISID,strISDesc) VALUES ('4','EMPTY');
 
 INSERT INTO tblItemType(strITDesc,intITSType,intITStatus,intIsPerishable) VALUES ('Frames','2','1','0');
 INSERT INTO tblItemType(strITDesc,intITSType,intITStatus,intIsPerishable) VALUES ('Lenses','2','1','0');
-INSERT INTO tblItemType(strITDesc,intITSType,intITStatus,intIsPerishable) VALUES ('Glasses','1','1','0');
+INSERT INTO tblItemType(strITDesc,intITSType,intITStatus,intIsPerishable) VALUES ('Reading Glasses','1','1','0');
 INSERT INTO tblItemType(strITDesc,intITSType,intITStatus,intIsPerishable) VALUES ('Contact Lens','1','1','1');
 INSERT INTO tblItemType(strITDesc,intITSType,intITStatus,intIsPerishable) VALUES ('Solution','1','1','1');
 

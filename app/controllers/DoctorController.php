@@ -156,6 +156,8 @@ class DoctorController extends BaseController {
 		$serv = DB::table('tblServiceHeader')
 			->join('tblPatientInfo', 'tblServiceHeader.intSHPatID','=','tblPatientInfo.intPatID')
 			->join('tblServices', 'tblServiceHeader.intSHServiceID','=','tblServices.intServID')
+			->join('tblEmployeeInfo', 'tblServiceHeader.intSHEmpID','=','tblEmployeeInfo.intEmpID')
+			->where('tblEmployeeInfo.intEmpBranch', '=', Session::get('user_bc'))
 			//->where('tblServiceHeader.intSHStatus', '!=', 2)
 			//->join('tblConsultationRecords', 'tblServiceHeader.strSHCode','=','tblConsultationRecords.strCRHeaderCode')
 			//->join('tblDocInfo', 'tblConsultationRecords.intCRDocID','=','tblDocInfo.intDocID')
@@ -310,7 +312,7 @@ class DoctorController extends BaseController {
 			'intSHPatID' 	=> Request::input('patient'),
 			'intSHEmpID' => Session::get('user_code'),
 			'intSHServiceID' => Request::input('service'),
-			'intSHPaymentType' => NULL,
+			'intSHPaymentType' => 1,
 			'intSHStatus' => 1
 		]);
 
@@ -421,7 +423,7 @@ class DoctorController extends BaseController {
 	}
 
 	public function showInv() {
-		$data = DB::table('tblInventory')
+		/*$data = DB::table('tblInventory')
 			->join('tblInvStatus', 'tblInventory.intInvStatus', '=', 'tblInvStatus.intISID')
 			->join('tblItems', 'tblInventory.intInvPID', '=', 'tblItems.intItemID')
 			->join('tblPrice', 'tblItems.intItemID', '=', 'tblPrice.intPriceItemID')
@@ -430,7 +432,77 @@ class DoctorController extends BaseController {
 			->get();
 		
 
-		return View::make('inventory')->with('data',$data);
+		return View::make('inventory')->with('data',$data);*/
+
+
+		$data = DB::table('tblInventory')
+			->join('tblItems', 'tblInventory.intInvPID', '=', 'tblItems.intItemID')
+			->join('tblPrice', 'tblItems.intItemID', '=', 'tblPrice.intPriceItemID')
+			->join('tblInvStatus', 'tblInventory.intInvStatus', '=', 'tblInvStatus.intISID')
+			->join('tblItemType', 'tblItems.intItemType', '=', 'tblItemType.intITID')
+			->where('tblInventory.intInvBranch', '=', Session::get('user_bc'))
+			->where('tblInventory.intInvStatus','!=',3)
+			->where('tblItemType.intITSType', '=', 1)
+			->where('tblItemType.intIsPerishable', '!=', 1)
+			->groupby('tblInventory.intInvPID')
+			->selectRaw('*, sum(intInvQty) as sum')
+			->get();
+
+		$data2 = DB::table('tblInventory')
+			->join('tblItems', 'tblInventory.intInvPID', '=', 'tblItems.intItemID')
+			->join('tblPrice', 'tblItems.intItemID', '=', 'tblPrice.intPriceItemID')
+			->join('tblInvStatus', 'tblInventory.intInvStatus', '=', 'tblInvStatus.intISID')
+			->join('tblItemType', 'tblItems.intItemType', '=', 'tblItemType.intITID')
+			->where('tblInventory.intInvBranch', '=', Session::get('user_bc'))
+			->where('tblInventory.intInvStatus','!=',3)
+			->where('tblItemType.intITSType', '=', 1)
+			->where('tblItemType.intIsPerishable', '=', 1)
+			//->groupby('tblInventory.intInvPID')
+			//->selectRaw('*, sum(intInvQty) as sum')
+			->get();
+
+		$mats = DB::table('tblInventory')
+			->join('tblItems', 'tblInventory.intInvPID', '=', 'tblItems.intItemID')
+			->join('tblPrice', 'tblItems.intItemID', '=', 'tblPrice.intPriceItemID')
+			->join('tblInvStatus', 'tblInventory.intInvStatus', '=', 'tblInvStatus.intISID')
+			->join('tblItemType', 'tblItems.intItemType', '=', 'tblItemType.intITID')
+			->where('tblInventory.intInvBranch', '=', Session::get('user_bc'))
+			->where('tblInventory.intInvStatus','!=',3)
+			->where('tblItemType.intITSType', '=', 2)
+			->groupby('tblInventory.intInvPID')
+			->selectRaw('*, sum(intInvQty) as sum')
+			->get();
+
+		$branch = DB::table('tblBranch')
+			->where('tblBranch.intBStatus', '=', 1)
+			->where('tblBranch.intBranchID', '!=', 1)
+			->get();
+
+		$ct = 1 + DB::table('tblAdjustments')
+			->count();
+
+		if($ct < 10)
+			$count = "ADJ00" . $ct;
+		else if($ct < 100)
+			$count = "ADJ0" . $ct;
+		else if($ct < 1000)
+			$count = "ADJ" . $ct;
+
+
+		/*$data = DB::table('tblInventory')
+			->join('tblInvStatus', 'tblInventory.intInvStatus', '=', 'tblInvStatus.intISID')
+			->join('tblItems', 'tblInventory.intInvPID', '=', 'tblItems.intItemID')
+			->join('tblItemType', 'tblItems.intItemType', '=', 'tblItemType.intITID')
+			->where('tblInventory.intInvBranch', '=', Session::get('user_bc'))
+			->where('tblInvStatus.intISID','!=',3)
+			->get();*/
+
+			return View::make('doc-inventory')
+			->with('data',$data)
+			->with('data2',$data2)
+			->with('mats',$mats)
+			->with('count',$count)
+			->with('branch',$branch);
 	}
 
 	public function openOrdList() {
@@ -559,6 +631,8 @@ class DoctorController extends BaseController {
 			->join('tblPayType', 'tblServiceHeader.intSHPaymentType','=','tblPayType.intPayTID')
 			->join('tblSalesStatus', 'tblSales.intSStatus','=','tblSalesStatus.intSaleSID')
 			->join('tblPayment', 'tblSales.intSaleID','=','tblPayment.intPymServID')
+			->join('tblEmployeeInfo', 'tblServiceHeader.intSHEmpID','=','tblEmployeeInfo.intEmpID')
+			->where('tblEmployeeInfo.intEmpBranch', '=', Session::get('user_bc'))
 			->groupby('tblSales.intSaleID')
 			->selectRaw('*, sum(dcmPymPayment) as sum')
 			->get();
@@ -616,19 +690,34 @@ class DoctorController extends BaseController {
 		return Redirect::to('/schedules');
 	}
 
-	public function appSched() {
+	public function appSched($id) {
+		//dd($id);
+		DB::table('tblSchedules')
+		->where('tblSchedules.intSchedID','=',$id)
+		->update([
+			'intSchedStatus' => 1
+		]);
 
-	DB::table('tblSchedules')
-		->insert([
-			'dtSchedDate' 		=> Request::input('date'),
-			'tmSchedTime'			=> Request::input('time'),
-			'strSchedHeader' 	=> Request::input('name'),
-			'strSchedDetails'	=> Request::input('desc'),
-			'intSchedPatient'	=> Request::input('patient'),			
-			'intSchedDoctor' => Session::get('user_code'),
-			'intSchedFrequencyType' => Request::input('time_frequency'),
-			'intSchedType' => 2,
-			'intSchedStatus' => 1,
+		return Redirect::to('/schedules');
+	}
+
+	public function decSched($id) {
+
+		DB::table('tblSchedules')
+		->where('tblSchedules.intSchedID','=',$id)
+		->update([
+			'intSchedStatus' => 3
+		]);
+
+		return Redirect::to('/schedules');
+	}
+
+	public function canSched($id) {
+
+		DB::table('tblSchedules')
+		->where('tblSchedules.intSchedID','=',$id)
+		->update([
+			'intSchedStatus' => 6
 		]);
 
 		return Redirect::to('/schedules');
@@ -703,6 +792,10 @@ class DoctorController extends BaseController {
 
 	public function generateReport()
 	{
+		Session::forget('rec-bn');
+		Session::forget('rec-ba');
+		Session::forget('rec-bc');
+
 		$queryResult = 
 			DB::table('tblSales')
 			->join('tblServiceHeader','tblSales.strSServCode','=','tblServiceHeader.strSHCode')
@@ -710,9 +803,16 @@ class DoctorController extends BaseController {
 			->join('tblPayType', 'tblServiceHeader.intSHPaymentType','=','tblPayType.intPayTID')
 			->join('tblSalesStatus', 'tblSales.intSStatus','=','tblSalesStatus.intSaleSID')
 			->join('tblPayment', 'tblSales.intSaleID','=','tblPayment.intPymServID')
+			->join('tblEmployeeInfo', 'tblServiceHeader.intSHEmpID','=','tblEmployeeInfo.intEmpID')
+			->where('tblEmployeeInfo.intEmpBranch', '=', Session::get('user_bc'))
 			->groupby('tblSales.intSaleID')
 			->selectRaw('*, sum(dcmPymPayment) as sum')
 			->get();
+
+		$branch = DB::table('tblDocInfo')
+			->join('tblBranch', 'tblDocInfo.intDocBranch', '=', 'tblBranch.intBranchID')
+			->where('tblDocInfo.intDocID', '=', Session::get('user_code'))
+			->first(); 
 
 		$total = 0;
 		foreach($queryResult as $data)
@@ -723,7 +823,40 @@ class DoctorController extends BaseController {
 			$total=$total + $data->dcmSBalance;
 		}
 		Session::put('sales-total',$total);
+
+		Session::put('rec-bn',$branch->strBranchName);
+		Session::put('rec-ba',$branch->strBranchAddress);
+		Session::put('rec-bc',$branch->strBContactNumb);
 		$pdf = PDF::loadView('reports-test', array('data'=>$queryResult));
+		return $pdf->stream();
+		//return View::make('reports');
+	}
+
+
+	public function generateInv()
+	{
+		Session::forget('rec-bn');
+		Session::forget('rec-ba');
+		Session::forget('rec-bc');
+
+		$queryResult = DB::table('tblInventory')
+			->join('tblInvStatus', 'tblInventory.intInvStatus', '=', 'tblInvStatus.intISID')
+			->join('tblItems', 'tblInventory.intInvPID', '=', 'tblItems.intItemID')
+			->join('tblPrice', 'tblItems.intItemID', '=', 'tblPrice.intPriceItemID')
+			->join('tblItemType', 'tblItems.intItemType', '=', 'tblItemType.intITID')
+			->where('tblInventory.intInvBranch', '=', Session::get('user_bc'))
+			->get();
+
+		$branch = DB::table('tblDocInfo')
+			->join('tblBranch', 'tblDocInfo.intDocBranch', '=', 'tblBranch.intBranchID')
+			->where('tblDocInfo.intDocID', '=', Session::get('user_code'))
+			->first(); 
+
+		Session::put('rec-bn',$branch->strBranchName);
+		Session::put('rec-ba',$branch->strBranchAddress);
+		Session::put('rec-bc',$branch->strBContactNumb);
+
+		$pdf = PDF::loadView('reports-inv', array('data'=>$queryResult));
 		return $pdf->stream();
 		//return View::make('reports');
 	}

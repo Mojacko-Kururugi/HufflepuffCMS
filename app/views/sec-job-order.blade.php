@@ -264,18 +264,16 @@
                         <input type="number" name="amount" id="amount">
                       </div>
                     </div>
-                    <div class="row">
-                      <div class="input-field">
-                        <label for="deposit">Deposit:</label>
-                        <input type="number" name="deposit" id="deposit">
-                      </div>
-                    </div>
-                    <div class="row">
-                      <div class="input-field">
-                        <label for="balance">Balance:</label>
-                        <input type="number" name="balance" id="balance" disabled="disable">
-                      </div>
-                    </div>
+          <div class="col s6">
+                <label for="payment-mode">Payment Mode*:</label>
+                <select class="browser-default" name="payment-mode" id="payment-mode" data-error=".pay_error">
+                   <option value="" disabled selected>- Choose your option -</option>
+                   <option value="1">Full Payment</option>
+                   <option value="2">2 Gives - every 15 days</option>
+                   <option value="3">Quarterly - every 7 days</option>
+                </select>
+                <div class="pay_error"></div>
+          </div>
                 </div>
           </div>
 

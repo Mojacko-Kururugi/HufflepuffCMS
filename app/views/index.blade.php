@@ -14,32 +14,32 @@
   <div class="row">
     <div class="col s12 m12 l7">
       <div class="card-panel">
-        <span class="card-title">Inventory status</span>
+        <span class="card-title">Appointments</span>
         <hr>
         <div class="card-content">
-          @if($inv != null)
+          @if($app != null)
           <p>
-            These items are branch's <span class="green-text bold">current available</span> stocks.
+            These are your <span class="green-text bold">UPCOMING</span> appointments.
           </p>
           <table class="centered">
             <thead>
               <tr>
-                <th>Name</th>
-                <th>Model</th>
-                <th>Qty</th>
+                <th>Patient</th>
+                <th>Concern and Details</th>
+                <th>Date and Time</th>
                 <th>Actions</th>
               </tr>
             </thead>
 
             <tbody>
-            @foreach($inv as $inv)
+            @foreach($app as $app)
              <tr>
-                <td>{{ $inv->strItemName }}</td>
-                <td>{{ $inv->strItemDesc }}</td>
-                <td>{{ $inv->sum }}</td>
+                <td>{{ $app->strPatLast . ', ' . $app->strPatFirst }}</td>
+                <td>{{ $app->strSchedHeader . ' - ' . $app->strSchedDetails }}</td>
+                <td>{{ $app->dtSchedDate . ' - ' . $app->tmSchedTime }}</td>
                 <td>
                   <div class="center-btn">
-                    <a class="waves-effect waves-light btn btn-small center-text" href="/inventory/order">Order</a>
+                    <a class="waves-effect waves-light btn btn-small center-text" href="/cano-sched/{{$app->intSchedID}}">CANCEL</a>
                   </div>
                 </td>
               </tr>
@@ -47,7 +47,7 @@
             </tbody>
           </table>
         @else
-         <p> You have <span class="red-text bold">no inventory</span> on your branch.</p>
+         <p> You have <span class="red-text bold">no upcoming</span> appointments.</p>
         @endif
         </div>
       </div>
@@ -83,8 +83,8 @@
                 <td>{{ $req->dtSchedDate . ' - ' . $req->tmSchedTime }}</td>
                 <td>
                   <div class="center-btn">
-                    <a class="waves-effect waves-light btn btn-small green center-text">Accept</a>
-                    <a class="waves-effect waves-light btn btn-small red center-text">Decline</a>
+                    <a class="waves-effect waves-light btn btn-small green center-text" href="/app-sched/{{$req->intSchedID}}">Accept</a>
+                    <a class="waves-effect waves-light btn btn-small red center-text" href="/dec-sched/{{$req->intSchedID}}">Decline</a>
                   </div>
                 </td>
               </tr>

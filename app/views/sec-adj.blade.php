@@ -16,7 +16,7 @@
       <div class="card-content">
         <div class="row">
           <div class="col s12 m12 l12">
-                <a class="modal-trigger waves-effect waves-light btn btn-flat right btn-small center-text" href="{{ URL::to('/reports') }}">Generate Report</a>
+                <a class="modal-trigger waves-effect waves-light btn btn-flat right btn-small center-text" href="{{ URL::to('/reports-adj') }}">Generate Report</a>
           </div>
         </div>
 

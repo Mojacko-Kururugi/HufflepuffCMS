@@ -85,7 +85,7 @@
                         <td>{{ $data->strITDesc }}</td>
                         <td>
                             <div class="center-btn">
-                             <a class="waves-effect waves-light btn green darken-1 btn-small center-text" href="products/{{$data->intItemID}}">UPDATE</a>
+                             <a class="waves-effect waves-light btn green darken-1 btn-small center-text" href="materials/{{$data->intItemID}}">UPDATE</a>
                              <a class="waves-effect waves-light btn red lighten-1 btn-small center-text" href="delete-prod/{{$data->intItemID}}">DELETE</a>
                             </div>
                         </td>

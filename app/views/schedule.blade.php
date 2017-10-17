@@ -70,6 +70,12 @@
                         resourceId: 'a',
                        <?php elseif ($data->intSchedStatus == 2): ?>
                         resourceId: 'b',
+                      <?php elseif ($data->intSchedStatus == 3): ?>
+                        resourceId: 'c',
+                      <?php elseif ($data->intSchedStatus == 5): ?>
+                        resourceId: 'd',
+                      <?php elseif ($data->intSchedStatus == 6): ?>
+                        resourceId: 'd',
                       <?php endif; ?>
                         title  : '<?php echo $data->strSchedHeader ?>',
                         start  : '<?php echo $data->dtSchedDate ?>T<?php echo $data->tmSchedTime ?>'
@@ -97,6 +103,8 @@
             resources: [
                 { id: 'a', title: 'Approved', eventColor: 'green' },
                 { id: 'b', title: 'Pending', eventColor: 'orange' },
+                { id: 'c', title: 'Declined', eventColor: 'red' },
+                { id: 'd', title: 'Cancelled', eventColor: 'black' },
               //  { id: 'c', title: 'Doctor is Out', eventColor: 'black' },
               //  { id: 'd', title: 'Repairs', children: [
               //      { id: 'd1', title: 'Repairs with Check-up', eventColor: 'red' },

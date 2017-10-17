@@ -14,19 +14,19 @@
 
       <div class="contents">
         <div class="container-fluid">
-          <form action="{{ URL::to('patient-schedules/save') }}" method="POST" id="signup_validate" enctype="multipart/form-data"><br><br>
+          <form action="{{ URL::to('patient-schedules/update') }}" method="POST" id="signup_validate" enctype="multipart/form-data"><br><br>
              <!-- Date & Time -->
             <div class="row">
                   <div class="col s12 m8 l6">
                         Select a time*:
-                        <input type="time" name="time" id="time">
+                        <input type="time" name="time" id="time" value="{{$ex->tmSchedTime}}">
                   </div>
             </div>
 
             <div class="row">
               <div class="col s12 m8 l6">
                 <label for="date">Choose Date*</label>
-                <input id="date" name="date" type="date" class="datepicker" style="height:39px" value="">
+                <input id="date" name="date" type="date" class="datepicker" style="height:39px" value="{{$ex->dtSchedDate}}">
               </div>
             </div>  
 
@@ -48,7 +48,7 @@
         <div class="row">
               <div class="input-field col l12 m8 s12">
                 <label for="name">Schedule Header*</label>
-                <input id="name" name="name" type="text" class="validate" value="" />
+                <input id="name" name="name" type="text" class="validate" value="{{$ex->strSchedHeader}}" />
               </div>
         </div>
 
@@ -56,12 +56,12 @@
         <div class="row">
               <div class="col s12">
                   <label for="desc">Details</label>
-                  <textarea id="desc" name="desc" class="materialize-textarea"></textarea>
+                  <textarea id="desc" name="desc" class="materialize-textarea">{{$ex->strSchedDetails}}</textarea>
               </div>
         </div> 
 
 
-                <!-- <div class="row">
+               <!-- <div class="row">
                   <div class="col s12">
                     <label for="time_frequency">Time Frequency of Reminder</label>
                     <select name="time_frequency" id="time_frequency">
@@ -74,6 +74,7 @@
     				       </select>
                   </div>
                 </div> -->
+
                 </div>
 
                 <div class="row">

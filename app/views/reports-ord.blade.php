@@ -53,32 +53,36 @@
 		<h5 class="header small">{{Session::get('rec-ba')}}</h5>
 		<h5 class="header small">{{Session::get('rec-bc')}}</h5>
 		<br/>
-		<h3>SALES REPORT</h3>
+				<h3>ORDERS REPORT</h3>
 		<p><strong>Date & Time: </strong> {{date('Y-m-d ')}}</p>
 
 		<table>
 			<thead>
-				<tr>
-					@foreach($columns as $header)
-						<th>{{$header}}</th>
-					@endforeach
-				</tr>
+			<tr>		
+						<th>Order Code</th>
+				 		<th>Item Name</th>
+                        <th>Item Description</th>
+                        <th>Quantity</th>
+                        <th>Date Ordered</th>
+                        <th>Status</th>
+                        </tr>
 			</thead>
 
 			<tbody>
-				@foreach($data as $data)
-					<tr>
-						<td>{{ $data->strSHCode }}</td>
-						<td>{{ $data->strPatLast . ', ' . $data->strPatFirst . ' ' . $data->strPatMiddle }}</td>
-						<td>{{ $data->dcmSBalance }}</td>
-						<td>{{ $data->sum }}</td>
-						<td>{{ $data->strPayTDesc }}</td>
-						<td>{{ $data->strSaleSDesc }}</td>
-					</tr>
-				@endforeach
+				 @foreach($data as $data)
+                      <tr>
+                        <td>{{ $data->strOCode }}</td>
+                        <td>{{ $data->strItemName }}</td>
+                        <td>{{ $data->strItemDesc }}</td>
+                        <td>{{ $data->intOQty }}</td>
+						 <td>{{ $data->created_at }}</td>
+                        <td @if($data->intStatus == 1) class="green-text bold" @else class="yellow-text bold" @endif>{{ $data->strOSDesc }}</td>
+                        
+                    </tr>
+                   @endforeach 
 			</tbody>
 		</table>
 		<br>
-		<p><strong>Total Sale: </strong> {{Session::get('sales-total')}} </p>
+
 	</body>
 </html>

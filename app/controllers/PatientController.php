@@ -52,6 +52,48 @@ class PatientController extends BaseController {
 		return Redirect::to('/patient-schedules');
 	}
 
+	public function canSched($id) {
+
+		DB::table('tblSchedules')
+		->where('tblSchedules.intSchedID','=',$id)
+		->update([
+			'intSchedStatus' => 5
+		]);
+
+		return Redirect::to('/patient-schedules');
+	}
+
+	public function edSched($id) {
+		 Session::put('upsId',$id);
+
+		$ex = DB::table('tblSchedules')
+		->where('tblSchedules.intSchedID','=',$id)
+		->first();
+
+		$data = DB::table('tblDocInfo')
+			->join('tblBranch', 'tblDocInfo.intDocBranch', '=', 'tblBranch.intBranchID')
+			->where('tblDocInfo.intDocStatus', '=', 1)
+			->get();
+
+		return View::make('patient-sched-ed')->with('data',$data)->with('ex',$ex);
+	}
+
+	public function updateReqSched() {
+
+	DB::table('tblSchedules')
+		->where('tblSchedules.intSchedID','=',Session::get('upsId'))
+		->update([
+			'dtSchedDate' 		=> Request::input('date'),
+			'tmSchedTime'			=> Request::input('time'),
+			'strSchedHeader' 	=> Request::input('name'),
+			'strSchedDetails'	=> Request::input('desc'),
+			'intSchedPatient'	=> Session::get('user_code'),			
+			'intSchedDoctor' => Request::input('doctor')
+		]);
+
+		return Redirect::to('/patient-schedules');
+	}
+
 
 	public function showRec() {
 		/*
