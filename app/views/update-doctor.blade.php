@@ -50,7 +50,7 @@
                   </div>
                   <div class="row">
                     <div class="col s12">
-                      <label for="gender_select">Gender*</label>
+                      <label for="gender_select">Sex*</label>
                       <p>
                         <input name="gender" type="radio" id="male" value="1"/>
                         <label for="male">Male</label>
