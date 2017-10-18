@@ -62,7 +62,7 @@
       <div class="card-content">
         <div class="row">
           <div class="col s12 m12 l6">
-                <a class="waves-effect waves-light btn blue darken-1 btn-small center-text" href="/materials/add">ADD NEW MATERIAL</a>
+                <a class="waves-effect waves-light btn blue darken-1 btn-small center-text" href="/material/add">ADD NEW MATERIAL</a>
           </div>
         </div>
 
