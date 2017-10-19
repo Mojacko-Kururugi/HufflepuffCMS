@@ -826,8 +826,14 @@ class SecController extends BaseController {
 			->where('tblOrders.intStatus', '!=', 5)	
 			->where('tblOrders.intOBranch', '=', Session::get('user_bc'))
 			->get();
+
+		$del = DB::table('tblDelivery')
+			->join('tblOrders', 'tblDelivery.intDelCode', '=', 'tblOrders.intOID')
+			->join('tblItems', 'tblDelivery.intDelProdID', '=', 'tblItems.intItemID')
+			//->crossjoin('tblOrderDetails', 'tblOrderDetails.intODCode', '=', 'tblOrders.intOID')
+			->get();
 		
-			return View::make('sec-order')->with('data',$data)->with('test',$test)->with('list',$list);
+			return View::make('sec-order')->with('data',$data)->with('test',$test)->with('list',$list)->with('del',$del);
 	}
 
 	public function removeToList($id)

@@ -80,7 +80,7 @@
                 <div class="row">
                   <div class="input-field col s12 center">
                     <button type="submit" class="waves-effect waves-light btn blue darken-1 modal-btn">Save</button>
-                    <a href="{{ URL::to('/schedules') }}" class="waves-effect waves-light btn btn-green modal-btn" style="margin-right:20px;">Cancel</a>
+                    <a href="{{ URL::to('/patient-schedules') }}" class="waves-effect waves-light btn btn-green modal-btn" style="margin-right:20px;">Cancel</a>
                   </div>
                 </div>
               </div>

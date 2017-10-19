@@ -53,6 +53,26 @@
                                   <h4>RECEIVE ORDER FOR {{$data->strOCode}}??</h4>
                                   <p>
                                   <form action="/sec-inv/ord/{{$data->intOID}}" method="POST"> 
+                                   <table class="centered table-fixed">
+                                                      <thead>
+                                                          <tr>
+                                                              <th>Item Name</th>
+                                                              <th>Item Description</th>
+                                                              <th>Delivered Qty</th>
+                                                          </tr>
+                                                      </thead>
+                                                      <tbody>
+                                                      @foreach($del as $list2)
+                                                            @if($list2->intDelCode == $data->intOID)
+                                                            <tr>
+                                                              <td>{{ $list2->strItemName }}</td>
+                                                              <td>{{ $list2->strItemDesc }}</td>
+                                                              <td>{{ $list2->intDelQty }}</td>
+                                                          </tr>
+                                                          @endif
+                                                         @endforeach 
+                                                      </tbody>
+                                                    </table>
                                   </p>
                                 </div>
                                 <div class="modal-footer col 6">
@@ -60,6 +80,42 @@
                                   <button type="submit" class="waves-effect waves-green btn-flat ">SUBMIT</button>
                                 </div>
                                 </form>
+                              </div>
+                        @elseif($data->intStatus == 1)
+                            <div class="center-btn">
+                             <a class="modal-trigger waves-effect waves-light btn blue darken-1 btn-small center-text" href="#{{$data->intOID}}">DETAILS</a>
+                            </div>
+
+                              <!-- Modal Structure -->
+                              <div id="{{$data->intOID}}" class="modal modal-fixed-footer">
+                                <div class="modal-content col 6">
+                                  <h4>Delivery Received from {{$data->strOCode}}</h4>
+                                  <p>
+                                   <table class="centered table-fixed">
+                                                      <thead>
+                                                          <tr>
+                                                              <th>Item Name</th>
+                                                              <th>Item Description</th>
+                                                              <th>Delivered Qty</th>
+                                                          </tr>
+                                                      </thead>
+                                                      <tbody>
+                                                      @foreach($del as $list2)
+                                                            @if($list2->intDelCode == $data->intOID)
+                                                            <tr>
+                                                              <td>{{ $list2->strItemName }}</td>
+                                                              <td>{{ $list2->strItemDesc }}</td>
+                                                              <td>{{ $list2->intDelQty }}</td>
+                                                          </tr>
+                                                          @endif
+                                                         @endforeach 
+                                                      </tbody>
+                                                    </table>
+                                  </p>
+                                </div>
+                                <div class="modal-footer col 6">
+                                  <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat ">CANCEL</a>
+                                </div>
                               </div>
 
                         @elseif($data->intStatus == 1)

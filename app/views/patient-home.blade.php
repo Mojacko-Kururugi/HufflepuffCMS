@@ -60,7 +60,8 @@
                       <td class="red-text bold">Optometrist Cancelled</td>
                       @endif
                       @if($app->intSchedStatus == 1)
-                      <td><a class="waves-effect waves-light btn btn-small red center-text" href="/can-sched/{{$app->intSchedID}}">Cancel</a></td>
+                      <td><a class="waves-effect waves-light btn btn-small red center-text" href="/can-sched/{{$app->intSchedID}}">Cancel</a>
+                      <a class="waves-effect waves-light btn btn-small blue center-text" href="/ed-sched/{{$app->intSchedID}}">Re-Sched</a></td>
                       @elseif($app->intSchedStatus == 2)
                       <td><a class="waves-effect waves-light btn btn-small blue center-text" href="/ed-sched/{{$app->intSchedID}}">Edit</a></td>
                       @elseif($app->intSchedStatus == 3)
