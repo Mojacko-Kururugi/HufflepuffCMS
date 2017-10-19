@@ -63,8 +63,8 @@
 </div>
 
 {{-- Scripts START --}}
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/jquery.validate.min.js"></script>
+
+
 <script type="text/javascript">
   $().ready(function() {
     $.validator.addMethod("regex", function(value, element, regexp) {
@@ -75,7 +75,7 @@
       rules: {
         user_id: {
           required: true,
-          regex: licenseRegex
+          // regex: licenseRegex
         },
 
         branch: "required",
@@ -104,19 +104,19 @@
 
         strUserLastName: {
           required: true,
-          regex: nameRegex
+          //regex: nameRegex
         },
 
         address: {
           //required: true,
-          regex: addRegex
+          // regex: addRegex
         },
 
         stud_id_no: {
           //required: true,
           //maxlength: 11,
          // minlength: 11,
-          regex: contactRegex
+          // regex: contactRegex
         },
 
         email: {
@@ -133,7 +133,7 @@
         password: {
           required: true,
           minlength: 6,
-          regex: passRegex
+          //regex: passRegex
         },
         
         con_pass: {
