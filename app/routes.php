@@ -69,11 +69,12 @@ Route::get('/products', 'AdminController@openProd');
 Route::get('/products/add', 'AdminController@openAddProd');
 Route::post('/products/add-prod', 'AdminController@addProd');
 Route::get('/products/{id}', 'AdminController@showUpProd');
+Route::get('/materials/add', 'AdminController@openAddMat');
 Route::get('/materials/{id}', 'AdminController@showUpMat');
 Route::post('/products/update-prod','AdminController@updateProd' );
 Route::get('delete-prod/{id}','AdminController@deactProd');
 
-Route::get('/material/add', 'AdminController@openAddMat');
+
 
 Route::get('/services', 'AdminController@openServ');
 Route::get('/services/add-serv', 'AdminController@openAddServ');
