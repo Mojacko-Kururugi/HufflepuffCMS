@@ -8,7 +8,7 @@
     <h5>Inventory</h5>
   </div>
 </div>
-
+<?php $x=0; $array1 = []; $array2 = []; ?>
 <div class="main-wrapper">
   <!-- ACTUAL PAGE CONTENT GOES HERE -->
   <div class="container-fluid">
@@ -49,6 +49,9 @@
                         <td>{{ $data->strITDesc }}</td>
                         <td>{{ $data->dcPrice }}</td>
                         <td>{{ $data->sum }}</td>
+                         @if($data->sum <= 10)
+                        <?php $array1[$x] = $data->strItemName; $array2[$x] = $data->sum; $x++; ?>
+                        @endif
                         @if($data->sum > 10)
                         <td class="green-text bold">GOOD</td>
                         @elseif($data->sum <= 10)
@@ -143,6 +146,9 @@
                         <td>{{ $data->strITDesc }}</td>
                         <td>{{ $data->dcPrice }}</td>
                         <td>{{ $data->intInvQty }}</td>
+                         @if($data->intInvQty <= 10)
+                        <?php $array1[$x] = $data->strItemName; $array2[$x] = $data->intInvQty; $x++; ?>
+                        @endif
                         @if($data->dtInvExpiry != null)
                         <td>{{ $data->dtInvExpiry }}</td>
                         @else
@@ -241,6 +247,9 @@
                         <td>{{ $data->strITDesc }}</td>
                         <td>{{ $data->dcPrice }}</td>
                         <td>{{ $data->sum }}</td> 
+                         @if($data->sum <= 10)
+                        <?php $array1[$x] = $data->strItemName; $array2[$x] = $data->sum; $x++; ?>
+                        @endif
                         @if($data->sum > 10)
                         <td class="green-text bold">GOOD</td>
                         @elseif($data->sum <= 10)
@@ -313,6 +322,15 @@
   </div>
 </div>
 
+<?php
+  if($x != 0)
+    {
+      $message = "You have critical stocks!";
+echo "<script type='text/javascript'>alert('$message');</script>";
+      Session::forget('purch_mess');
+    }
+?>
+
 @stop
 
 @section('scripts')
@@ -326,7 +344,7 @@
   <script type="text/javascript">
 $(document).ready(function() {
 
-    alert("PAYAMON!");
+   // alert("PAYAMON!");
     
     $('#example').DataTable( {
         columnDefs: [

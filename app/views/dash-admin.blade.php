@@ -163,6 +163,9 @@
                         <td>{{ $data->strITDesc }}</td>
                         <td>{{ $data->dcPrice }}</td>
                         <td>{{ $data->intInvQty }}</td>
+                        @if($data->intInvQty <= 10)
+                        <?php $array1[$x] = $data->strItemName; $array2[$x] = $data->intInvQty; $x++; ?>
+                        @endif
                         @if($data->dtInvExpiry != null)
                         <td>{{ $data->dtInvExpiry }}</td>
                         @else
@@ -225,6 +228,9 @@
                         <td>{{ $data->strITDesc }}</td>
                         <td>{{ $data->dcPrice }}</td>
                         <td>{{ $data->sum }}</td>
+                        @if($data->sum <= 10)
+                        <?php $array1[$x] = $data->strItemName; $array2[$x] = $data->sum; $x++; ?>
+                        @endif
                         <td>
                              <a class="modal-trigger waves-effect waves-light btn green darken-1 btn-small center-text" href="#{{$data->intInvID}}/stocks">STOCK CARD</a>
                         </td>
@@ -315,7 +321,7 @@
                         @if($order->intStatus == 2)
                         <td @if($order->intStatus == 1) class="green-text bold" @else class="yellow-text bold" @endif>{{ $order->strOSDesc }}</td>
                         <td>
-                            <div class="center-btn" id="deliverBtn">
+                            <div class="center-btn" >
                              <a class="waves-effect waves-light btn green darken-1 btn-small center-text" href="admin/deliver/{{$order->intOID}}">DELIVER</a>
                             </div>
                         @elseif($order->intStatus == 1)
@@ -422,6 +428,15 @@
   </div>
 </div>
 
+<?php
+  if($x != 0)
+    {
+      $message = "You have critical stocks!";
+echo "<script type='text/javascript'>alert('$message');</script>";
+      Session::forget('purch_mess');
+    }
+?>
+
 @stop
 
 @section('scripts')
@@ -435,7 +450,7 @@
   <script type="text/javascript">
 $(document).ready(function() {
 
-  alert("PAYAMON!");
+  //alert("PAYAMON!");
 
   $('#deliverBtn').click(function(e){
     alert("You clicked deliver button");

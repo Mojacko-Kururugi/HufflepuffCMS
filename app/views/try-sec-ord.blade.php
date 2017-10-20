@@ -142,7 +142,7 @@
         </div>-->
             <div class="row">
               <div class="input-field col l12 s12 center">
-                <a class="waves-effect waves-light btn btn-green modal-btn" href="/sec-inv/add-order">SUBMIT</a>
+                <a  @if($list == NULL)id="submitBtn"@endif class="waves-effect waves-light btn btn-green modal-btn" href="/sec-inv/add-order">SUBMIT</a>
                 <a href="{{ URL::to('/sec-order') }}" class="waves-effect waves-light btn btn-green modal-btn" style="margin-right:20px;">Cancel</a>
               </div>
             </div>
@@ -163,6 +163,11 @@
       },
       errorElement: 'div'
     });
+  });
+
+    $("#submitBtn").click(function(e){
+    alert("YOU HAVE NO ITEMS IN THE LIST!");
+    e.preventDefault();
   });
 
 $(".something").addClass("hide");

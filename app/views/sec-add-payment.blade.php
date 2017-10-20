@@ -9,6 +9,15 @@
     </div>
   </div> -->
 
+<?php
+  if(Session::get('purch_mess') != null)
+    {
+      $message = "Insufficient Stock!";
+echo "<script type='text/javascript'>alert('$message');</script>";
+      Session::forget('purch_mess');
+    }
+?>
+
 <div class="row page-title">
   <div class="col s12 m12 l12">
     <h5>POS</h5>
@@ -110,7 +119,7 @@
           <br/>
             <div class="row">
               <div class="input-field col l12 s12 center">
-                <a class="waves-effect waves-light btn btn-green modal-btn" href="/sec-purch/payment">PROCEED TO PAYMENT</a>
+                <a @if($list == NULL && $list2 == NULL && $list3 == NULL )id="submitBtn"@endif  class="waves-effect waves-light btn btn-green modal-btn" href="/sec-purch/payment">PROCEED TO PAYMENT</a>
                 <a href="{{ URL::to('/sec-home') }}" class="waves-effect waves-light btn btn-green modal-btn" style="margin-right:20px;">Cancel</a>
               </div>
             </div>
@@ -189,6 +198,12 @@
 <script src="js/jquery.validate.min.js"></script>-->
 <script type="text/javascript">
   $().ready(function() {
+
+  $("#submitBtn").click(function(e){
+    alert("YOU HAVE NO ITEMS IN THE LIST!");
+    e.preventDefault();
+  });
+
     $("#signup_validate").validate({
       rules: {
         qty: "required",

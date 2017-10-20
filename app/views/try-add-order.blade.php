@@ -146,7 +146,7 @@
         </div>-->
             <div class="row">
               <div class="input-field col l12 s12 center">
-                <a  id="submitBtn" class="waves-effect waves-light btn btn-green modal-btn" href="/admin/add-order">SUBMIT</a>
+                <a @if($list == NULL)id="submitBtn"@endif class="waves-effect waves-light btn btn-green modal-btn" href="/admin/add-order">SUBMIT</a>
                 <a href="{{ URL::to('/admin') }}" class="waves-effect waves-light btn btn-green modal-btn" style="margin-right:20px;">Cancel</a>
               </div>
             </div>
@@ -176,7 +176,7 @@ $(document).ready(function() {
   });
 
   $("#submitBtn").click(function(e){
-    alert("YOU CLICKED SUBMIT BUTTON");
+    alert("YOU HAVE NO ITEMS IN THE LIST!");
     e.preventDefault();
   });
 

@@ -293,12 +293,13 @@ class SecController extends BaseController {
 
 	public function addPurchToList()
 	{
-		$ex = DB::table('tblInventory')
+		$x = DB::table('tblInventory')
 			->where('tblInventory.intInvID','=', Request::input('name'))
 			->first();
 
-		if($ex->intInvQty >  Request::input('qty'))
+		if($x->intInvQty >  Request::input('qty'))
 		{
+
 			$sess = DB::table('tblServiceHeader')
 			->where('tblServiceHeader.strSHCode', '=', Session::get('purch_sess'))
 			->where('tblServiceHeader.intSHStatus', '=', 2)		
@@ -332,16 +333,25 @@ class SecController extends BaseController {
 				->first();
 
 			if($ex != null)
-			{
-				$subtotal = $price->dcPrice * ($ex->intQty + Request::input('qty'));
-				$total = $total + $subtotal;
+			{	
+				if($x->intInvQty >  $ex->intQty + Request::input('qty'))
+				{
+					$subtotal = $price->dcPrice * ($ex->intQty + Request::input('qty'));
+					$total = $total + $subtotal;
 
-				DB::table('tblServiceDetails')
-				->where('tblServiceDetails.intHInvID','=', Request::input('name'))
-				->update([
-						'intQty' => $ex->intQty + Request::input('qty'),
-						'dcTotPrice' => $total
-					]);
+					DB::table('tblServiceDetails')
+					->where('tblServiceDetails.intHInvID','=', Request::input('name'))
+					->update([
+							'intQty' => $ex->intQty + Request::input('qty'),
+							'dcTotPrice' => $total
+						]);
+				}
+				else
+				{
+					Session::put('purch_mess',"Insufficient Stock!");
+
+					return Redirect::to('/sec-add-payment');
+				}
 			}
 			else
 			{
