@@ -8,6 +8,7 @@
     <h5>Stocks on Main</h5>
   </div>
 </div>
+<?php $x=0; $array1 = []; $array2 = []; ?>
 
 <div class="main-wrapper">
   <!-- ACTUAL PAGE CONTENT GOES HERE -->
@@ -101,6 +102,9 @@
                         <td>{{ $data->strITDesc }}</td>
                         <td>{{ $data->dcPrice }}</td>
                         <td>{{ $data->sum }}</td>
+                        @if($data->sum <= 10)
+                        <?php $array1[$x] = $data->strItemName; $array2[$x] = $data->sum; $x++; ?>
+                        @endif
                         <td>
                             @if($data->intIsPerishable == 1)
                             <a class="modal-trigger waves-effect waves-light btn green darken-1 btn-small center-text" href="#{{$data->intInvID}}">EXPIRATION</a>
@@ -338,7 +342,7 @@
                         <!-- Modal Structure -->
                               <div id="{{$order->intOID}}" class="modal modal-fixed-footer">
                                 <div class="modal-content col 6">
-                                  <h4>Delivery Received from {{$order->strOCode}}</h4>
+                                  <h4>Delivered For {{$order->strOCode}}</h4>
                                   <p>
                                    <table class="centered table-fixed">
                                                       <thead>
@@ -430,6 +434,7 @@
 
   <script type="text/javascript">
 $(document).ready(function() {
+
   alert("PAYAMON!");
 
   $('#deliverBtn').click(function(e){

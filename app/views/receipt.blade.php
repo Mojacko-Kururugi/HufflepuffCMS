@@ -57,8 +57,8 @@
 		<br/>
 		<br/>
 		<div class="row">
-			<p><strong>Recieved from:</strong> {{Session::get('rec-emp')}} <span class="text-right"></span></p>
-			<p><strong>Recieved by:</strong> {{Session::get('rec-pat')}} <span class="text-right"></span></p>
+			<p><strong>Recieved by:</strong> {{Session::get('rec-emp')}} <span class="text-right"></span></p>
+			<p><strong>Recieved from:</strong> {{Session::get('rec-pat')}} <span class="text-right"></span></p>
 			<p><strong>Date: </strong> {{date('Y-m-d')}}</p>
 		</div>
 		<br/>

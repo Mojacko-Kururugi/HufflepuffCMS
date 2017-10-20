@@ -137,7 +137,7 @@
 
   <script type="text/javascript">
 $(document).ready(function() {
-  alert("PAYAMON!");
+
     $('#example').DataTable( {
         columnDefs: [
             {

@@ -212,6 +212,7 @@ class DoctorController extends BaseController {
 	public function showAddServ() {
 
 		$patient = DB::table('tblPatientInfo')
+			->where('tblPatientInfo.intPatID', '!=', 1)
 			->where('tblPatientInfo.intPatStatus', '=', 1)
 			->get();
 
@@ -312,7 +313,7 @@ class DoctorController extends BaseController {
 			'strSHCode' => Request::input('user_id'),
 			'intSHPatID' 	=> Request::input('patient'),
 			'intSHEmpID' => Session::get('user_code'),
-			'intSHServiceID' => Request::input('service'),
+			'intSHServiceID' => 1,
 			'intSHPaymentType' => 1,
 			'intSHStatus' => 1
 		]);
@@ -373,6 +374,12 @@ class DoctorController extends BaseController {
 					->selectRaw('*, sum(dcmPymPayment) as sum')
 					->get();*/
 
+			DB::table('tblServiceHeader')
+				->where('tblServiceHeader.strSHCode','=',Request::input('user_id'))
+				->update([
+					'intSHServiceID' => 2
+				]);
+
 				Session::put('sess_payex',$data->intSaleID);
 
 				return View::make('pay-to-med')->with('data',$data);
@@ -419,6 +426,13 @@ class DoctorController extends BaseController {
 			'intRXPatStatus' => 1
 		]);
 		}
+
+		DB::table('tblServiceHeader')
+				->where('tblServiceHeader.strSHCode','=',Request::input('user_id'))
+				->update([
+					'intSHServiceID' => 3
+				]);
+
 		return Redirect::to('/sec-add-payment');
 		}
 	}
