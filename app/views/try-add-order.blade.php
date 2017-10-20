@@ -54,7 +54,7 @@
                                <div id="#{{ $subt->intITID }}" class="viewSelect">
                                  <div class="row">
                                   <label for="payment-mode">Products*:</label>
-                                    <select name="name" id="name" class="validate" required>
+                                    <select name="name" id="name" class="initialized browser-default" required>
                                      <option value="" disabled selected>- Select {{$subt->strITDesc}} -</option>
                                      @foreach($data as $prod)
                                      @if($prod->intItemType == $subt->intITID)
@@ -163,6 +163,18 @@
 $(".something").addClass("hide");
 
 $(document).ready(function() {
+
+  var qty = document.getElementById("qty");
+
+  $("#qty").keypress(function(e){
+    var maxval = 3;
+
+    if(qty.value.length > maxval && e.keyCode != 46 && e.keyCode != 8)
+    {
+       e.preventDefault();                    
+    }
+  });
+
     $("input[name$='group1']").click(function() {
         var radio = $(this).attr('id');
         var s = radio.replace("#", "")

@@ -27,15 +27,15 @@
                   </div>
                   <div class="row">
                     <div class="input-field col s12 m4 l4">
-                      <input id="last_name_sa" name="last_name_sa" type="text" class="validate" value="" pattern="[A-Za-z]+" onkeydown="return alphaOnly(event);">
+                      <input id="last_name_sa" name="last_name_sa" type="text" class="validate" value="" pattern="[a-zA-Z][a-zA-Z ]{1,}" onkeydown="return alphaOnly(event);">
                       <label for="last_name_sa">Last Name*</label>
                     </div>
                     <div class="input-field col s12 m4 l4">
-                      <input id="first_name_sa" name="first_name_sa" type="text" class="validate" value="" pattern="[A-Za-z]+" onkeydown="return alphaOnly(event);">
+                      <input id="first_name_sa" name="first_name_sa" type="text" class="validate" value="" pattern="[a-zA-Z][a-zA-Z ]{1,}" onkeydown="return alphaOnly(event);">
                       <label for="first_name_sa">First Name*</label>
                     </div>
                     <div class="input-field col s12 m4 l4">
-                      <input id="middle_name_sa" name="middle_name_sa" type="text" class="validate" value="" pattern="[A-Za-z]+" onkeydown="return alphaOnly(event);">
+                      <input id="middle_name_sa" name="middle_name_sa" type="text" class="validate" value="" pattern="[a-zA-Z][a-zA-Z ]{1,}" onkeydown="return alphaOnly(event);">
                       <label for="middle_name_sa">Middle Name</label>
                     </div>
                   </div>

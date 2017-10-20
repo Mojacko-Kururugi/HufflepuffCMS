@@ -43,6 +43,16 @@
               <input type="text" name="transaction-no" required="" value="{{Session::get('purch_sess')}}">
               <label for="transaction-no">Transaction No.</label>
             </div>
+
+            <div class="col s12 m4 l4">
+              <label class="label-icon" for="jotype">Job Order Type</label>
+                 <select class="browser-default" name="jotype" id="jotype" data-error=".jotype_error">
+                    <option value="" disabled selected>- select JO type -</option>
+                    <option value="1">Customization</option>
+                    <option value="0">Repair</option>
+                 </select>
+              <div class="exp_error"></div>
+            </div>          
       </div>
 
       <div class="card">
@@ -297,6 +307,7 @@
     $().ready(function() {
     $("#signup_validate").validate({
       rules: {
+        jotype: "required",
         odsc: "required",
         odax: "required",
         odbc: "required",

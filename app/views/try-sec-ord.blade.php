@@ -168,6 +168,17 @@
 $(".something").addClass("hide");
 
 $(document).ready(function() {
+  var qty = document.getElementById("qty");
+
+    $("#qty").keypress(function(e){
+      var maxval = 2;
+
+      if(qty.value.length > maxval && e.keyCode != 46 && e.keyCode != 8)
+      {
+        e.preventDefault();                    
+      }
+    });
+    
     $("input[name$='group1']").click(function() {
         var radio = $(this).attr('id');
         var s = radio.replace("#", "")
