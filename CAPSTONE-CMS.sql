@@ -286,6 +286,7 @@ CREATE TABLE tblDelivery(
     intDelProdID INT,
     intDelQty INT(100),
     strDelLotNum VARCHAR(25),
+    strDelReason TEXT,
     
     FOREIGN KEY(intDelProdID)
     REFERENCES tblItems(intItemID),
@@ -467,11 +468,13 @@ INSERT INTO tblUserType(intUTID,strUTDesc) VALUES ('2','Optometrist');
 INSERT INTO tblUserType(intUTID,strUTDesc) VALUES ('3','Assistant');
 INSERT INTO tblUserType(intUTID,strUTDesc) VALUES ('4','Patient');
 
-INSERT INTO tblServices(strServName,strServDesc,intServStatus) VALUES ('Eye Refraction','refraction for the eye','1');
-INSERT INTO tblServices(strServName,strServDesc,intServStatus) VALUES ('Eye Check Up','check up for the eye','1');
-INSERT INTO tblServices(strServName,strServDesc,intServStatus) VALUES ('Glass/Lens Assignment','assigning of lens or glasses','1');
-INSERT INTO tblServices(strServName,strServDesc,intServStatus) VALUES ('Product Selling','selling of products','1');
+INSERT INTO tblServices(strServName,strServDesc,intServStatus) VALUES ('Check Up','Free Check Up/Refraction','1');
+INSERT INTO tblServices(strServName,strServDesc,intServStatus) VALUES ('Check Up with Fee','Check Up/Refraction w/ Fee','1');
+INSERT INTO tblServices(strServName,strServDesc,intServStatus) VALUES ('Check Up with Product','Check Up and Purchase','1');
+INSERT INTO tblServices(strServName,strServDesc,intServStatus) VALUES ('JO','Job Ordering','1');
+INSERT INTO tblServices(strServName,strServDesc,intServStatus) VALUES ('Purchase','Selling of Products','1');
 
 INSERT INTO tblUserAccounts (strUEmail,strUPassword,intUID,intUType) VALUES ('admin@hufflepuff','admin123','0','1');
+INSERT INTO tblPatientInfo(strPatLast,intPatStatus) VALUES ('GUEST','1');
 
 INSERT INTO tblBranch(strBranchName,strBranchAddress,strBContactNumb,intBStatus) VALUES ('Main Office','Quezon City','1234567','1');

@@ -44,6 +44,7 @@ class DoctorController extends BaseController {
 		$data = DB::table('tblPatientInfo')
 			//->join('tblPatientRX', 'tblPatientRX.intRXPatID', '=', 'tblPatientInfo.intPatID')
 			->where('tblPatientInfo.intPatStatus', '=', 1)
+			->where('tblPatientInfo.intPatID', '!=', 1)
 			->get();
 		
 		return View::make('record')->with('data',$data);

@@ -126,8 +126,8 @@
 
 
 {{-- Scripts START --}}
-<script src="js/jquery-1.11.1.min.js"></script>
-<script src="js/jquery.validate.min.js"></script>
+<!--<script src="js/jquery-1.11.1.min.js"></script>
+<script src="js/jquery.validate.min.js"></script>-->
 <script type="text/javascript">
   var date = new Date();
   var nameRegex = /^([ \u00c0-\u01ffa-zA-Z'\-])+$/;
