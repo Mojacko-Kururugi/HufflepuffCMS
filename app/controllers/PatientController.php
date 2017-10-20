@@ -78,6 +78,16 @@ class PatientController extends BaseController {
 		return View::make('patient-sched-ed')->with('data',$data)->with('ex',$ex);
 	}
 
+	public function reSched($id) {
+		Session::put('upsId',$id);
+
+		$ex = DB::table('tblSchedules')
+		->where('tblSchedules.intSchedID','=',$id)
+		->first();
+
+		return View::make('patient-sched-resched')->with('ex',$ex);
+	}
+
 	public function updateReqSched() {
 
 	DB::table('tblSchedules')
@@ -94,6 +104,18 @@ class PatientController extends BaseController {
 		return Redirect::to('/patient-schedules');
 	}
 
+	public function updateReSched() {
+
+	DB::table('tblSchedules')
+		->where('tblSchedules.intSchedID','=',Session::get('upsId'))
+		->update([
+			'dtSchedDate' 		=> Request::input('date'),
+			'tmSchedTime'			=> Request::input('time'),			
+			'intSchedStatus' => 2
+		]);
+
+		return Redirect::to('/patient-schedules');
+	}
 
 	public function showRec() {
 		/*

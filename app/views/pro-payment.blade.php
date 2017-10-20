@@ -65,6 +65,15 @@
       errorElement: 'div'
     });
 
+    var total = document.getElementById("total");
+    var amountreceived = document.getElementById("amount-received");
+
+    total.value = parseFloat(total.value).toFixed(2);
+
+    $("#amount-received").blur(function(){
+        amountreceived.value = parseFloat(amountreceived.value).toFixed(2);
+    });
+  });
   //  var total = $("#total").val()
   //  console.log(total)
   //  $('#payment-mode').on('change', function() {

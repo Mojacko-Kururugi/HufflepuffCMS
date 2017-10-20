@@ -270,7 +270,7 @@
                 <div class="col s12 m6 l6">
                     <div class="row">
                       <div class="input-field"> 
-                        <label for="amount" name="amount" id="amount">Amount*:</label>
+                        <label for="amount">Amount*:</label>
                         <input type="number" name="amount" id="amount">
                       </div>
                     </div>
@@ -329,6 +329,13 @@
 
 
   $(document).ready(function() {
+
+    var amount = document.getElementById("amount");
+       
+       $("#amount").blur(function(){
+          amount.value = parseFloat(amount.value).toFixed(2);
+          //alert(price.value); 
+       });
 
     $("#divSingle").hide();
     $("#divDouble").hide();

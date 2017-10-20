@@ -219,6 +219,14 @@
 <script src="js/jquery.validate.min.js"></script>
 <script type="text/javascript">
   $().ready(function() {
+
+    var fee = document.getElementById("fee");
+       
+       $("#fee").blur(function(){
+          fee.value = parseFloat(fee.value).toFixed(2);
+          //alert(price.value); 
+       });
+
     $("#signup_validate").validate({
       rules: {
         doc: "required",
@@ -228,6 +236,7 @@
         asc: "required",
         desc: "required",
         claim: "required",
+        fee: "required"
       },
       errorElement: 'div'
     });

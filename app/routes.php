@@ -175,7 +175,9 @@ Route::get('/patient-sales', 'PatientController@showAcc');
 Route::get('/patient-records/view-service/{id}', 'PatientController@openServView');
 Route::get('/can-sched/{id}', 'PatientController@canSched');
 Route::get('/ed-sched/{id}', 'PatientController@edSched');
+Route::get('/re-sched/{id}', 'PatientController@reSched');
 Route::post('/patient-schedules/update', 'PatientController@updateReqSched');
+Route::post('/patient-schedules/resched', 'PatientController@updateReSched');
 
 
 
