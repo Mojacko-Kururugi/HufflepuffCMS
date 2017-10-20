@@ -235,8 +235,7 @@
         service: "required",
         asc: "required",
         desc: "required",
-        claim: "required",
-        fee: "required"
+        claim: "required"
       },
       errorElement: 'div'
     });
