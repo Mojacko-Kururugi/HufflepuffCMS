@@ -315,7 +315,7 @@
                         @if($order->intStatus == 2)
                         <td @if($order->intStatus == 1) class="green-text bold" @else class="yellow-text bold" @endif>{{ $order->strOSDesc }}</td>
                         <td>
-                            <div class="center-btn">
+                            <div class="center-btn" id="deliverBtn">
                              <a class="waves-effect waves-light btn green darken-1 btn-small center-text" href="admin/deliver/{{$order->intOID}}">DELIVER</a>
                             </div>
                         @elseif($order->intStatus == 1)
@@ -437,6 +437,11 @@ $(document).ready(function() {
 
   alert("PAYAMON!");
 
+  $('#deliverBtn').click(function(e){
+    alert("You clicked deliver button");
+    e.preventDefault();
+  });
+  
     $('#example').DataTable( {
         columnDefs: [
             {
@@ -486,6 +491,7 @@ $(document).ready(function() {
 
     <script>
     $(document).ready(function(){
+
     // the "href" attribute of .modal-trigger must specify the modal ID that wants to be triggered
     $('.modal').modal();
   });

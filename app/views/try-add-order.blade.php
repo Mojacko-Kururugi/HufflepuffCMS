@@ -146,7 +146,7 @@
         </div>-->
             <div class="row">
               <div class="input-field col l12 s12 center">
-                <a class="waves-effect waves-light btn btn-green modal-btn" href="/admin/add-order">SUBMIT</a>
+                <a  id="submitBtn" class="waves-effect waves-light btn btn-green modal-btn" href="/admin/add-order">SUBMIT</a>
                 <a href="{{ URL::to('/admin') }}" class="waves-effect waves-light btn btn-green modal-btn" style="margin-right:20px;">Cancel</a>
               </div>
             </div>
@@ -173,6 +173,11 @@ $(document).ready(function() {
     {
        e.preventDefault();                    
     }
+  });
+
+  $("#submitBtn").click(function(e){
+    alert("YOU CLICKED SUBMIT BUTTON");
+    e.preventDefault();
   });
 
     $("input[name$='group1']").click(function() {
