@@ -51,9 +51,9 @@
 		<div>
   			<img src="../img/$logo2.png">
   			<h5 class="header small">Coonnie Optical Clinic</h5>
-		<h5 class="header small">{{Session::get('rec-bn')}}</h5>
-		<h5 class="header small">{{Session::get('rec-ba')}}</h5>
-		<h5 class="header small">{{Session::get('rec-bc')}}</h5>
+			<h5 class="header small">{{Session::get('rec-bn')}}</h5>
+			<h5 class="header small">{{Session::get('rec-ba')}}</h5>
+			<h5 class="header small">{{Session::get('rec-bc')}}</h5>
 		<br/>
 		<div>
 		

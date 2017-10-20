@@ -67,7 +67,11 @@
                                                             <tr>
                                                               <td>{{ $list2->strItemName }}</td>
                                                               <td>{{ $list2->strItemDesc }}</td>
+                                                              @if($list2->strDelReason != NULL)
+                                                              <td>{{ $list2->intDelQty }} - {{ $list2->strDelReason }}</td>
+                                                              @else
                                                               <td>{{ $list2->intDelQty }}</td>
+                                                              @endif
                                                           </tr>
                                                           @endif
                                                          @endforeach 
@@ -105,7 +109,11 @@
                                                             <tr>
                                                               <td>{{ $list2->strItemName }}</td>
                                                               <td>{{ $list2->strItemDesc }}</td>
+                                                              @if($list2->strDelReason != NULL)
+                                                              <td>{{ $list2->intDelQty }} - {{ $list2->strDelReason }}</td>
+                                                              @else
                                                               <td>{{ $list2->intDelQty }}</td>
+                                                              @endif
                                                           </tr>
                                                           @endif
                                                          @endforeach 

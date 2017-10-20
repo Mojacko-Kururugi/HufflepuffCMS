@@ -17,7 +17,7 @@
         <div class="row">
               <div class="input-field col l12 m8 s12">
                 <label for="name">Product Type Name</label>
-                <input id="name" name="name" type="text" class="validate" value="{{$data->strPTDesc}}" />
+                <input id="name" name="name" type="text" class="validate" value="{{$data->strITDesc}}" />
               </div>
         </div>
 

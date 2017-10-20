@@ -240,7 +240,7 @@
                                                           <tr>
                                                               <th>Date</th>
                                                               <th>Batch Number</th>
-                                                              <th>Inventory Code</th>
+                                                              <th>Lot Number</th>
                                                               <th>Quantity</th>
                                                               <th>Type</th>
                                                               <th>Reason</th>
@@ -257,7 +257,7 @@
                                                               @if($data->intAdjStatus == 1)
                                                               <td class="blue-text bold">Acquired</td>
                                                               @else
-                                                              <td class="red-text bold">Released</td>
+                                                              <td class="red-text bold">Delivered</td>
                                                               @endif
                                                               <td>{{ $data->strAdjReason }}</td>
                                                           </tr>
@@ -354,7 +354,11 @@
                                                             <tr>
                                                               <td>{{ $del2->strItemName }}</td>
                                                               <td>{{ $del2->strItemDesc }}</td>
+                                                              @if($del2->strDelReason != NULL)
+                                                              <td>{{ $del2->intDelQty }} - {{ $del2->strDelReason }}</td>
+                                                              @else
                                                               <td>{{ $del2->intDelQty }}</td>
+                                                              @endif
                                                           </tr>
                                                           @endif
                                                          @endforeach 

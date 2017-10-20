@@ -73,12 +73,12 @@
 				        <span  class="col l7 m6 s12">Products/Materials</span>
 				   </a>
 			 </li>
-              <li class="bold {{ strpos(Request::url(), 'services') !== false ? 'active' : '' }}">
+           <!--   <li class="bold {{ strpos(Request::url(), 'services') !== false ? 'active' : '' }}">
 			       <a href="/services" class="row">
 				        <span class="col l3 m6 s12">{{ HTML::image('img/service.png', 'services', array('class' => 'responsive-img circle')) }}</span>
 				        <span  class="col l7 m6 s12">Services</span>
 				   </a>
-			  </li>
+			  </li> -->
               <li class="bold">
 			       <a href="/logout" class="row">
 				        <span class="col l3 m6 s12">{{ HTML::image('img/logout.png', 'logout', array('class' => 'responsive-img circle')) }}</span>
