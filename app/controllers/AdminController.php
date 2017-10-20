@@ -118,7 +118,14 @@ class AdminController extends BaseController {
 			->selectRaw('*, sum(intInvQty) as sum')
 			->get();
 
+		$del = DB::table('tblDelivery')
+			->join('tblOrders', 'tblDelivery.intDelCode', '=', 'tblOrders.intOID')
+			->join('tblItems', 'tblDelivery.intDelProdID', '=', 'tblItems.intItemID')
+			//->crossjoin('tblOrderDetails', 'tblOrderDetails.intODCode', '=', 'tblOrders.intOID')
+			->get();
+
 		return View::make('dash-admin')
+		->with('del',$del)
 		->with('data',$data)
 		->with('data2',$data2)
 		->with('ord',$ord)

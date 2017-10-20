@@ -317,16 +317,56 @@
                         @elseif($order->intStatus == 1)
                         <td>
                         <a class="green-text bold"> Received at {{ $order->dtOReceived }} </a>
+                      </td>
+                       <td><a class="modal-trigger waves-effect waves-light btn blue darken-1 btn-small center-text" href="#{{$order->intOID}}">DETAILS</a>
                          @elseif($order->intStatus == 4)
                         <td>
                         <a class="orange-text bold"> ON DELIVERY </a>
+                      </td>
+                      <td>
+                        <a class="modal-trigger waves-effect waves-light btn blue darken-1 btn-small center-text" href="#{{$order->intOID}}">DETAILS</a>
                         @endif
                         </td>
                 </td>
               </tr>
+
               @endforeach
             </tbody>
           </table>
+
+          @foreach($ord as $order)
+                        <!-- Modal Structure -->
+                              <div id="{{$order->intOID}}" class="modal modal-fixed-footer">
+                                <div class="modal-content col 6">
+                                  <h4>Delivery Received from {{$order->strOCode}}</h4>
+                                  <p>
+                                   <table class="centered table-fixed">
+                                                      <thead>
+                                                          <tr>
+                                                              <th>Item Name</th>
+                                                              <th>Item Description</th>
+                                                              <th>Delivered Qty</th>
+                                                          </tr>
+                                                      </thead>
+                                                      <tbody>
+                                                      @foreach($del as $del2)
+                                                            @if($del2->intDelCode == $order->intOID)
+                                                            <tr>
+                                                              <td>{{ $del2->strItemName }}</td>
+                                                              <td>{{ $del2->strItemDesc }}</td>
+                                                              <td>{{ $del2->intDelQty }}</td>
+                                                          </tr>
+                                                          @endif
+                                                         @endforeach 
+                                                      </tbody>
+                                                    </table>
+                                  </p>
+                                </div>
+                                <div class="modal-footer col 6">
+                                  <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat ">CANCEL</a>
+                                </div>
+                              </div>
+          @endforeach
 
           @foreach($test as $test)
                               <div id="{{$test->strOCode}}/items" class="modal modal-fixed-footer">

@@ -48,11 +48,15 @@
 	</head>
 
 	<body>
-		<h5 class="header small">Coonnie Optical Clinic</h5>
+		<div>
+  			<img src="../img/$logo2.png">
+  			<h5 class="header small">Coonnie Optical Clinic</h5>
 		<h5 class="header small">{{Session::get('rec-bn')}}</h5>
 		<h5 class="header small">{{Session::get('rec-ba')}}</h5>
 		<h5 class="header small">{{Session::get('rec-bc')}}</h5>
 		<br/>
+		<div>
+		
 				<h3>ORDERS REPORT</h3>
 		<p><strong>Date & Time: </strong> {{date('Y-m-d ')}}</p>
 
@@ -60,6 +64,7 @@
 			<thead>
 			<tr>		
 						<th>Order Code</th>
+						<th>Item Type</th>
 				 		<th>Item Name</th>
                         <th>Item Description</th>
                         <th>Quantity</th>
@@ -72,6 +77,7 @@
 				 @foreach($data as $data)
                       <tr>
                         <td>{{ $data->strOCode }}</td>
+                        <td>{{ $data->strITDesc}}</td>
                         <td>{{ $data->strItemName }}</td>
                         <td>{{ $data->strItemDesc }}</td>
                         <td>{{ $data->intOQty }}</td>
