@@ -12,11 +12,27 @@
 <div class="main-wrapper">
   <!-- ACTUAL PAGE CONTENT GOES HERE -->
   <div class="container-fluid">
+
+    <!-- START OF CARD CONTENT FOR PRODUCT -->
+    
     <div class="card">
+      
       <div class="card-content">
+        <!-- START OF CARD TAB -->
+          <div class="card-tabs">
+            <ul class="tabs" style="color: blue !important;">
+              <li class="tab"><a href="#products" style="color: blue;">Products</a></li>
+              <li class="tab"><a href="#materials" style="color: blue;">Materials</a></li>
+            </ul>
+          </div>
+        <!-- END OF CARD TAB -->
+<!-- START OF PRODUCT CARD CONTENT -->
+
+      <div class="card-content" id="products">
+
         <div class="row">
           <div class="col s12 m12 l6">
-                <a class="waves-effect waves-light btn blue darken-1 btn-small center-text" href="/products/add">ADD NEW PRODUCT</a>
+              <a class="waves-effect waves-light btn blue darken-1 btn-small center-text" href="/products/add">ADD NEW PRODUCT</a>
           </div>
         </div>
 
@@ -33,7 +49,8 @@
                         <th>Actions</th>
                     </tr>
                 </thead>
-                @foreach($data as $data)
+                <tbody>
+                    @foreach($data as $data)
                       <tr>
                         <td>{{ $data->strItemName }}</td>
                         <td>{{ $data->strItemBrand }}</td>
@@ -45,8 +62,8 @@
                              <a class="waves-effect waves-light btn red lighten-1 btn-small center-text" href="delete-prod/{{$data->intItemID}}">DELETE</a>
                             </div>
                         </td>
-                    </tr>
-                   @endforeach 
+                      </tr>
+                    @endforeach 
                 </tbody>
               </table>
             <br>
@@ -55,11 +72,11 @@
             <!-- dito naman yung mga susunod na shits kung may idadagdag pa ^_^ -->
           </div>
         </div>
-      </div>
-    </div>
+      </div> 
 
-        <div class="card">
-      <div class="card-content">
+      <!-- START OF CARD CONTENT FOR MATERIAL -->
+      <div class="card-content" id="materials">
+
         <div class="row">
           <div class="col s12 m12 l6">
                 <a class="waves-effect waves-light btn blue darken-1 btn-small center-text" href="/materials/add">ADD NEW MATERIAL</a>
@@ -78,7 +95,8 @@
                         <th>Actions</th>
                     </tr>
                 </thead>
-                @foreach($mat as $data)
+                <tbody>
+                  @foreach($mat as $data)
                       <tr>
                         <td>{{ $data->strItemName }}</td>
                         <td>{{ $data->strItemDesc }}</td>
@@ -89,7 +107,7 @@
                              <a class="waves-effect waves-light btn red lighten-1 btn-small center-text" href="delete-prod/{{$data->intItemID}}">DELETE</a>
                             </div>
                         </td>
-                    </tr>
+                      </tr>
                    @endforeach 
                 </tbody>
               </table>
@@ -100,11 +118,12 @@
           </div>
         </div>
       </div>
+<!-- END OF CARD CONTENT FOR MATERIAL -->
     </div>
-
-  </div>
+<!-- END OF CARD CONTENT  FOR PRODUCT-->
+    </div>
 </div>
-
+</div>
 @stop
 
 @section('scripts')
