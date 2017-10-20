@@ -18,8 +18,33 @@
                     <div class="col s12 m12 l12">
 						<!--<a class="waves-effect waves-light btn blue darken-1 btn-small center-text" href="/add-payment">ADD NEW PAYMENT</a>
 						<a class="waves-effect waves-light btn blue darken-1 btn-small center-text" href="/add-payment-for-existing">ADD NEW PAYMENT FOR EXISTING</a> -->
-                        <a class="modal-trigger waves-effect waves-light btn btn-flat right btn-small center-text" href="{{ URL::to('/reports') }}">Generate Report</a>
+                        <a class="modal-trigger waves-effect waves-light btn btn-flat right btn-small center-text" href="#reportModal">Generate Report</a>
                     </div>
+                    <!--REport MOdal-->
+                    <div id="reportModal" class="modal modal-fixed-footer">
+                      <div class="modal-content col 6">
+                        <div class="row">
+                            <h5> Generate Sales Report</h5>
+                        </div>
+                        <div class="row">
+                          <div class="col s12 m6 l6">
+                            <h5>From</h5>
+                            <label for="date">Choose Date*</label>
+                            <input id="date" name="date" type="date" class="datepicker" style="height:39px" value="">
+                          </div>
+                          <div class="col s12 m6 l6">
+                            <h5> To </h5>
+                            <label for="date">Choose Date*</label>
+                            <input id="date" name="date" type="date" class="datepicker" style="height:39px" value="">
+                          </div>
+                      </div>  
+                      </div>
+                      <div class="modal-footer col 6">
+                          <a href="{{ URL::to('/reports') }}" class="modal-action modal-close waves-effect waves-green btn-flat ">GENERATE</a>
+                      </div>
+                      
+                    </div>
+          <!--end of modal-->
                  </div>
 
                 <div class="nav-wrapper">
