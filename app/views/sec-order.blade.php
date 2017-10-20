@@ -145,6 +145,7 @@
                                                           <tr>
                                                               <th>Item Name</th>
                                                               <th>Item Description</th>
+							      <th>Item Type</th>
                                                               <th>Quantity</th>
                                                           </tr>
                                                       </thead>
@@ -154,6 +155,7 @@
                                                             <tr>
                                                               <td>{{ $listi->strItemName }}</td>
                                                               <td>{{ $listi->strItemDesc }}</td>
+							      <td>{{ $listi->strITDesc }}</td>
                                                               <td>{{ $listi->intOQty }}</td>
                                                           </tr>
                                                           @endif

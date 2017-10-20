@@ -84,7 +84,7 @@
                               <div class="row">
                                   <div class="input-field col l6 m6 s6">
                                           <label for="qty">Quantity</label>
-                                          <input id="qty" name="qty" type="text" class="validate" value="" />
+                                          <input id="qty" name="qty" type="number" min="1" class="validate" value="" />
                                   </div>
                                   <div class="col s6 m6 s6 middle">
                                       <button type="submit" class="waves-effect waves-light btn btn-green modal-btn">Add</button>

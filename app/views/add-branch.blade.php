@@ -73,7 +73,7 @@
         number: "required",
         address: {
           required: true,
-          regex: /^[a-zA-Z0-9\s.,'-]*$/
+          regex: /^[a-zA-Z0-9\s.,'-#]*$/
         },
         stud_id_no: {
           required: true,

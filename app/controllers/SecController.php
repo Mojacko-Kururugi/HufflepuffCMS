@@ -297,7 +297,7 @@ class SecController extends BaseController {
 			->where('tblInventory.intInvID','=', Request::input('name'))
 			->first();
 
-		if($x->intInvQty >  Request::input('qty'))
+		if($x->intInvQty >=  Request::input('qty'))
 		{
 
 			$sess = DB::table('tblServiceHeader')
@@ -334,7 +334,7 @@ class SecController extends BaseController {
 
 			if($ex != null)
 			{	
-				if($x->intInvQty >  $ex->intQty + Request::input('qty'))
+				if($x->intInvQty >=  $ex->intQty + Request::input('qty'))
 				{
 					$subtotal = $price->dcPrice * ($ex->intQty + Request::input('qty'));
 					$total = $total + $subtotal;
@@ -847,6 +847,7 @@ class SecController extends BaseController {
 		$list = DB::table('tblOrders')
 			->join('tblOrderDetails', 'tblOrderDetails.intODCode', '=', 'tblOrders.intOID')
 			->join('tblItems', 'tblOrderDetails.intOProdID', '=', 'tblItems.intItemID')
+                        ->join('tblItemType', 'tblItems.intItemType', '=', 'tblItemType.intITID')
 			->where('tblOrders.intStatus', '!=', 5)	
 			->where('tblOrders.intOBranch', '=', Session::get('user_bc'))
 			->get();

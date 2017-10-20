@@ -107,14 +107,14 @@
                         @endif
                         <td>
                             @if($data->intIsPerishable == 1)
-                            <a class="modal-trigger waves-effect waves-light btn green darken-1 btn-small center-text" href="#{{$data->intInvID}}">EXPIRATION</a>
+                            <a class="modal-trigger waves-effect waves-light btn green darken-1 btn-small center-text" href="#{{$data->strInvLotNum}}/exp">EXPIRATION</a>
                             @endif
                              <a class="modal-trigger waves-effect waves-light btn green darken-1 btn-small center-text" href="#{{$data->intInvID}}/stocks">STOCK CARD</a>
                         </td>
 
 
                               <!-- Modal Structure -->
-                              <div id="{{$data->intInvID}}" class="modal modal-fixed-footer">
+                              <div id="{{$data->strInvLotNum}}/exp" class="modal modal-fixed-footer">
                                 <div class="modal-content col 6">
                                   <h4>Expiration for {{$data->strItemName}} - {{$data->strInvLotNum}}</h4>
                                   <p>
@@ -174,7 +174,7 @@
                         <td>
                             @if($data->intIsPerishable == 1)
                             @if($data->dtInvExpiry == null)
-                            <a class="modal-trigger waves-effect waves-light btn green darken-1 btn-small center-text" href="#{{$data->intInvID}}">SET EXPIRATION</a>
+                            <a class="modal-trigger waves-effect waves-light btn green darken-1 btn-small center-text" href="#{{$data->intInvID}}/exp">SET EXPIRATION</a>
                             @endif
                             @endif
                              <a class="modal-trigger waves-effect waves-light btn green darken-1 btn-small center-text" href="#{{$data->intInvID}}/stocks">STOCK CARD</a>
@@ -182,7 +182,7 @@
 
 
                               <!-- Modal Structure -->
-                              <div id="{{$data->intInvID}}" class="modal modal-fixed-footer">
+                              <div id="{{$data->intInvID}}/exp" class="modal modal-fixed-footer">
                                 <div class="modal-content col 6">
                                   <h4>Expiration for {{$data->strItemName}} - {{$data->strInvLotNum}}</h4>
                                   <p>
@@ -355,6 +355,7 @@
                                                           <tr>
                                                               <th>Item Name</th>
                                                               <th>Item Description</th>
+                                                              <th>Item Type</th>
                                                               <th>Delivered Qty</th>
                                                           </tr>
                                                       </thead>
@@ -364,6 +365,7 @@
                                                             <tr>
                                                               <td>{{ $del2->strItemName }}</td>
                                                               <td>{{ $del2->strItemDesc }}</td>
+						              <td>{{ $del2->strITDesc}}</td>
                                                               @if($del2->strDelReason != NULL)
                                                               <td>{{ $del2->intDelQty }} - {{ $del2->strDelReason }}</td>
                                                               @else
@@ -392,6 +394,7 @@
                                                           <tr>
                                                               <th>Item Name</th>
                                                               <th>Item Description</th>
+							      <th>Item Type</th>
                                                               <th>Quantity</th>
                                                           </tr>
                                                       </thead>
@@ -401,6 +404,7 @@
                                                             <tr>
                                                               <td>{{ $listi->strItemName }}</td>
                                                               <td>{{ $listi->strItemDesc }}</td>
+                                                              <td>{{ $listi->strITDesc}}</td>
                                                               <td>{{ $listi->intOQty }}</td>
                                                           </tr>
                                                           @endif

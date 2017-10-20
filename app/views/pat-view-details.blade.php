@@ -204,6 +204,7 @@
                                     <th>Service Ref #</th>
                                     <th>Total</th>
                                     <th>Balance Paid</th>
+                                    <th>Balance Remaining</th>
                                     <th>Date of Service</th> 
                                 </tr>
                             </thead>
@@ -213,6 +214,12 @@
                                     <td>{{ $pay->strSHCode }}</td>
                                     <td>{{ $pay->dcmSBalance }}</td>
                                     <td>{{ $pay->sum }}</td>
+                                    @if($pay->dcmSBalance <= $pay->sum)
+                                    <td>0</td>
+                                    @else
+                                    <?php $x = $pay->sum - $pay->dcmSBalance  ?>
+                                    <td>{{$x}}</td>
+                                    @endif
                                     <td>{{ $pay->intSHDateTime }}</td>
                                 </tr>
 

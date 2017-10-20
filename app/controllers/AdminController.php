@@ -102,6 +102,7 @@ class AdminController extends BaseController {
 		$list = DB::table('tblOrders')
 			->join('tblOrderDetails', 'tblOrderDetails.intODCode', '=', 'tblOrders.intOID')
 			->join('tblItems', 'tblOrderDetails.intOProdID', '=', 'tblItems.intItemID')
+			->join('tblItemType', 'tblItems.intItemType', '=', 'tblItemType.intITID')
 			->join('tblOrdStatus', 'tblOrders.intStatus', '=', 'tblOrdStatus.intOSID')	
 			->join('tblBranch', 'tblOrders.intOBranch', '=', 'tblBranch.intBranchID')
 			->where('tblOrders.intOBranch', '!=', 1)
@@ -121,6 +122,7 @@ class AdminController extends BaseController {
 		$del = DB::table('tblDelivery')
 			->join('tblOrders', 'tblDelivery.intDelCode', '=', 'tblOrders.intOID')
 			->join('tblItems', 'tblDelivery.intDelProdID', '=', 'tblItems.intItemID')
+                        ->join('tblItemType', 'tblItems.intItemType', '=', 'tblItemType.intITID')
 			//->crossjoin('tblOrderDetails', 'tblOrderDetails.intODCode', '=', 'tblOrders.intOID')
 			->get();
 
