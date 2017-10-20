@@ -99,7 +99,7 @@
                                 <div class="modal-content col 6">
                                   <h4>Adjustments for {{$data->strItemName}} - {{$data->strInvLotNum}}</h4>
                                   <p>
-                                  <form action="/adjust/{{$data->intInvID}}" method="POST">
+                                  <form action="/adjust/{{$data->intInvID}}" method="POST" id="adjnep">
                                             <div class="row">
                                               <div class="input-field col l6 m6 s12">
                                                 <input id="user_id" name="user_id" type="text" class="validate" data-error=".id_error" value="{{ $count }}" readonly/>
@@ -110,12 +110,13 @@
 
                                           <div class="col l6 ">
                                           <label for="qty">Quantity</label>
-                                          <input type="number" class="form-control" name="qty" id="qty" value="0">
+                                          <input type="number" class="validate" data-error=".qty_error" name="qty" id="qty" value="" min="1" required>
+                                          <div class="qty_error"></div>
                                           </div> 
 
                                           <div class="row">
                                             <div class="input-field col l6 m6 s12">
-                                                <select class="initialized browser-default" name="type" id="type">
+                                                <select class="initialized browser-default" name="type" id="type" required>
                                                   <option value="" disabled selected>Adjustment Type</option>
                                                   <option value="1">Increase By</option>
                                                   <option value="2">Decrease By</option>
@@ -201,7 +202,7 @@
                                 <div class="modal-content col 6">
                                   <h4>Adjustments for {{$data->strItemName}} - {{$data->strInvLotNum}}</h4>
                                   <p>
-                                  <form action="/adjust/{{$data->intInvID}}" method="POST">
+                                  <form action="/adjust/{{$data->intInvID}}" method="POST" id="adjep">
                                             <div class="row">
                                               <div class="input-field col l6 m6 s12">
                                                 <input id="user_id" name="user_id" type="text" class="validate" data-error=".id_error" value="{{ $count }}" readonly/>
@@ -212,12 +213,13 @@
 
                                           <div class="col l6 ">
                                           <label for="qty">Quantity</label>
-                                          <input type="number" class="form-control" name="qty" id="qty" value="0">
+                                          <input type="number" class="validate" data-error=".qty2_error" name="qty2" id="qty2" value="" min="1" required>
+                                          <div class="qty2_error"></div>
                                           </div> 
 
                                           <div class="row">
                                             <div class="input-field col l6 m6 s12">
-                                                <select class="initialized browser-default" name="type" id="type">
+                                                <select class="initialized browser-default" name="type2" id="type2" required>
                                                   <option value="" disabled selected>Adjustment Type</option>
                                                   <option value="1">Increase By</option>
                                                   <option value="2">Decrease By</option>
@@ -297,10 +299,10 @@
                                 <div class="modal-content col 6">
                                   <h4>Adjustments for {{$data->strItemName}} - {{$data->strInvLotNum}}</h4>
                                   <p>
-                                  <form action="/adjust/{{$data->intInvID}}" method="POST">
+                                  <form action="/adjust/{{$data->intInvID}}" method="POST" id="adjmat">
                                             <div class="row">
                                               <div class="input-field col l6 m6 s12">
-                                                <input id="user_id" name="user_id" type="text" class="validate" data-error=".id_error" value="{{ $count }}" readonly/>
+                                                <input id="user_id" name="user_id" type="text" class="validate" data-error=".id_error" value="{{ $count }}" readonly />
                                                 <label for="user_id">Adjustment Serial #:</label>
                                                 <div class="id_error"></div>
                                               </div>
@@ -308,12 +310,13 @@
 
                                           <div class="col l6 ">
                                           <label for="qty">Quantity</label>
-                                          <input type="number" class="form-control" name="qty" id="qty" value="0">
+                                          <input type="number" class="validate" data-error=".qty3_error" name="qty3" id="qty3" value="" min="1" required>
+                                          <div class="qty3_error"></div>
                                           </div> 
 
                                           <div class="row">
                                             <div class="input-field col l6 m6 s12">
-                                                <select class="initialized browser-default" name="type" id="type">
+                                                <select class="initialized browser-default" name="type3" id="type3" required>
                                                   <option value="" disabled selected>Adjustment Type</option>
                                                   <option value="1">Increase By</option>
                                                   <option value="2">Decrease By</option>
@@ -425,8 +428,41 @@ $(document).ready(function() {
 
     <script>
     $(document).ready(function(){
+
     // the "href" attribute of .modal-trigger must specify the modal ID that wants to be triggered
     $('.modal').modal();
+
+    var qty = document.getElementById("qty");
+    var qty2 = document.getElementById("qty2");
+    var qty3 = document.getElementById("qty3");
+
+    $("#qty").keypress(function(e){
+      var maxval = 2;
+
+      if(qty.value.length > maxval && e.keyCode != 46 && e.keyCode != 8)
+      {
+        e.preventDefault();                    
+      }
+    });
+
+    $("#qty2").keypress(function(e){
+      var maxval = 2;
+
+      if(qty2.value.length > maxval && e.keyCode != 46 && e.keyCode != 8)
+      {
+        e.preventDefault();                    
+      }
+    });
+
+    $("#qty3").keypress(function(e){
+      var maxval = 2;
+
+      if(qty3.value.length > maxval && e.keyCode != 46 && e.keyCode != 8)
+      {
+        e.preventDefault();                    
+      }
+    });
+
   });
     </script>
 @stop
