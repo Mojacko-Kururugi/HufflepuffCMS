@@ -56,7 +56,7 @@
                                      <option value="0" disabled selected>- Select {{$subt->strITDesc}} -</option>
                                      @foreach($data as $prod)
                                      @if($prod->intItemType == $subt->intITID)
-                                     <option value="{{$prod->intItemID}}">{{$prod->strItemName}}</option>
+                                     <option value="{{$prod->intItemID}}">{{$prod->strItemBrand}} - {{$prod->strItemName}} - {{$prod->strItemDesc}}</option>
                                      @endif
                                      @endforeach
                                     </select>

@@ -342,7 +342,7 @@
                         <!-- Modal Structure -->
                               <div id="{{$order->intOID}}" class="modal modal-fixed-footer">
                                 <div class="modal-content col 6">
-                                  <h4>Delivery Received from {{$order->strOCode}}</h4>
+                                  <h4>Delivered For {{$order->strOCode}}</h4>
                                   <p>
                                    <table class="centered table-fixed">
                                                       <thead>
@@ -441,7 +441,7 @@ $(document).ready(function() {
     alert("You clicked deliver button");
     e.preventDefault();
   });
-  
+
     $('#example').DataTable( {
         columnDefs: [
             {

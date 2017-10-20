@@ -197,7 +197,6 @@
       errorElement: 'div'
     });
   });
-
 </script>
 {{-- Scripts END --}}
 @endsection

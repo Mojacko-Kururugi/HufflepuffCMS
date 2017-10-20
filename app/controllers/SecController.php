@@ -293,68 +293,82 @@ class SecController extends BaseController {
 
 	public function addPurchToList()
 	{
-		$sess = DB::table('tblServiceHeader')
+		$ex = DB::table('tblInventory')
+			->where('tblInventory.intInvID','=', Request::input('name'))
+			->first();
+
+		if($ex->intInvQty >  Request::input('qty'))
+		{
+			$sess = DB::table('tblServiceHeader')
 			->where('tblServiceHeader.strSHCode', '=', Session::get('purch_sess'))
 			->where('tblServiceHeader.intSHStatus', '=', 2)		
 			->first();
 
-		if($sess == NULL)
-		{
-		DB::table('tblServiceHeader')
-		->insert([
-			'strSHCode' => Session::get('purch_sess'),
-			'intSHPatID' 	=> Request::input('patient'),
-			'intSHEmpID' => Session::get('user_code'),
-			'intSHServiceID' => 4,
-			'intSHPaymentType' => 1,
-			'intSHStatus' => 2
-		]);
-		}
+			if($sess == NULL)
+			{
+			DB::table('tblServiceHeader')
+			->insert([
+				'strSHCode' => Session::get('purch_sess'),
+				'intSHPatID' 	=> Request::input('patient'),
+				'intSHEmpID' => Session::get('user_code'),
+				'intSHServiceID' => 5,
+				'intSHPaymentType' => 1,
+				'intSHStatus' => 2
+			]);
+			}
 
-		$price = DB::table('tblInventory')
-			->join('tblItems', 'tblInventory.intInvPID', '=', 'tblItems.intItemID')
-			->join('tblPrice', 'tblItems.intItemID', '=', 'tblPrice.intPriceItemID')
-			->where('tblInventory.intInvID','=', Request::input('name'))
-			->first();
+			$price = DB::table('tblInventory')
+				->join('tblItems', 'tblInventory.intInvPID', '=', 'tblItems.intItemID')
+				->join('tblPrice', 'tblItems.intItemID', '=', 'tblPrice.intPriceItemID')
+				->where('tblInventory.intInvID','=', Request::input('name'))
+				->first();
 
-		$total = 0;
-		$subtotal = 0;
+			$total = 0;
+			$subtotal = 0;
 
-		$ex = DB::table('tblServiceDetails')
-			->where('tblServiceDetails.intHInvID','=', Request::input('name'))
-			->where('tblServiceDetails.strHeaderCode', '=', Session::get('purch_sess'))
-			->first();
+			$ex = DB::table('tblServiceDetails')
+				->where('tblServiceDetails.intHInvID','=', Request::input('name'))
+				->where('tblServiceDetails.strHeaderCode', '=', Session::get('purch_sess'))
+				->first();
 
-		if($ex != null)
-		{
-			$subtotal = $price->dcPrice * ($ex->intQty + Request::input('qty'));
-			$total = $total + $subtotal;
+			if($ex != null)
+			{
+				$subtotal = $price->dcPrice * ($ex->intQty + Request::input('qty'));
+				$total = $total + $subtotal;
 
-			DB::table('tblServiceDetails')
-			->where('tblServiceDetails.intHInvID','=', Request::input('name'))
-			->update([
-					'intQty' => $ex->intQty + Request::input('qty'),
-					'dcTotPrice' => $total
+				DB::table('tblServiceDetails')
+				->where('tblServiceDetails.intHInvID','=', Request::input('name'))
+				->update([
+						'intQty' => $ex->intQty + Request::input('qty'),
+						'dcTotPrice' => $total
+					]);
+			}
+			else
+			{
+				$subtotal = $price->dcPrice * Request::input('qty');
+				$total = $total + $subtotal;
+
+				DB::table('tblServiceDetails')
+				->insert([
+					'strHeaderCode' => Session::get('purch_sess'),
+		    		'intHInvID' => Request::input('name'),
+		    		'intQty' => Request::input('qty'),
+		    		'dcTotPrice' => $total,
+		    		'intClaimStatus' => 2,
+		    		'intHWarranty' => 1,
+		    		'intSDStatus' => 3
 				]);
+			} 
+
+			return Redirect::to('/sec-add-payment');
 		}
 		else
 		{
-			$subtotal = $price->dcPrice * Request::input('qty');
-			$total = $total + $subtotal;
+			Session::put('purch_mess',"Insufficient Stock!");
 
-			DB::table('tblServiceDetails')
-			->insert([
-				'strHeaderCode' => Session::get('purch_sess'),
-	    		'intHInvID' => Request::input('name'),
-	    		'intQty' => Request::input('qty'),
-	    		'dcTotPrice' => $total,
-	    		'intClaimStatus' => 2,
-	    		'intHWarranty' => 1,
-	    		'intSDStatus' => 3
-			]);
-		} 
-
-		return Redirect::to('/sec-add-payment');
+			return Redirect::to('/sec-add-payment');
+		}
+		
 	}
 
 

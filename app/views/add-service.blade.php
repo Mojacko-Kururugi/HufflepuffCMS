@@ -130,7 +130,7 @@
           
       </div>
 
-                  <div class="row">
+                <!--  <div class="row">
                     <div class="input-field col l6 m6 s12">
                         <select class="initialized browser-default" name="service" id="service" data-error=".school_error">
                           <option value="" disabled selected>Service*</option>
@@ -140,7 +140,7 @@
                         </select>
                        <div class="school_error"></div>
                     </div>
-                  </div>
+                  </div> -->
 
                   <div class="row">
                         <div class="col s12">
