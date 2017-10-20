@@ -118,7 +118,14 @@ class AdminController extends BaseController {
 			->selectRaw('*, sum(intInvQty) as sum')
 			->get();
 
+		$del = DB::table('tblDelivery')
+			->join('tblOrders', 'tblDelivery.intDelCode', '=', 'tblOrders.intOID')
+			->join('tblItems', 'tblDelivery.intDelProdID', '=', 'tblItems.intItemID')
+			//->crossjoin('tblOrderDetails', 'tblOrderDetails.intODCode', '=', 'tblOrders.intOID')
+			->get();
+
 		return View::make('dash-admin')
+		->with('del',$del)
 		->with('data',$data)
 		->with('data2',$data2)
 		->with('ord',$ord)
@@ -265,11 +272,11 @@ class AdminController extends BaseController {
 							->count();
 
 					if($ct < 10)
-						$count = "INV00" . $ct;
+						$count = "LOT00" . $ct;
 					else if($ct < 100)
-						$count = "INV0" . $ct;
+						$count = "LOT0" . $ct;
 					else if($ct < 1000)
-						$count = "INV" . $ct;
+						$count = "LOT" . $ct;
 
 					DB::table('tblInventory')
 						->insert([
@@ -368,11 +375,11 @@ class AdminController extends BaseController {
 			->count();
 
 		if($ct < 10)
-			$count = "REL00" . $ct;
+			$count = "DEL00" . $ct;
 		else if($ct < 100)
-			$count = "REL0" . $ct;
+			$count = "DEL0" . $ct;
 		else if($ct < 1000)
-			$count = "REL" . $ct;
+			$count = "DEL" . $ct;
 
 		foreach($data as $data)
 		{
@@ -443,7 +450,8 @@ class AdminController extends BaseController {
 						'intDelCode' => $id,
 					    'intDelProdID' => $inv->intInvPID,
 					    'intDelQty' => $total,
-						'strDelLotNum' => $inv->strInvLotNum
+						'strDelLotNum' => $inv->strInvLotNum,
+						'strDelReason' => "Its the Max Stocks Available"
 					]);
 			}
 			}//foreach
@@ -714,7 +722,7 @@ class AdminController extends BaseController {
 			DB::table('tblItemType')
 				->where('tblItemType.intITID', '=', Session::get('upId'))
 				->update([
-					'strPTDesc' => Request::input('name'),
+					'strITDesc' => Request::input('name'),
 				]);
 
 		return Redirect::to('/product-type');
@@ -776,11 +784,11 @@ class AdminController extends BaseController {
 			->count();
 
 		if($ct < 10)
-			$count = "INV00" . $ct;
+			$count = "LOT00" . $ct;
 		else if($ct < 100)
-			$count = "INV0" . $ct;
+			$count = "LOT0" . $ct;
 		else if($ct < 1000)
-			$count = "INV" . $ct;
+			$count = "LOT" . $ct;
 
 
 		DB::table('tblItems')

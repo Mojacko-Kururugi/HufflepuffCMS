@@ -1289,6 +1289,7 @@ class SecController extends BaseController {
 		$queryResult = DB::table('tblOrders')
 			->join('tblOrderDetails', 'tblOrderDetails.intODCode', '=', 'tblOrders.intOID')
 			->join('tblItems', 'tblOrderDetails.intOProdID', '=', 'tblItems.intItemID')
+			->join('tblItemType', 'tblItemType.intITID','=','tblItems.intItemType')
 			->join('tblOrdStatus', 'tblOrders.intStatus', '=', 'tblOrdStatus.intOSID')
 			->where('tblOrders.intOBranch', '=', Session::get('user_bc'))
 			->where('tblOrders.intStatus', '!=', 5)			
