@@ -199,6 +199,17 @@ echo "<script type='text/javascript'>alert('$message');</script>";
 <script type="text/javascript">
   $().ready(function() {
 
+    var qty = document.getElementById("qty");
+
+  $("#qty").keypress(function(e){
+    var maxval = 2;
+
+    if(qty.value.length > maxval && e.keyCode != 46 && e.keyCode != 8)
+    {
+       e.preventDefault();                    
+    }
+  });
+
   $("#submitBtn").click(function(e){
     alert("YOU HAVE NO ITEMS IN THE LIST!");
     e.preventDefault();
