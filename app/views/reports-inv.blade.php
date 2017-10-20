@@ -67,7 +67,7 @@
                         <th>Price</th>
                         <th>Available Stock</th>
                         <th>Expiry Date</th>
-                        <th>Status</th>
+                        <!--<th>Status</th>-->
                         </tr>
 			</thead>
 
@@ -81,23 +81,37 @@
                         <td>{{ $data->strITDesc }}</td>
                         <td>{{ $data->dcPrice }}</td>
                         <td>{{ $data->intInvQty }}</td>
-                        @if($data->dtInvExpiry == NULL)
+                       	@if($data->dtInvExpiry == NULL)
                         <td>N/A</td>
                         @else
                         <td>{{ $data->dtInvExpiry }}</td>
                         @endif 
-                        @if($data->intInvQty > 10)
+                       <!-- @if($data->intInvQty > 10)
                         <td class="green-text bold">GOOD</td>
                         @elseif($data->intInvQty <= 10)
                         <td class="yellow-text bold">CRITICAL</td>
                         @elseif($data->intInvQty == 0)
                         <td class="red-text bold">DEPLETED</td>
-                        @endif
+                        @endif-->
                     </tr>
                    @endforeach 
 			</tbody>
 		</table>
 		<br>
+
+		<div class="row">
+            <div class="col l6 m6 s12" align="right">
+                <h5>Prepared By:</h5>
+                <br><br>
+                <h5>{{ Session::get('user_name') }}</h5>
+            </div>
+        </div>
+        <br>
+        <div class="row">
+            <div class="col l6 m6 s12">
+                <h5>Approved By:</h5>
+            </div>
+        </div>
 
 	</body>
 </html>

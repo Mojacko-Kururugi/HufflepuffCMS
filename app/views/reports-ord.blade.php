@@ -49,7 +49,6 @@
 
 	<body>
 		<div>
-  			<img src="../img/$logo2.png">
   			<h5 class="header small">Coonnie Optical Clinic</h5>
 			<h5 class="header small">{{Session::get('rec-bn')}}</h5>
 			<h5 class="header small">{{Session::get('rec-ba')}}</h5>
@@ -63,32 +62,44 @@
 		<table>
 			<thead>
 			<tr>		
+						<th>Date Ordered</th>
 						<th>Order Code</th>
 						<th>Item Type</th>
 				 		<th>Item Name</th>
                         <th>Item Description</th>
                         <th>Quantity</th>
-                        <th>Date Ordered</th>
-                        <th>Status</th>
+                      
                         </tr>
 			</thead>
 
 			<tbody>
 				 @foreach($data as $data)
                       <tr>
+                      	<td>{{ $data->created_at }}</td>
                         <td>{{ $data->strOCode }}</td>
                         <td>{{ $data->strITDesc}}</td>
                         <td>{{ $data->strItemName }}</td>
                         <td>{{ $data->strItemDesc }}</td>
                         <td>{{ $data->intOQty }}</td>
-						 <td>{{ $data->created_at }}</td>
-                        <td @if($data->intStatus == 1) class="green-text bold" @else class="yellow-text bold" @endif>{{ $data->strOSDesc }}</td>
-                        
+                     
                     </tr>
                    @endforeach 
 			</tbody>
 		</table>
 		<br>
+		<div class="row">
+            <div class="col l6 m6 s12" align="right">
+                <h5>Prepared By:</h5>
+                <br><br>
+                <h5>{{ Session::get('user_name') }}</h5>
+            </div>
+        </div>
+        <br>
+        <div class="row">
+            <div class="col l6 m6 s12">
+                <h5>Approved By:</h5>
+            </div>
+        </div>
 
 	</body>
 </html>
