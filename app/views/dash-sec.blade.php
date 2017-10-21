@@ -32,7 +32,7 @@
                             <thead>
                                 <tr>
                                     <th>Service Ref #</th>
-                                    <th>Patient Name</th>
+                                    <th>Customer Name</th>
                                     <th>Total</th>
                                     <th>Balance Paid</th>
                                     <th>Date of Service</th> 

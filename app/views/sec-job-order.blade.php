@@ -49,7 +49,7 @@
                  <select class="browser-default" name="jotype" id="jotype" data-error=".jotype_error">
                     <option value="" disabled selected>- select JO type -</option>
                     <option value="1">Customization</option>
-                    <option value="0">Repair</option>
+                    <option value="2">Repair</option>
                  </select>
               <div class="exp_error"></div>
             </div>          
@@ -192,8 +192,8 @@
                   <thead>
                     <tr>
                       <th></th>
-                      <th>Sph. Cyl*</th>
-                      <th>Axiz*</th>
+                      <th>Sph. / Cyl*</th>
+                      <th>Axis*</th>
                       <th>B.C.*</th>
                       <th>P.D.*</th>
                     </tr>
@@ -240,6 +240,17 @@
                 Add OS*:<input type="text" name="addos" id="addos">
                 </div>
               </div>
+
+                        <div class="col s6">
+                <label for="payment-mode">Payment Mode*:</label>
+                <select class="browser-default" name="payment-mode" id="payment-mode" data-error=".pay_error">
+                   <option value="" disabled selected>- Choose your option -</option>
+                   <option value="1">Full Payment</option>
+                   <option value="2">2 Gives - every 15 days</option>
+                   <option value="3">Quarterly - every 7 days</option>
+                </select>
+                <div class="pay_error"></div>
+          </div>
              
           </div>  
       </div>
@@ -247,7 +258,7 @@
       <div class="card">
         <div class="card-content">
           <div class="row">
-                <div class="col l6 m6 s12">
+      <!--          <div class="col l6 m6 s12">
                     <div class="row">
                       <div class="input-field">
                         <label for="note">Note:</label>
@@ -274,18 +285,9 @@
                         <input type="number" name="amount" id="amount">
                       </div>
                     </div>
-          <div class="col s6">
-                <label for="payment-mode">Payment Mode*:</label>
-                <select class="browser-default" name="payment-mode" id="payment-mode" data-error=".pay_error">
-                   <option value="" disabled selected>- Choose your option -</option>
-                   <option value="1">Full Payment</option>
-                   <option value="2">2 Gives - every 15 days</option>
-                   <option value="3">Quarterly - every 7 days</option>
-                </select>
-                <div class="pay_error"></div>
-          </div>
+
                 </div>
-          </div>
+          </div> -->
 
           <div class="row">
               <div class="input-field col l12 s12 center">

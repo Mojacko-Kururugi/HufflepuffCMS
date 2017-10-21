@@ -102,6 +102,22 @@ class SecController extends BaseController {
 		else if($ct < 1000)
 			$count = "JO#" . $ct;
 
+		$data = DB::table('tblInventory')
+			->join('tblItems', 'tblInventory.intInvPID', '=', 'tblItems.intItemID')
+			->join('tblPrice', 'tblItems.intItemID', '=', 'tblPrice.intPriceItemID')
+			->where('tblInventory.intInvBranch', '=', Session::get('user_bc'))
+			->where('tblInventory.intInvID', '=', Request::input('frames'))
+			->first();
+
+		$data2 = DB::table('tblInventory')
+			->join('tblItems', 'tblInventory.intInvPID', '=', 'tblItems.intItemID')
+			->join('tblPrice', 'tblItems.intItemID', '=', 'tblPrice.intPriceItemID')
+			->where('tblInventory.intInvBranch', '=', Session::get('user_bc'))
+			->where('tblInventory.intInvID', '=', Request::input('lens'))
+			->first();
+
+		$total_fee = $data->dcPrice + $data2->dcPrice;
+
 		DB::table('tblJobOrder')
 		->insert([
 			'strJOHC' => Session::get('purch_sess'),
@@ -119,8 +135,8 @@ class SecController extends BaseController {
 		    'strJOOSA' => Request::input('osax'),
 		    'strJOOSBC' => Request::input('osbc'),
 		    'strJOOSPD' => Request::input('ospd'),
-		    'dcJOFee' =>  Request::input('amount'),
-		    'intJOType' => 1,
+		    'dcJOFee' =>  $total_fee,
+		    'intJOType' => Request::input('jotype'),
 		    'intJOWarranty' => 1,
 		    'intJOStat' => 3
 		]);
@@ -128,10 +144,20 @@ class SecController extends BaseController {
 		return Redirect::to('/sec-add-payment');		
 	}
 
+	public function remJotoList($id) {
+
+		DB::table('tblJobOrder')
+		->where('tblJobOrder.strJOHC','=',$id)
+		->delete();
+
+		return Redirect::to('/sec-add-payment');
+	}
+
 	public function openJOView($id) {
 		$data = DB::table('tblJobOrder')
 			->join('tblInventory', 'tblJobOrder.intJOFrame','=','tblInventory.intInvID')
 			->join('tblItems','tblInventory.intInvPID','=','tblItems.intItemID')
+			->join('tblPrice', 'tblItems.intItemID', '=', 'tblPrice.intPriceItemID')
 			->where('tblInventory.intInvBranch', '=', Session::get('user_bc'))
 			->where('tblJobOrder.strJOHC', '=', $id)
 			->first();
@@ -139,6 +165,7 @@ class SecController extends BaseController {
 		$data2 = DB::table('tblJobOrder')
 			->join('tblInventory', 'tblJobOrder.intJOLens','=','tblInventory.intInvID')
 			->join('tblItems','tblInventory.intInvPID','=','tblItems.intItemID')
+			->join('tblPrice', 'tblItems.intItemID', '=', 'tblPrice.intPriceItemID')
 			->where('tblInventory.intInvBranch', '=', Session::get('user_bc'))
 			->where('tblJobOrder.strJOHC', '=', $id)
 			->first();
@@ -280,6 +307,37 @@ class SecController extends BaseController {
 			->where('tblServiceHeader.intSHStatus', '=', 2)		
 			->first();
 
+
+		if($list2 != null)
+		{
+		$jofr= DB::table('tblInventory')
+			->join('tblItems', 'tblInventory.intInvPID', '=', 'tblItems.intItemID')
+			->join('tblPrice', 'tblItems.intItemID', '=', 'tblPrice.intPriceItemID')
+			->where('tblInventory.intInvBranch', '=', Session::get('user_bc'))
+			->where('tblInventory.intInvID', '=', $list2[0]->intJOFrame)
+			->first();
+
+		$jolens = DB::table('tblInventory')
+			->join('tblItems', 'tblInventory.intInvPID', '=', 'tblItems.intItemID')
+			->join('tblPrice', 'tblItems.intItemID', '=', 'tblPrice.intPriceItemID')
+			->where('tblInventory.intInvBranch', '=', Session::get('user_bc'))
+			->where('tblInventory.intInvID', '=', $list2[0]->intJOLens)
+			->first();
+
+			return View::make('sec-add-payment')
+		->with('data',$data)
+		->with('data3',$data3)
+		->with('type',$type)
+		->with('list',$list)
+		->with('list2',$list2)
+		->with('list3',$list3)
+		->with('pat',$pat)
+		->with('count',$count)
+		->with('jofr',$jofr)
+		->with('jolens',$jolens);
+		}
+		else
+		{
 		return View::make('sec-add-payment')
 		->with('data',$data)
 		->with('data3',$data3)
@@ -289,6 +347,9 @@ class SecController extends BaseController {
 		->with('list3',$list3)
 		->with('pat',$pat)
 		->with('count',$count);
+		//->with('jofr',$jofr)
+		//->with('jolens',$jolens);
+		}
 	}
 
 	public function addPurchToList()

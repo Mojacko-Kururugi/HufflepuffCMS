@@ -652,8 +652,16 @@ class DoctorController extends BaseController {
 			->selectRaw('*, sum(dcmPymPayment) as sum')
 			->get();
 
+		$data2 = DB::table('tblSales')
+			->join('tblServiceHeader','tblSales.strSServCode','=','tblServiceHeader.strSHCode')
+			->join('tblPatientInfo', 'tblServiceHeader.intSHPatID','=','tblPatientInfo.intPatID')
+			->join('tblPayType', 'tblServiceHeader.intSHPaymentType','=','tblPayType.intPayTID')
+			->join('tblSalesStatus', 'tblSales.intSStatus','=','tblSalesStatus.intSaleSID')
+			->join('tblPayment', 'tblSales.intSaleID','=','tblPayment.intPymServID')
+			//->where('tblPatientInfo.intPatID', '=',  Session::get('user_code'))
+			->get();
 
-		return View::make('sales')->with('data',$data);
+		return View::make('sales')->with('data',$data)->with('data2',$data2);
 	}
 
 	public function openJO() {
@@ -682,6 +690,7 @@ class DoctorController extends BaseController {
 	public function addSched() {
 		$data = DB::table('tblPatientInfo')
 			->where('tblPatientInfo.intPatStatus', '=', 1)
+			->where('tblPatientInfo.intPatID', '!=', 1)
 			->get();
 
 		return View::make('add-sched')->with('data',$data);

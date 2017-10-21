@@ -8,7 +8,7 @@
     <h5>Stocks on Main</h5>
   </div>
 </div>
-<?php $x=0; $array1 = []; $array2 = []; ?>
+<?php $x=0; $y=0; $array1 = []; $array2 = []; ?>
 
 <div class="main-wrapper">
   <!-- ACTUAL PAGE CONTENT GOES HERE -->
@@ -258,7 +258,7 @@
                                                       </thead>
                                                       <tbody>
                                                       @foreach($stock as $data)
-                                                            @if($prod->intItemID == $data->intItemID)
+                                                            @if($prod->intInvID == $data->intAdjInvID)
                                                             <tr>
                                                               <td>{{ $data->dtAdjDate }}</td>
                                                               <td>{{ $data->strAdjCode }}</td>
@@ -438,6 +438,13 @@
       $message = "You have critical stocks!";
 echo "<script type='text/javascript'>alert('$message');</script>";
       Session::forget('purch_mess');
+
+       if(Session::get('del_mess') != null)
+    {
+      $message = "You can't Deliver that right now because there is one or two inventories with no stock!";
+      echo "<script type='text/javascript'>alert('$message');</script>";
+      Session::forget('del_mess');
+    }
     }
 ?>
 

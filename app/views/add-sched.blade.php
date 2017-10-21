@@ -61,7 +61,7 @@
         </div> 
 
 
-                <div class="row">
+                <!--<div class="row">
                   <div class="col s12">
                     <label for="time_frequency">Time Frequency of Reminder*</label>
                     <select class="browser-default" name="time_frequency" id="time_frequency">
@@ -74,7 +74,7 @@
     				       </select>
                   </div>
                 </div>
-                </div>
+                </div>-->
 
                 <div class="row">
                   <div class="input-field col s12 center">

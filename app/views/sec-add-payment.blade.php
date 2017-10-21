@@ -160,9 +160,21 @@ echo "<script type='text/javascript'>alert('$message');</script>";
                           <td>1</td>
                           <?php $subtotal = $l2->dcJOFee ?>
                           <td>P {{$subtotal}}</td>
-                          <td><a class="waves-effect waves-light btn btn-small red center-text">REMOVE</a></td>
+                          <td><a class="waves-effect waves-light btn btn-small red center-text" href="/sec-purch/rem-jo-list/{{$l2->strJOHC}}">REMOVE</a></td>
                         </tr>
                         <?php $total += $subtotal ?>
+                        <tr>
+                          <td>-- {{$jofr->strItemName . " - " . $jofr->strItemDesc}}</td>
+                          <td>1</td>
+                          <td>( {{$jofr->dcPrice}} )</td>
+                          <td></td>
+                        </tr>
+                        <tr>
+                          <td>-- {{$jolens->strItemName . " - " . $jolens->strItemDesc}}</td>
+                          <td>1</td>
+                          <td>( {{$jolens->dcPrice}} )</td>
+                          <td></td>
+                        </tr>
                  @endforeach
                 @foreach($list3 as $l3)
                         <tr>

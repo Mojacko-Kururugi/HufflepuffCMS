@@ -115,14 +115,14 @@ class AdminController extends BaseController {
 			->join('tblItemType', 'tblItems.intItemType', '=', 'tblItemType.intITID')
 			->where('tblInventory.intInvBranch', '=', 1)
 			->where('tblInventory.intInvStatus','!=',3)
-			->groupby('tblInventory.intInvPID')
-			->selectRaw('*, sum(intInvQty) as sum')
+			//->groupby('tblInventory.intInvPID')
+			//->selectRaw('*, sum(intInvQty) as sum')
 			->get();
 
 		$del = DB::table('tblDelivery')
 			->join('tblOrders', 'tblDelivery.intDelCode', '=', 'tblOrders.intOID')
 			->join('tblItems', 'tblDelivery.intDelProdID', '=', 'tblItems.intItemID')
-                        ->join('tblItemType', 'tblItems.intItemType', '=', 'tblItemType.intITID')
+            ->join('tblItemType', 'tblItems.intItemType', '=', 'tblItemType.intITID')
 			//->crossjoin('tblOrderDetails', 'tblOrderDetails.intODCode', '=', 'tblOrders.intOID')
 			->get();
 
@@ -353,17 +353,8 @@ class AdminController extends BaseController {
 	}
 
 	public function deliverOrd($id) {
-		
 
 		$ldate = date('Y-m-d H:i:s');
-
-
-		DB::table('tblOrders')
-				->where('tblOrders.intOID', '=', $id)
-				->update([
-					'dtOReceived' => $ldate,
-					'intStatus' => 4,
-				]);
 
 		$data = DB::table('tblOrderDetails')
 			->join('tblOrders', 'tblOrderDetails.intODCode', '=', 'tblOrders.intOID')
@@ -371,6 +362,23 @@ class AdminController extends BaseController {
 			->join('tblBranch', 'tblOrders.intOBranch', '=', 'tblBranch.intBranchID')
 			->where('tblOrderDetails.intODCode', '=', $id)
 			->get();
+
+		foreach($data as $try)
+		{
+			$inv = DB::table('tblInventory')
+			->where('tblInventory.intInvPID', '=', $try->intOProdID)
+			->where('tblInventory.intInvBranch', '=', 1)
+			->where('tblInventory.intInvStatus','!=',3)
+			->where('tblInventory.intInvQty','!=',0)
+			->orderBy('tblInventory.dtInvExpiry', 'ASC')
+			->first();
+
+			if($inv == NULL)
+			{
+				Session::put('del_mess',"Insufficient Stock!");
+				return Redirect::to('/admin');
+			}
+		}
 
 
 		$ct = 1 + DB::table('tblAdjustments')
@@ -390,6 +398,7 @@ class AdminController extends BaseController {
 			->where('tblInventory.intInvPID', '=', $data->intOProdID)
 			->where('tblInventory.intInvBranch', '=', 1)
 			->where('tblInventory.intInvStatus','!=',3)
+			->where('tblInventory.intInvQty','!=',0)
 			->orderBy('tblInventory.dtInvExpiry', 'ASC')
 			//->groupby('tblInventory.intInvPID')
 			//->selectRaw('*, sum(intInvQty) as sum')
@@ -430,33 +439,40 @@ class AdminController extends BaseController {
 				}//sundan ng else para sa CONDITION
 			else
 			{
-				$total = $curr_qty;
-				DB::table('tblAdjustments')
-					->insert([
-						'strAdjCode'  => $count,
-						'intAdjInvID' => $inv->intInvID,
-					    'intAdjQty' => $total,
-					    'strAdjReason' => $string,
-					    'intAdjStatus' => 2,
-					    'intAdjBranch' => 1
-					]);		
+					$total = $curr_qty;
+					DB::table('tblAdjustments')
+						->insert([
+							'strAdjCode'  => $count,
+							'intAdjInvID' => $inv->intInvID,
+						    'intAdjQty' => $total,
+						    'strAdjReason' => $string,
+						    'intAdjStatus' => 2,
+						    'intAdjBranch' => 1
+						]);		
 
-				DB::table('tblInventory')
-						->where('tblInventory.intInvID', '=', $inv->intInvID)
-						->update([
-							'intInvQty' => 0,
+					DB::table('tblInventory')
+							->where('tblInventory.intInvID', '=', $inv->intInvID)
+							->update([
+								'intInvQty' => 0,
+							]);
+
+					DB::table('tblDelivery')
+						->insert([
+							'intDelCode' => $id,
+						    'intDelProdID' => $inv->intInvPID,
+						    'intDelQty' => $total,
+							'strDelLotNum' => $inv->strInvLotNum,
+							'strDelReason' => "Its the Max Stocks Available"
 						]);
-
-				DB::table('tblDelivery')
-					->insert([
-						'intDelCode' => $id,
-					    'intDelProdID' => $inv->intInvPID,
-					    'intDelQty' => $total,
-						'strDelLotNum' => $inv->strInvLotNum,
-						'strDelReason' => "Its the Max Stocks Available"
-					]);
 			}
-			}//foreach
+		}//foreach
+
+				DB::table('tblOrders')
+				->where('tblOrders.intOID', '=', $id)
+				->update([
+					'dtOReceived' => $ldate,
+					'intStatus' => 4,
+				]);
 
 		return Redirect::to('/admin');
 	}

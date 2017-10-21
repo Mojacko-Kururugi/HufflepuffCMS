@@ -62,26 +62,61 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                 @foreach($data as $data)
+                                 @foreach($data as $datas)
                                 <tr>
-                                    <td>{{ $data->strSHCode }}</td>
-                                    <td>{{ $data->strPatLast . ', ' . $data->strPatFirst . ' ' . $data->strPatMiddle }}</td>
-                                    <td>{{ $data->dcmSBalance }}</td>
-                                    <td>{{ $data->sum }}</td>
-                                    <td>{{ $data->strPayTDesc }}</td>
-                                   <!-- <td>{{ $data->strSaleSDesc }}</td> -->
+                                    <td>{{ $datas->strSHCode }}</td>
+                                    <td>{{ $datas->strPatLast . ', ' . $datas->strPatFirst . ' ' . $datas->strPatMiddle }}</td>
+                                    <td>{{ $datas->dcmSBalance }}</td>
+                                    <td>{{ $datas->sum }}</td>
+                                    <td>{{ $datas->strPayTDesc }}</td>
+                                   <!-- <td>{{ $datas->strSaleSDesc }}</td> -->
                                     <td>
                                         <div class="center-btn">
-                                         <a class="modal-trigger waves-effect waves-light btn blue lighten-1 btn-small center-text" href="#{{$data->intSHID}}">VIEW DETAILS</a>
+                                         <a class="modal-trigger waves-effect waves-light btn blue lighten-1 btn-small center-text" href="#{{$datas->intSHID}}">VIEW DETAILS</a>
                                         </div>
                                     </td>
                                 </tr>
 
-
-
                                 @endforeach
                             </tbody>
                         </table>
+
+                        @foreach($data as $datum)
+                            <div id="{{$datum->intSHID}}" class="modal modal-fixed-footer">
+                                <div class="modal-content col 6">
+                                  <h4>Payment History</h4>
+                                  <p>
+                                  <div class="nav-wrapper">
+                                  <div class="container-fluid">
+                                      <table id="example2" class="mdl-data-table" cellspacing="0" width="100%">
+                                          <thead>
+                                              <tr>
+                                                  <th>Balance Paid</th>
+                                                  <th>Date</th> 
+                                              </tr>
+                                          </thead>
+                                          <tbody>
+                                               @foreach($data2 as $data2)
+                                               @if($datum->intSaleID == $data2->intPymServID)
+                                              <tr>
+                                                  <td>{{ $data2->dcmPymPayment }}</td>
+                                                  <td>{{ $data2->dtmPymDateRec }}</td>
+                                              </tr>
+                                              @endif
+                                              @endforeach
+                                          </tbody>
+                                      </table>
+                                  </div>
+                <!-- dito naman yung mga susunod na shits kung may idadagdag pa ^_^ -->
+
+              </div>
+                                  </p>
+                                </div>
+                                <div class="modal-footer col 6">
+                                  <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat ">CLOSE</a>
+                                </div>
+                              </div>
+                        @endforeach
                     </div>
                 <!-- dito naman yung mga susunod na shits kung may idadagdag pa ^_^ -->
 
