@@ -7,6 +7,7 @@
     <!-- STYLES START -->
     {{ HTML::style('css/materialize.min.css') }}
     {{ HTML::style('css/datatables.min.css') }}
+    {{ HTML::style('css/jquery-ui.css') }}
     {{ HTML::style('css/style.css') }}
     <!-- STYLES END -->
   </head>
@@ -75,17 +76,20 @@
       </div>
     </header>
 
-    <main>
-      @yield('content')
-    </main>
 
-     <!-- SCRIPTS START -->
+
     {{ HTML::script('js/jquery-2.1.4.min.js') }}
+    {{ HTML::script('js/modernizr.js') }}
     {{ HTML::script('js/jquery.validate.min.js') }}
+    {{ HTML::script('js/jquery-ui.js') }}
     {{ HTML::script('js/materialize.min.js') }}
     {{ HTML::script('js/datatables.min.js') }}
     {{ HTML::script('js/app.js') }}
     <!-- SCRIPTS END -->
+
+    <main>
+      @yield('content')
+    </main>
 
 
     @yield('scripts')

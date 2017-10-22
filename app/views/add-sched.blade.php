@@ -29,7 +29,7 @@
                 <input id="date" name="date" type="date" class="datepicker" style="height:39px" value="">
               </div>
             </div>  
-
+            <input type="hidden" id="alternate" />
 
             <div class="row">
                    <div class="row">
@@ -93,7 +93,9 @@
 
 {{-- Scripts START --}}
 <script src="js/jquery-1.11.1.min.js"></script>
+<script src="js/jquery-ui.js"></script>
 <script src="js/jquery.validate.min.js"></script>
+<script src="js/modernizr.js"></script>
 <script src="js/materialize.js"></script>
 <script type="text/javascript">
   var date = new Date();
@@ -101,6 +103,16 @@
   var contactRegex = /((\+63)|0)\d{10}/;
 
   $(document).ready(function() {
+
+if (!Modernizr.touch || !Modernizr.inputtypes.date) {
+        $('input[type=date]')
+            .attr('type', 'text')
+            .datepicker({
+                dateFormat: 'yy-mm-dd',
+                minDate: 1,
+            });
+    }
+
     $('#b_day').pickadate({
       format: "yyyy-mm-dd",
       selectYears: true,

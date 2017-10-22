@@ -57,6 +57,15 @@
 
   $().ready(function() {
 
+    if (!Modernizr.touch || !Modernizr.inputtypes.date) {
+        $('input[type=date]')
+            .attr('type', 'text')
+            .datepicker({
+                dateFormat: 'yy-mm-dd',
+                minDate: 1,
+            });
+    }
+
     jQuery.validator.addMethod("timey", function(value, element) {
         var hour = parseInt(value.substring(0,2));
         return hour > 8 && hour < 21;

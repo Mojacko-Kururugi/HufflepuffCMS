@@ -67,7 +67,7 @@
                   </div>
                   <div class="row">
                     <div class="input-field col s12 m8 l6">
-                      <input id="stud_id_no" name="stud_id_no" type="text" class="validate" value="">
+                      <input id="stud_id_no" name="stud_id_no" type="text" class="validate" value="" placeholder="(09)/(+63) + 9 digits" >
                       <label for="stud_id_no">Contact Number</label>
                     </div>
                   </div>
@@ -172,7 +172,8 @@
         user_type: "required",
 
         first_name_sa: {
-          required: true
+          required: true,
+          regex: nameRegex
         },
 
         // middle_name_sa: {
@@ -180,7 +181,8 @@
         // },
 
         last_name_sa: {
-          required: true
+          required: true,
+          regex: nameRegex
         },
 
 

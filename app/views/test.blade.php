@@ -27,15 +27,15 @@
                   </div>
                   <div class="row">
                     <div class="input-field col s12 m4 l4">
-                      <input id="last_name_sa" name="last_name_sa" type="text" class="validate" value="" pattern="[a-zA-Z][a-zA-Z ]{1,}" onkeydown="return alphaOnly(event);">
+                      <input id="last_name_sa" name="last_name_sa" type="text" class="validate" value="">
                       <label for="last_name_sa">Last Name*</label>
                     </div>
                     <div class="input-field col s12 m4 l4">
-                      <input id="first_name_sa" name="first_name_sa" type="text" class="validate" value="" pattern="[a-zA-Z][a-zA-Z ]{1,}" onkeydown="return alphaOnly(event);">
+                      <input id="first_name_sa" name="first_name_sa" type="text" class="validate" value="">
                       <label for="first_name_sa">First Name*</label>
                     </div>
                     <div class="input-field col s12 m4 l4">
-                      <input id="middle_name_sa" name="middle_name_sa" type="text" class="validate" value="" pattern="[a-zA-Z][a-zA-Z ]{1,}" onkeydown="return alphaOnly(event);">
+                      <input id="middle_name_sa" name="middle_name_sa" type="text" class="validate" value="">
                       <label for="middle_name_sa">Middle Name</label>
                     </div>
                   </div>
@@ -63,7 +63,7 @@
       <div class="row">
         <div class="input-field col l6 m6 s12">
             <label for="number">Contact Number</label>
-            <input id="number" name="number" type="text" class="validate" value="" />
+            <input id="number" name="number" type="text" class="validate" value="" placeholder="(09)/(+63) + 9 digits"   />
         </div>
         <div class="input-field col s12 m6 l6">
             <label for="company">Company:</label>
@@ -226,12 +226,30 @@
 <script src="js/jquery-1.11.1.min.js"></script>
 <script src="js/jquery.validate.min.js"></script>
 <script type="text/javascript">
+  var nameRegex = /^([ \u00c0-\u01ffa-zA-Z'\-])+$/;
+  var contactRegex = /((\+63)|0)\d{10}/;
+
+
+    $.validator.addMethod("regex", function(value, element, regexp) {
+      return regexp.test(value);
+    }, "Please enter a valid format.");
+
   $().ready(function() {
     $("#signup_validate").validate({
       rules: {
-        last_name_sa: "required",
-        first_name_sa: "required",
-        
+        last_name_sa: {
+          required: true,
+          regex: nameRegex
+        },
+        first_name_sa: {
+          required: true,
+          regex: nameRegex
+        },
+            
+        number:{
+          regex: contactRegex
+        },
+
         email: {
           required: true,
           email: true

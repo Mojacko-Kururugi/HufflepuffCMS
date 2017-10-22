@@ -64,22 +64,33 @@
 
 {{-- Scripts START --}}
 <script type="text/javascript">
+
+
+  var contactRegex = /^(09|\+639)\d{9}$|^$/i;
+  var addRegex = /^[a-zA-Z0-9\s.,'-]*$/i;
+  
+     $.validator.addMethod("regex", function(value, element, regexp) {
+       return regexp.test(value);
+     }, "Please enter a valid format.");
+
   $().ready(function() {
-    $.validator.addMethod("regex", function(value, element, regexpr) {          
-     return regexpr.test(value);
-    }, "Please enter the valid format"); 
+    //$.validator.addMethod("regex", function(value, element, regexpr) {          
+     //return regexpr.test(value);
+    //}, "Please enter the valid format"); 
+
+
     $("#signup_validate").validate({          
       rules: {
         number: "required",
         address: {
           required: true,
-          regex: /^[a-zA-Z0-9\s.,'-#]*$/
+          regex: addRegex
         },
         stud_id_no: {
           required: true,
           //maxlength: 11,
          // minlength: 11,
-          regex: /^(09|\+639)\d{9}$/
+          regex: contactRegex
         } 
       },
       errorElement: 'div'

@@ -42,7 +42,7 @@
                 </div>
                 <div class="row">
                   <div class="input-field col s12 m8 l6">
-                    <input id="stud_id_no" name="stud_id_no" type="number" class="validate" value="{{ $data->strBContactNumb }}" data-error=".num_error">
+                    <input id="stud_id_no" name="stud_id_no" type="text" class="validate" value="{{ $data->strBContactNumb }}" data-error=".num_error">
                     <label for="stud_id_no">Contact Number*</label>
                     <div class="num_error"></div>
                   </div>
@@ -66,85 +66,32 @@
 
 
 <script type="text/javascript">
-  $().ready(function() {
+
+
+  var contactRegex = /^(09|\+639)\d{9}$|^$/i;
+  var addRegex = /^[a-zA-Z0-9\s.,'-]*$/i;
+
     $.validator.addMethod("regex", function(value, element, regexp) {
        return regexp.test(value);
      }, "Please enter a valid format.");
 
-    $('#signup_validate').validate({
+  $().ready(function() {
+
+
+    $("#signup_validate").validate({          
       rules: {
-        user_id: {
-          required: true,
-          // regex: licenseRegex
-        },
-
-        branch: "required",
-        
-        user_type: "required",
-
-        first_name_sa: {
-          required: true
-        },
-
-        // middle_name_sa: {
-        //   regex: nameRegex
-        // },
-
-        last_name_sa: {
-          required: true
-        },
-
-
-        gender: "required",
-
-        // number: {
-        //   required: true,
-        //   regex: contactRegex
-        // },
-
-        strUserLastName: {
-          required: true,
-          //regex: nameRegex
-        },
-
+        number: "required",
         address: {
-          //required: true,
-          // regex: addRegex
+          required: true,
+          regex: addRegex
         },
-
         stud_id_no: {
-          //required: true,
+          required: true,
           //maxlength: 11,
          // minlength: 11,
-          // regex: contactRegex
-        },
-
-        email: {
-          required: true,
-          email: true
-        },
-        
-        con_email: {
-          email: true,
-          equalTo: "#email",
-          required: true
-        },
-        
-        password: {
-          required: true,
-          minlength: 6,
-          //regex: passRegex
-        },
-        
-        con_pass: {
-          required: true,
-          equalTo: "#password"
-        }
-    
+          regex: contactRegex
+        } 
       },
-      // messages: {
-      //   user_id: "This field is Required."
-      // },
       errorElement: 'div'
     });
   });

@@ -27,7 +27,7 @@
                   </div>
                   <div class="row">
                     <div class="input-field col s12 m4 l4">
-                      <input id="last_name_sa" name="last_name_sa" type="text" class="validate" value="" pattern="[A-Za-z]+" onkeydown="return alphaOnly(event);">
+                      <input id="last_name_sa" name="last_name_sa" type="text" class="validate" value="">
                       <label for="last_name_sa">Last Name*</label>
                     </div>
                     <div class="input-field col s12 m4 l4">
@@ -35,7 +35,7 @@
                       <label for="first_name_sa">First Name*</label>
                     </div>
                     <div class="input-field col s12 m4 l4">
-                      <input id="middle_name_sa" name="middle_name_sa" type="text" class="validate" value="" pattern="[A-Za-z]+" onkeydown="return alphaOnly(event);">
+                      <input id="middle_name_sa" name="middle_name_sa" type="text" class="validate" value="">
                       <label for="middle_name_sa">Middle Name</label>
                     </div>
                   </div>
@@ -95,8 +95,6 @@
 
 
 {{-- Scripts START --}}
-<script src="js/jquery-1.11.1.min.js"></script>
-<script src="js/jquery.validate.min.js"></script>
 <script type="text/javascript">
   var date = new Date();
   var nameRegex = /^([ \u00c0-\u01ffa-zA-Z'\-])+$/;
@@ -110,7 +108,7 @@
       rules: {
         first_name_sa: {
           required: true,
-          // regex: nameRegex
+          regex: nameRegex
         },
 
         // middle_name_sa: {
@@ -119,7 +117,7 @@
 
         last_name_sa: {
           required: true,
-          // regex: nameRegex
+          regex: nameRegex
         },
 
         branch: "required",
