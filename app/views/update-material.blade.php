@@ -25,8 +25,8 @@
                     <form action="{{ URL::to('/products/update-prod') }}" method="POST" id="signup_validate" enctype="multipart/form-data"><br><br>
 
                            <div class="input-field col l6 m6 s12">
-                        <select class="initialized browser-default" name="type" id="type" data-error=".type_error">
-                          <option value="" disabled selected>Type*</option>
+                        <select class="initialized browser-default" name="type" id="type" data-error=".type_error" value="{{ $prod->strItemType }}">
+                          <option value="" disabled>Type*</option>
                           @foreach($data as $data)
                             <option value="{{ $data->intITID}}" @if(Input::old('type') == $data->intITID) selected="selected" @endif>{{ $data->strITDesc}}</option>
                           @endforeach
@@ -51,7 +51,7 @@
               <div class="row">
                     <div class="form-group col l6 ">
                       <label for="price">Price per piece*</label>
-                      <input type="number" class="form-control" name="price" id="price" value="" min="0" data-error=".price_error">
+                      <input type="number" class="form-control" name="price" id="price" value=""  min="0" data-error=".price_error">
                        <div class="price_error"></div>
                     </div>
               </div>

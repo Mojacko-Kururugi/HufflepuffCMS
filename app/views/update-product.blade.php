@@ -34,18 +34,17 @@
         </div>
         <div class="row">
               <div class="input-field col l12 m8 s12">
-                <label for="model">Product Model*</label>
-                <input id="model" name="model" type="text" class="validate" value="{{ $prod->strItemDesc }}"  data-error=".model_error"/>
-                <div class="model_error"></div>
-              </div>
-        </div>
-        <div class="row">
-              <div class="input-field col l12 m8 s12">
                 <label for="brand">Product Brand*</label>
                 <input id="brand" name="brand" type="text" class="validate" value="{{ $prod->strItemBrand }}"  data-error=".brand_error"/>
                 <div class="brand_error"></div>
               </div>
         </div>
+        <div class="row">
+                      <div class="input-field col l12 m8 s12">
+                        <label for="model">Product Description</label>
+                        <input id="model" name="model" type="text" class="validate" value="{{ $prod->strItemDesc }}" />
+                      </div>
+                </div>
         <div class="row">
               <div class="form-group col l6 ">
                 <label for="price">Price per piece*</label>
@@ -54,8 +53,8 @@
               </div>
         </div>
                     <div class="input-field col l6 m6 s12">
-                        <select class="initialized browser-default" name="type" id="type" data-error=".school_error">
-                          <option value="" disabled selected>Type*</option>
+                        <select class="initialized browser-default" name="type" value="{{ $prod->intItemType }}" id="type" data-error=".school_error">
+                          <option value="" disabled>Type*</option>
                           @foreach($data as $data)
                             <option value="{{ $data->intITID}}" @if(Input::old('type') == $data->intITID) selected="selected" @endif>{{ $data->strITDesc}}</option>
                           @endforeach
@@ -81,8 +80,6 @@
 
 
 {{-- Scripts START --}}
-<script src="js/jquery-1.11.1.min.js"></script>
-<script src="js/jquery.validate.min.js"></script>
 <script type="text/javascript">
   $().ready(function() {
     var price = document.getElementById("price");
@@ -96,6 +93,7 @@
       rules: {
         type: "required",
         name: "required",
+        brand: "required",
         price: "required"
       },
       errorElement: 'div'

@@ -8,6 +8,7 @@
     {{ HTML::style('css/materialize.min.css') }}
     {{ HTML::style('css/datatables.min.css') }}
     {{ HTML::style('css/style.css') }}
+    {{ HTML::style('css/jquery-ui.css') }}
     <!-- STYLES END -->
   </head>
   <body>

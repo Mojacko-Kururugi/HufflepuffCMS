@@ -29,22 +29,22 @@
                   </div>
                   <div class="row">
                     <div class="input-field col s12 m4 l4">
-                      <input id="last_name_sa" name="last_name_sa" type="text" class="validate" value="{{ $data->strEmpLast }}" pattern="[A-Za-z]+" onkeydown="return alphaOnly(event);">
+                      <input id="last_name_sa" name="last_name_sa" type="text" class="validate" value="{{ $data->strEmpLast }}">
                       <label for="last_name_sa">Last Name*</label>
                     </div>
                     <div class="input-field col s12 m4 l4">
-                      <input id="first_name_sa" name="first_name_sa" type="text" class="validate" value="{{ $data->strEmpFirst }}" pattern="[A-Za-z]+" onkeydown="return alphaOnly(event);">
+                      <input id="first_name_sa" name="first_name_sa" type="text" class="validate" value="{{ $data->strEmpFirst }}">
                       <label for="first_name_sa">First Name*</label>
                     </div>
                     <div class="input-field col s12 m4 l4">
-                      <input id="middle_name_sa" name="middle_name_sa" type="text" class="validate" value="{{ $data->strEmpMiddle }}" pattern="[A-Za-z]+" onkeydown="return alphaOnly(event);">
+                      <input id="middle_name_sa" name="middle_name_sa" type="text" class="validate" value="{{ $data->strEmpMiddle }}">
                       <label for="middle_name_sa">Middle Name</label>
                     </div>
                   </div>
                   <div class="row">
                     <div class="input-field col l6 m6 s12">
-                        <select class="initialized browser-default" name="branch" id="branch" data-error=".school_error">
-                          <option value="" disabled selected>Branch*</option>
+                        <select class="initialized browser-default" value="{{ $data->intEmpBranch }}" name="branch" id="branch" data-error=".school_error">
+                          <option value="" disabled>Branch*</option>
                           @foreach($branch as $branch)
                             <option value="{{ $branch->intBranchID}}" @if(Input::old('branch') == $branch->intBranchID) selected="selected" @endif>{{ $branch->strBranchName}}</option>
                           @endforeach
@@ -78,20 +78,23 @@
   var contactRegex = /((\+63)|0)\d{10}/;
 
   $(document).ready(function() {
+    $.validator.addMethod("regex", function(value, element, regexp) {
+       return regexp.test(value);
+     }, "Please enter a valid format.");
     $('#signup_validate').validate({
       rules: {
         first_name_sa: {
           required: true,
-          // regex: nameRegex
+          regex: nameRegex
         },
 
-        // middle_name_sa: {
+        //middle_name_sa: {
         //   regex: nameRegex
-        // },
+        //},
 
         last_name_sa: {
           required: true,
-          // regex: nameRegex
+          regex: nameRegex
         },
 
         branch: "required",

@@ -92,13 +92,19 @@
 </div>
 
 {{-- Scripts START --}}
-<script src="js/materialize.js"></script>
-<script src="js/jquery-1.11.1.min.js"></script>
-<script src="js/jquery.validate.min.js"></script>
 <script type="text/javascript">
 
 
   $().ready(function() {
+
+if (!Modernizr.touch || !Modernizr.inputtypes.date) {
+        $('input[type=date]')
+            .attr('type', 'text')
+            .datepicker({
+                dateFormat: 'yy-mm-dd',
+                minDate: 1,
+            });
+    }
 
     jQuery.validator.addMethod("timey", function(value, element) {
         var hour = parseInt(value.substring(0,2));

@@ -36,15 +36,15 @@
                   </div>
                   <div class="row">
                     <div class="input-field col s12 m4 l4">
-                      <input id="last_name_sa" name="last_name_sa" type="text" class="validate" value="{{ $data->strDocLast }}" pattern="[A-Za-z]+" onkeydown="return alphaOnly(event);">
+                      <input id="last_name_sa" name="last_name_sa" type="text" class="validate" value="{{ $data->strDocLast }}">
                       <label for="last_name_sa">Last Name*</label>
                     </div>
                     <div class="input-field col s12 m4 l4">
-                      <input id="first_name_sa" name="first_name_sa" type="text" class="validate" value="{{ $data->strDocFirst }}" pattern="[A-Za-z]+" onkeydown="return alphaOnly(event);">
+                      <input id="first_name_sa" name="first_name_sa" type="text" class="validate" value="{{ $data->strDocFirst }}">
                       <label for="first_name_sa">First Name*</label>
                     </div>
                     <div class="input-field col s12 m4 l4">
-                      <input id="middle_name_sa" name="middle_name_sa" type="text" class="validate" value="{{ $data->strDocMiddle }}" pattern="[A-Za-z]+" onkeydown="return alphaOnly(event);">
+                      <input id="middle_name_sa" name="middle_name_sa" type="text" class="validate" value="{{ $data->strDocMiddle }}">
                       <label for="middle_name_sa">Middle Name</label>
                     </div>
                   </div>
@@ -63,14 +63,14 @@
                   </div>
                   <div class="row">
                     <div class="input-field col s12 m8 l6">
-                      <input id="stud_id_no" name="stud_id_no" type="text" class="validate" value="{{ $data->strDocContactNumb }}">
+                      <input id="stud_id_no" name="stud_id_no" type="text" class="validate" placeholder="(09)/(+63) + 9 digits" value="{{ $data->strDocContactNumb }}">
                       <label for="stud_id_no">Contact Number*</label>
                     </div>
                   </div>
                   <div class="row">
                     <div class="input-field col l6 m6 s12">
-                        <select class="initialized browser-default" name="branch" id="branch" data-error=".school_error">
-                          <option value="" disabled selected>Branch*</option>
+                        <select class="initialized browser-default" value="{{ $data->intDocBranch }}" name="branch" id="branch" data-error=".school_error">
+                          <option value="" disabled>Branch*</option>
                           @foreach($branch as $branch)
                             <option value="{{ $branch->intBranchID}}" @if(Input::old('branch') == $branch->intBranchID) selected="selected" @endif>{{ $branch->strBranchName}}</option>
                           @endforeach
@@ -96,14 +96,15 @@
 
 
 {{-- Scripts START --}}
-<script src="js/jquery-1.11.1.min.js"></script>
-<script src="js/jquery.validate.min.js"></script>
+<!--<script src="js/jquery-1.11.1.min.js"></script>
+<script src="js/jquery.validate.min.js"></script>-->
 <script type="text/javascript">
   var date = new Date();
   var nameRegex = /^([ \u00c0-\u01ffa-zA-Z'\-])+$/;
-  var contactRegex = /((\+63)|0)\d{10}/;
-  
-  
+  var contactRegex = /^(09|\+639)\d{9}$|^$/i;
+  var addRegex = /^[a-zA-Z0-9\s.,'-]*$/i;
+  var passRegex = /^[a-zA-Z0-9]{6,16}$/;
+  var licenseRegex = /^[0-9]{7}$/;
 
   $(document).ready(function() {
     // $('#b_day').pickadate({
@@ -125,14 +126,15 @@
     //   reader.readAsDataURL(this.files[0]);
     // });
 
-    // $.validator.addMethod("regex", function(value, element, regexp) {
-    //   return regexp.test(value);
-    // }, "Please enter a valid format.");
+     $.validator.addMethod("regex", function(value, element, regexp) {
+       return regexp.test(value);
+     }, "Please enter a valid format.");
 
     $('#signup_validate').validate({
       rules: {
         user_id: {
-          required: true
+          required: true,
+          regex: licenseRegex
         },
 
         branch: "required",
@@ -140,7 +142,8 @@
         user_type: "required",
 
         first_name_sa: {
-          required: true
+          required: true,
+          regex: nameRegex
         },
 
         // middle_name_sa: {
@@ -148,7 +151,8 @@
         // },
 
         last_name_sa: {
-          required: true
+          required: true,
+          regex: nameRegex
         },
 
 
@@ -164,6 +168,18 @@
           regex: nameRegex
         },
 
+        address: {
+          //required: true,
+          regex: addRegex
+        },
+
+        stud_id_no: {
+          //required: true,
+          //maxlength: 11,
+         // minlength: 11,
+          regex: contactRegex
+        },
+
         email: {
           required: true,
           email: true
@@ -177,7 +193,8 @@
         
         password: {
           required: true,
-          minlength: 6
+          minlength: 6,
+          regex: passRegex
         },
         
         con_pass: {
