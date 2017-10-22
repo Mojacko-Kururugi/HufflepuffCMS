@@ -322,7 +322,8 @@
                         <td @if($order->intStatus == 1) class="green-text bold" @else class="yellow-text bold" @endif>{{ $order->strOSDesc }}</td>
                         <td>
                             <div class="center-btn" >
-                             <a class="waves-effect waves-light btn green darken-1 btn-small center-text" href="admin/deliver/{{$order->intOID}}">DELIVER</a>
+                             <!--<a class="waves-effect waves-light btn green darken-1 btn-small center-text" href="admin/deliver/{{$order->intOID}}">DELIVER</a>-->
+                             <a class="waves-effect waves-light btn green darken-1 btn-small center-text" href="/admin/delivery/{{$order->intOID}}">DELIVER</a>
                             </div>
                         @elseif($order->intStatus == 1)
                         <td>
@@ -394,7 +395,7 @@
                                                           <tr>
                                                               <th>Item Name</th>
                                                               <th>Item Description</th>
-							      <th>Item Type</th>
+							                                                 <th>Item Type</th>
                                                               <th>Quantity</th>
                                                           </tr>
                                                       </thead>

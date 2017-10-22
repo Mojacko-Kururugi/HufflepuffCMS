@@ -35,7 +35,9 @@ Route::get('/admin/ord', 'AdminController@openAddItem');
 Route::post('/admin/add-to-list', 'AdminController@addToList');
 Route::get('/admin/rem-to-list/{id}', 'AdminController@removeToList');
 Route::get('/admin/add-order', 'AdminController@addItem');
-Route::get('/admin/deliver/{id}', 'AdminController@deliverOrd');
+//Route::get('/admin/deliver/{id}', 'AdminController@deliverOrd');
+Route::get('/admin/delivery/{id}', 'AdminController@openAddDel');
+Route::post('/admin/delivery/', 'AdminController@deliverOrder');
 
 Route::get('/branches', 'AdminController@showBranches');
 Route::get('/add-branch', 'AdminController@addBranchForm');
@@ -176,6 +178,7 @@ Route::get('/patient-sales', 'PatientController@showAcc');
 Route::get('/patient-records/view-service/{id}', 'PatientController@openServView');
 Route::get('/can-sched/{id}', 'PatientController@canSched');
 Route::get('/ed-sched/{id}', 'PatientController@edSched');
+Route::get('/del-sched/{id}', 'PatientController@delSched');
 Route::get('/re-sched/{id}', 'PatientController@reSched');
 Route::post('/patient-schedules/update', 'PatientController@updateReqSched');
 Route::post('/patient-schedules/resched', 'PatientController@updateReSched');

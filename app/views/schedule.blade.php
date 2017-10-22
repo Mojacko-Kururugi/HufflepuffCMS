@@ -15,7 +15,14 @@
 
       <div class="main-wrapper">
         <!-- ACTUAL PAGE CONTENT GOES HERE -->
-
+<?php
+  if(Session::get('sched_mess') != null)
+    {
+      $message = "Time and Date is Unavailable!";
+echo "<script type='text/javascript'>alert('$message');</script>";
+      Session::forget('sched_mess');
+    }
+?>
         <div class="container-fluid">
 
           <div class="card">

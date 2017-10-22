@@ -352,6 +352,31 @@ class AdminController extends BaseController {
 		return Redirect::to('/admin');
 	}
 
+	public function openAddDel($id)
+	{
+		$data = DB::table('tblOrderDetails')
+			->join('tblOrders', 'tblOrderDetails.intODCode', '=', 'tblOrders.intOID')
+			->join('tblItems', 'tblOrderDetails.intOProdID', '=', 'tblItems.intItemID')
+			->join('tblBranch', 'tblOrders.intOBranch', '=', 'tblBranch.intBranchID')
+			->where('tblOrderDetails.intODCode', '=', $id)
+			->get();
+
+		$inv = DB::table('tblInventory')
+			->join('tblItems', 'tblInventory.intInvPID', '=', 'tblItems.intItemID')
+			->where('tblInventory.intInvBranch', '=', 1)
+			->get();
+
+		return View::make('add-delivery')->with('data',$data)->with('inv',$inv);
+	}
+
+	public function deliverOrder()
+	{
+		foreach(Request::input('item') as $item)
+		{
+		
+		}
+	}
+
 	public function deliverOrd($id) {
 
 		$ldate = date('Y-m-d H:i:s');

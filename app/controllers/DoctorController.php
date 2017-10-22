@@ -698,31 +698,68 @@ class DoctorController extends BaseController {
 
 	public function saveSched() {
 
-	DB::table('tblSchedules')
-		->insert([
-			'dtSchedDate' 		=> Request::input('date'),
-			'tmSchedTime'			=> Request::input('time'),
-			'strSchedHeader' 	=> Request::input('name'),
-			'strSchedDetails'	=> Request::input('desc'),
-			'intSchedPatient'	=> Request::input('patient'),			
-			'intSchedDoctor' => Session::get('user_code'),
-			'intSchedFrequencyType' => Request::input('time_frequency'),
-			'intSchedType' => 2,
-			'intSchedStatus' => 1,
-		]);
+		$ex = DB::table('tblSchedules')
+			->where('tblSchedules.dtSchedDate','=',Request::input('date'))
+			->where('tblSchedules.tmSchedTime','=',Request::input('time'))
+			->where('tblSchedules.intSchedDoctor','=',Session::get('user_code'))
+			->where('tblSchedules.intSchedStatus','=',1)
+			->first();
 
-		return Redirect::to('/schedules');
+
+		if($ex == null)
+		{
+			DB::table('tblSchedules')
+				->insert([
+					'dtSchedDate' 		=> Request::input('date'),
+					'tmSchedTime'			=> Request::input('time'),
+					'strSchedHeader' 	=> Request::input('name'),
+					'strSchedDetails'	=> Request::input('desc'),
+					'intSchedPatient'	=> Request::input('patient'),			
+					'intSchedDoctor' => Session::get('user_code'),
+					'intSchedFrequencyType' => Request::input('time_frequency'),
+					'intSchedType' => 2,
+					'intSchedStatus' => 1,
+				]);
+
+				return Redirect::to('/schedules');
+		}
+		else
+		{
+			Session::put('sched_mess',"Invalid!");
+			return Redirect::to('/add-sched');
+		}
 	}
 
 	public function appSched($id) {
 		//dd($id);
-		DB::table('tblSchedules')
-		->where('tblSchedules.intSchedID','=',$id)
-		->update([
-			'intSchedStatus' => 1
-		]);
 
-		return Redirect::to('/schedules');
+		$data = DB::table('tblSchedules')
+			->where('tblSchedules.intSchedID','=',$id)
+			->first();
+
+		$ex = DB::table('tblSchedules')
+			->where('tblSchedules.dtSchedDate','=',$data->dtSchedDate)
+			->where('tblSchedules.tmSchedTime','=',$data->tmSchedTime)
+			->where('tblSchedules.intSchedDoctor','=',Session::get('user_code'))
+			->where('tblSchedules.intSchedStatus','=',1)
+			->first();
+
+
+		if($ex == null)
+		{
+			DB::table('tblSchedules')
+			->where('tblSchedules.intSchedID','=',$id)
+			->update([
+				'intSchedStatus' => 1
+			]);
+			return Redirect::to('/schedules');
+		}
+		else
+		{
+			Session::put('sched_mess',"Invalid!");
+			return Redirect::to('/index');
+		}
+		
 	}
 
 	public function decSched($id) {
