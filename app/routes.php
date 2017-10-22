@@ -183,6 +183,8 @@ Route::get('/re-sched/{id}', 'PatientController@reSched');
 Route::post('/patient-schedules/update', 'PatientController@updateReqSched');
 Route::post('/patient-schedules/resched', 'PatientController@updateReSched');
 
+Route::post('/patient/update-cred', 'PatientController@saveUpCred');
+
 
 
 

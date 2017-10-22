@@ -173,6 +173,25 @@ class PatientController extends BaseController {
 		return Redirect::to('/patient-schedules');
 	}
 
+	public function saveUpCred() {
+
+		DB::table('tblPatientInfo')
+			->where('tblPatientInfo.strPatEmail','=',Request::input('email'))
+			->update([
+				'strPatEmail' 		=> Request::input('con_email')
+			]);
+
+
+		DB::table('tblUserAccounts')
+			->where('tblUserAccounts.strUEmail','=',Request::input('email'))
+			->update([
+				'strUEmail' 		=> Request::input('con_email'),
+				'strUPassword' 		=> Request::input('con_pass')
+			]);
+
+		return Redirect::to('/logout');
+	}
+
 	public function showRec() {
 		/*
 		$data = DB::table('tblServiceHeader')

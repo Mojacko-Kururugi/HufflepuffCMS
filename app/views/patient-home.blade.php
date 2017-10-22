@@ -21,6 +21,7 @@
 
                         <!-- Modal Structure -->
                               <div id="cred" class="modal modal-fixed-footer">
+                              <form action="{{ URL::to('/patient/update-cred') }}" method="POST" id="signup_validate" enctype="multipart/form-data">
                                 <div class="modal-content col 6">
                                   <h4>Update Credentials</h4>
                                   <p>
@@ -55,6 +56,7 @@
                                   <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat ">CANCEL</a>
                                   <button type="submit" class="modal-action modal-close waves-effect waves-green btn-flat ">UPDATE</button>
                                 </div>
+                                </form>
                               </div>
 
     <div class="row">

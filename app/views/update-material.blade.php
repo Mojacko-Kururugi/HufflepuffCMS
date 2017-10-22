@@ -25,7 +25,7 @@
                     <form action="{{ URL::to('/products/update-prod') }}" method="POST" id="signup_validate" enctype="multipart/form-data"><br><br>
 
                            <div class="input-field col l6 m6 s12">
-                        <select class="initialized browser-default" name="type" id="type" data-error=".type_error" value="{{ $prod->strItemType }}">
+                        <select class="initialized browser-default" name="type" id="type" data-error=".type_error" value="{{ $prod->intItemType }}">
                           <option value="" disabled>Type*</option>
                           @foreach($data as $data)
                             <option value="{{ $data->intITID}}" @if(Input::old('type') == $data->intITID) selected="selected" @endif>{{ $data->strITDesc}}</option>

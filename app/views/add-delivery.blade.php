@@ -21,7 +21,7 @@
         <div class="col s12">
           <div class="card">
             <div class="card-content">
-          <form action="{{ URL::to('test-del') }}" method="POST" id="signup_validate" enctype="multipart/form-data"><br><br>
+          <form action="{{ URL::to('admin/delivery/') }}" method="POST" id="signup_validate" enctype="multipart/form-data"><br><br>
               <div class="col s12 m12 l12 overflow-x">
                 <table class="centered">
                     <thead>
@@ -36,8 +36,8 @@
                     <tbody>
                     @foreach($data as $list)
                     <tr>
-                      <td>{{ $list->strItemName }}</td>
-                      <td>{{ $list->strItemDesc }}</td>
+                      <td>{{ $list->strItemName }} - {{ $list->strItemDesc }}</td>
+                      <td>{{ $list->intOQty }}</td>
                       <td>
                         <div class="input-field col l12 m12 s12">
                         <select class="initialized browser-default" name="item[]" id="item" data-error=".school_error">

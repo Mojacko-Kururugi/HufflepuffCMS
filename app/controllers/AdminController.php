@@ -366,15 +366,89 @@ class AdminController extends BaseController {
 			->where('tblInventory.intInvBranch', '=', 1)
 			->get();
 
+		Session::put('delivery_sess',$id);
+
 		return View::make('add-delivery')->with('data',$data)->with('inv',$inv);
 	}
 
 	public function deliverOrder()
 	{
-		foreach(Request::input('item') as $item)
+
+		$ldate = date('Y-m-d H:i:s');
+		$x = Request::input('item');
+		$y = Request::input('name');
+		$z=0;		
+
+		$data = DB::table('tblOrderDetails')
+			->join('tblOrders', 'tblOrderDetails.intODCode', '=', 'tblOrders.intOID')
+			->join('tblItems', 'tblOrderDetails.intOProdID', '=', 'tblItems.intItemID')
+			->join('tblBranch', 'tblOrders.intOBranch', '=', 'tblBranch.intBranchID')
+			->where('tblOrderDetails.intODCode', '=', Session::get('delivery_sess'))
+			->get();
+
+		$ct = 1 + DB::table('tblAdjustments')
+			->count();
+
+		if($ct < 10)
+			$count = "DEL00" . $ct;
+		else if($ct < 100)
+			$count = "DEL0" . $ct;
+		else if($ct < 1000)
+			$count = "DEL" . $ct;
+
+		foreach($data as $data)
 		{
-		
-		}
+
+		$inv = DB::table('tblInventory')
+			->where('tblInventory.strInvLotNum', '=', $x[$z])
+			->where('tblInventory.intInvBranch', '=', 1)
+			->first();
+
+		$new_qty = $y[$z];
+		$curr_qty =  $inv->intInvQty;
+		$total;
+
+		$string = "ORDER BY " . $data->strBranchName . "(" . $data->strOCode . ")";
+
+		if($new_qty <= $inv->intInvQty)
+			{
+				$total = $curr_qty - $new_qty;
+				DB::table('tblAdjustments')
+					->insert([
+						'strAdjCode'  => $count,
+						'intAdjInvID' => $inv->intInvID,
+					    'intAdjQty' => $new_qty,
+					    'strAdjReason' => $string,
+					    'intAdjStatus' => 2,
+					    'intAdjBranch' => 1
+					]);		
+
+				DB::table('tblInventory')
+						->where('tblInventory.intInvID', '=', $inv->intInvID)
+						->update([
+							'intInvQty' => $total,
+						]);
+
+				DB::table('tblDelivery')
+					->insert([
+						'intDelCode' => Session::get('delivery_sess'),
+					    'intDelProdID' => $inv->intInvPID,
+					    'intDelQty' => $y[$z],
+						'strDelLotNum' => $x[$z]
+					]);
+			}//sundan ng else para sa CONDITION
+
+			$z++;
+		}//foreach
+
+				DB::table('tblOrders')
+				->where('tblOrders.intOID', '=', Session::get('delivery_sess'))
+				->update([
+					'dtOReceived' => $ldate,
+					'intStatus' => 4,
+				]);
+
+		return Redirect::to('/admin');
 	}
 
 	public function deliverOrd($id) {
