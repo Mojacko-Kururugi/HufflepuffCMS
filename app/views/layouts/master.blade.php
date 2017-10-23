@@ -57,7 +57,7 @@
               <li class="bold {{ strpos(Request::url(), 'service') !== false ? 'active' : '' }}">
 			       <a href="/service" class="row">
 				        <span class="col l3 m6 s12">{{ HTML::image('img/service.png', 'service', array('class' => 'responsive-img circle')) }}</span>
-						<span  class="col l7 m6 s12">Service History</span>
+						<span  class="col l7 m6 s12">Service</span>
 				   </a>
 			  </li>
               <li class="bold {{ strpos(Request::url(), 'inventory') !== false ? 'active' : '' }}">

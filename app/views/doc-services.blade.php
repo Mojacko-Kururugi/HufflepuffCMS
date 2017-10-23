@@ -4,7 +4,7 @@
 
 <div class="row page-title">
   <div class="col s12 m12 l12">
-    <h5>SERVICE HISTORY</h5>
+    <h5>Services</h5>
   </div>
 </div>
 
@@ -13,6 +13,12 @@
     <div class="container-fluid">
         <div class="card">
             <div class="card-content">
+            
+                <div class="row">
+                    <div class="col s12 m12 l10">
+                        <a class="waves-effect waves-light btn blue darken-1 btn-small center-text" href="/service/add-service">NEW MEDICAL SERVICE</a>
+                    </div>
+                 </div>
 
                 <div class="nav-wrapper">
                     <div class="container-fluid">

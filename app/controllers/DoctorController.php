@@ -157,8 +157,7 @@ class DoctorController extends BaseController {
 		$serv = DB::table('tblServiceHeader')
 			->join('tblPatientInfo', 'tblServiceHeader.intSHPatID','=','tblPatientInfo.intPatID')
 			->join('tblServices', 'tblServiceHeader.intSHServiceID','=','tblServices.intServID')
-			->join('tblEmployeeInfo', 'tblServiceHeader.intSHEmpID','=','tblEmployeeInfo.intEmpID')
-			->where('tblEmployeeInfo.intEmpBranch', '=', Session::get('user_bc'))
+			->where('tblServiceHeader.intSHBranch', '=', Session::get('user_bc'))
 			//->where('tblServiceHeader.intSHStatus', '!=', 2)
 			//->join('tblConsultationRecords', 'tblServiceHeader.strSHCode','=','tblConsultationRecords.strCRHeaderCode')
 			//->join('tblDocInfo', 'tblConsultationRecords.intCRDocID','=','tblDocInfo.intDocID')
@@ -204,8 +203,44 @@ class DoctorController extends BaseController {
 		$list3 = DB::table('tblConsultationRecords')
 			->where('tblConsultationRecords.strCRHeaderCode','=',$serv_id)
 			->get();
+		
+		if($list2 != null)
+		{
+		$jofr= DB::table('tblInventory')
+			->join('tblItems', 'tblInventory.intInvPID', '=', 'tblItems.intItemID')
+			->join('tblPrice', 'tblItems.intItemID', '=', 'tblPrice.intPriceItemID')
+			->where('tblInventory.intInvBranch', '=', Session::get('user_bc'))
+			->where('tblInventory.intInvID', '=', $list2[0]->intJOFrame)
+			->first();
 
-		return View::make('doc-serv-detail')->with('med',$med)->with('purch',$purch)->with('serv_id',$serv_id)->with('rx',$rx)->with('list2',$list2)->with('list3',$list3);
+		$jolens = DB::table('tblInventory')
+			->join('tblItems', 'tblInventory.intInvPID', '=', 'tblItems.intItemID')
+			->join('tblPrice', 'tblItems.intItemID', '=', 'tblPrice.intPriceItemID')
+			->where('tblInventory.intInvBranch', '=', Session::get('user_bc'))
+			->where('tblInventory.intInvID', '=', $list2[0]->intJOLens)
+			->first();
+
+
+		return View::make('doc-serv-detail')
+		->with('med',$med)
+		->with('purch',$purch)
+		->with('serv_id',$serv_id)
+		->with('rx',$rx)
+		->with('list2',$list2)
+		->with('list3',$list3)
+		->with('jofr',$jofr)
+		->with('jolens',$jolens);;
+		}
+		else
+		{
+		return View::make('doc-serv-detail')
+		->with('med',$med)
+		->with('purch',$purch)
+		->with('serv_id',$serv_id)
+		->with('rx',$rx)
+		->with('list2',$list2)
+		->with('list3',$list3);
+		}
 	}
 
 
@@ -303,6 +338,7 @@ class DoctorController extends BaseController {
 			'intInvQty' => $total,
 		]);
 		*/
+
 		if(Request::input('claim') == 2)
 		{
 
@@ -312,24 +348,23 @@ class DoctorController extends BaseController {
 		->insert([
 			'strSHCode' => Request::input('user_id'),
 			'intSHPatID' 	=> Request::input('patient'),
-			'intSHEmpID' => Session::get('user_code'),
 			'intSHServiceID' => 1,
-			'intSHPaymentType' => 1,
-			'intSHStatus' => 1
+			'intSHStatus' => 1,
+			'intSHBranch' => Session::get('user_bc')
 		]);
 
 
 		DB::table('tblConsultationRecords')
 		->insert([
 			'strCRHeaderCode' => Request::input('user_id'),
-			'intCRDocID' 	=> Request::input('doc'),
+			'intCRDocID' 	=> Session::get('user_code'),
 			'strPatComplaints' => $complaints,
     		'strCRDiagnosis' => Request::input('desc'),
     		'strCRPrescriptions' => Request::input('asc'),
     		'dcCRFee' => Request::input('fee')
 		]);
 		
-		if(Request::input('OD') != "" && Request::input('ODAdd') != "" && Request::input('OS') != "" && Request::input('OSAdd') != "" && Request::input('CLOD') != "" && Request::input('CLOS') != "")
+		if(Request::input('OD') != "" || Request::input('ODAdd') != "" || Request::input('OS') != "" || Request::input('OSAdd') != "" || Request::input('CLOD') != "" || Request::input('CLOS') != "")
 		{
 		DB::table('tblPatientRX')
 		->insert([
@@ -345,7 +380,7 @@ class DoctorController extends BaseController {
 		}
 
 		if((Request::input('fee') == ""))
-			return Redirect::to('/sec-home');
+			return Redirect::to('/service');
 		else
 			{
 				DB::table('tblSales')
@@ -353,12 +388,6 @@ class DoctorController extends BaseController {
 		    		'strSServCode' => Request::input('user_id'),
 		    		'dcmSBalance' => Request::input('fee'),
 		    		'intSStatus' => 2
-				]);
-
-				DB::table('tblServiceHeader')
-				->where('tblServiceHeader.strSHCode', '=', Request::input('user_id'))
-				->update([
-					'intSHPaymentType' => 1,
 				]);
 
 				$id = Request::input('user_id');
@@ -382,37 +411,36 @@ class DoctorController extends BaseController {
 
 				Session::put('sess_payex',$data->intSaleID);
 
-				return View::make('pay-to-med')->with('data',$data);
+				//return View::make('pay-to-med')->with('data',$data);
 
-				//return Redirect::to('/sec/payment/' . Request::input('user_id'));
+				return Redirect::to('/service');
 			}
 		}
 		else
 		{
-			$complaints = Request::input('BOVfar') . Request::input('BOVnear') . Request::input('headache') . Request::input('dizziness') . Request::input('glare') . Request::input('vomitting');
+		$complaints = Request::input('BOVfar') . Request::input('BOVnear') . Request::input('headache') . Request::input('dizziness') . Request::input('glare') . Request::input('vomitting');
 
 		DB::table('tblServiceHeader')
 		->insert([
 			'strSHCode' => Request::input('user_id'),
 			'intSHPatID' 	=> Request::input('patient'),
-			'intSHEmpID' => Session::get('user_code'),
-			'intSHServiceID' => Request::input('service'),
-			'intSHPaymentType' => NULL,
-			'intSHStatus' => 2
+			'intSHServiceID' => 3,
+			'intSHStatus' => 1,
+			'intSHBranch' => Session::get('user_bc')
 		]);
 
 
 		DB::table('tblConsultationRecords')
 		->insert([
 			'strCRHeaderCode' => Request::input('user_id'),
-			'intCRDocID' 	=> Request::input('doc'),
+			'intCRDocID' 	=> Session::get('user_code'),
 			'strPatComplaints' => $complaints,
     		'strCRDiagnosis' => Request::input('desc'),
     		'strCRPrescriptions' => Request::input('asc'),
     		'dcCRFee' => Request::input('fee')
 		]);
 		
-		if(Request::input('OD') != "" && Request::input('ODAdd') != "" && Request::input('OS') != "" && Request::input('OSAdd') != "" && Request::input('CLOD') != "" && Request::input('CLOS') != "")
+		if(Request::input('OD') != "" || Request::input('ODAdd') != "" || Request::input('OS') != "" || Request::input('OSAdd') != "" || Request::input('CLOD') != "" || Request::input('CLOS') != "")
 		{
 		DB::table('tblPatientRX')
 		->insert([
@@ -427,14 +455,172 @@ class DoctorController extends BaseController {
 		]);
 		}
 
-		DB::table('tblServiceHeader')
-				->where('tblServiceHeader.strSHCode','=',Request::input('user_id'))
+		Session::put('doc-sess',Request::input('user_id'));
+
+		return Redirect::to('/doc-jo');
+		}
+	}
+
+	public function doctorJO() {
+
+		$ex = DB::table('tblServiceHeader')
+				->where('tblServiceHeader.strSHCode','=',Session::get('doc-sess'))
+				->first();
+
+		$data = DB::table('tblItems')
+			->join('tblItemType', 'tblItems.intItemType', '=', 'tblItemType.intITID')
+			->join('tblInventory', 'tblInventory.intInvPID', '=', 'tblItems.intItemID')
+			->where('tblItems.intItemStatus', '=', 1)
+			->where('tblInventory.intInvBranch', '=', Session::get('user_bc'))
+			->where('tblItems.intItemType', '=', 1)
+			->groupby('tblInventory.intInvPID')
+			->get();
+
+		$data2 = DB::table('tblItems')
+			->join('tblItemType', 'tblItems.intItemType', '=', 'tblItemType.intITID')
+			->join('tblInventory', 'tblInventory.intInvPID', '=', 'tblItems.intItemID')
+			->where('tblItems.intItemStatus', '=', 1)
+			->where('tblInventory.intInvBranch', '=', Session::get('user_bc'))
+			->where('tblItems.intItemType', '=', 2)
+			->groupby('tblInventory.intInvPID')
+			->get();
+
+
+		$data3 = DB::table('tblServiceHeader')
+			->join('tblPatientInfo', 'tblServiceHeader.intSHPatID','=','tblPatientInfo.intPatID')
+			->where('tblServiceHeader.strSHCode', '=', Session::get('doc-sess'))
+			//->where('tblServiceHeader.intSHStatus', '=', 2)		
+			->first();
+
+		return View::make('job-order')
+			->with('data',$data)
+			->with('data2',$data2)
+			->with('data3',$data3);
+
+	}
+
+	public function addJOtoList() {
+		$details = Request::input('eyeglass') . Request::input('single') . Request::input('lhi') . Request::input('multi') . Request::input('hc') . Request::input('c39') . Request::input('double') . Request::input('kk') . Request::input('flattop') . Request::input('progressive') . Request::input('exec') . Request::input('noline') . Request::input('hoyanm') . Request::input('vrx') . Request::input('hoyamlti') . Request::input('pentax') . Request::input('glass') . Request::input('plastic') ; 	
+
+		$sess = DB::table('tblServiceHeader')
+			->where('tblServiceHeader.strSHCode', '=', Session::get('doc-sess'))
+			//->where('tblServiceHeader.intSHStatus', '=', 2)		
+			->first();
+
+		$ct = 1 + DB::table('tblJobOrder')
+			->count();
+
+		if($ct < 10)
+			$count = "JO#00" . $ct;
+		else if($ct < 100)
+			$count = "JO#0" . $ct;
+		else if($ct < 1000)
+			$count = "JO#" . $ct;
+
+		$data = DB::table('tblInventory')
+			->join('tblItems', 'tblInventory.intInvPID', '=', 'tblItems.intItemID')
+			->join('tblPrice', 'tblItems.intItemID', '=', 'tblPrice.intPriceItemID')
+			->where('tblInventory.intInvBranch', '=', Session::get('user_bc'))
+			->where('tblInventory.intInvID', '=', Request::input('frames'))
+			->first();
+
+		$data2 = DB::table('tblInventory')
+			->join('tblItems', 'tblInventory.intInvPID', '=', 'tblItems.intItemID')
+			->join('tblPrice', 'tblItems.intItemID', '=', 'tblPrice.intPriceItemID')
+			->where('tblInventory.intInvBranch', '=', Session::get('user_bc'))
+			->where('tblInventory.intInvID', '=', Request::input('lens'))
+			->first();
+
+		$total_fee = $data->dcPrice + ($data2->dcPrice * 2);
+
+		DB::table('tblJobOrder')
+		->insert([
+			'strJOHC' => Session::get('doc-sess'),
+			'strJOName' => $count,
+    		'strJODetails' => $details,
+    		'intJOFrame' => Request::input('frames'),
+    		'intJOLens' => Request::input('lens'),
+    		'intJOAOD' => Request::input('addod'),
+    		'intJOAOS' => Request::input('addos'),
+    		'strJOODSC' => Request::input('odsc'),
+		    'strJOODA' => Request::input('odax'),
+		    'strJOODBC' => Request::input('odbc'),
+		    'strJOODPD' => Request::input('odpd'),
+		    'strJOOSSC' => Request::input('ossc'),
+		    'strJOOSA' => Request::input('osax'),
+		    'strJOOSBC' => Request::input('osbc'),
+		    'strJOOSPD' => Request::input('ospd'),
+		    'dcJOFee' =>  $total_fee,
+		    'intJOPaymentType' => Request::input('payment-mode'),
+		    'intJOType' => Request::input('jotype'),
+		    'intJOWarranty' => 1,
+		    'intJOStat' => 2
+		]);
+
+
+		$total = 0;
+		$subtotal = 0;
+
+		$listjo = DB::table('tblJobOrder')
+			->where('tblJobOrder.strJOHC','=',Session::get('purch_sess'))
+			//->where('tblJobOrder.intJOStat','=', 3)
+			->get();
+
+		if($listjo != NUll)
+		{
+			foreach($listjo as $listjo)
+			{
+				$subtotal = $listjo->dcJOFee;
+				$total = $total + $subtotal;
+
+				$datainv1 = DB::table('tblInventory')
+						->where('tblInventory.intInvID', '=', $listjo->intJOFrame)
+						->first();
+
+				$new_qty = 1;
+				$curr_qty =  $datainv1->intInvQty;
+				$total_qty;
+
+				$total_qty = $curr_qty - $new_qty;
+
+				DB::table('tblInventory')
+				->where('tblInventory.intInvID', '=', $listjo->intJOFrame)
 				->update([
-					'intSHServiceID' => 3
+					'intInvQty' => $total_qty,
 				]);
 
-		return Redirect::to('/sec-add-payment');
+				$datainv2 = DB::table('tblInventory')
+						->where('tblInventory.intInvID', '=', $listjo->intJOLens)
+						->first();
+
+				$new_qty = 2;
+				$curr_qty =  $datainv2->intInvQty;
+				$total_qty;
+
+				$total_qty = $curr_qty - $new_qty;
+
+				DB::table('tblInventory')
+				->where('tblInventory.intInvID', '=', $listjo->intJOLens)
+				->update([
+					'intInvQty' => $total_qty,
+				]);
+			}
 		}
+
+		DB::table('tblSales')
+				->insert([
+		    		'strSServCode' => Session::get('doc-sess'),
+		    		'dcmSBalance' => $total,
+		    		'intSStatus' => 2
+				]);
+
+		DB::table('tblServiceHeader')
+				->where('tblServiceHeader.strSHCode', '=', Session::get('doc-sess'))
+				->update([
+					'intSHStatus' => 1
+				]);
+
+		return Redirect::to('/service');		
 	}
 
 	public function showInv() {
@@ -643,11 +829,10 @@ class DoctorController extends BaseController {
 		$data = DB::table('tblSales')
 			->join('tblServiceHeader','tblSales.strSServCode','=','tblServiceHeader.strSHCode')
 			->join('tblPatientInfo', 'tblServiceHeader.intSHPatID','=','tblPatientInfo.intPatID')
-			->join('tblPayType', 'tblServiceHeader.intSHPaymentType','=','tblPayType.intPayTID')
+			//->join('tblPayType', 'tblPayment.intPymPaymentType','=','tblPayType.intPayTID')
 			->join('tblSalesStatus', 'tblSales.intSStatus','=','tblSalesStatus.intSaleSID')
 			->join('tblPayment', 'tblSales.intSaleID','=','tblPayment.intPymServID')
-			->join('tblEmployeeInfo', 'tblServiceHeader.intSHEmpID','=','tblEmployeeInfo.intEmpID')
-			->where('tblEmployeeInfo.intEmpBranch', '=', Session::get('user_bc'))
+			->where('tblServiceHeader.intSHBranch', '=', Session::get('user_bc'))
 			->groupby('tblSales.intSaleID')
 			->selectRaw('*, sum(dcmPymPayment) as sum')
 			->get();
@@ -655,7 +840,7 @@ class DoctorController extends BaseController {
 		$data2 = DB::table('tblSales')
 			->join('tblServiceHeader','tblSales.strSServCode','=','tblServiceHeader.strSHCode')
 			->join('tblPatientInfo', 'tblServiceHeader.intSHPatID','=','tblPatientInfo.intPatID')
-			->join('tblPayType', 'tblServiceHeader.intSHPaymentType','=','tblPayType.intPayTID')
+			//->join('tblPayType', 'tblServiceHeader.intSHPaymentType','=','tblPayType.intPayTID')
 			->join('tblSalesStatus', 'tblSales.intSStatus','=','tblSalesStatus.intSaleSID')
 			->join('tblPayment', 'tblSales.intSaleID','=','tblPayment.intPymServID')
 			//->where('tblPatientInfo.intPatID', '=',  Session::get('user_code'))

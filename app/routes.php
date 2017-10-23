@@ -117,6 +117,8 @@ Route::post('/save-payment', 'DoctorController@addPayment');
 Route::get('/reports', 'DoctorController@generateReport');
 Route::get('/reports-inv', 'DoctorController@generateInv');
 
+Route::get('/doc-jo', 'DoctorController@doctorJO');
+Route::post('/doc-joborder-add', 'DoctorController@addJOtoList');
 Route::get('/service/view-service/{id}', 'DoctorController@openServView');
 
 //Dagdag ni tonet

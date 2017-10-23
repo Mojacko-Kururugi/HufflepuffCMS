@@ -83,12 +83,11 @@ class SecController extends BaseController {
 		{
 		DB::table('tblServiceHeader')
 		->insert([
-			'strSHCode' => Session::get('purch_sess'),
-			'intSHPatID' 	=> Request::input('patient'),
-			'intSHEmpID' => Session::get('user_code'),
-			'intSHServiceID' => 4,
-			'intSHPaymentType' => Request::input('payment-mode'),
-			'intSHStatus' => 2
+				'strSHCode' => Session::get('purch_sess'),
+				'intSHPatID' 	=> Request::input('patient'),
+				'intSHServiceID' => 4,
+				'intSHStatus' => 2,
+				'intSHBranch' => Session::get('user_bc')
 		]);
 		}
 
@@ -116,7 +115,7 @@ class SecController extends BaseController {
 			->where('tblInventory.intInvID', '=', Request::input('lens'))
 			->first();
 
-		$total_fee = $data->dcPrice + $data2->dcPrice;
+		$total_fee = $data->dcPrice + ($data2->dcPrice * 2);
 
 		DB::table('tblJobOrder')
 		->insert([
@@ -372,10 +371,9 @@ class SecController extends BaseController {
 			->insert([
 				'strSHCode' => Session::get('purch_sess'),
 				'intSHPatID' 	=> Request::input('patient'),
-				'intSHEmpID' => Session::get('user_code'),
 				'intSHServiceID' => 5,
-				'intSHPaymentType' => 1,
-				'intSHStatus' => 2
+				'intSHStatus' => 2,
+				'intSHBranch' => Session::get('user_bc')
 			]);
 			}
 
@@ -425,7 +423,6 @@ class SecController extends BaseController {
 		    		'intHInvID' => Request::input('name'),
 		    		'intQty' => Request::input('qty'),
 		    		'dcTotPrice' => $total,
-		    		'intClaimStatus' => 2,
 		    		'intHWarranty' => 1,
 		    		'intSDStatus' => 3
 				]);
@@ -631,7 +628,6 @@ class SecController extends BaseController {
 		DB::table('tblServiceDetails')
 				->where('tblServiceDetails.strHeaderCode', '=', Session::get('purch_sess'))
 				->update([
-					'intClaimStatus' => Request::input('claim'),
 					'intSDStatus' => 1
 				]);
 
@@ -703,8 +699,7 @@ class SecController extends BaseController {
 			$serv = DB::table('tblServiceHeader')
 			->join('tblPatientInfo', 'tblServiceHeader.intSHPatID','=','tblPatientInfo.intPatID')
 			->join('tblServices', 'tblServiceHeader.intSHServiceID','=','tblServices.intServID')
-			->join('tblEmployeeInfo', 'tblServiceHeader.intSHEmpID','=','tblEmployeeInfo.intEmpID')
-			->where('tblEmployeeInfo.intEmpBranch', '=', Session::get('user_bc'))
+			->where('tblServiceHeader.intSHBranch', '=', Session::get('user_bc'))
 			//->join('tblConsultationRecords', 'tblServiceHeader.strSHCode','=','tblConsultationRecords.strCRHeaderCode')
 			//->join('tblDocInfo', 'tblConsultationRecords.intCRDocID','=','tblDocInfo.intDocID')
 			->get();
@@ -714,9 +709,9 @@ class SecController extends BaseController {
 		$data2 = DB::table('tblSales')
 			->join('tblServiceHeader','tblSales.strSServCode','=','tblServiceHeader.strSHCode')
 			->join('tblPatientInfo', 'tblServiceHeader.intSHPatID','=','tblPatientInfo.intPatID')
-			->join('tblPayType', 'tblServiceHeader.intSHPaymentType','=','tblPayType.intPayTID')
 			->join('tblSalesStatus', 'tblSales.intSStatus','=','tblSalesStatus.intSaleSID')
 			->join('tblPayment', 'tblSales.intSaleID','=','tblPayment.intPymServID')
+			->join('tblPayType', 'tblPayment.dcmPymPayment','=','tblPayType.intPayTID')
 			->where('tblSales.intSStatus','=',2)
 			->groupby('tblSales.intSaleID')
 			->selectRaw('*, sum(dcmPymPayment) as sum')

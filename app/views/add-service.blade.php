@@ -1,4 +1,4 @@
-@extends('layouts.secretary-master')
+@extends('layouts.master')
 
 @section('content')
 
@@ -27,7 +27,7 @@
                   <div class="id_error"></div>
                 </div>
               </div>
-
+<!--
                   <div class="row">
                     <div class="input-field col l6 m6 s12">
                         <select class="initialized browser-default" name="doc" id="doc" data-error=".school_error">
@@ -39,7 +39,7 @@
                        <div class="school_error"></div>
                     </div>
                   </div>
-
+-->
                   <div class="row">
                     <div class="input-field col l6 m6 s12">
                         <select class="initialized browser-default" name="patient" id="patient" data-error=".school_error">
@@ -159,7 +159,7 @@
 
                <div class="row">
                   <div class="col s12">
-                    <label for="claim">Will Purchase A Product?*</label>
+                    <label for="claim">Will have Job Order?*</label>
                     <select name="claim" id="claim" class="browser-default">
                  <option value="" selected disabled>- Choose Option -</option>
                  <option value="1">Yes</option>
@@ -203,7 +203,7 @@
             <div class="row">
               <div class="input-field col l12 s12 center">
                 <button type="submit" class="waves-effect waves-light btn btn-green">Save</button>
-                <a href="{{ URL::to('/sec-home') }}" class="waves-effect waves-light btn btn-green modal-btn" style="margin-right:20px;">Cancel</a>
+                <a href="{{ URL::to('/service') }}" class="waves-effect waves-light btn btn-green modal-btn" style="margin-right:20px;">Cancel</a>
               </div>
             </div>
             <br><br>

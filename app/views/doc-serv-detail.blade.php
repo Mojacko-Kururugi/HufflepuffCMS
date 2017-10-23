@@ -162,13 +162,25 @@
                 @endforeach
                  @foreach($list2 as $l2)
                         <tr>
-                          <td>{{$l2->strJODetails}}</td>
+                          <td>{{$l2->strJOName}}</td>
                           <td><a class="waves-effect waves-light btn btn-small red center-text">DETAILS</a></td>
                           <?php $subtotal = $l2->dcJOFee ?>
                           <td>1</td>
                           <td>P {{$subtotal}}</td>
                         </tr>
                         <?php $total += $subtotal ?>
+                        <tr>
+                          <td>--> </td>
+                          <td>{{$jofr->strItemName . " - " . $jofr->strItemDesc}}</td>
+                          <td>1</td>
+                          <td>({{$jofr->dcPrice}})</td>
+                        </tr>
+                        <tr>
+                          <td>--> </td>
+                          <td>{{$jolens->strItemName . " - " . $jolens->strItemDesc}}</td>
+                          <td>2</td>
+                          <td>({{$jolens->dcPrice  * 2}}.00)</td>
+                        </tr>
                  @endforeach
                 @foreach($list3 as $l3)
                         <tr>

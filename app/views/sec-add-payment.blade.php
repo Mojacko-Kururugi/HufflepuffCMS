@@ -171,8 +171,8 @@ echo "<script type='text/javascript'>alert('$message');</script>";
                         </tr>
                         <tr>
                           <td>-- {{$jolens->strItemName . " - " . $jolens->strItemDesc}}</td>
-                          <td>1</td>
-                          <td>( {{$jolens->dcPrice}} )</td>
+                          <td>2</td>
+                          <td>( {{$jolens->dcPrice * 2}}.00 )</td>
                           <td></td>
                         </tr>
                  @endforeach

@@ -298,10 +298,9 @@ CREATE TABLE tblServiceHeader(
 	intSHID int NOT NULL AUTO_INCREMENT,
 	strSHCode VARCHAR(25),
     intSHPatID INT,
-    intSHEmpID INT,
     intSHServiceID INT,
-    intSHPaymentType INT,
     intSHStatus INT,
+    intSHBranch INT,
 	intSHDateTime TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 
     PRIMARY KEY(intSHID,strSHCode),
@@ -309,8 +308,6 @@ CREATE TABLE tblServiceHeader(
     REFERENCES tblPatientInfo(intPatID),
     FOREIGN KEY(intSHServiceID)
     REFERENCES tblServices(intServID),
-    FOREIGN KEY(intSHPaymentType)
-    REFERENCES tblPayType(intPayTID),
     FOREIGN KEY(intSHStatus)
     REFERENCES tblServiceStatus(intServStatID)
 )Engine=InnoDb;
@@ -320,7 +317,6 @@ CREATE TABLE tblServiceDetails(
     intHInvID INT,
     intQty INT,
     dcTotPrice DECIMAL(18,2),
-    intClaimStatus INT,
     intHWarranty INT,
 	intSDStatus INT,
 
@@ -329,11 +325,11 @@ CREATE TABLE tblServiceDetails(
     FOREIGN KEY(intHWarranty)
     REFERENCES tblWarranty(intWID)
 )Engine=InnoDb;
- 
+
 CREATE TABLE tblJobOrder(
 	strJOHC VARCHAR(25),
     strJOName VARCHAR(50),
-    strJODetails VARCHAR(50),
+    strJODetails TEXT,
     intJOFrame INT,
     intJOLens INT,
 	intJOAOD VARCHAR(25),
@@ -347,9 +343,13 @@ CREATE TABLE tblJobOrder(
     strJOOSBC VARCHAR(25),
     strJOOSPD VARCHAR(25),
     dcJOFee DECIMAL(18,2),
+    intJOPaymentType INT,
     intJOType INT,
     intJOWarranty INT,
-    intJOStat INT
+    intJOStat INT,
+    
+	FOREIGN KEY(intJOPaymentType)
+    REFERENCES tblPayType(intPayTID)
 )Engine=InnoDB;
 
 CREATE TABLE tblConsultationRecords(
@@ -379,6 +379,7 @@ CREATE TABLE tblPayment(
 	intPymID int NOT NULL AUTO_INCREMENT,
     intPymServID INT,
     dcmPymPayment DECIMAL(18,2),
+    intPymEmpID INT,
     dtmPymDateRec TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     
     PRIMARY KEY(intPymID),
